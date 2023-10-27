@@ -1,0 +1,73 @@
+{
+  "name": "hub-web",
+  "version": "2.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start:admin": "ng serve --project app-admin --port 8843",
+    "start:admin:staging": "ng serve --project app-admin --port 4302 --configuration lh",
+    "start:sample": "ng serve --project app-ui-sample --port 8845",
+    "build:admin": "ng build --project app-admin ",
+    "build:admin:prod": "ng build --project app-admin -c production",
+    "build:prod": "node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build --project admin -c production",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "json": "jsonsort projects/*/src/assets/i18n/*.json"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "15.2.9",
+    "@angular/common": "15.2.9",
+    "@angular/compiler": "15.2.9",
+    "@angular/core": "15.2.9",
+    "@angular/flex-layout": "^15.0.0-beta.42",
+    "@angular/forms": "15.2.9",
+    "@angular/platform-browser": "15.2.9",
+    "@angular/platform-browser-dynamic": "15.2.9",
+    "@angular/router": "15.2.9",
+    "@antv/data-set": "0.11.8",
+    "@antv/g2": "4.2.10",
+    "@ckeditor/ckeditor5-angular": "^7.0.0",
+    "@ngrx/effects": "^15.4.0",
+    "@ngrx/entity": "^15.4.0",
+    "@ngrx/router-store": "^15.4.0",
+    "@ngrx/schematics": "^15.4.0",
+    "@ngrx/store": "^15.4.0",
+    "@ngrx/store-devtools": "15.4.0",
+    "@ngx-translate/core": "^14.0.0",
+    "@ngx-translate/http-loader": "^7.0.0",
+    "ckeditor5-custom-build": "file:libs/ckeditor5",
+    "date-fns": "^2.30.0",
+    "insert-css": "^2.0.0",
+    "lodash": "^4.17.21",
+    "ng-zorro-antd": "^15.1.0",
+    "ngx-indexed-db": "^16.0.0",
+    "pretty-quick": "^3.1.3",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.13.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "15.2.8",
+    "@angular/cli": "15.2.8",
+    "@angular/compiler-cli": "15.2.9",
+    "@types/body-parser": "^1.19.3",
+    "@types/jasmine": "~4.3.0",
+    "@types/lodash": "^4.14.195",
+    "husky": "^8.0.3",
+    "jasmine-core": "~4.6.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "ng-packagr": "15.2.2",
+    "prettier": "^2.8.8",
+    "typescript": "4.8.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged",
+      "post-merge": "pretty-quick --staged"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+<nz-input-group nzSearch  [nzAddOnAfter]="addOnAfterTemplate">
+  <nz-select nzAllowClear nzShowSearch [(ngModel)]="selectedCourse" (ngModelChange)="onChange($event)">
+    <nz-option
+      *ngFor="let course of courses"
+      nzLabel="{{ course.name }}"
+      nzValue="{{ course.id }}"
+    ></nz-option>
+  </nz-select>
+</nz-input-group>
+
+<ng-template #addOnAfterTemplate>
+  <a nz-button [disabled]="selectedCourse === undefined || selectedCourse == null"
+     nzType="text" routerLink="/course/{{selectedCourse}}"
+     nzSearch><span nz-icon nzType="link"></span></a>
+</ng-template>
+

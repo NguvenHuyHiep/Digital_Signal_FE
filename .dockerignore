@@ -1,0 +1,17 @@
+docker
+examples
+scripts/genapi.sh
+node_modules
+openapitools.json
+package-lock.json
+package.json
+projects
+tsconfig.json
+.idea
+.vscode
+e2e
+plugins
+resources
+src
+www
+*.*

@@ -1,0 +1,11 @@
+:host {
+  ::ng-deep{
+    lh-common-register {
+      .register-container{
+        background-image: url('/admin/assets/images/background.svg');
+        background-position: left center;
+        background-size: cover;
+      }
+    }
+  }
+}

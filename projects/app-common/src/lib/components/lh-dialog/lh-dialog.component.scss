@@ -1,0 +1,14 @@
+.dialog-layout {
+  height: 100%;
+}
+:host{
+  nz-footer {
+    display: flex;
+    .footer-right {
+      display: flex;
+    }
+  }
+  nz-content, nz-footer  {
+    padding: 16px;
+  }
+}

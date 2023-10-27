@@ -1,0 +1,7 @@
+<nz-select nzAllowClear nzShowSearch [(ngModel)]="tenantId" (ngModelChange)="onChange($event)">
+  <nz-option
+    *ngFor="let tenant of tenants"
+    nzLabel="{{ tenant.name }}"
+    nzValue="{{ tenant.id }}"
+  ></nz-option>
+</nz-select>

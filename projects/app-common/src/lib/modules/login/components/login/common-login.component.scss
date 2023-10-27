@@ -1,0 +1,60 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  @media (max-width: 480px) {
+    .box {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 1024px) and (min-width: 480px) {
+    .box {
+      width: 60%;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .box {
+      width: 30%;
+    }
+
+  }
+
+  .box {
+    .banner {
+      background-image: url('/assets/images/login/profile-img.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      height: 250px;
+    }
+
+    .bg-soft-primary {
+      background-color: rgba(85, 110, 230, 0.25) !important;
+    }
+
+    .text-primary {
+      h5 {
+        color: #556ee6 !important;
+      }
+
+      color: #556ee6 !important;
+    }
+
+    .ant-form-item {
+      margin-bottom: 3px;
+    }
+
+    .form-container {
+      margin-top: 5px;
+    }
+  }
+}
+
+.lang{
+  margin-top: 10px;
+  text-align: center;
+}

@@ -1,0 +1,128 @@
+<div class="register-container">
+  <nz-card [nzCover]="coverTemplate" class="box">
+    <div nz-row>
+      <div nz-col nzSpan="16">
+        <div class="text-primary">
+          <h5>{{ "register.free-register" | translate }}</h5>
+          <p>{{ "register.get-your-free-skote-account-now." | translate }}</p>
+        </div>
+      </div>
+      <div class="login-img" nz-col nzSpan="8">
+        <img alt="" src="/assets/images/login/profile-img.png" width="100%"/>
+      </div>
+    </div>
+
+<form
+  (ngSubmit)="submitForm()"
+  [formGroup]="validateForm"
+  class="login-form justify-content-center"
+  nz-form
+>
+  <nz-form-item>
+    <div>
+      <a href="/">
+        <div class="avatar-md profile-user-wid mb-4">
+            <span class="avatar-title rounded-circle bg-light"
+            ><img alt="" height="34" src="/assets/images/login/logo.png"/>
+            </span>
+        </div>
+      </a>
+    </div>
+  </nz-form-item>
+  <nz-form-item>
+    <div>
+      <nz-form-label>{{ "register.user-name" | translate }}</nz-form-label>
+    </div>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control
+      nzErrorTip="{{ 'register.error.the-input-is-not-valid-username' | translate }}"
+    >
+      <nz-input-group nzPrefixIcon="user">
+        <input
+          formControlName="userName"
+          nz-input
+          placeholder="{{ 'register.user-name' | translate }}"
+          type="text"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <div>
+      <nz-form-label>{{ "register.email" | translate }}</nz-form-label>
+    </div>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control
+      nzErrorTip="{{
+          'register.error.the-input-is-not-valid-email' | translate
+        }}"
+    >
+      <nz-input-group nzPrefixIcon="user">
+        <input
+          formControlName="email"
+          nz-input
+          placeholder="{{ 'register.email' | translate }}"
+          type="email"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <div>
+      <nz-form-label>Password</nz-form-label>
+    </div>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control
+      nzErrorTip="{{ 'login.error.password-required' | translate }}"
+    >
+      <nz-input-group nzPrefixIcon="lock">
+        <input
+          formControlName="password"
+          nz-input
+          placeholder="{{ 'login.password' | translate }}"
+          type="password"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <div class="login-form-margin" nz-row>
+    <div [nzSpan]="12" nz-col>
+      <label formControlName="remember" nz-checkbox>
+        <span>{{ "login.remember-me" | translate }}</span>
+      </label>
+    </div>
+  </div>
+  <button
+    [nzType]="'primary'"
+    class="login-form-button login-form-margin"
+    nz-button
+  >
+    {{ "register.register" | translate }}
+  </button>
+  <div class="footer" nz-row style="text-align: center">
+    <div [nzSpan]="24" nz-col>
+      {{ "register.sign-in-with" | translate }}
+    </div>
+  </div>
+  <div class="footer" nz-row style="text-align: center">
+    <div [nzSpan]="24" nz-col>
+      {{ "register.by-register-you-aree-to-the-skote" | translate }}
+      <a> {{ "register.terms-of-Use" | translate }}</a>
+    </div>
+  </div>
+</form>
+<div class="signup">
+  {{ "register.already-have-an-account?" | translate }}
+  <a [routerLink]="['/login']">{{ "register.login" | translate }}</a>
+</div>
+  </nz-card>
+</div>
+<ng-template #coverTemplate>
+  <div class="bg-soft-primary">
+    <div class="banner"></div>
+  </div>
+</ng-template>
+

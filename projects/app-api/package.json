@@ -1,0 +1,20 @@
+{
+  "name": "hub-api",
+  "version": "0.0.1",
+  "scripts": {
+    "generate:authen": "openapi-generator-cli generate -i http://localhost:44385/swagger/api-core/swagger.json -o src/lib/api --api-package controller/authen --model-package models -g typescript-angular",
+    "generate:course": "openapi-generator-cli generate -i http://localhost:84/swagger/api-core/swagger.json -o src/lib/api --api-package controller/course --model-package models -g typescript-angular",
+    "generate:question": "openapi-generator-cli generate -i http://localhost:83/swagger/api-core/swagger.json -o src/lib/api --api-package controller/question --model-package models -g typescript-angular",
+    "generate:core": "openapi-generator-cli generate -i http://localhost:44388/swagger/api-core/swagger.json -o src/lib/api --api-package controller/core --api-name-suffix Core --model-package models -g typescript-angular",
+    "generate:content": "openapi-generator-cli generate -i http://localhost:85/swagger/api-core/swagger.json -o src/lib/api --api-package controller/content --api-name-suffix content --model-package models -g typescript-angular"
+  },
+  "peerDependencies": {
+    "@angular/common": "15.2.9",
+    "@angular/core": "15.2.9"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}
+

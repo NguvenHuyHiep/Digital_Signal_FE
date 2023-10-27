@@ -1,0 +1,102 @@
+<lh-common-page pageTitle="">
+  <div [nzGutter]="[16,16]" nz-row>
+
+    <!-- ROW 1 -->
+    <div nz-col nzSpan="24">
+      <div class="cardAround" nz-row style="background-color: white">
+        <div class="information" nz-col nzLg="8" nzMd="24" nzSm="24" nzXXl="8" nzXl="8" nzXs="24">
+          <div style="display: flex; align-items: center">
+            <ng-container *ngIf="user">
+              <nz-avatar [nzSize]="64" nz-col nzIcon="user" style="margin: 0 16px"></nz-avatar>
+              <span nz-col nzLg="14" nzMd="14" nzSm="12" nzXXl="12" nzXl="16" nzXs="12"
+                    style="padding-right: 30px; flex: 1 1">
+                  <div>{{ "module.dashboard.welcome" | translate }}</div>
+                  <div style="font-size: 17px; font-weight: 700">{{user.fullName}}</div>
+                  <div>{{ "module.dashboard.student" | translate }}</div>
+              </span>
+            </ng-container>
+            <ng-container *ngIf="!user">
+              <div>{{ "common.anonymousMessage" | translate }} <a
+                routerLink="/login">{{"Header.signIn" | translate}}</a></div>
+            </ng-container>
+          </div>
+        </div>
+        <div nz-col nzLg="24" nzMd="24" nzSm="24" nzXXl="16" nzXl="16" nzXs="24">
+          <div class="information_detail" nz-row>
+            <div *ngFor="let s of statisics1"
+                 class="gutter-row" nz-col nzLg="12" nzMd="12" nzSm="12" nzXXl="4" nzXl="4" nzXs="12">
+              <div>
+                <p>
+                  <span [nzType]="s.type" class="iconInfo" nz-icon nzTheme="outline"></span>
+                  {{ s.label | translate }}
+                </p>
+                <h5>{{ s.value }}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ROW 2 -->
+    <div nz-col nzSpan="24">
+      <div [nzGutter]="[16, 16]" class="information_dashboard" nz-row>
+        <div
+          *ngFor="let s of statisics"
+          class="gutter-row" nz-col nzLg="6" nzMd="24" nzSm="24" nzXXl="6" nzXl="6" nzXs="24" style="padding: 8px"
+        >
+          <nz-card class="cardAround">
+            <div class="card">
+              <b style="font-size: 20px; font-weight: 600; padding-right: 5px">
+                <span [nzType]="s.type" class="icon" nz-icon nzTheme="outline" style="padding-right: 10px"></span>
+                {{s.label | translate}} :
+              </b>
+              <h5 style="font-size: 20px">{{ s.value }}</h5>
+            </div>
+          </nz-card>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 3 -->
+    <div nz-col nzSpan="24">
+      <div [nzGutter]="[16, 16]" nz-row>
+        <div nz-col nzLg="16" nzMd="24" nzSm="24" nzXXl="16" nzXl="16" nzXs="24">
+          <nz-card style="border-radius: 5px">
+            <nz-skeleton [nzLoading]="loading"></nz-skeleton>
+            <div *ngIf="!loading">
+              <div>
+                <div id="stores"></div>
+              </div>
+            </div>
+          </nz-card>
+        </div>
+        <div nz-col nzLg="8" nzMd="24" nzSm="24" nzXXl="8" nzXl="8" nzXs="24">
+          <nz-card class="h-100" style="border-radius: 5px;">
+            <p style="font-size: 20px !important; font-weight: 400">{{ "module.dashboard.test" | translate }}</p>
+            <div class="test">
+              <span class="icon" nz-icon nzTheme="outline" nzType="form" style="font-size: 40px !important"></span>
+              <p>3</p>
+            </div>
+            <div class="infoTest">
+              <p class="txt">{{ "module.dashboard.averageTime" | translate }}:</p>
+              <span> 01:10 mins</span>
+            </div>
+            <div class="infoTest">
+              <p class="txt">{{ "module.dashboard.accuracy" | translate }}:</p>
+              <span> 52%</span>
+            </div>
+            <div class="infoTest">
+              <p class="txt">{{ "module.dashboard.gradePointAverage" | translate }}:</p>
+              <span> 2</span>
+            </div>
+            <div class="infoTest">
+              <p class="txt">{{ "module.dashboard.numberOfCompletedExercise" | translate }}:</p>
+              <span> 5</span>
+            </div>
+          </nz-card>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</lh-common-page>

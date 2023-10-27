@@ -1,0 +1,22 @@
+<nz-layout class="dialog-layout">
+  <nz-layout>
+    <nz-content>
+      <ng-content>
+
+      </ng-content>
+    </nz-content>
+  </nz-layout>
+  <nz-footer *ngIf="footerTemplateLeft || footerTemplateRight">
+    <div *ngIf="footerTemplateLeft" style="flex: 1 1 0%;display: flex; align-items: center;">
+      <ng-container
+        [ngTemplateOutlet]="footerTemplateLeft">
+      </ng-container>
+    </div>
+
+    <div class="footer-right" *ngIf="footerTemplateRight">
+      <ng-container
+        [ngTemplateOutlet]="footerTemplateRight">
+      </ng-container>
+    </div>
+  </nz-footer>
+</nz-layout>

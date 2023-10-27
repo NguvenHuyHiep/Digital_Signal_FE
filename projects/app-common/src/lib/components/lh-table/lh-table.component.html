@@ -1,0 +1,37 @@
+  <nz-table #basicTable [nzLoading]="loading" [nzData]="data" *ngIf="data">
+  <thead>
+  <tr>
+    <th [colSpan]="expandTemplate ? 2 : 1"></th>
+    <th *ngFor="let field of config.fields">{{field.label | translate}}</th>
+    <th nzRight></th>
+  </tr>
+  </thead>
+  <tbody>
+  <ng-container *ngFor="let record of basicTable.data">
+    <tr>
+      <td style="width: 20px"  [nzChecked]="setOfCheckedId.has(getKeyValue(record))"
+          (nzCheckedChange)="onItemChecked(getKeyValue(record), $event)"></td>
+      <td style="width: 20px"  *ngIf="expandTemplate" [nzExpand]="expandSet.has(getValue(record, config.key))"
+          (nzExpandChange)="onExpandChange(getValue(record, config.key), $event)"></td>
+
+      <td *ngFor="let field of config.fields" [innerHTML]="getDisplayedValue(record, field)">
+      </td>
+
+      <td  style="width: 200px"  nzRight>
+        <button [hidden]="config.disableUpdate" nz-button nzType="text" (click)="update(record)">{{'common.detail' | translate}}</button>
+<!--        <button nz-button nzType="text" (click)="detail(record)">{{'common.update' | translate}}</button>-->
+        <button  [hidden]="config.disableDelete" nz-button nzType="text" nzDanger  (click)="delete(record)">{{'common.delete' | translate}}</button>
+      </td>
+    </tr>
+    <tr *ngIf="expandTemplate" [nzExpand]="expandSet.has(getValue(record, config.key))">
+
+      <ng-container
+        [ngTemplateOutlet]="expandTemplate"
+        [ngTemplateOutletContext]="{data:record}">
+      </ng-container>
+
+    </tr>
+  </ng-container>
+
+  </tbody>
+</nz-table>

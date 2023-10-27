@@ -1,0 +1,180 @@
+{
+  "Header": {
+    "Search-placeholder": "Tìm kiếm",
+    "SignOut": "Đăng xuất",
+    "accout-center": "Thông tin tài khoản",
+    "question-placeholder": "Câu hỏi",
+    "setting": "Thiết lập",
+    "signIn": "Đăng nhập"
+  },
+  "common": {
+    "checkAll": "Chọn tất cả",
+    "dataNotFound": "Không tìm thấy dữ liêu",
+    "search": "Tìm kiếm",
+    "searchPlaceholder": "Nhập thông tin tìm kiếm",
+    "free": "Miễn phí", "register": "Đăng ký"
+  },
+  "course-detail": {
+    "course": {
+      "browser-not-supported": "Trình duyệt không hỗ trợ",
+      "name": "Khóa học",
+      "next": "Bài tiếp theo",
+      "previous": "Bài trước"
+    },
+    "discuss": {
+      "add-comment": "Thêm thảo luận",
+      "name": "Thảo luận",
+      "reply-to": "Trả lời cho"
+    },
+    "overview": {
+      "name": "Thông tin chung"
+    },
+    "recent-courses": "Các khóa học liên quan",
+    "schedule": {
+      "backlog-number": "Backlog number",
+      "name": "Lịch học"
+    },
+    "source": {
+      "name": "Nguồn tài liệu"
+    }
+  },
+  "courseList": {
+    "btnCourseDetails": "Thông tin khóa học",
+    "btnJoinCourse": "Tham gia khóa học",
+    "duration": "Thời gian",
+    "end": "Thời gian bắt đầu",
+    "percent": "phần trăm",
+    "rating": "Bình chọn",
+    "start": "Ngày bắt đầu",
+    "status": "Trạng thái",
+    "teacher": "Giáo viên",
+    "title": "Tiêu đề"
+  },
+  "courses": {
+    "course-overview": {
+      "button-back": "Quay lại",
+      "button-cancel-request-to-study-again": "Hủy và học lại",
+      "button-enter-class": "Chọn lớp",
+      "button-mark-completed": "Đánh dấu hoàn thành",
+      "cancel": "Hủy",
+      "certificate": "Chứng chỉ",
+      "certificate-pass": "Nhận trực tiếp",
+      "confirmed": "Đã tốt nghiệp",
+      "description": "Thông tin chi tiết",
+      "exam-time": "Thời gian kiểm tra",
+      "expired-time": "Ngày kết thúc",
+      "start-time": "Ngày bắt đầu "
+    }
+  },
+  "footer": "Design & Develop by TechHub",
+  "lang": {
+    "en": "English",
+    "vi": "Tiếng Việt"
+  },
+  "login": {
+    "ctedu": "Learn Hub",
+    "dont-have-an-account": "Chưa có tài khoản ?",
+    "error": {
+      "password-required": "Nhập mật khẩu!",
+      "username-required": "Nhập tên tài khoản!"
+    },
+    "forgot-password": "Quên mật khẩu?",
+    "login": "Đăng nhập",
+    "password": "Mật khẩu",
+    "remember-me": "Ghi nhớ thông tin đăng nhập",
+    "signup-now": "Tạo tài khoản ngay",
+    "username": "Tên tài khoản",
+    "welcomeback": "Chào mừng quay lại!"
+  },
+  "module": {
+    "class": {
+      "list": "Danh sách lớp học",
+      "title": "Lớp học"
+    },
+    "course": {
+      "list": "Danh sách khóa học",
+      "my-course": "Khóa học của tôi",
+      "title": "Khóa học"
+    },
+    "curriculum": {
+      "list": "Danh sách chương trình đào tạo",
+      "title": "Chương trình đào tạo"
+    },
+    "dashboard": {
+      "accuracy": "Chính xác",
+      "averageTime": "Thời gian trung bình",
+      "cancel": "Đã hủy",
+      "class": "Lớp học",
+      "classesByPlanned": "Lớp học theo kế hoạch",
+      "classesByRegistration": "Lớp học theo đăng ký",
+      "courses": "Khóa học",
+      "curriculum": "Chương trình học",
+      "finished": "Hoàn thành",
+      "goals": "Thành tích",
+      "gradePointAverage": "Điểm trung bình",
+      "learning": "Đang học",
+      "numberOfCompletedExercise": "Số bài tập đã hoàn thành",
+      "practice": "Thực hành",
+      "stop": "Tạm ngưng",
+      "student": "Học viên",
+      "test": "Bài kiểm tra",
+      "title": "Thống kê",
+      "unfinished": "Chưa hoàn thành",
+      "welcome": "Chào mừng tới Learnhub"
+    },
+    "practice": {
+      "list": "Danh sách bài ôn luyện",
+      "title": "Ôn luyện"
+    },
+    "search": {
+      "shortContent": "Tìm kiếm chương trình đào tạo, khóa học, ôn luyện, thi",
+      "title": "Tìm kiếm",
+      "joined": "Đã tham gia"
+    },
+    "test": {
+      "list": "Danh sách bài thi",
+      "title": "Thi"
+    }
+  },
+  "recover": {
+    "Sign In here": "Đăng nhập tại đây",
+    "email": "Email",
+    "error": {
+      "the-input-is-not-valid-email": "Email không đúng định dạng"
+    },
+    "re-password-with-skote": "Mật khẩu nhập không khớp",
+    "remember-it": "Ghi nhớ",
+    "reset": "Nhập lại",
+    "reset-password": "Nhập lại mật khẩu",
+    "username": "Tài khoản"
+  },
+  "register": {
+    "TooltipTitle": "Tài khỏoản đăng nhập",
+    "already-have-an-account?": "Đã có tài khoản ?",
+    "by-register-you-aree-to-the-skote": "Bằng cách đăng nhập bạn đồng ý với những điều khoản của LearnHub",
+    "by-registering-you-agree-to-the-Skote": "Bằng cách đăng nhập bạn đồng ý với những điều khoản của LearnHub",
+    "confirm-password": "Xác nhận mật khẩu",
+    "email": "Email",
+    "error": {
+      "cf-password-required": "Xác nhận lại mật khẩu!",
+      "password-required": "Nhập lại mật khẩu!",
+      "the-input-is-not-valid-email": "Email không đúng định dạng",
+      "the-input-is-not-valid-username": "Tài khoản không đúng định dạng",
+      "two-passwords-that-you-enter-is-inconsistent!": "Mật khẩu không khớp!"
+    },
+    "free-register": "Đăng ký thành viên miễn phí",
+    "get-your-free-skote-account-now.": "Get your free Skote account now.",
+    "login": "Login",
+    "password": "Password",
+    "register": "Register",
+    "sign-in-with": "Login with",
+    "terms-of-Use": "Điều khoản sử dụng",
+    "terms-of-use": "Điều khoản sử dụng",
+    "user-name": "Tài khoản"
+  },
+  "title": "LearnHub",
+  "watermark": {
+    "development": "Môi trường DEV",
+    "production": ""
+  }
+}
