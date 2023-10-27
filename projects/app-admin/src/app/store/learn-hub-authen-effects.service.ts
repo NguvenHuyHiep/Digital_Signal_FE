@@ -7,7 +7,7 @@ import {Router} from "@angular/router";
 import {SIGN_OUT} from 'projects/app-api/src/lib/modules/authen/store/authen.reducers';
 
 @Injectable()
-export class LearnHubAuthenEffects {
+export class AppAuthenEffects {
 
   readonly SIGN_OUT = createEffect(() => this._actions$.pipe(
     ofType(SIGN_OUT)

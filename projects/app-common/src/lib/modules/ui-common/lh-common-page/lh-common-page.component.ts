@@ -31,7 +31,7 @@ export class LhPageComponent {
     let path: string = route.snapshot.url.map((s: UrlSegment) => s.path).join('/');
     let label: string = route.routeConfig && route.routeConfig.data && route.routeConfig.data['label']
       ? route.routeConfig.data['label'] : ROUTE_LABELS[path]
-        ? ROUTE_LABELS[path] : path? '...' : 'LearnHub';
+        ? ROUTE_LABELS[path] : path? '...' : 'Digital Signage';
 
     if (path == '' && breadcrumbs.length > 0) {
       return route.firstChild ? this.buildBreadCrumb(route.firstChild, path, breadcrumbs) : breadcrumbs;

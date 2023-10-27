@@ -12,7 +12,7 @@
       },
       "root": "projects/app-admin",
       "sourceRoot": "projects/app-admin/src",
-      "prefix": "lh-learner",
+      "prefix": "app-admin",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -113,7 +113,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "HUB_LEARNER:build"
+            "browserTarget": "app-admin:build"
           }
         },
         "test": {
@@ -271,10 +271,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "HUB_UISAMPLE:build:production"
+              "browserTarget": "app-ui-sample:build:production"
             },
             "development": {
-              "browserTarget": "HUB_UISAMPLE:build:development"
+              "browserTarget": "app-ui-sample:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -282,7 +282,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "HUB_UISAMPLE:build"
+            "browserTarget": "app-ui-sample:build"
           }
         },
         "test": {

@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
-import {LearnerRoutingModule} from './learner-routing.module';
+import {AppAdminRoutingModule} from './app-admin-routing.module';
 import {AppComponent} from './app.component';
 import {en_US, NZ_I18N, vi_VN} from 'ng-zorro-antd/i18n';
 import {registerLocaleData} from '@angular/common';
@@ -18,10 +18,10 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {IconsProviderModule} from "./icons-provider.module";
 import {AuthenModule} from "../../../app-api/src/lib/modules/authen/authen.module";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
-import {LearnHubAuthenEffects} from "./store/learn-hub-authen-effects.service";
 import {StoreRouterConnectingModule} from "@ngrx/router-store";
 import {AppHttpInterceptor} from "./app-http-interceptor.service";
 import {LocalStoreModule} from "../../../app-api/src/lib/modules/local-store/local-store.module";
+import {AppAuthenEffects} from "./store/learn-hub-authen-effects.service";
 
 registerLocaleData(en);
 
@@ -39,11 +39,11 @@ export function createTranslateLoader(http: HttpClient) {
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    LearnerRoutingModule,
+    AppAdminRoutingModule,
     BrowserAnimationsModule,
     IconsProviderModule,
     StoreModule.forRoot({}),
-    EffectsModule.forRoot([LearnHubAuthenEffects]),
+    EffectsModule.forRoot([AppAuthenEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 20
     }),

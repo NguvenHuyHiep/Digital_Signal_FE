@@ -18,8 +18,8 @@ cd ctedu/hub_learner_fe
 git reset --hard HEAD
 git checkout develop
 git pull
-docker build -t aninfosys.asia:8082/learnhub/fe_dev:1.0  -f ./docker/Dockerfile .
-docker push aninfosys.asia:8082/learnhub/fe_dev:1.0
+docker build -t aninfosys.asia:8082/Digital Signage/fe_dev:1.0  -f ./docker/Dockerfile .
+docker push aninfosys.asia:8082/Digital Signage/fe_dev:1.0
 docker stack deploy lh_dev --resolve-image always --compose-file docker/dev/docker-compose.yml --with-registry-auth
 
 EOL

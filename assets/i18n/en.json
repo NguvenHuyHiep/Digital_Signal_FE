@@ -1,9 +1,8 @@
 {
   "Header": {
     "Search-placeholder": "Search",
-    "SignOut": "Sign Out",
+    "SignOut": "Signout",
     "accout-center": "Accout infomation",
-    "question-placeholder": "Question",
     "setting": "Setting",
     "signIn": "Login"
   },
@@ -15,65 +14,14 @@
     "free": "Free",
     "register": "Register"
   },
-  "course-detail": {
-    "course": {
-      "browser-not-supported": "Browser not supported",
-      "name": "Course",
-      "next": "Next",
-      "previous": "Previous"
-    },
-    "discuss": {
-      "add-comment": "Add comment",
-      "name": "Discuss",
-      "reply-to": "Reply to"
-    },
-    "overview": {
-      "name": "Overview"
-    },
-    "recent-courses": "Recent Courses",
-    "schedule": {
-      "backlog-number": "Backlog number",
-      "name": "Schedule"
-    },
-    "source": {
-      "name": "Source"
-    }
-  },
-  "courseList": {
-    "btnCourseDetails": "Course details",
-    "btnJoinCourse": "Join course",
-    "duration": "Duration",
-    "end": "End",
-    "percent": "Percent",
-    "rating": "Rating",
-    "start": "Start",
-    "status": "Status",
-    "teacher": "Teacher",
-    "title": "Title"
-  },
-  "courses": {
-    "course-overview": {
-      "button-back": "Back",
-      "button-cancel-request-to-study-again": "Cancel and request to study again",
-      "button-enter-class": "Enter class",
-      "button-mark-completed": "Mark completed",
-      "cancel": "Cancel",
-      "certificate": "Certificate",
-      "certificate-pass": "Get it directly",
-      "confirmed": "Confirmed",
-      "description": " To achieve this, it would be necessary to have uniform grammar pronunciation and more common words If several languages coalesce ",
-      "exam-time": "Exam time",
-      "expired-time": "Expired time",
-      "start-time": "Start time"
-    }
-  },
-  "footer": "Design & Develop by TechHub",
+
+  "footer": "Design & Develop by LPDEV",
   "lang": {
     "en": "English",
     "vi": "Tiếng Việt"
   },
   "login": {
-    "ctedu": "LearnHub",
+    "appTitle": "Digital Signage",
     "dont-have-an-account": "Dont't have an account ?",
     "error": {
       "password-required": "Please input your password!",
@@ -88,17 +36,6 @@
     "welcomeback": "Welcome Back !"
   },
   "module": {
-    "class": {
-      "title": "Class"
-    },
-    "course": {
-      "list": "List course",
-      "my-course": "My courses",
-      "title": "Course"
-    },
-    "curriculum": {
-      "title": "Curriculum"
-    },
     "dashboard": {
       "accuracy": "Accuracy",
       "averageTime": "Average time",
@@ -119,17 +56,7 @@
       "test": "Test",
       "title": "Dashboard",
       "unfinished": "Unfinished",
-      "welcome": "Welcome to Learnhub"
-    },
-    "practice": {
-      "title": "Practice"
-    },
-    "search": {
-      "shortContent": "Search for curriculums, courses, classes, practices, tests",
-      "title": "Search"
-    },
-    "test": {
-      "title": "Test"
+      "welcome": "Welcome to Digital Signage"
     }
   },
   "recover": {
@@ -168,9 +95,9 @@
     "terms-of-use": "Terms of use",
     "user-name": "User name"
   },
-  "title": "LearnHub",
+  "title": "Digital Signage",
   "watermark": {
-    "development": "TechHub in DEV MODE",
+    "development": "Digital Signage in DEV MODE",
     "production": ""
   }
 }

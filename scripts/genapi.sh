@@ -6,7 +6,7 @@ myServices=( "course")
 for service in ${myServices[@]}; do
 
   openapi-generator-cli generate \
-  -i https://dev.learnhub.vn/docs/${service}/swagger/api-core/swagger.json \
+  -i https://dev.Digital Signage.vn/docs/${service}/swagger/api-core/swagger.json \
   -o projects/app-api/src/lib/api \
   --api-package controller/${service} \
   --model-package models \

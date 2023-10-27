@@ -1,11 +1,11 @@
 const proxyConfig = [{
   context: '/api',
-  target: 'https://dev.learnhub.vn',
+  target: 'https://dev.Digital Signage.vn',
   changeOrigin: true,
   logLevel: 'debug'
 }, {
   context: '/Document-API',
-  target: 'https://dev.learnhub.vn',
+  target: 'https://dev.Digital Signage.vn',
   changeOrigin: true,
   logLevel: 'debug'
 }];

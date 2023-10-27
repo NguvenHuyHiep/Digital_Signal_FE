@@ -16,5 +16,5 @@ const routes: Routes = [{
 @NgModule({
   imports: [RouterModule.forRoot(routes)], exports: [RouterModule], providers: [AuthenGuardService],
 })
-export class LearnerRoutingModule {
+export class AppAdminRoutingModule {
 }

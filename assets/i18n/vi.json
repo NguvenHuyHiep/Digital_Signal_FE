@@ -14,65 +14,14 @@
     "searchPlaceholder": "Nhập thông tin tìm kiếm",
     "free": "Miễn phí", "register": "Đăng ký"
   },
-  "course-detail": {
-    "course": {
-      "browser-not-supported": "Trình duyệt không hỗ trợ",
-      "name": "Khóa học",
-      "next": "Bài tiếp theo",
-      "previous": "Bài trước"
-    },
-    "discuss": {
-      "add-comment": "Thêm thảo luận",
-      "name": "Thảo luận",
-      "reply-to": "Trả lời cho"
-    },
-    "overview": {
-      "name": "Thông tin chung"
-    },
-    "recent-courses": "Các khóa học liên quan",
-    "schedule": {
-      "backlog-number": "Backlog number",
-      "name": "Lịch học"
-    },
-    "source": {
-      "name": "Nguồn tài liệu"
-    }
-  },
-  "courseList": {
-    "btnCourseDetails": "Thông tin khóa học",
-    "btnJoinCourse": "Tham gia khóa học",
-    "duration": "Thời gian",
-    "end": "Thời gian bắt đầu",
-    "percent": "phần trăm",
-    "rating": "Bình chọn",
-    "start": "Ngày bắt đầu",
-    "status": "Trạng thái",
-    "teacher": "Giáo viên",
-    "title": "Tiêu đề"
-  },
-  "courses": {
-    "course-overview": {
-      "button-back": "Quay lại",
-      "button-cancel-request-to-study-again": "Hủy và học lại",
-      "button-enter-class": "Chọn lớp",
-      "button-mark-completed": "Đánh dấu hoàn thành",
-      "cancel": "Hủy",
-      "certificate": "Chứng chỉ",
-      "certificate-pass": "Nhận trực tiếp",
-      "confirmed": "Đã tốt nghiệp",
-      "description": "Thông tin chi tiết",
-      "exam-time": "Thời gian kiểm tra",
-      "expired-time": "Ngày kết thúc",
-      "start-time": "Ngày bắt đầu "
-    }
-  },
-  "footer": "Design & Develop by TechHub",
+
+  "footer": "Design & Develop by LPDEV",
   "lang": {
     "en": "English",
     "vi": "Tiếng Việt"
   },
   "login": {
-    "ctedu": "Learn Hub",
+    "appTitle": "Digital Signage",
     "dont-have-an-account": "Chưa có tài khoản ?",
     "error": {
       "password-required": "Nhập mật khẩu!",
@@ -87,19 +36,6 @@
     "welcomeback": "Chào mừng quay lại!"
   },
   "module": {
-    "class": {
-      "list": "Danh sách lớp học",
-      "title": "Lớp học"
-    },
-    "course": {
-      "list": "Danh sách khóa học",
-      "my-course": "Khóa học của tôi",
-      "title": "Khóa học"
-    },
-    "curriculum": {
-      "list": "Danh sách chương trình đào tạo",
-      "title": "Chương trình đào tạo"
-    },
     "dashboard": {
       "accuracy": "Chính xác",
       "averageTime": "Thời gian trung bình",
@@ -120,20 +56,7 @@
       "test": "Bài kiểm tra",
       "title": "Thống kê",
       "unfinished": "Chưa hoàn thành",
-      "welcome": "Chào mừng tới Learnhub"
-    },
-    "practice": {
-      "list": "Danh sách bài ôn luyện",
-      "title": "Ôn luyện"
-    },
-    "search": {
-      "shortContent": "Tìm kiếm chương trình đào tạo, khóa học, ôn luyện, thi",
-      "title": "Tìm kiếm",
-      "joined": "Đã tham gia"
-    },
-    "test": {
-      "list": "Danh sách bài thi",
-      "title": "Thi"
+      "welcome": "Chào mừng tới Digital Signage"
     }
   },
   "recover": {
@@ -151,8 +74,8 @@
   "register": {
     "TooltipTitle": "Tài khỏoản đăng nhập",
     "already-have-an-account?": "Đã có tài khoản ?",
-    "by-register-you-aree-to-the-skote": "Bằng cách đăng nhập bạn đồng ý với những điều khoản của LearnHub",
-    "by-registering-you-agree-to-the-Skote": "Bằng cách đăng nhập bạn đồng ý với những điều khoản của LearnHub",
+    "by-register-you-aree-to-the-skote": "Bằng cách đăng nhập bạn đồng ý với những điều khoản của Digital Signage",
+    "by-registering-you-agree-to-the-Skote": "Bằng cách đăng nhập bạn đồng ý với những điều khoản của Digital Signage",
     "confirm-password": "Xác nhận mật khẩu",
     "email": "Email",
     "error": {
@@ -167,12 +90,12 @@
     "login": "Login",
     "password": "Password",
     "register": "Register",
-    "sign-in-with": "Login with",
+    "sign-in-with": "Đăng nhập với",
     "terms-of-Use": "Điều khoản sử dụng",
     "terms-of-use": "Điều khoản sử dụng",
     "user-name": "Tài khoản"
   },
-  "title": "LearnHub",
+  "title": "Digital Signage",
   "watermark": {
     "development": "Môi trường DEV",
     "production": ""
