@@ -6,7 +6,7 @@ import {
 } from '@angular/forms';
 
 @Component({
-  selector: 'common-forgot-password',
+  selector: 'lh-common-forgot-password',
   templateUrl: './common-forgot-password.component.html',
   styleUrls: ['./common-forgot-password.component.scss'],
 })

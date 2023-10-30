@@ -7,10 +7,10 @@ const routes: Routes = [{
 }, {
   path: 'login', loadChildren: () => import('./modules/login/login.module').then((m) => m.LoginModule),
 }, {
-  path: 'register', loadChildren: () => import('./modules/login/register.module').then((m) => m.RegisterModule),
+  path: 'register', loadChildren: () => import('./modules/login/login.module').then((m) => m.LoginModule),
 }, {
   path: 'forgot-password',
-  loadChildren: () => import('./modules/login/forgot-password.module').then((m) => m.ForgotPasswordModule),
+  loadChildren: () => import('./modules/login/login.module').then((m) => m.LoginModule),
 },];
 
 @NgModule({
