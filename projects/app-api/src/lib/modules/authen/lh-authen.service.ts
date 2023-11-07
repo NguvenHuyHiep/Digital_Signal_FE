@@ -1,4 +1,4 @@
-import {Inject, Injectable} from '@angular/core';
+import {Inject, Injectable, Optional} from '@angular/core';
 import {filter, map, Observable, of} from "rxjs";
 
 import {LH_API_VERSION} from "../../../public-api";
@@ -12,6 +12,7 @@ import {BaseOutputString} from "../../api/models/baseOutputString";
 import {AdminUsersAPIService} from "../../api/controller/adminUsersAPI.service";
 import {BaseOutputUser} from "../../api/models/baseOutputUser";
 import {User} from "../../api/models/user";
+import {Configuration} from "../../api";
 
 
 @Injectable({
@@ -74,6 +75,7 @@ export class LhAuthenService {
 
     console.log(token);
     if (token && token != null) {
+      this.authenticationService.configuration.withCredentials = true;
       this.authenticationService.configuration.credentials = {
         'Bearer': `Bearer ${token.data}`
       };

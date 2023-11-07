@@ -22,6 +22,7 @@ import {StoreRouterConnectingModule} from "@ngrx/router-store";
 import {AppHttpInterceptor} from "./app-http-interceptor.service";
 import {LocalStoreModule} from "../../../app-api/src/lib/modules/local-store/local-store.module";
 import {AppAuthenEffects} from "./store/learn-hub-authen-effects.service";
+import {AppApiModule} from "../../../app-api/src/lib/app-api.module";
 
 registerLocaleData(en);
 
@@ -49,6 +50,7 @@ export function createTranslateLoader(http: HttpClient) {
     }),
     StoreRouterConnectingModule.forRoot(),
     ApiModule.forRoot(ApiConfiguration),
+    AppApiModule,
     AuthenModule,
     LocalStoreModule,
     HttpClientModule,
