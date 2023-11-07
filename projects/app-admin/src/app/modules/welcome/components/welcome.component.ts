@@ -269,11 +269,10 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
           title: 'Search',
           icon: 'search',
           link: '/',
-        },
-        {
-          title: 'Khóa học',
-          icon: 'book',
-          link: '/course',
+        },{
+          title: 'Playlist',
+          icon: 'home',
+          link: '/playlist',
         },
         {
           title: 'Class',

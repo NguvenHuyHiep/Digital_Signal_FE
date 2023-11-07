@@ -12,7 +12,17 @@
     "dataNotFound": "Không tìm thấy dữ liêu",
     "search": "Tìm kiếm",
     "searchPlaceholder": "Nhập thông tin tìm kiếm",
-    "free": "Miễn phí", "register": "Đăng ký"
+    "free": "Miễn phí",
+    "register": "Đăng ký",
+    "add": "Thêm mới",
+    "addSuccess": "Thêm mới thành công",
+    "delete": "Xóa",
+    "deleteSuccess": "Xóa thành công",
+    "update": "Cập nhật",
+    "updateSuccess": "Cập nhật thành công",
+    "detail": "Chi tiết",
+    "back": "Quay lại",
+    "cancel": "Hủy"
   },
 
   "footer": "Design & Develop by LPDEV",
@@ -57,6 +67,19 @@
       "title": "Thống kê",
       "unfinished": "Chưa hoàn thành",
       "welcome": "Chào mừng tới Digital Signage"
+    },
+    "file": {
+      "chooseContentType": "Loại file",
+      "contentTypes-video": "video",
+      "contentTypes-img": "img",
+      "contentType": "Loại file",
+      "list-file": "Danh sách File",
+      "name": "Tên File"
+    },
+    "playlist": {
+      "file": "Tên Playlist",
+      "update": "Cập nhập File",
+      "add": "Thêm mới File"
     }
   },
   "recover": {
