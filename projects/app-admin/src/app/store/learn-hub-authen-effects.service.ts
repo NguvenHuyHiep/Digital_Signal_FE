@@ -12,9 +12,7 @@ export class AppAuthenEffects {
   readonly SIGN_OUT = createEffect(() => this._actions$.pipe(
     ofType(SIGN_OUT)
     , tap(action => {
-      if(this.location.path().startsWith('/dashboard')) {
-        this.router.navigateByUrl('/search' )
-      }
+      this.router.navigateByUrl('/login' );
     })), {dispatch: false});
 
   constructor(

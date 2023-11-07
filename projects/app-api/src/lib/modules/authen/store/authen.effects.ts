@@ -3,17 +3,12 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 
 import {tap} from 'rxjs/operators';
 import {Store} from '@ngrx/store';
-import {
-  COMPLETE_AUTHEN,
-  GET_USER_PROFILE,
-  SIGN_IN_FAILED,
-  SIGN_IN_SUCCESS,
-  SIGN_OUT
-} from "./authen.reducers";
+import {COMPLETE_AUTHEN, GET_USER_PROFILE, SIGN_IN_SUCCESS, SIGN_OUT} from "./authen.reducers";
 import {LhAuthenService} from "../lh-authen.service";
 import {LhStorageService} from "../../local-store/lh-storage.service";
-import {ResponseUserInfo, TokenReturn} from "../../../api";
-import {forkJoin} from "rxjs";
+import {forkJoin, of} from "rxjs";
+import {BaseOutputString} from "../../../api/models/baseOutputString";
+import {BaseOutputUser} from "../../../api/models/baseOutputUser";
 
 @Injectable()
 export class AuthenEffects {
@@ -21,17 +16,26 @@ export class AuthenEffects {
   readonly SIGN_IN_SUCCESS = createEffect(() => {
     return this._actions$.pipe(
       ofType(SIGN_IN_SUCCESS)
-      , tap((payload: { value?: TokenReturn }) => {
+      , tap((payload: { value?: BaseOutputString }) => {
         this.authenService.setApiKeys(payload.value);
 
-        let authenObs =  this.authenService.userInfo(payload.value?.userid as string).pipe(tap(
+        // let authenObs =  this.authenService.userInfo(0).pipe(tap(
+        let authenObs = of<BaseOutputUser>({
+          data: {
+            id: 1
+            , firstName: 'Test'
+            , lastName: 'Test'
+            , email: ''
+            , phone: ''
+          }
+        }).pipe(tap(
           user => {
-            this._store.dispatch(GET_USER_PROFILE({value: user.result}));
+            this._store.dispatch(GET_USER_PROFILE({value: user}));
           }
         ));
         forkJoin([authenObs]).subscribe({
           next: result => this._store.dispatch(COMPLETE_AUTHEN({value: true}))
-          , error: err  => {
+          , error: err => {
             this._store.dispatch(SIGN_OUT());
           }
         })
@@ -41,8 +45,8 @@ export class AuthenEffects {
 
   readonly GET_USER_PROFILE = createEffect(() => this._actions$.pipe(
     ofType(GET_USER_PROFILE)
-    , tap((payload: { value?: ResponseUserInfo }) => {
-      this._storage.setCurrentUser(payload.value).subscribe();
+    , tap((payload: { value?: BaseOutputUser }) => {
+      this._storage.setCurrentUser(payload.value?.data).subscribe();
     })
   ), {dispatch: false});
 

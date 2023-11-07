@@ -1,11 +1,6 @@
 const proxyConfig = [{
   context: '/api',
-  target: 'https://dev.Digital Signage.vn',
-  changeOrigin: true,
-  logLevel: 'debug'
-}, {
-  context: '/Document-API',
-  target: 'https://dev.Digital Signage.vn',
+  target: 'http://aninfosys.asia:8079/dsd',
   changeOrigin: true,
   logLevel: 'debug'
 }];

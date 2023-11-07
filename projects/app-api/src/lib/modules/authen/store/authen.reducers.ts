@@ -1,7 +1,8 @@
 import {ActionReducer} from "@ngrx/store/src/models";
 import {createAction, createReducer, on, props} from "@ngrx/store";
-import {ResponseUserInfo, TokenReturn, TokenReturnCustomApiObjResponse} from "../../../api";
 import {HttpResponseBase} from "@angular/common/http";
+import {BaseOutputUser} from "../../../api/models/baseOutputUser";
+import {BaseOutputString} from "../../../api/models/baseOutputString";
 
 export enum AUTHEN_ACTIONS {
   SIGN_IN_SUCCESS = "@lh/authen/SIGN_IN_SUCCESS"
@@ -11,18 +12,18 @@ export enum AUTHEN_ACTIONS {
   , SIGN_OUT = "@lh/authen/SIGN_OUT"
 }
 
-export const SIGN_IN_SUCCESS = createAction(AUTHEN_ACTIONS.SIGN_IN_SUCCESS, props<{ value?: TokenReturn }>());
+export const SIGN_IN_SUCCESS = createAction(AUTHEN_ACTIONS.SIGN_IN_SUCCESS, props<{ value?: BaseOutputString }>());
 export const COMPLETE_AUTHEN = createAction(AUTHEN_ACTIONS.COMPLETE_AUTHEN, props<{ value: boolean }>());
-export const GET_USER_PROFILE = createAction(AUTHEN_ACTIONS.GET_USER_PROFILE, props<{ value?: ResponseUserInfo }>());
+export const GET_USER_PROFILE = createAction(AUTHEN_ACTIONS.GET_USER_PROFILE, props<{ value?: BaseOutputUser }>());
 
-export const SIGN_IN_FAILED = createAction(AUTHEN_ACTIONS.SIGN_IN_FAILED, props<{ value?: HttpResponseBase | TokenReturnCustomApiObjResponse }>());
+export const SIGN_IN_FAILED = createAction(AUTHEN_ACTIONS.SIGN_IN_FAILED, props<{ value?: HttpResponseBase | BaseOutputString }>());
 export const SIGN_OUT = createAction(AUTHEN_ACTIONS.SIGN_OUT);
 
 export interface IAuthenState {
-  token: TokenReturn | undefined;
-  user: ResponseUserInfo | undefined;
+  token: BaseOutputString| undefined;
+  user: BaseOutputUser | undefined;
   authenticated: boolean;
-  error: HttpResponseBase | TokenReturnCustomApiObjResponse | undefined;
+  error: HttpResponseBase | BaseOutputUser | undefined;
   retry: number;
   initAuthen: boolean;
 }
@@ -62,7 +63,7 @@ export const authenReducer: ActionReducer<IAuthenState> = createReducer(initialS
     user: undefined,
     authenticated: false,
     initAuthen: false,
-    error: value,
+    error: value as any,
     retry: state.retry + 1
   }))
 

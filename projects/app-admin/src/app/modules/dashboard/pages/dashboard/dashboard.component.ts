@@ -1,9 +1,11 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import {ResponseUserInfoCustomApiObjResponse} from '../../../../../../../app-api/src/lib/api';
 import { BreadcrumbOption } from 'ng-zorro-antd/breadcrumb/breadcrumb.component';
 import { Chart } from '@antv/g2';
 import {LhAuthenService} from "../../../../../../../app-api/src/lib/modules/authen/lh-authen.service";
-import {AspNetUsersDto} from "../../../../../../../app-api/src/lib/api/models/aspNetUsersDto";
+import {User} from "../../../../../../../app-api/src/lib/api/models/user";
+import {
+  SignedDeviceControllerService
+} from "../../../../../../../app-api/src/lib/api/controller/signedDeviceController.service";
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -12,7 +14,7 @@ import {AspNetUsersDto} from "../../../../../../../app-api/src/lib/api/models/as
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
   bread: BreadcrumbOption[] = [];
-  user?: AspNetUsersDto;
+  user?: User;
   loading = true;
   chatTimeout: number | null = null;
 
@@ -32,13 +34,22 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     { type: 'book', label: 'module.dashboard.practice', value: 4 },
   ];
 
-  constructor(private authenService:LhAuthenService) {
+  constructor(private authenService:LhAuthenService
+  , private signedDeviceControllerService: SignedDeviceControllerService
+  ) {
     this.authenService.userObs.subscribe(user => this.user = user);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('Test call API');
+    this.signedDeviceControllerService.getByPaging(1,20).subscribe({
+      next: value => alert(JSON.stringify(value))
+    })
+
+  }
 
   ngAfterViewInit() {
+
     this.chatTimeout = setTimeout(() => {
       this.loading = false;
 
