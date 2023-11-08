@@ -17,6 +17,16 @@ const routes: Routes = [{
         import('../playlists/playlists.module').then(
           (m) => m.PlaylistsModule
         ),
+    },
+    {
+      path: 'group-device',
+      data: {
+        label: 'Group Device',
+      },
+      loadChildren: () =>
+          import('../group-device-manage/group-device.module').then(
+              (m) => m.GroupDeviceModule
+          ),
     }],
 },];
 

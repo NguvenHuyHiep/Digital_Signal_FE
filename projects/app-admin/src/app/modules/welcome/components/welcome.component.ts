@@ -275,9 +275,9 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
           link: '/playlist',
         },
         {
-          title: 'Class',
+          title: 'Group Device',
           icon: 'project',
-          link: '/class',
+          link: '/group-device',
         },
         {
           title: 'Curriculum',

@@ -1,0 +1,59 @@
+<nz-layout>
+  <ng-container *ngTemplateOutlet="deviceAdd"></ng-container>
+  <div nz-row style="padding: 16px; margin-top: 10px; background: white">
+    <div nz-col nzMd="24" nzLg="8">
+      <nz-card
+        style="width: 100%"
+        [nzBordered]="false"
+        [nzTitle]="'module.groupdevice.device' | translate"
+        [nzExtra]="deviceAction">
+        <ng-container *ngTemplateOutlet="deviceList"></ng-container>
+      </nz-card>
+    </div>
+  </div>
+</nz-layout>
+
+<ng-template #deviceAction>
+  <button nz-button nzType="link" (click)="openAddDevice()">
+    <span nz-icon nzType="plus"></span>
+  </button>
+</ng-template>
+
+<ng-template #deviceList>
+  <nz-skeleton [nzActive]="true" *ngIf="loading.device"></nz-skeleton>
+  <ul nz-menu nzMode="inline">
+    <li
+      *ngFor="let device of devices"
+      nz-menu-item
+      [nzSelected]="currentDevice?.id === device.id"
+      (click)="setCurrentDevice(device)"
+    >
+      <span class="menu-item-text">{{ device.deviceName }}</span>
+      <button nz-button nzType="text" (click)="updateDevice(device)">
+        <span nz-icon nzType="edit"></span>
+      </button>
+      <button nz-button nzType="text" (click)="deleteDevice(device)">
+        <span nz-icon nzType="delete"></span>
+      </button>
+    </li>
+  </ul>
+</ng-template>
+
+<ng-template #deviceAdd>
+  <nz-card
+    style="width: 100%"
+    [nzBordered]="false"
+    [nzTitle]="'module.groupdevice.deviceAdd' | translate"
+    [nzExtra]="deviceAddAction"
+  >
+<!--    <app-admin-device-add #deviceAddComponent></app-admin-device-add>-->
+  </nz-card>
+  <ng-template #deviceAddAction>
+    <button nz-button nzType="text" class="mb-2" (click)="cancelAddDevice()">
+      {{ "common.cancel" | translate }}
+    </button>
+    <button nz-button nzType="primary" class="mb-2" (click)="addDevice()">
+      {{ "common.add" | translate }}
+    </button>
+  </ng-template>
+</ng-template>
