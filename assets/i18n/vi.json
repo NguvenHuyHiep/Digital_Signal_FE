@@ -79,7 +79,11 @@
     "playlist": {
       "file": "Tên Playlist",
       "update": "Cập nhập File",
-      "add": "Thêm mới File"
+      "add": "Thêm mới File",
+      "name": "Tên play list,",
+      "description": "Mô tả play list",
+      "startTime": "Thời gian bắt đầu",
+      "endTime": "Thời gian kết thúc"
     }
   },
   "recover": {
