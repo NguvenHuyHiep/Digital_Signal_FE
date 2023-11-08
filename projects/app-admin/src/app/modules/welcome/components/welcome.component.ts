@@ -283,9 +283,9 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
           icon: 'laptop',
           link: '/device',
         },
-        {  title: 'Group',
+        {  title: 'Group Device',
           icon: 'home',
-          link: '/group',
+          link: '/group-device',
         },
       ] :
       [
