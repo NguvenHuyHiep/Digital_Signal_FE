@@ -4,6 +4,7 @@ import {FormBuilder} from "@angular/forms";
 import {AdminUserService} from "../../../../../../../app-api/src/lib/modules/admin/admin-user/admin-user.service";
 import {Observable} from "rxjs";
 import {FormGroupUser} from "../user-type";
+import {BaseOutputUser} from "../../../../../../../app-api/src/lib/api/models/baseOutputUser";
 
 @Component({
   selector: 'app-admin-user-add',
@@ -34,14 +35,35 @@ export class UserAddComponent implements OnInit, OnChanges{
   ngOnInit(): void {
   }
 
-  addUser() {
-  // addUser(): Observable<User> {
-  //   let addObj: User = {
-  //     userName: this.form.controls.userName?.value,
-  //
-  //   };
-  //
-
+  addUser(): Observable<BaseOutputUser> {
+    if (!this.form.valid) {
+      this.form.markAsTouched();
+      this.form.markAsDirty();
+    }
+    if (!this.form.controls.id?.value) {
+      let addObj: User = {
+        id: this.form.controls.id?.value,
+        userName: this.form.controls.userName?.value,
+        // password: this.form.controls.password?.value,
+        email: this.form.controls.email?.value,
+        phone: this.form.controls.phone?.value,
+        firstName: this.form.controls.firstName?.value,
+        lastName: this.form.controls.lastName?.value,
+        // roles: this.form.controls.roles?.value
+      };
+      return this.adminUserService.addUser(addObj)
+    }
+    let uptObj: User = {
+      id: this.form.controls.id?.value,
+      userName: this.form.controls.userName?.value,
+      // password: this.form.controls.password?.value,
+      email: this.form.controls.email?.value,
+      phone: this.form.controls.phone?.value,
+      firstName: this.form.controls.firstName?.value,
+      lastName: this.form.controls.lastName?.value,
+      // roles: this.form.controls.roles?.value
+    };
+    return this.adminUserService.updateUser(uptObj)
   }
 
 }

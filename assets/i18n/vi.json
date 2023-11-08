@@ -97,15 +97,14 @@
     "user": {
       "title": "User",
       "info": "Thông tin",
-      "name": "Tên",
       "email": "Email",
-      "phoneNumber": "Số điện thoại",
-      "username": "Tên tài khoản",
+      "phone": "Số điện thoại",
+      "userName": "Tài khoản",
       "password": "Mật khẩu",
-      "enterpriseName":"Tên doanh nghiệp",
-      "file": "file",
+      "firstName":"Tên",
+      "lastName":"Họ",
       "license": "License",
-      "type": "Vai trò"
+      "roles": "Vai trò"
     },
     "license": {
       "title": "License",
@@ -174,12 +173,12 @@
   },
   "user-detail": {
     "user": {
-      "name": "Tên",
+      "userName": "Tài khoản",
       "email": "Email",
-      "enterpriseName": "Doanh nghiệp",
-      "phoneNumber": "Số điện thoại",
-      "type": "Vai trò",
-      "license": "License"
+      "phone": "Số điện thoại",
+      "roles": "Vai trò",
+      "firstName": "Tên",
+      "lastName": "Họ"
     }
   }
 }

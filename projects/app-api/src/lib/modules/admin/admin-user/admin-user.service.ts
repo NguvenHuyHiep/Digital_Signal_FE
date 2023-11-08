@@ -7,6 +7,7 @@ import { AdminUsersAPIService } from '../../../api/controller/adminUsersAPI.serv
 import {HttpParams} from "@angular/common/http";
 import {tap} from "rxjs/operators";
 import {FormGroupUser} from "../../../../../../app-admin/src/app/modules/user/components/user-type";
+import {BaseOutputUser} from "../../../api/models/baseOutputUser";
 
 @Injectable()
 export class AdminUserService {
@@ -59,5 +60,12 @@ export class AdminUserService {
       .pipe(tap(response => console.log(response)))
   };
 
+  public addUser(user: User): Observable<BaseOutputUser> {
+    return this.adminUsersAPIService.create(user)
+  }
+
+  public updateUser(user: User): Observable<BaseOutputUser> {
+    return this.adminUsersAPIService.update(user.id as number ,user)
+  }
 
 }

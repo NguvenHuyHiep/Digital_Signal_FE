@@ -69,14 +69,14 @@
     "user": {
       "title": "User",
       "info": "Information",
-      "name": "Name",
       "email": "Email",
-      "phoneNumber": "Phone Number",
-      "username": "Username",
+      "phone": "Phone",
+      "userName": "Username",
       "password": "Password",
-      "enterpriseName":"Enterprise name",
+      "firstName":"First name",
+      "lastName":"Last name",
       "license": "License",
-      "type": "Type"
+      "roles": "Roles"
     },
     "license": {
       "title": "License",
@@ -145,12 +145,12 @@
   },
   "user-detail": {
     "user": {
-      "name": "Name",
+      "userName": "userName",
       "email": "Email",
-      "enterpriseName": "Enterprise",
-      "phoneNumber": "Phone Number",
-      "type": "Type",
-      "license": "License"
+      "phone": "Phone",
+      "roles": "Roles",
+      "firstName": "firstName",
+      "lastName": "lastName"
     }
   }
 }

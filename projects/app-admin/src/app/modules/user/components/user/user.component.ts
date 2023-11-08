@@ -9,6 +9,7 @@ import {
 import {AdminUserService} from "../../../../../../../app-api/src/lib/modules/admin/admin-user/admin-user.service";
 import {TranslateService} from "@ngx-translate/core";
 import {NzMessageService} from "ng-zorro-antd/message";
+import {BaseOutputListUser} from "../../../../../../../app-api/src/lib/api/models/baseOutputListUser";
 
 @Component({
   selector: 'app-admin-user',
@@ -16,11 +17,6 @@ import {NzMessageService} from "ng-zorro-antd/message";
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-  sortBy: any;
-  sortDirection: any;
-  keyword: any;
-  page?: number;
-  size?: number;
   showFrame: {
     search: boolean;
     add: boolean;
@@ -29,6 +25,10 @@ export class UserComponent implements OnInit {
     add: false,
   };
 
+  paging: BaseOutputListUser = {
+    pageSize: 20,
+    currentPage: 1,
+  }
   users: Array<User> = [];
 
   @ViewChild('table') table?: LhTableComponent<User>;
@@ -44,6 +44,7 @@ export class UserComponent implements OnInit {
 
   tableConfig: LhTableConfigModel = {
     key: 'id',
+    disableDetail: true,
     fields: [
       {
         label: 'user-detail.user.userName',
@@ -104,7 +105,29 @@ export class UserComponent implements OnInit {
       });
   }
 
-  add() {}
+  add() {
+    if (!this.addComponent) {
+      return;
+    }
+    this.loading.adding = true;
+    this.addComponent.addUser().subscribe({
+      next: (response) => {
+        if (response.data) {
+          this.currentUser = response.data;
+          this.getAll();
+          this.showFrame.search = true;
+          this.showFrame.add = false;
+        }
+      }, error: err => {
+        this.message.error("Error", err);
+        this.loading.searching = false;
+      }
+      ,complete: () => {
+        this.loading.adding = false;
+      }
+    });
+  }
+
 
   gotoSearch() {
     this.showFrame.search = true;

@@ -172,6 +172,12 @@ export class AdminUsersAPIService {
         }
 
         let localVarHeaders = this.defaultHeaders;
+      let localVarCredential: string | undefined;
+      // authentication (Bearer) required
+      localVarCredential = this.configuration.lookupCredential('Bearer');
+      if (localVarCredential) {
+        localVarHeaders = localVarHeaders.set('Authorization', localVarCredential);
+      }
 
         let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (localVarHttpHeaderAcceptSelected === undefined) {
@@ -207,7 +213,7 @@ export class AdminUsersAPIService {
             } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
                 responseType_ = 'json';
             } else {
-                responseType_ = 'blob';
+                responseType_ = 'json';
             }
         }
 
