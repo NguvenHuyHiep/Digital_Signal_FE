@@ -1,0 +1,72 @@
+<nz-tabset>
+  <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab.name | translate">
+    <ng-container *ngIf="tab.code === 'info'">
+      <ng-container *ngTemplateOutlet="info"></ng-container>
+    </ng-container>
+  </nz-tab>
+</nz-tabset>
+
+<ng-template #info>
+  <form [formGroup]="form" nz-form>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="userName">
+        {{ "module.user.name" | translate }}
+      </nz-form-label>
+      <nz-form-control [formGroup]="form" [nzSpan]="14">
+        <input nz-input type="text" formControlName="userName" id="userName" name="userName">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="password">
+        {{ "module.user.password" | translate }}
+      </nz-form-label>
+      <nz-form-control [formGroup]="form" [nzSpan]="14">
+        <input nz-input type="text" formControlName="password" id="password" name="password">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="email">
+        {{ "module.user.email" | translate }}
+      </nz-form-label>
+      <nz-form-control [formGroup]="form" [nzSpan]="14">
+        <input nz-input type="text" formControlName="email" id="email" name="email">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="phone">
+        {{ "module.user.phone" | translate }}
+      </nz-form-label>
+      <nz-form-control [formGroup]="form" [nzSpan]="14">
+        <input nz-input type="text" formControlName="phone" id="phone" name="phone">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="firstName">
+        {{ "module.user.firstName" | translate }}
+      </nz-form-label>
+      <nz-form-control [formGroup]="form" [nzSpan]="14">
+        <input nz-input type="text" formControlName="firstName" id="firstName" name="firstName">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="lastName">
+        {{ "module.user.lastName" | translate }}
+      </nz-form-label>
+      <nz-form-control [formGroup]="form" [nzSpan]="14">
+        <input nz-input type="text" formControlName="lastName" id="lastName" name="lastName">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="roles">
+        {{ "module.user.roles" | translate }}
+      </nz-form-label>
+      <nz-form-control [formGroup]="form" [nzSpan]="14">
+        <nz-select formControlName="roles"
+                   [nzPlaceHolder]="'module.user.roles' | translate">
+          <nz-option nzLabel="Admin" nzValue="1"></nz-option>
+          <nz-option nzLabel="User" nzValue="2"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</ng-template>

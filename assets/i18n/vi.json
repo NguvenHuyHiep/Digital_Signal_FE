@@ -93,6 +93,42 @@
       "description": "Mô tả play list",
       "startTime": "Thời gian bắt đầu",
       "endTime": "Thời gian kết thúc"
+    },
+    "user": {
+      "title": "User",
+      "info": "Thông tin",
+      "name": "Tên",
+      "email": "Email",
+      "phoneNumber": "Số điện thoại",
+      "username": "Tên tài khoản",
+      "password": "Mật khẩu",
+      "enterpriseName":"Tên doanh nghiệp",
+      "file": "file",
+      "license": "License",
+      "type": "Vai trò"
+    },
+    "license": {
+      "title": "License",
+      "name": "Tên",
+      "deviceLimit": "Số thiết bị giới hạn",
+      "expireTime": "Thời hạn"
+    },
+    "device": {
+      "title": "Thiết bị",
+      "info": "Thông tin",
+      "content": "Nội dung",
+      "name": "Tên thiết bị",
+      "status": "Trạng thái",
+      "activeTime": "Thời gian chạy",
+      "inactiveTime": "Thời gian dừng",
+      "license": "License"
+    },
+    "groupdevice": {
+      "title": "Group Device",
+      "info": "Thông tin",
+      "name": "Tên Group",
+      "description": "Mô tả",
+      "location": "Địa chỉ"
     }
   },
   "recover": {
@@ -135,5 +171,15 @@
   "watermark": {
     "development": "Môi trường DEV",
     "production": ""
+  },
+  "user-detail": {
+    "user": {
+      "name": "Tên",
+      "email": "Email",
+      "enterpriseName": "Doanh nghiệp",
+      "phoneNumber": "Số điện thoại",
+      "type": "Vai trò",
+      "license": "License"
+    }
   }
 }
