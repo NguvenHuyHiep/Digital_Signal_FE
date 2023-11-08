@@ -28,128 +28,7 @@
       {{ "footer" | translate }}
     </nz-footer>
   </nz-layout>
-  <div class="drawer-handle" (click)="changeDrawer()" [class.open]="visible">
-    <ng-container
-      *ngIf="!visible; then settingIcon; else closeIcon"
-    ></ng-container>
-    <ng-template #settingIcon>
-      <i nz-icon nzType="setting" nzTheme="outline"></i>
-    </ng-template>
-    <ng-template #closeIcon>
-      <i nz-icon nzType="close" nzTheme="outline"></i>
-    </ng-template>
-  </div>
 </nz-layout>
-
-<nz-drawer
-  [nzClosable]="false"
-  [nzVisible]="visible"
-  [nzWidth]="300"
-  nzPlacement="right"
-  [nzContent]="drawerContent"
-  [nzWrapClassName]="'nz-drawer-handle'"
-  (nzOnClose)="close()"
->
-  <ng-template #drawerContent>
-    <div>
-      <div style="margin-bottom: 24px">
-        <h3>Stick</h3>
-        <div class="checkbox">
-          <div
-            nz-tooltip
-            nzTooltipTitle="Stick menu"
-            class="checkbox-item"
-            (click)="changeStyle('menu')"
-          >
-            <i
-              *ngIf="siteStyle == 'menu'"
-              nz-icon
-              nzType="check"
-              nzTheme="outline"
-              >dgdfg</i
-            >
-          </div>
-          <div
-            nz-tooltip
-            nzTooltipTitle="暗色菜单风格"
-            class="checkbox-item checkbox-item-menu-dark"
-            (click)="changeStyle('menuDark')"
-          >
-            <i
-              *ngIf="siteStyle == 'menuDark'"
-              nz-icon
-              nzType="check"
-              nzTheme="outline"
-            ></i>
-          </div>
-          <div
-            nz-tooltip
-            nzTooltipTitle="暗黑风格"
-            class="checkbox-item checkbox-item-menu-realDark"
-            (click)="changeStyle('dark')"
-          >
-            <i
-              *ngIf="siteStyle == 'dark'"
-              nz-icon
-              nzType="check"
-              nzTheme="outline"
-            ></i>
-          </div>
-        </div>
-      </div>
-      <nz-divider></nz-divider>
-      <div style="margin-bottom: 24px">
-        <h3>导航模式</h3>
-        <ul nz-list [nzSplit]="false">
-          <li nz-list-item nzNoFlex>
-            <ul nz-list-item-actions>
-              <nz-list-item-action>
-                <nz-switch
-                  [(ngModel)]="navigationInfo.header"
-                  nzSize="small"
-                  (ngModelChange)="changeContent('header')"
-                >
-                </nz-switch>
-              </nz-list-item-action>
-            </ul>
-            固定 Header
-          </li>
-          <li nz-list-item nzNoFlex>
-            <ul nz-list-item-actions>
-              <nz-list-item-action>
-                <nz-switch
-                  [(ngModel)]="navigationInfo.menu"
-                  nzSize="small"
-                  (ngModelChange)="changeContent('menu')"
-                >
-                </nz-switch>
-              </nz-list-item-action>
-            </ul>
-            固定侧边菜单
-          </li>
-        </ul>
-      </div>
-      <nz-divider></nz-divider>
-      <div style="margin-bottom: 24px">
-        <h3>内容区域</h3>
-        <ul nz-list [nzSplit]="false">
-          <li nz-list-item nzNoFlex *ngFor="let contentItem of contentList">
-            <ul nz-list-item-actions>
-              <nz-list-item-action>
-                <nz-switch
-                  [(ngModel)]="drawerInfo.content[contentItem.type]"
-                  nzSize="small"
-                  (ngModelChange)="changeContent(contentItem.type)"
-                ></nz-switch>
-              </nz-list-item-action>
-            </ul>
-            {{ contentItem.name }}
-          </li>
-        </ul>
-      </div>
-    </div>
-  </ng-template>
-</nz-drawer>
 
 <ng-template #header>
   <nz-header
@@ -181,32 +60,6 @@
         <ng-template #displayLanguageTemplate>
           <span  style="display: flex; align-items: center;"><nz-avatar nzIcon="user" nzSrc="{{getCurrentLangObj.img}}" [nzSize]=18  style="margin-right: 5px;"></nz-avatar> {{getCurrentLangObj.label |translate}}</span>
         </ng-template>
-      </div>
-      <div class="header-action header-search">
-        <i nz-icon nzType="search" nzTheme="outline" (click)="search()"></i>
-        <div class="search-input" [class.show]="showSearch">
-          <!-- <div class="search-input show"> -->
-          <input
-            placeholder="{{ 'Header.Search-placeholder' | translate }}"
-            nz-input
-            [ngModel]=""
-            [nzAutocomplete]="auto"
-            (blur)="inputBlur()"
-          />
-          <nz-autocomplete
-            [nzDataSource]="searchOptions"
-            nzBackfill
-            #auto
-          ></nz-autocomplete>
-        </div>
-      </div>
-      <div
-        class="header-action"
-        nz-tooltip
-        nzTooltipTitle="{{ 'Header.question-placeholder' | translate }}"
-        nzTooltipPlacement="bottom"
-      >
-        <i nz-icon nzType="question-circle" nzTheme="outline"></i>
       </div>
       <ng-container *ngTemplateOutlet="headerNotification"></ng-container>
       <ng-container *ngTemplateOutlet="headerAction"></ng-container>
@@ -424,10 +277,10 @@
       *ngIf="drawerInfo.content['menuHeader']"
     >
       <ng-container *ngIf="!isCollapsed">
-        <img src="./assets/images/logo-white.png" alt="" />
+        <img src="./assets/images/logoSS.png" alt="" />
       </ng-container>
       <ng-container *ngIf="isCollapsed">
-        <h1 style="margin-left: 0 !important;">{{ 'LH' }}</h1>
+        <h1 style="margin-left: 0 !important;">{{ 'DSD' }}</h1>
       </ng-container>
 
     </div>
