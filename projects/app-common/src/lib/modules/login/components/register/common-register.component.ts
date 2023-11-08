@@ -11,10 +11,6 @@ import {NzFormTooltipIcon} from "ng-zorro-antd/form";
 
 export class CommonRegisterComponent implements OnInit {
   validateForm!: UntypedFormGroup;
-  captchaTooltipIcon: NzFormTooltipIcon = {
-    type: 'info-circle',
-    theme: 'twotone'
-  };
 
   constructor(private fb: UntypedFormBuilder) {
   }

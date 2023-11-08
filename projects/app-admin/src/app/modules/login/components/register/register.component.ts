@@ -9,12 +9,9 @@ import {NzFormTooltipIcon} from "ng-zorro-antd/form";
 })
 
 
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   validateForm!: UntypedFormGroup;
-  captchaTooltipIcon: NzFormTooltipIcon = {
-    type: 'info-circle',
-    theme: 'twotone'
-  };
+
 
   submitForm(): void {
     if (this.validateForm.valid) {
@@ -34,14 +31,6 @@ export class RegisterComponent implements OnInit {
     Promise.resolve().then(() => this.validateForm.controls['checkPassword'].updateValueAndValidity());
   }
 
-  confirmationValidator = (control: UntypedFormControl): { [s: string]: boolean } => {
-    if (!control.value) {
-      return { required: true };
-    } else if (control.value !== this.validateForm.controls['password'].value) {
-      return { confirm: true, error: true };
-    }
-    return {};
-  };
 
   getCaptcha(e: MouseEvent): void {
     e.preventDefault();
@@ -49,17 +38,5 @@ export class RegisterComponent implements OnInit {
 
   constructor(private fb: UntypedFormBuilder) {}
 
-  ngOnInit(): void {
-    this.validateForm = this.fb.group({
-      email: [null, [Validators.email, Validators.required]],
-      password: [null, [Validators.required]],
-      checkPassword: [null, [Validators.required, this.confirmationValidator]],
-      nickname: [null, [Validators.required]],
-      phoneNumberPrefix: ['+86'],
-      phoneNumber: [null, [Validators.required]],
-      website: [null, [Validators.required]],
-      captcha: [null, [Validators.required]],
-      agree: [false]
-    });
-  }
+
 }
