@@ -12,7 +12,15 @@
     "search": "Search",
     "searchPlaceholder": "Input search information",
     "free": "Free",
-    "register": "Register"
+    "register": "Register",
+    "add": "Add",
+    "addSuccess": "Added successfully",
+    "delete": "Delete",
+    "deleteSuccess": "deleted successfully",
+    "update": "Update",
+    "updateSuccess": "Updated successfully",
+    "detail": "Detail",
+    "back": "Back"
   },
 
   "footer": "Design & Develop by LPDEV",
@@ -57,6 +65,41 @@
       "title": "Dashboard",
       "unfinished": "Unfinished",
       "welcome": "Welcome to Digital Signage"
+    },
+    "user": {
+      "title": "User",
+      "info": "Information",
+      "name": "Name",
+      "email": "Email",
+      "phoneNumber": "Phone Number",
+      "username": "Username",
+      "password": "Password",
+      "enterpriseName":"Enterprise name",
+      "license": "License",
+      "type": "Type"
+    },
+    "license": {
+      "title": "License",
+      "name": "Name",
+      "deviceLimit": "Number of devices limit",
+      "expireTime": "Expire time"
+    },
+    "device": {
+      "title": "Device",
+      "info": "Info",
+      "content": "Content",
+      "name": "Name",
+      "status": "Status",
+      "activeTime": "Active time",
+      "inactiveTime": "Inactive time",
+      "license": "License"
+    },
+    "groupdevice": {
+      "title": "Group Device",
+      "info": "Info",
+      "name": "Name",
+      "description": "Description",
+      "location": "Location"
     }
   },
   "recover": {
@@ -99,5 +142,15 @@
   "watermark": {
     "development": "Digital Signage in DEV MODE",
     "production": ""
+  },
+  "user-detail": {
+    "user": {
+      "name": "Name",
+      "email": "Email",
+      "enterpriseName": "Enterprise",
+      "phoneNumber": "Phone Number",
+      "type": "Type",
+      "license": "License"
+    }
   }
 }

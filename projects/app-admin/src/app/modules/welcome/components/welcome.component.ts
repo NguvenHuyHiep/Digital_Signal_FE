@@ -257,56 +257,35 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
   public buildMenu(): void {
     this.menuList = this.user ? [
         {
-          icon: 'home',
-          title: 'Khóa học'
-        },
-        {
           title: 'Dashboard',
           icon: 'home',
           link: '/dashboard',
         },
-        {
-          title: 'Search',
-          icon: 'search',
-          link: '/',
+       {
+          title: 'Playlist',
+          icon: 'home',
+          link: '/playlist',
+        },
+        {  title: 'User',
+          icon: 'user',
+          link: '/user',
         },{
           title: 'Playlist',
           icon: 'home',
           link: '/playlist',
         },
-        {
-          title: 'Class',
-          icon: 'project',
-          link: '/class',
+        {  title: 'License',
+          icon: 'link',
+          link: '/license',
         },
         {
-          title: 'Curriculum',
-          icon: 'solution',
-          link: '/curriculum',
+          title: 'Device',
+          icon: 'laptop',
+          link: '/device',
         },
-        {
-          title: 'Online-zoom',
-          icon: 'wechat',
-          link: '/online-zoom',
-        },
-        {
+        {  title: 'Group',
           icon: 'home',
-          title: 'Thi'
-        },
-        {
-          title: 'Dashboard',
-          icon: 'home',
-          link: '/test/dashboard',
-        },
-        {
-          title: 'Thi trực tuyến',
-          icon: 'profile',
-          link: '/test',
-        },
-        {
-          title: 'Ôn luyện',
-          icon: 'read',
-          link: '/practice',
+          link: '/group',
         },
       ] :
       [

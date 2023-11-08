@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { FormGroupUser } from '../../../../../../app-admin/src/app/modules/user/components/user-type';
 import { Observable } from 'rxjs';
-import { AdminUserControllerService } from '../../../api/controller/adminUserController.service';
-import {User} from "../../../api/models/user";
-import {BaseOutputListUser} from "../../../api/models/baseOutputListUser";
+import { User } from '../../../api/models/user';
+import { BaseOutputListUser } from '../../../api/models/baseOutputListUser';
+import { AdminUsersAPIService } from '../../../api/controller/adminUsersAPI.service';
+import {HttpParams} from "@angular/common/http";
+import {tap} from "rxjs/operators";
+import {FormGroupUser} from "../../../../../../app-admin/src/app/modules/user/components/user-type";
 
 @Injectable()
 export class AdminUserService {
   constructor(
-    private adminUserControllerService: AdminUserControllerService,
+    private adminUsersAPIService: AdminUsersAPIService,
     private formBuilder: FormBuilder
   ) {}
 
@@ -28,7 +30,34 @@ export class AdminUserService {
     return form;
   }
 
-  public getAllUserByPaging(sortBy: string, sortDirection: string, keyword: string, page?: number, size?: number): Observable<BaseOutputListUser> {
-    return this.adminUserControllerService.getAllByPaging(sortBy, sortDirection, keyword, page, size)
-  }
+  public getAllUserByPaging(
+    page?: number,
+    size?: number,
+    sortBy?: string,
+    sortDirection?: string,
+    keyword?: string
+  ) {
+    let params = new HttpParams();
+
+    // Thêm các tham số vào HttpParams nếu chúng được cung cấp
+    if (page !== undefined && page !== null) {
+      params = params.set('page', page.toString());
+    }
+    if (size !== undefined && size !== null) {
+      params = params.set('size', size.toString());
+    }
+    if (sortBy) {
+      params = params.set('sortBy', sortBy);
+    }
+    if (sortDirection) {
+      params = params.set('sortDirection', sortDirection);
+    }
+    if (keyword) {
+      params = params.set('keyword', keyword);
+    }
+    return this.adminUsersAPIService.getAllByPaging()
+      .pipe(tap(response => console.log(response)))
+  };
+
+
 }
