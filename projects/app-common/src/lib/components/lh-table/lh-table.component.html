@@ -17,6 +17,10 @@
       <td *ngFor="let field of config.fields" [innerHTML]="getDisplayedValue(record, field)">
       </td>
 
+      <td>
+        <button [hidden]="config.disableDetail" nz-button nzType="text" (click)="detail(record)">{{'common.update' | translate}}</button>
+      </td>
+
       <td  style="width: 200px"  nzRight>
         <button [hidden]="config.disableUpdate" nz-button nzType="text" (click)="update(record)">{{'common.detail' | translate}}</button>
 <!--        <button nz-button nzType="text" (click)="detail(record)">{{'common.update' | translate}}</button>-->

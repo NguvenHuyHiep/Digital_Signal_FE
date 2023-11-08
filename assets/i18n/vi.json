@@ -46,6 +46,15 @@
     "welcomeback": "Chào mừng quay lại!"
   },
   "module": {
+    "groupdevice": {
+      "title": "Group Device",
+      "info": "Thông tin",
+      "name": "Tên Group",
+      "description": "Mô tả",
+      "location": "Địa chỉ",
+      "device": "Thiết bị",
+      "deviceAdd": "Thêm thiết bị"
+    },
     "dashboard": {
       "accuracy": "Chính xác",
       "averageTime": "Thời gian trung bình",

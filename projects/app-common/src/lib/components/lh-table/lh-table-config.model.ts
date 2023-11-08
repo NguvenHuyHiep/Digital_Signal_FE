@@ -9,6 +9,7 @@ export interface LhTableConfigModel {
   fields?: LhTableFieldConfigModel[];
   disableUpdate?: boolean;
   disableDelete?: boolean;
+  disableDetail?:boolean;
 }
 
 export interface LhTableFieldConfigModel {
