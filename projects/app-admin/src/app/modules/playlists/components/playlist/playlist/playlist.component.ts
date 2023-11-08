@@ -42,14 +42,24 @@ export class PlaylistComponent implements OnInit {
     key: 'id',
     fields: [
       {
-        label: 'name'
+        label: 'Tên'
         , field: 'name'
         , type: LhTableFieldType.STRING
       },
       {
-        label: 'email'
-        , field: 'playlist'
+        label: 'Mô tả'
+        , field: 'description'
         , type: LhTableFieldType.STRING
+      },
+      {
+        label: 'Thời gian bắt đầu'
+        , field: 'startTime'
+        , type: LhTableFieldType.DATE_TIME
+      },
+      {
+        label: 'Thời gian kết thúc'
+        , field: 'endTime'
+        , type: LhTableFieldType.DATE_TIME
       }
     ]
   };
@@ -98,8 +108,10 @@ export class PlaylistComponent implements OnInit {
     this.addComponent.addOrUpdate().subscribe({
       next: (response) => {
         if(response.data){
-          this.gotoSearch();
+          this.currentPlaylist = response.data;
           this.getAllPlaylist()
+          this.showFrame.search = true;
+          this.showFrame.add = false;
         }
       }  , error: err => {
         // TODO i18n
@@ -107,7 +119,7 @@ export class PlaylistComponent implements OnInit {
         this.loading.searching = false;
       }
       , complete: () => {
-        this.loading.searching = false;
+        this.loading.adding = false;
       }
     })
   }

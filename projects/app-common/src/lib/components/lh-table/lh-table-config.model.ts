@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 export enum LhTableFieldType {
-  STRING = 'string', NUMBER = 'number', CURRENCY = 'currency', DATE = 'date', HTML = 'html'
+  STRING = 'string', NUMBER = 'number', CURRENCY = 'currency', DATE = 'date', HTML = 'html', DATE_TIME = 'datetime'
 }
 
 export interface LhTableConfigModel {
