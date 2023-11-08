@@ -28,7 +28,7 @@
       [nzSelected]="currentDevice?.id === device.id"
       (click)="setCurrentDevice(device)"
     >
-      <span class="menu-item-text">{{ device.deviceName }}</span>
+      <span class="menu-item-text">{{ device.name }}</span>
       <button nz-button nzType="text" (click)="updateDevice(device)">
         <span nz-icon nzType="edit"></span>
       </button>

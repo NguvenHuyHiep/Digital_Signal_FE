@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { User } from '../../../api/models/user';
-import { BaseOutputListUser } from '../../../api/models/baseOutputListUser';
 import { AdminUsersAPIService } from '../../../api/controller/adminUsersAPI.service';
 import {HttpParams} from "@angular/common/http";
 import {tap} from "rxjs/operators";
@@ -23,7 +22,6 @@ export class AdminUserService {
       password: [user?.password || ''],
       email: [user?.email || ''],
       phone: [user?.phone || ''],
-      roles: [user?.roles || ''],
       firstName: [user?.firstName || ''],
       lastName: [user?.lastName || ''],
     }) as FormGroupUser;
