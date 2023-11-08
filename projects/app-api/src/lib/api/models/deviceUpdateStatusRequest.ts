@@ -9,23 +9,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { User } from './user';
-import { DeviceGroup } from './deviceGroup';
-import { DeviceLog } from './deviceLog';
 
 
-export interface Device { 
-    id?: number;
+export interface DeviceUpdateStatusRequest { 
     code?: string;
-    name?: string;
-    information?: string;
-    description?: string;
-    status?: Device.StatusEnum;
-    user?: User;
-    deviceGroup?: DeviceGroup;
-    deviceLogs?: Array<DeviceLog>;
+    status?: DeviceUpdateStatusRequest.StatusEnum;
 }
-export namespace Device {
+export namespace DeviceUpdateStatusRequest {
     export type StatusEnum = 'ONLINE' | 'OFFLINE' | 'UNDEFINED';
     export const StatusEnum = {
         Online: 'ONLINE' as StatusEnum,

@@ -9,18 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { User } from './user';
-import { DsdFile } from './dsdFile';
+import { Device } from './device';
 
 
-export interface Playlist { 
+export interface DeviceLog { 
     id?: number;
-    name?: string;
-    description?: string;
-    startTime?: string;
-    endTime?: string;
-    isLoop?: boolean;
-    files?: Array<DsdFile>;
-    user?: User;
+    date?: string;
+    device?: Device;
 }
 

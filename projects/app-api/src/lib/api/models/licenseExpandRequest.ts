@@ -11,15 +11,8 @@
  */
 
 
-export interface License { 
-    id?: number;
+export interface LicenseExpandRequest { 
     code?: string;
-    token?: string;
-    subject?: License;
-    publicKey?: string;
-    privateKey?: License;
-    activationDate?: string;
-    expirationDate?: string;
-    description?: string;
+    duration?: number;
 }
 

@@ -9,17 +9,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { DeviceLog } from './deviceLog';
 
 
-export interface License { 
-    id?: number;
-    code?: string;
-    token?: string;
-    subject?: License;
-    publicKey?: string;
-    privateKey?: License;
-    activationDate?: string;
-    expirationDate?: string;
-    description?: string;
+export interface BaseOutputDeviceLog { 
+    errors?: Array<string>;
+    message?: string;
+    currentPage?: number;
+    pageSize?: number;
+    totalPages?: number;
+    data?: DeviceLog;
 }
 

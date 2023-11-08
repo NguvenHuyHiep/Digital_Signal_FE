@@ -19,13 +19,13 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { BaseOutputDeviceGroup } from '../models/baseOutputDeviceGroup';
+import { BaseOutputDeviceLog } from '../models/baseOutputDeviceLog';
 // @ts-ignore
-import { BaseOutputListDeviceGroup } from '../models/baseOutputListDeviceGroup';
+import { BaseOutputListDeviceLog } from '../models/baseOutputListDeviceLog';
 // @ts-ignore
 import { BaseOutputString } from '../models/baseOutputString';
 // @ts-ignore
-import { DeviceGroup } from '../models/deviceGroup';
+import { DeviceLog } from '../models/deviceLog';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -36,7 +36,7 @@ import { Configuration }                                     from '../configurat
 @Injectable({
   providedIn: 'root'
 })
-export class AdminDeviceGroupControllerService {
+export class AdminDeviceLogControllerService {
 
     protected basePath = 'http://aninfosys.asia:8079/dsd';
     public defaultHeaders = new HttpHeaders();
@@ -98,22 +98,18 @@ export class AdminDeviceGroupControllerService {
     }
 
     /**
-     * Assign devices to device group
-     * Return Assigned devices to device group
-     * @param id 
-     * @param requestBody 
+     * Create DeviceLog
+     * Returns created DeviceLog
+     * @param deviceLog 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public assignDevices(id: number, requestBody: Array<number>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputDeviceGroup>;
-    public assignDevices(id: number, requestBody: Array<number>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputDeviceGroup>>;
-    public assignDevices(id: number, requestBody: Array<number>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputDeviceGroup>>;
-    public assignDevices(id: number, requestBody: Array<number>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling assignDevices.');
-        }
-        if (requestBody === null || requestBody === undefined) {
-            throw new Error('Required parameter requestBody was null or undefined when calling assignDevices.');
+    public create6(deviceLog: DeviceLog, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputDeviceLog>;
+    public create6(deviceLog: DeviceLog, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputDeviceLog>>;
+    public create6(deviceLog: DeviceLog, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputDeviceLog>>;
+    public create6(deviceLog: DeviceLog, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
+        if (deviceLog === null || deviceLog === undefined) {
+            throw new Error('Required parameter deviceLog was null or undefined when calling create6.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -163,11 +159,11 @@ export class AdminDeviceGroupControllerService {
             }
         }
 
-        let localVarPath = `/api/v1/admin/device-group/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}/devices`;
-        return this.httpClient.request<BaseOutputDeviceGroup>('put', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/v1/admin/device-log`;
+        return this.httpClient.request<BaseOutputDeviceLog>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: requestBody,
+                body: deviceLog,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -178,94 +174,18 @@ export class AdminDeviceGroupControllerService {
     }
 
     /**
-     * Create a new device-group
-     * Create a new device-group
-     * @param deviceGroup 
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public create7(deviceGroup: DeviceGroup, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputDeviceGroup>;
-    public create7(deviceGroup: DeviceGroup, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputDeviceGroup>>;
-    public create7(deviceGroup: DeviceGroup, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputDeviceGroup>>;
-    public create7(deviceGroup: DeviceGroup, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
-        if (deviceGroup === null || deviceGroup === undefined) {
-            throw new Error('Required parameter deviceGroup was null or undefined when calling create7.');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (bearerAuth) required
-        localVarCredential = this.configuration.lookupCredential('bearerAuth');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                '*/*'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'blob';
-            }
-        }
-
-        let localVarPath = `/api/v1/admin/device-group`;
-        return this.httpClient.request<BaseOutputDeviceGroup>('post', `${this.configuration.basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                body: deviceGroup,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Delete a device-group by id
-     * Return deleted device-group
+     * Delete a Device Log by id
+     * Return deleted Device Log
      * @param id 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public delete8(id: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputString>;
-    public delete8(id: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputString>>;
-    public delete8(id: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputString>>;
-    public delete8(id: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
+    public delete7(id: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any>;
+    public delete7(id: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<any>>;
+    public delete7(id: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<any>>;
+    public delete7(id: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling delete8.');
+            throw new Error('Required parameter id was null or undefined when calling delete7.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -306,8 +226,8 @@ export class AdminDeviceGroupControllerService {
             }
         }
 
-        let localVarPath = `/api/v1/admin/device-group/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
-        return this.httpClient.request<BaseOutputString>('delete', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/v1/admin/device-log/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
+        return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -320,18 +240,18 @@ export class AdminDeviceGroupControllerService {
     }
 
     /**
-     * Get a device-group by id
-     * Returns a device-group as per the id
+     * Get DeviceLog with pagination by id
+     * Returns DeviceLog by ID
      * @param id 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getById8(id: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputDeviceGroup>;
-    public getById8(id: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputDeviceGroup>>;
-    public getById8(id: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputDeviceGroup>>;
-    public getById8(id: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
+    public getById7(id: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputDeviceLog>;
+    public getById7(id: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputDeviceLog>>;
+    public getById7(id: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputDeviceLog>>;
+    public getById7(id: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling getById8.');
+            throw new Error('Required parameter id was null or undefined when calling getById7.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -372,8 +292,8 @@ export class AdminDeviceGroupControllerService {
             }
         }
 
-        let localVarPath = `/api/v1/admin/device-group/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
-        return this.httpClient.request<BaseOutputDeviceGroup>('get', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/v1/admin/device-log/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
+        return this.httpClient.request<BaseOutputDeviceLog>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -386,8 +306,8 @@ export class AdminDeviceGroupControllerService {
     }
 
     /**
-     * Get all device-groups with pagination
-     * Returns all device-groups with pagination
+     * Get all DeviceLog with pagination
+     * Returns all DeviceLog with pagination
      * @param page 
      * @param size 
      * @param sortBy 
@@ -396,10 +316,10 @@ export class AdminDeviceGroupControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getByPaging9(page?: number, size?: number, sortBy?: string, sortDirection?: string, keyword?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputListDeviceGroup>;
-    public getByPaging9(page?: number, size?: number, sortBy?: string, sortDirection?: string, keyword?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputListDeviceGroup>>;
-    public getByPaging9(page?: number, size?: number, sortBy?: string, sortDirection?: string, keyword?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputListDeviceGroup>>;
-    public getByPaging9(page?: number, size?: number, sortBy?: string, sortDirection?: string, keyword?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
+    public getByPaging8(page?: number, size?: number, sortBy?: string, sortDirection?: string, keyword?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputListDeviceLog>;
+    public getByPaging8(page?: number, size?: number, sortBy?: string, sortDirection?: string, keyword?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputListDeviceLog>>;
+    public getByPaging8(page?: number, size?: number, sortBy?: string, sortDirection?: string, keyword?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputListDeviceLog>>;
+    public getByPaging8(page?: number, size?: number, sortBy?: string, sortDirection?: string, keyword?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (page !== undefined && page !== null) {
@@ -461,8 +381,8 @@ export class AdminDeviceGroupControllerService {
             }
         }
 
-        let localVarPath = `/api/v1/admin/device-group`;
-        return this.httpClient.request<BaseOutputListDeviceGroup>('get', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/v1/admin/device-log`;
+        return this.httpClient.request<BaseOutputListDeviceLog>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -476,22 +396,22 @@ export class AdminDeviceGroupControllerService {
     }
 
     /**
-     * Update a device-group by id
-     * Return updated device-group
+     * Update DeviceLog
+     * Returns updated DeviceLog
      * @param id 
-     * @param deviceGroup 
+     * @param deviceLog 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public update7(id: number, deviceGroup: DeviceGroup, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputDeviceGroup>;
-    public update7(id: number, deviceGroup: DeviceGroup, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputDeviceGroup>>;
-    public update7(id: number, deviceGroup: DeviceGroup, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputDeviceGroup>>;
-    public update7(id: number, deviceGroup: DeviceGroup, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
+    public update6(id: number, deviceLog: DeviceLog, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputDeviceLog>;
+    public update6(id: number, deviceLog: DeviceLog, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputDeviceLog>>;
+    public update6(id: number, deviceLog: DeviceLog, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputDeviceLog>>;
+    public update6(id: number, deviceLog: DeviceLog, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling update7.');
+            throw new Error('Required parameter id was null or undefined when calling update6.');
         }
-        if (deviceGroup === null || deviceGroup === undefined) {
-            throw new Error('Required parameter deviceGroup was null or undefined when calling update7.');
+        if (deviceLog === null || deviceLog === undefined) {
+            throw new Error('Required parameter deviceLog was null or undefined when calling update6.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -541,11 +461,11 @@ export class AdminDeviceGroupControllerService {
             }
         }
 
-        let localVarPath = `/api/v1/admin/device-group/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
-        return this.httpClient.request<BaseOutputDeviceGroup>('put', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/v1/admin/device-log/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
+        return this.httpClient.request<BaseOutputDeviceLog>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: deviceGroup,
+                body: deviceLog,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

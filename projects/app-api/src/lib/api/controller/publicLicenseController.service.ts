@@ -19,7 +19,9 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { BaseOutputString } from '../models/baseOutputString';
+import { BaseOutputLicense } from '../models/baseOutputLicense';
+// @ts-ignore
+import { LicenseVerifyRequest } from '../models/licenseVerifyRequest';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -30,7 +32,7 @@ import { Configuration }                                     from '../configurat
 @Injectable({
   providedIn: 'root'
 })
-export class SignedTestControllerService {
+export class PublicLicenseControllerService {
 
     protected basePath = 'http://aninfosys.asia:8079/dsd';
     public defaultHeaders = new HttpHeaders();
@@ -92,13 +94,17 @@ export class SignedTestControllerService {
     }
 
     /**
+     * @param licenseVerifyRequest 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public testAdmin(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputString>;
-    public testAdmin(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputString>>;
-    public testAdmin(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputString>>;
-    public testAdmin(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
+    public verify(licenseVerifyRequest: LicenseVerifyRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputLicense>;
+    public verify(licenseVerifyRequest: LicenseVerifyRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputLicense>>;
+    public verify(licenseVerifyRequest: LicenseVerifyRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputLicense>>;
+    public verify(licenseVerifyRequest: LicenseVerifyRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
+        if (licenseVerifyRequest === null || licenseVerifyRequest === undefined) {
+            throw new Error('Required parameter licenseVerifyRequest was null or undefined when calling verify.');
+        }
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -120,6 +126,15 @@ export class SignedTestControllerService {
         }
 
 
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -131,10 +146,11 @@ export class SignedTestControllerService {
             }
         }
 
-        let localVarPath = `/api/v1/signed/test/endpoint`;
-        return this.httpClient.request<BaseOutputString>('get', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/v1/public/license/verify`;
+        return this.httpClient.request<BaseOutputLicense>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: licenseVerifyRequest,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

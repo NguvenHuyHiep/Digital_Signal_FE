@@ -11,15 +11,7 @@
  */
 
 
-export interface License { 
-    id?: number;
+export interface LicenseVerifyRequest { 
     code?: string;
-    token?: string;
-    subject?: License;
-    publicKey?: string;
-    privateKey?: License;
-    activationDate?: string;
-    expirationDate?: string;
-    description?: string;
 }
 
