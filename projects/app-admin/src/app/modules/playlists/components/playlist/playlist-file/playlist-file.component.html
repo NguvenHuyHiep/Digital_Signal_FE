@@ -1,0 +1,69 @@
+<nz-layout>
+  <ng-container *ngIf="showFrame.addFile">
+    <ng-container *ngTemplateOutlet="FileAdd"></ng-container>
+  </ng-container>
+  <div nz-row style="padding: 16px; margin-top: 10px; background: white">
+    <div nz-col nzMd="24" nzLg="16">
+      <nz-card
+        style="width: 100%"
+        [nzBordered]="false"
+        [nzTitle]="'module.file.list-file' | translate"
+        [nzExtra]="FileAction"
+      >
+        <ng-container *ngTemplateOutlet="FileList"> </ng-container>
+      </nz-card>
+    </div>
+  </div>
+</nz-layout>
+<ng-template #FileAction>
+  <button nz-button nzType="link" (click)="openAddFile()">
+    <span  nz-icon nzType="plus"></span>
+  </button>
+</ng-template>
+<ng-template #FileList>
+  <nz-skeleton [nzActive]="true" *ngIf="loading.file"></nz-skeleton>
+  <ul nz-menu nzMode="inline">
+    <li
+      *ngFor="let file of files"
+      nz-menu-item
+      [nzSelected]="currentFile?.id === file.id"
+      (click)="setCurrentLesson(file)"
+    >
+      <span class="menu-item-text">{{ file.name }}</span>
+      <button nz-button nzType="text" (click)="updateFile(file)">
+        <span nz-icon nzType="edit"></span>
+      </button>
+      <button nz-button nzType="text" (click)="deleteLesson(file)" nzDanger>
+        <span nz-icon nzType="delete"></span>
+      </button>
+    </li>
+  </ul>
+</ng-template>
+
+<ng-template #FileAdd>
+  <nz-card
+    style="width: 100%"
+    [nzBordered]="false"
+    [nzTitle]="
+      (currentFile?.id ? 'module.playlist.update' : 'module.playlist.add')
+        | translate
+    "
+    [nzExtra]="fileAddAction"
+  >
+    <app-admin-file-add
+      [playlist]="playlists"
+      [file]="currentFile"
+      #FileAddComponent
+    ></app-admin-file-add>
+  </nz-card>
+  <ng-template #fileAddAction>
+    <button nz-button nzType="text" class="mb-2" (click)="cancelAddFile()">
+      {{ "common.cancel" | translate }}
+    </button>
+
+    <button nz-button nzType="primary" class="mb-2" (click)="addFile()">
+      {{ (currentFile?.id ? "common.update" : "common.add") | translate }}
+    </button>
+  </ng-template>
+</ng-template>
+

@@ -1,16 +1,17 @@
 import {concat, forkJoin, map, Observable, switchMap} from "rxjs";
-import {ResponseUserInfo, TokenReturn} from "../../api";
 import {STORAGE_KEY} from "./storage-enum";
 import {AppSetting} from "../language/appSetting";
+import {BaseOutputString} from "../../api/models/baseOutputString";
+import {BaseOutputUser} from "../../api/models/baseOutputUser";
 
 export abstract class BaseStorage implements IBaseStorage {
 
-  public get token(): Observable<TokenReturn | undefined> {
-    return this.get<TokenReturn | undefined>(STORAGE_KEY.AUTHEN_TOKEN);
+  public get token(): Observable<BaseOutputString | undefined> {
+    return this.get<BaseOutputString | undefined>(STORAGE_KEY.AUTHEN_TOKEN);
   }
 
-  public get currentUser(): Observable<ResponseUserInfo | undefined> {
-    return this.get<ResponseUserInfo | undefined>(STORAGE_KEY.CURRENT_USER);
+  public get currentUser(): Observable<BaseOutputUser | undefined> {
+    return this.get<BaseOutputUser | undefined>(STORAGE_KEY.CURRENT_USER);
   }
 
   get language(): Observable<string | undefined> {
@@ -19,24 +20,24 @@ export abstract class BaseStorage implements IBaseStorage {
     );
   }
 
-  public setToken(token?: TokenReturn): Observable<any> {
-    return this.set<TokenReturn | undefined>(STORAGE_KEY.AUTHEN_TOKEN, token);
+  public setToken(token?: BaseOutputString): Observable<any> {
+    return this.set<BaseOutputString | undefined>(STORAGE_KEY.AUTHEN_TOKEN, token);
   }
 
-  public setCurrentUser(user?: ResponseUserInfo): Observable<any> {
-    return this.set<ResponseUserInfo | undefined>(STORAGE_KEY.CURRENT_USER, user);
+  public setCurrentUser(user?: BaseOutputUser): Observable<any> {
+    return this.set<BaseOutputUser | undefined>(STORAGE_KEY.CURRENT_USER, user);
   }
 
   getAppSetting(): Observable<AppSetting | undefined> {
     return this.token.pipe(
-      switchMap(token => this.get<AppSetting | undefined>(STORAGE_KEY.APP_SETTING, token?.userid || 'DEFAULT'))
+      switchMap(token => this.get<AppSetting | undefined>(STORAGE_KEY.APP_SETTING,  'DEFAULT'))
     );
   }
 
   setAppSetting(appSetting?: AppSetting): Observable<any> {
     return this.token.pipe(
       switchMap(token => {
-        let appSettingId =  token?.userid || 'DEFAULT';
+        let appSettingId =   'DEFAULT';
         if(appSetting){
           appSetting.userId = appSettingId;
         }
@@ -65,13 +66,13 @@ export abstract class BaseStorage implements IBaseStorage {
 
 export interface IBaseStorage {
 
-  get token(): Observable<TokenReturn | undefined>;
+  get token(): Observable<BaseOutputString | undefined>;
 
-  get currentUser(): Observable<ResponseUserInfo | undefined>;
+  get currentUser(): Observable<BaseOutputUser | undefined>;
 
-  setToken(token?: TokenReturn): Observable<any>;
+  setToken(token?: BaseOutputString): Observable<any>;
 
-  setCurrentUser(user?: ResponseUserInfo): Observable<any>;
+  setCurrentUser(user?: BaseOutputUser): Observable<any>;
 
   get language(): Observable<string | undefined>;
 

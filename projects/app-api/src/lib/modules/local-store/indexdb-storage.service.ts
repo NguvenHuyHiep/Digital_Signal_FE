@@ -1,9 +1,7 @@
 import {Injectable} from '@angular/core';
-import {ResponseUserInfo, TokenReturn} from "../../api";
 import {BaseStorage} from "./base-storage";
-import {concatWith, map, Observable, switchMap} from "rxjs";
+import {map, Observable, switchMap} from "rxjs";
 import {NgxIndexedDBService} from "ngx-indexed-db";
-import {STORAGE_KEY} from "./storage-enum";
 
 @Injectable({
   providedIn: 'root'
@@ -22,10 +20,10 @@ export class IndexdbStorageService extends BaseStorage {
 
   protected set<T>(storeName: string, value: T, key?: string): Observable<any> {
     if (value && value != null) {
-      return key ?  this.dbService.update(storeName, value) : this.dbService.clear(storeName).pipe(
-        switchMap( ()=> this.dbService.add(storeName, value))
+      return key ? this.dbService.update(storeName, value) : this.dbService.clear(storeName).pipe(
+        switchMap(() => this.dbService.add(storeName, value))
       );
     }
-    return key? this.dbService.deleteByKey(storeName, key) : this.dbService.clear(storeName);
+    return key ? this.dbService.deleteByKey(storeName, key) : this.dbService.clear(storeName);
   }
 }

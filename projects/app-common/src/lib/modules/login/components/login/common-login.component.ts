@@ -53,8 +53,7 @@ export class CommonLoginComponent implements OnInit {
       this.authenService
         .login(
           this.validateForm.controls['userName'].value,
-          this.validateForm.controls['password'].value,
-          this.validateForm.controls['remember'].value
+          this.validateForm.controls['password'].value
         )
         .subscribe({
           error: (err) => {},

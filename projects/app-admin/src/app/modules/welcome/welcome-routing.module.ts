@@ -7,7 +7,17 @@ const routes: Routes = [{
     path: 'dashboard', data: {
       label: 'module.dashboard.title',
     }, loadChildren: () => import('../dashboard/dashboard.module').then((m) => m.DashboardModule),
-  }],
+  },
+    {
+      path: 'playlist',
+      data: {
+        label: 'List Playlist',
+      },
+      loadChildren: () =>
+        import('../playlists/playlists.module').then(
+          (m) => m.PlaylistsModule
+        ),
+    }],
 },];
 
 @NgModule({

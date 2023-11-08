@@ -1,0 +1,37 @@
+<form nz-form [formGroup]="form">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4">{{
+      "module.file.name" | translate
+      }}</nz-form-label>
+    <nz-form-control [nzSpan]="14" [formGroup]="form">
+      <input
+        formControlName="name"
+        name="name"
+        nz-input
+      />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4"
+                   nzFor="contentType">{{ 'module.file.contentType'  | translate}}</nz-form-label>
+    <nz-form-control [nzSpan]="14" [formGroup]="form">
+      <nz-select name="contentType" formControlName="contentType" type="contentType"
+                 id="contentType"
+                 [nzPlaceHolder]="'module.file.chooseContentType' | translate">
+        <nz-option [nzLabel]="'module.file.contentTypes-video' | translate"
+                   nzValue="1"></nz-option>
+        <nz-option [nzLabel]="'module.file.contentTypes-img' | translate"
+                   nzValue="2"></nz-option>
+      </nz-select>
+
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4" nzFor="path">{{ 'module.playlist.file'  | translate}}</nz-form-label>
+    <nz-form-control [nzSpan]="14" [formGroup]="form">
+<!--      <lib-lh-upload-file [control]="form.controls.path"></lib-lh-upload-file>-->
+    </nz-form-control>
+  </nz-form-item>
+
+</form>

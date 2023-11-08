@@ -32,7 +32,7 @@ export class AppHttpInterceptor implements HttpInterceptor {
         },
         error => {
           if (error instanceof HttpResponseBase && error.status === 401) {
-            this.store.dispatch(SIGN_OUT());
+            // this.store.dispatch(SIGN_OUT());
           }
         }
       ),

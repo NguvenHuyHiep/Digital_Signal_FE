@@ -1,11 +1,9 @@
 import {Injectable} from '@angular/core';
-import { TokenReturn} from "../../api";
-import {LocalStoreModule} from "./local-store.module";
 import {BaseStorage, IBaseStorage} from "./base-storage";
 import {Observable} from "rxjs";
 import {IndexdbStorageService} from "./indexdb-storage.service";
 import {STORAGE_TYPE} from "./storage-enum";
-import {AppSetting} from "../language/appSetting";
+import {BaseOutputString} from "../../api/models/baseOutputString";
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +25,7 @@ export class LhStorageService implements IBaseStorage {
     return this.instance.currentUser;
   }
 
-  public get token(): Observable<TokenReturn | undefined> {
+  public get token(): Observable<BaseOutputString | undefined> {
     return this.instance.token;
   }
 
@@ -39,7 +37,7 @@ export class LhStorageService implements IBaseStorage {
     this.instance = this.indexDb;
   }
 
-  public setToken(token?: TokenReturn) {
+  public setToken(token?: BaseOutputString) {
     return this.instance.setToken(token);
   }
 

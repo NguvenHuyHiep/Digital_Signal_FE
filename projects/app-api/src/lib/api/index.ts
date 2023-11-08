@@ -1,8 +1,5 @@
 
-export * from './controller/auth/api';
-export * from './models';
 export * from './variables';
 export * from './configuration';
-export * from './api.module';
 export * from './api.module';
 export * from './param';
