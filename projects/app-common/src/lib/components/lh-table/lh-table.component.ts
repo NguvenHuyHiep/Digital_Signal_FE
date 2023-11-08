@@ -44,6 +44,9 @@ export class LhTableComponent<T extends Object> {
     if (field.type === LhTableFieldType.DATE) {
       return this.datePipe.transform(new Date(rawValue), 'dd/MM/yyyy');
     }
+    if (field.type === LhTableFieldType.DATE_TIME) {
+      return this.datePipe.transform(new Date(rawValue), 'dd/MM/yyyy HH:mm');
+    }
     return rawValue;
   }
 
