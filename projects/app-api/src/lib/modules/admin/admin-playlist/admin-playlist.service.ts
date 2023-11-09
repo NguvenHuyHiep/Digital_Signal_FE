@@ -1,4 +1,4 @@
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {FormArray, FormBuilder, Validators} from "@angular/forms";
 
 import {
@@ -7,15 +7,14 @@ import {
 } from "../../../../../../app-admin/src/app/modules/playlists/components/playlist";
 import {DsdFile} from "../../../api/models/dsdFile";
 import {Playlist} from "../../../api/models/playlist";
-import {map, mergeMap, Observable, of} from "rxjs";
-import {LH_API_VERSION} from "../../../../public-api";
+import {Observable} from "rxjs";
 
 import {HttpParams} from "@angular/common/http";
 
 import {tap} from "rxjs/operators";
-import {log} from "ng-zorro-antd/core/logger";
 import {AdminPlayListAPIService} from "../../../api/controller/adminPlayListAPI.service";
 import {BaseOutputPlaylist} from "../../../api/models/baseOutputPlaylist";
+import {BaseOutputString} from "../../../api/models/baseOutputString";
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +23,6 @@ export class AdminPlaylistService {
 
   constructor(private formBuilder: FormBuilder,
               private adminPlayListController: AdminPlayListAPIService
-    , @Inject(LH_API_VERSION) private apiVersion: string
   ) {
   }
 
@@ -54,16 +52,16 @@ export class AdminPlaylistService {
       name: [file?.name, [Validators.maxLength(200)]],
       fileType: [file?.fileType],
       path: [file?.path],
-      playlist: [ playlist?.id || ''],
+      playlist: [playlist?.id || ''],
     }) as unknown as FormGroupFile;
     return form;
   }
 
-  public getAllPlayList( page?: number,
-                         size?: number,
-                         sortBy?: string,
-                         sortDirection?: string,
-                         keyword?: string) {
+  public getAllPlayList(page?: number,
+                        size?: number,
+                        sortBy?: string,
+                        sortDirection?: string,
+                        keyword?: string) {
     let params = new HttpParams();
 
     // Thêm các tham số vào HttpParams nếu chúng được cung cấp
@@ -82,15 +80,20 @@ export class AdminPlaylistService {
     if (keyword) {
       params = params.set('keyword', keyword);
     }
- return this.adminPlayListController.getByPaging4()
-   .pipe(tap(response => console.log(response)));
+    return this.adminPlayListController.getByPaging4()
+      .pipe(tap(response => console.log(response)));
 
   }
 
   public addPlayList(playList: Playlist): Observable<BaseOutputPlaylist> {
     return this.adminPlayListController.create3(playList);
   }
+
   public updatePlayList(playList: Playlist): Observable<BaseOutputPlaylist> {
-    return this.adminPlayListController.update3( playList.id as number , playList);
+    return this.adminPlayListController.update3(playList.id as number, playList);
+  }
+
+  public delete(playList: number): Observable<BaseOutputString> {
+    return this.adminPlayListController.delete3(playList);
   }
 }

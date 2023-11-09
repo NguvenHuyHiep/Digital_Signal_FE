@@ -11,7 +11,7 @@ const routes: Routes = [{
     {
       path: 'playlist',
       data: {
-        label: 'List Playlist',
+        label: 'Danh sách phát',
       },
       loadChildren: () =>
         import('../playlists/playlists.module').then(

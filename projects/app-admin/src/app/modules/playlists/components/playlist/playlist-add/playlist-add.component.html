@@ -19,12 +19,12 @@
 
 <ng-template #info>
   <form [formGroup]="form" nz-form>
-    <div [nzLg]="8" [nzSm]="24" class="gutter-row" nz-col>
+
       <nz-form-item>
-        <nz-form-label>{{
-          "play-list.name" | translate
+        <nz-form-label [nzSpan]="4">{{
+          "module.playlist.name" | translate
           }}</nz-form-label>
-        <nz-form-control [formGroup]="form">
+        <nz-form-control [formGroup]="form" [nzSpan]="14">
           <input
             formControlName="name"
             name="name"
@@ -32,53 +32,53 @@
           />
         </nz-form-control>
       </nz-form-item>
-    </div>
-    <div [nzSpan]="24" class="gutter-row" nz-col>
+
+
       <nz-form-item>
-        <nz-form-label
-          nzFor="description">{{ 'module.class.description'  | translate}}</nz-form-label>
-        <nz-form-control [formGroup]="form">
+        <nz-form-label [nzSpan]="4"
+          nzFor="description">{{ 'module.playlist.description'  | translate}}</nz-form-label>
+        <nz-form-control [formGroup]="form" [nzSpan]="14">
           <input formControlName="description" id="description" name="description" nz-input
                                rows="5" type="description">
         </nz-form-control>
       </nz-form-item>
-    </div>
-    <div [nzLg]="8" [nzSm]="24" class="gutter-row" nz-col>
+
+
       <nz-form-item>
-        <nz-form-label nzFor="startTime">{{
-          "common.startTime" | translate
+        <nz-form-label nzFor="startTime" [nzSpan]="4">{{
+          "module.playlist.startTime" | translate
           }}</nz-form-label>
-        <nz-form-control [formGroup]="form">
+        <nz-form-control [formGroup]="form" [nzSpan]="14">
           <input
             formControlName="startTime"
             id="startTime"
           >
         </nz-form-control>
       </nz-form-item>
-    </div>
-    <div [nzLg]="8" [nzSm]="24" class="gutter-row" nz-col>
+
+
       <nz-form-item>
-        <nz-form-label nzFor="endTime">{{
-          "common.endTime" | translate
+        <nz-form-label nzFor="endTime"[nzSpan]="4">{{
+          "module.playlist.endTime" | translate
           }}</nz-form-label>
-        <nz-form-control [formGroup]="form">
+        <nz-form-control [formGroup]="form" [nzSpan]="14">
           <input
             formControlName="endTime"
             id="endTime"
           >
         </nz-form-control>
       </nz-form-item>
-    </div>
-    <div [nzLg]="8" [nzSm]="24" class="gutter-row" nz-col>
+
+
     <nz-form-item>
       <nz-form-label [nzSpan]="4">
-        {{ "question-detail.question.Answer1" | translate }}
+        {{ "module.playlist.isLoop" | translate }}
       </nz-form-label>
-      <nz-form-control [formGroup]="form" [nzSpan]="18">
+      <nz-form-control [formGroup]="form" [nzSpan]="14">
         <label nz-checkbox [nzChecked]="isChecked"
-               formControlName="isLoop"> {{ "question-detail.question.True" | translate }}</label>
+               formControlName="isLoop"> {{ "module.playlist.true" | translate }}</label>
       </nz-form-control>
     </nz-form-item>
-    </div>
+
   </form>
 </ng-template>

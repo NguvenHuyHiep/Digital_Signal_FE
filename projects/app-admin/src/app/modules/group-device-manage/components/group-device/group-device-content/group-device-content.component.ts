@@ -1,9 +1,8 @@
 import {Component, Input, ViewChild} from '@angular/core';
-import {GroupDevice} from "../group-device.interface";
-
 import {FormBuilder} from "@angular/forms";
 import {DeviceAddComponent} from "../../device/device-add/device-add.component";
 import {Device} from "../../../../../../../../app-api/src/lib/api/models/device";
+import {DeviceGroup} from "../../../../../../../../app-api/src/lib/api/models/deviceGroup";
 
 @Component({
   selector: 'app-admin-group-device-content',
@@ -11,7 +10,7 @@ import {Device} from "../../../../../../../../app-api/src/lib/api/models/device"
   styleUrls: ['./group-device-content.component.scss']
 })
 export class GroupDeviceContentComponent {
-  @Input() groupDevice?: GroupDevice
+  @Input() groupDevice?: DeviceGroup
 
   @ViewChild('deviceAddComponent', {static: false}) deviceAddComponent?: DeviceAddComponent;
 
