@@ -77,7 +77,7 @@ export class LhAuthenService {
     if (token && token != null) {
       this.authenticationService.configuration.withCredentials = true;
       this.authenticationService.configuration.credentials = {
-        'Bearer': `Bearer ${token.data}`
+        'Authorization': `${token.data}`
       };
       this._storageService.setToken(token).subscribe();
     } else {
