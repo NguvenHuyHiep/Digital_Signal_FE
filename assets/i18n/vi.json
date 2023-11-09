@@ -92,7 +92,9 @@
       "name": "Tên play list,",
       "description": "Mô tả play list",
       "startTime": "Thời gian bắt đầu",
-      "endTime": "Thời gian kết thúc"
+      "endTime": "Thời gian kết thúc",
+      "isLoop": "Vòng lặp",
+      "true": "Có"
     },
     "user": {
       "title": "User",
@@ -121,13 +123,6 @@
       "activeTime": "Thời gian chạy",
       "inactiveTime": "Thời gian dừng",
       "license": "License"
-    },
-    "groupdevice": {
-      "title": "Group Device",
-      "info": "Thông tin",
-      "name": "Tên Group",
-      "description": "Mô tả",
-      "location": "Địa chỉ"
     }
   },
   "recover": {

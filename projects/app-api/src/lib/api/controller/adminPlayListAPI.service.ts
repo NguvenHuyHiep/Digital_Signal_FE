@@ -269,6 +269,12 @@ export class AdminPlayListAPIService {
         }
 
         let localVarHeaders = this.defaultHeaders;
+      let localVarCredential: string | undefined;
+      // authentication (Bearer) required
+      localVarCredential = this.configuration.lookupCredential('Bearer');
+      if (localVarCredential) {
+        localVarHeaders = localVarHeaders.set('Authorization', localVarCredential);
+      }
 
         let localVarCredential: string | undefined;
         // authentication (bearerAuth) required

@@ -261,11 +261,6 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
           icon: 'home',
           link: '/dashboard',
         },
-       {
-          title: 'Playlist',
-          icon: 'home',
-          link: '/playlist',
-        },
         {  title: 'User',
           icon: 'user',
           link: '/user',
@@ -277,11 +272,6 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
         {  title: 'License',
           icon: 'link',
           link: '/license',
-        },
-        {
-          title: 'Device',
-          icon: 'laptop',
-          link: '/device',
         },
         {  title: 'Group Device',
           icon: 'home',

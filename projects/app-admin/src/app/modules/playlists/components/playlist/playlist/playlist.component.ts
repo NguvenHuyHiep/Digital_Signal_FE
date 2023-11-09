@@ -11,6 +11,7 @@ import {
 } from "../../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {LhAuthenService} from "../../../../../../../../app-api/src/lib/modules/authen/lh-authen.service";
+import {BaseOutputListPlaylist} from "../../../../../../../../app-api/src/lib/api/models/baseOutputListPlaylist";
 
 @Component({
   selector: 'app-admin-playlist',
@@ -37,8 +38,8 @@ export class PlaylistComponent implements OnInit {
     adding: false,
     searching: false
   };
-
   tableConfig: LhTableConfigModel = {
+    disableDetail: true,
     key: 'id',
     fields: [
       {
@@ -82,7 +83,7 @@ export class PlaylistComponent implements OnInit {
 
   getAllPlaylist(): void {
     this.loading.searching = true
-    this.playlistService.getAllPlayList().subscribe({
+    this.playlistService.getAllPlayList(0,10).subscribe({
       next: (response) => {
         if (response.data) {
           this.playlists = response.data as Array<Playlist>;
@@ -145,8 +146,17 @@ export class PlaylistComponent implements OnInit {
     this.showFrame.search = false;
   }
 
-  delete() {
-
+  delete(playList: Playlist) {
+    this.playlistService.delete(playList?.id as number).subscribe({
+      next: response => {
+        this.getAllPlaylist();
+      }, error: err => {
+        //TODO Xử lý exception
+      }
+      , complete: () => {
+        this.loading.searching = false;
+      }
+    })
   }
 
   goToSearch() {

@@ -1,8 +1,8 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {GroupDevice} from "../group-device.interface";
 import {FormGroupDevice} from "../../group-device-type";
 import {FormBuilder} from "@angular/forms";
 import {AdminGroupDeviceService} from "../../../../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.service";
+import {DeviceGroup} from "../../../../../../../../app-api/src/lib/api/models/deviceGroup";
 
 @Component({
   selector: 'app-admin-group-device-add',
@@ -11,7 +11,7 @@ import {AdminGroupDeviceService} from "../../../../../../../../app-api/src/lib/m
   providers: [AdminGroupDeviceService]
 })
 export class GroupDeviceAddComponent implements OnInit, OnChanges{
-  @Input() groupDeviceAdmin?: GroupDevice
+  @Input() groupDeviceAdmin?: DeviceGroup
 
   form: FormGroupDevice = this.groupDeviceService.buildGroupDeviceForm(this.groupDeviceAdmin)
 
