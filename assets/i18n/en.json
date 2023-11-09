@@ -153,5 +153,15 @@
       "lastName": "lastName",
       "license": "license"
     }
+  },
+  "license-detail": {
+    "license": {
+      "code": "Code ",
+      "token": "Token",
+      "publicKey": "Public Key",
+      "activationDate": "Activation Date",
+      "expirationDate": "Expiration Date",
+      "description": "Description"
+    }
   }
 }

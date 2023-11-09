@@ -92,7 +92,6 @@ export class UserComponent implements OnInit {
         next: (response) => {
           if (response.data) {
             this.users = response.data as Array<User>;
-            console.log(this.users + "user");
           }
         },
         error: (err) => {

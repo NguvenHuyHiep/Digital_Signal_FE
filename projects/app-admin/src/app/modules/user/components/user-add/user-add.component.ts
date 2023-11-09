@@ -32,9 +32,25 @@ export class UserAddComponent implements OnInit, OnChanges{
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    let currentValue = changes['user'].currentValue as User;
+    if(currentValue) {
+      this.form.patchValue(currentValue as any);
+      console.log('this.form', this.form.value);
+      this.form.controls.id?.setValue(
+        currentValue.id as number
+      )
+    }
+
+    console.log('this.form', this.form.value);
   }
 
   ngOnInit(): void {
+    if (this.userAdmin) {
+      this.form.patchValue(this.userAdmin as any);
+      console.log('ngOnInit', this.form.value);
+    }
+    this.getAllLicense();
+    this.form.valueChanges.subscribe((value) => console.log('value', value))
   }
 
   addUser(): Observable<BaseOutputUser> {
@@ -65,4 +81,7 @@ export class UserAddComponent implements OnInit, OnChanges{
     return this.adminUserService.updateUser(uptObj)
   }
 
+  private getAllLicense() {
+
+  }
 }

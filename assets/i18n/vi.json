@@ -176,5 +176,15 @@
       "lastName": "Họ",
       "license": "license"
     }
+  },
+  "license-detail": {
+    "license": {
+      "code": "Mã token ",
+      "token": "Token",
+      "publicKey": "khóa công khai",
+      "activationDate": "Ngày kích hoạt",
+      "expirationDate": "Ngày hết hạn",
+      "description": "Mô tả"
+    }
   }
 }

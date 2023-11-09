@@ -1,0 +1,10 @@
+<lh-common-page [hidden] = !showFrame.search pageTitle="List License">
+  <lh-common-lh-table
+    #table
+    [data]="licenses"
+    [config]="tableConfig"
+    [loading]="loading.searching"
+  ></lh-common-lh-table>
+</lh-common-page>
+
+
