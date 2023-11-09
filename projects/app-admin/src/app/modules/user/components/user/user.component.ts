@@ -10,6 +10,7 @@ import {AdminUserService} from "../../../../../../../app-api/src/lib/modules/adm
 import {TranslateService} from "@ngx-translate/core";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {BaseOutputListUser} from "../../../../../../../app-api/src/lib/api/models/baseOutputListUser";
+import {LhAuthenService} from "../../../../../../../app-api/src/lib/modules/authen/lh-authen.service";
 
 @Component({
   selector: 'app-admin-user',
@@ -25,10 +26,6 @@ export class UserComponent implements OnInit {
     add: false,
   };
 
-  paging: BaseOutputListUser = {
-    pageSize: 20,
-    currentPage: 1,
-  }
   users: Array<User> = [];
 
   @ViewChild('table') table?: LhTableComponent<User>;
@@ -62,19 +59,23 @@ export class UserComponent implements OnInit {
         type: LhTableFieldType.STRING,
       },
       {
-        label: 'user-detail.user.roles',
-        field: 'roles',
+        label: 'user-detail.user.license',
+        field: 'license.code',
         type: LhTableFieldType.STRING,
-      },
+      }
     ],
   };
   currentUser?: User;
 
+
   constructor(
     private adminUserService: AdminUserService,
     private translateService: TranslateService,
-    private message: NzMessageService
-  ) {}
+    private message: NzMessageService,
+    private authenService: LhAuthenService
+
+  ) {
+  }
 
   get isSelectedRow(): boolean {
     return (this.table?.setOfCheckedId?.size || 0) > 0;
@@ -87,7 +88,7 @@ export class UserComponent implements OnInit {
   getAll(): void {
     this.loading.searching = true;
     this.adminUserService
-      .getAllUserByPaging().subscribe({
+      .getAllUserByPaging(5, 10).subscribe({
         next: (response) => {
           if (response.data) {
             this.users = response.data as Array<User>;
@@ -95,9 +96,8 @@ export class UserComponent implements OnInit {
           }
         },
         error: (err) => {
-          //TODO xu ly exception
-          this.message.error("Error", err);
-          this.loading.searching = false;
+          this.message.create('error', err.message ? err.message : this.translateService.instant('common.error'));
+          console.log(err)
         },
         complete: () => {
           this.loading.searching = false;
@@ -119,8 +119,8 @@ export class UserComponent implements OnInit {
           this.showFrame.add = false;
         }
       }, error: err => {
-        this.message.error("Error", err);
-        this.loading.searching = false;
+        this.message.create('error', err.message ? err.message : this.translateService.instant('common.error'));
+        console.log(err)
       }
       ,complete: () => {
         this.loading.adding = false;
@@ -148,5 +148,16 @@ export class UserComponent implements OnInit {
     this.showFrame.search = false;
   }
 
-  delete() {}
+  delete(user: User) {
+    this.adminUserService.deleteUser(user?.id as number).subscribe({
+      next: response => {
+        this.getAll();
+      }, error: err => {
+        this.message.create('error', err.message ? err.message : this.translateService.instant('common.error'));
+        console.log(err)
+      }, complete: () => {
+        this.loading.searching = false
+      }
+    })
+  }
 }

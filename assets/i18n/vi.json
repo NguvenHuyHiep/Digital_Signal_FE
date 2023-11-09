@@ -173,7 +173,8 @@
       "phone": "Số điện thoại",
       "roles": "Vai trò",
       "firstName": "Tên",
-      "lastName": "Họ"
+      "lastName": "Họ",
+      "license": "license"
     }
   }
 }

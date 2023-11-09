@@ -6,8 +6,8 @@ export type FormGroupUser = FormGroup<{
   email?: FormControl<string>,
   userName?: FormControl <string>,
   password?: FormControl<string>,
-  roles?: FormControl<string>,
   firstName?: FormControl<string>,
   lastName?: FormControl<string>
+  license?: FormControl<string>
 }>
 

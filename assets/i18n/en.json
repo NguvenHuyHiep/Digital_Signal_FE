@@ -150,7 +150,8 @@
       "phone": "Phone",
       "roles": "Roles",
       "firstName": "firstName",
-      "lastName": "lastName"
+      "lastName": "lastName",
+      "license": "license"
     }
   }
 }

@@ -5,6 +5,7 @@ import {AdminUserService} from "../../../../../../../app-api/src/lib/modules/adm
 import {Observable} from "rxjs";
 import {FormGroupUser} from "../user-type";
 import {BaseOutputUser} from "../../../../../../../app-api/src/lib/api/models/baseOutputUser";
+import {License} from "../../../../../../../app-api/src/lib/api/models/license";
 
 @Component({
   selector: 'app-admin-user-add',
@@ -15,6 +16,7 @@ export class UserAddComponent implements OnInit, OnChanges{
   @Input() userAdmin?: User
   form: FormGroupUser = this.adminUserService.buildUserForm(this.userAdmin)
 
+  licenses?: Array<License>;
 
   tabs = [
     {
@@ -44,24 +46,21 @@ export class UserAddComponent implements OnInit, OnChanges{
       let addObj: User = {
         id: this.form.controls.id?.value,
         userName: this.form.controls.userName?.value,
-        // password: this.form.controls.password?.value,
+        password: this.form.controls.password?.value,
         email: this.form.controls.email?.value,
         phone: this.form.controls.phone?.value,
         firstName: this.form.controls.firstName?.value,
-        lastName: this.form.controls.lastName?.value,
-        // roles: this.form.controls.roles?.value
       };
       return this.adminUserService.addUser(addObj)
     }
     let uptObj: User = {
       id: this.form.controls.id?.value,
       userName: this.form.controls.userName?.value,
-      // password: this.form.controls.password?.value,
+      password: this.form.controls.password?.value,
       email: this.form.controls.email?.value,
       phone: this.form.controls.phone?.value,
       firstName: this.form.controls.firstName?.value,
       lastName: this.form.controls.lastName?.value,
-      // roles: this.form.controls.roles?.value
     };
     return this.adminUserService.updateUser(uptObj)
   }
