@@ -18,6 +18,15 @@ export interface BaseOutputLicense {
     currentPage?: number;
     pageSize?: number;
     totalPages?: number;
+    status?: BaseOutputLicense.StatusEnum;
     data?: License;
 }
+export namespace BaseOutputLicense {
+    export type StatusEnum = 'SUCCESS' | 'FAILED';
+    export const StatusEnum = {
+        Success: 'SUCCESS' as StatusEnum,
+        Failed: 'FAILED' as StatusEnum
+    };
+}
+
 

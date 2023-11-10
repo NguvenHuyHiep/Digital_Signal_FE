@@ -18,6 +18,15 @@ export interface BaseOutputDeviceLog {
     currentPage?: number;
     pageSize?: number;
     totalPages?: number;
+    status?: BaseOutputDeviceLog.StatusEnum;
     data?: DeviceLog;
 }
+export namespace BaseOutputDeviceLog {
+    export type StatusEnum = 'SUCCESS' | 'FAILED';
+    export const StatusEnum = {
+        Success: 'SUCCESS' as StatusEnum,
+        Failed: 'FAILED' as StatusEnum
+    };
+}
+
 

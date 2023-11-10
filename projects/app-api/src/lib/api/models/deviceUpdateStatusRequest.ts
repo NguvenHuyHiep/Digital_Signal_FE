@@ -12,6 +12,7 @@
 
 
 export interface DeviceUpdateStatusRequest { 
+    license?: string;
     code?: string;
     status?: DeviceUpdateStatusRequest.StatusEnum;
 }
