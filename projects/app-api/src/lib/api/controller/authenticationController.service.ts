@@ -54,7 +54,6 @@ export class AuthenticationControllerService {
             this.configuration.basePath = basePath;
         }
         this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
-        this.basePath = 'http://aninfosys.asia:8079/dsd' // TODO set dynamic basePath
     }
 
 

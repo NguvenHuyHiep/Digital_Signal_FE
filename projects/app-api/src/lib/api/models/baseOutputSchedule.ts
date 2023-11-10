@@ -18,6 +18,15 @@ export interface BaseOutputSchedule {
     currentPage?: number;
     pageSize?: number;
     totalPages?: number;
+    status?: BaseOutputSchedule.StatusEnum;
     data?: Schedule;
 }
+export namespace BaseOutputSchedule {
+    export type StatusEnum = 'SUCCESS' | 'FAILED';
+    export const StatusEnum = {
+        Success: 'SUCCESS' as StatusEnum,
+        Failed: 'FAILED' as StatusEnum
+    };
+}
+
 

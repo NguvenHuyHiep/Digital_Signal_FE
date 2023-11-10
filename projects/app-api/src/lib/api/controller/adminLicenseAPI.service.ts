@@ -386,18 +386,18 @@ export class AdminLicenseAPIService {
     }
 
     /**
-     * Create License
+     * Generate License
      * Returns created License
      * @param licenseGenerateRequest
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public generate(licenseGenerateRequest: LicenseGenerateRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputLicense>;
-    public generate(licenseGenerateRequest: LicenseGenerateRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputLicense>>;
-    public generate(licenseGenerateRequest: LicenseGenerateRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputLicense>>;
-    public generate(licenseGenerateRequest: LicenseGenerateRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
+    public generateByEmail(licenseGenerateRequest: LicenseGenerateRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputLicense>;
+    public generateByEmail(licenseGenerateRequest: LicenseGenerateRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputLicense>>;
+    public generateByEmail(licenseGenerateRequest: LicenseGenerateRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputLicense>>;
+    public generateByEmail(licenseGenerateRequest: LicenseGenerateRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
         if (licenseGenerateRequest === null || licenseGenerateRequest === undefined) {
-            throw new Error('Required parameter licenseGenerateRequest was null or undefined when calling generate.');
+            throw new Error('Required parameter licenseGenerateRequest was null or undefined when calling generateByEmail.');
         }
 
         let localVarHeaders = this.defaultHeaders;
