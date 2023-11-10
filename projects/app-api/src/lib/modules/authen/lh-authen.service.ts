@@ -70,6 +70,9 @@ export class LhAuthenService {
     });
   }
 
+  public getUserInfoByEmail(email: string): Observable<BaseOutputUser> {
+    return this.adminUsersAPIService.getByEmail(email)
+  }
 
   setApiKeys(token?: BaseOutputString): void {
 

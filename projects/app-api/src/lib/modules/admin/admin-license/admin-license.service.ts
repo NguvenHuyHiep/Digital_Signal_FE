@@ -8,6 +8,7 @@ import {Observable} from "rxjs";
 import {BaseOutputLicense} from "../../../api/models/baseOutputLicense";
 import {BaseOutputString} from "../../../api/models/baseOutputString";
 import {FormGroupLicense} from "../../../../../../app-admin/src/app/modules/license/components/license-type";
+import {LicenseGenerateRequest} from "../../../api/models/licenseGenerateRequest";
 
 @Injectable()
 export class AdminLicenseService {
@@ -65,5 +66,9 @@ export class AdminLicenseService {
     }) as FormGroupLicense
 
     return form;
+  }
+
+  public genLicense(licenseGenerateRequest: LicenseGenerateRequest):Observable<BaseOutputLicense> {
+    return this.adminLicenseAPIService.generateByEmail(licenseGenerateRequest)
   }
 }

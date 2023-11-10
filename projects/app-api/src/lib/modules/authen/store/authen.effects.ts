@@ -19,16 +19,17 @@ export class AuthenEffects {
       , tap((payload: { value?: BaseOutputString }) => {
         this.authenService.setApiKeys(payload.value);
 
-        // let authenObs =  this.authenService.userInfo(0).pipe(tap(
+        // let authenObs =  this.authenService.getUserInfoByEmail(payload.value)
         let authenObs = of<BaseOutputUser>({
           data: {
             id: 1
             , firstName: 'Test'
             , lastName: 'Test'
-            , email: ''
+            , email: 'dsdadmin@gmail.com'
             , phone: ''
           }
-        }).pipe(tap(
+        })
+          .pipe(tap(
           user => {
             this._store.dispatch(GET_USER_PROFILE({value: user}));
           }

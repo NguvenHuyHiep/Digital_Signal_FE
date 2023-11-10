@@ -5,19 +5,20 @@ import {AdminUserService} from "../../../../../../../app-api/src/lib/modules/adm
 import {Observable} from "rxjs";
 import {FormGroupUser} from "../user-type";
 import {BaseOutputUser} from "../../../../../../../app-api/src/lib/api/models/baseOutputUser";
-import {License} from "../../../../../../../app-api/src/lib/api/models/license";
+import {
+  AdminLicenseService
+} from "../../../../../../../app-api/src/lib/modules/admin/admin-license/admin-license.service";
+import {BaseOutputLicense} from "../../../../../../../app-api/src/lib/api/models/baseOutputLicense";
+import {LicenseGenerateRequest} from "../../../../../../../app-api/src/lib/api/models/licenseGenerateRequest";
 
 @Component({
   selector: 'app-admin-user-add',
   templateUrl: './user-add.component.html',
   styleUrls: ['./user-add.component.scss']
 })
-export class UserAddComponent implements OnInit, OnChanges{
+export class UserAddComponent implements OnInit, OnChanges {
   @Input() userAdmin?: User
   form: FormGroupUser = this.adminUserService.buildUserForm(this.userAdmin)
-
-  licenses?: Array<License>;
-
   tabs = [
     {
       code: 'info',
@@ -25,22 +26,27 @@ export class UserAddComponent implements OnInit, OnChanges{
     },
   ]
 
+  license?: string
+  licenseGen?: LicenseGenerateRequest
+
+  isValue?: string;
+
   constructor(
     private formBuilder: FormBuilder,
-    private adminUserService: AdminUserService
+    private adminUserService: AdminUserService,
+    private adminLicenService: AdminLicenseService
   ) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     let currentValue = changes['user'].currentValue as User;
-    if(currentValue) {
+    if (currentValue) {
       this.form.patchValue(currentValue as any);
       console.log('this.form', this.form.value);
       this.form.controls.id?.setValue(
         currentValue.id as number
       )
     }
-
     console.log('this.form', this.form.value);
   }
 
@@ -49,8 +55,10 @@ export class UserAddComponent implements OnInit, OnChanges{
       this.form.patchValue(this.userAdmin as any);
       console.log('ngOnInit', this.form.value);
     }
-    this.getAllLicense();
-    this.form.valueChanges.subscribe((value) => console.log('value', value))
+    this.form.controls
+    this.form.valueChanges.subscribe((value) => {
+      console.log('value', value)
+    })
   }
 
   addUser(): Observable<BaseOutputUser> {
@@ -81,7 +89,19 @@ export class UserAddComponent implements OnInit, OnChanges{
     return this.adminUserService.updateUser(uptObj)
   }
 
-  private getAllLicense() {
+  genLicense(): void {
+    let licenseGenerateRequest: LicenseGenerateRequest = {
+      email: this.userAdmin?.email,
+      duration: 1000 * 60 * 60 * 24
+    }
+    this.adminLicenService.genLicense(licenseGenerateRequest).subscribe(response => {
+      console.log(response);
+      if (response && response.data) {
+        if (this.userAdmin && this.userAdmin.license) {
+          this.userAdmin.license = response.data;
+        }
+      }
 
+    });
   }
 }

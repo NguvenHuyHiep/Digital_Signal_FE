@@ -97,20 +97,24 @@
         {{ "module.user.license" | translate }}
       </nz-form-label>
       <nz-form-control [formGroup]="form" [nzSpan]="14">
-        <nz-select
-          formControlName="license"
-          id="license"
-          name="license"
-          nzAllowClear
-          nzShowSearch
-        >
-          <nz-option
-            *ngFor="let license of licenses"
-            nzLabel="{{ license.code }}"
-            nzValue="{{ license.id }}"
-          ></nz-option>
-        </nz-select>
+        <nz-input-group nzSearch [nzAddOnAfter]="genLcsButton">
+          <input id="license" name="license" formControlName="license" type="text" nz-input placeholder="" />
+        </nz-input-group>
       </nz-form-control>
     </nz-form-item>
   </form>
+</ng-template>
+
+<ng-template #genLcsButton>
+  <button
+    id="generateLicense"
+    name="generateLicense"
+    nz-button
+    nzType="primary"
+    nzSearch
+    [disabled]="isValue ? true : null"
+    (click)="genLicense()"
+  >
+    +
+  </button>
 </ng-template>

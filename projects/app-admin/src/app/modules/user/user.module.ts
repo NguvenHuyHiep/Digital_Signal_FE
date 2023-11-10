@@ -16,6 +16,7 @@ import {AdminUserModule} from "../../../../../app-api/src/lib/modules/admin/admi
 import {NzLayoutModule} from "ng-zorro-antd/layout";
 import {NzSelectModule} from "ng-zorro-antd/select";
 import {UserRoutingModule} from "./user-routing.module";
+import {AdminLicenseModule} from "../../../../../app-api/src/lib/modules/admin/admin-license/admin-license.module";
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import {UserRoutingModule} from "./user-routing.module";
     AdminUserModule,
     NzLayoutModule,
     FormsModule,
-    NzSelectModule
+    NzSelectModule,
+    AdminLicenseModule
   ],
   providers: []
 })
