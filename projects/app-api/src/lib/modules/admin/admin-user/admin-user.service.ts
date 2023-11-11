@@ -25,8 +25,10 @@ export class AdminUserService {
       phone: [user?.phone || ''],
       firstName: [user?.firstName || ''],
       lastName: [user?.lastName || ''],
-      license: [user?.license?.code || ''],
-    }) as FormGroupUser;
+      // license: this.formBuilder.group({
+      //   code: [user?.license?.code]
+      // }),
+    }) as unknown as FormGroupUser; //TODO về sau bỏ unknown as đúng dạng
 
     return form;
   }

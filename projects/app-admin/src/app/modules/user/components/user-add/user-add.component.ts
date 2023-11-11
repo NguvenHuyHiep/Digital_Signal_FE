@@ -26,10 +26,7 @@ export class UserAddComponent implements OnInit, OnChanges {
     },
   ]
 
-  license?: string
-  licenseGen?: LicenseGenerateRequest
-
-  isValue?: string;
+  license = "";
 
   constructor(
     private formBuilder: FormBuilder,
@@ -46,6 +43,7 @@ export class UserAddComponent implements OnInit, OnChanges {
       this.form.controls.id?.setValue(
         currentValue.id as number
       )
+      this.license = this.userAdmin?.license?.code || "";
     }
     console.log('this.form', this.form.value);
   }
@@ -53,9 +51,11 @@ export class UserAddComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     if (this.userAdmin) {
       this.form.patchValue(this.userAdmin as any);
+      this.license = this.userAdmin?.license?.code || "";
       console.log('ngOnInit', this.form.value);
+      console.log('license', this.license);
     }
-    this.form.controls
+
     this.form.valueChanges.subscribe((value) => {
       console.log('value', value)
     })
@@ -68,12 +68,12 @@ export class UserAddComponent implements OnInit, OnChanges {
     }
     if (!this.form.controls.id?.value) {
       let addObj: User = {
-        id: this.form.controls.id?.value,
         userName: this.form.controls.userName?.value,
         password: this.form.controls.password?.value,
         email: this.form.controls.email?.value,
         phone: this.form.controls.phone?.value,
         firstName: this.form.controls.firstName?.value,
+        lastName: this.form.controls.lastName?.value,
       };
       return this.adminUserService.addUser(addObj)
     }
@@ -85,6 +85,7 @@ export class UserAddComponent implements OnInit, OnChanges {
       phone: this.form.controls.phone?.value,
       firstName: this.form.controls.firstName?.value,
       lastName: this.form.controls.lastName?.value,
+      license: this.userAdmin?.license
     };
     return this.adminUserService.updateUser(uptObj)
   }
@@ -101,7 +102,8 @@ export class UserAddComponent implements OnInit, OnChanges {
           this.userAdmin.license = response.data;
         }
       }
-
     });
+    this.license = this.userAdmin?.license?.code || "";
+    console.log(this.license);
   }
 }
