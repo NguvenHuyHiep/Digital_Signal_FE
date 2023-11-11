@@ -18,6 +18,15 @@ export interface BaseOutputListPlaylist {
     currentPage?: number;
     pageSize?: number;
     totalPages?: number;
+    status?: BaseOutputListPlaylist.StatusEnum;
     data?: Array<Playlist>;
 }
+export namespace BaseOutputListPlaylist {
+    export type StatusEnum = 'SUCCESS' | 'FAILED';
+    export const StatusEnum = {
+        Success: 'SUCCESS' as StatusEnum,
+        Failed: 'FAILED' as StatusEnum
+    };
+}
+
 

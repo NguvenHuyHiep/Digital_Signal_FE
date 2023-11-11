@@ -15,7 +15,6 @@ export interface License {
     id?: number;
     code?: string;
     token?: string;
-    subject?: License;
     publicKey?: string;
     privateKey?: License;
     activationDate?: string;

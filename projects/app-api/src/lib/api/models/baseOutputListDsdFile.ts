@@ -18,6 +18,15 @@ export interface BaseOutputListDsdFile {
     currentPage?: number;
     pageSize?: number;
     totalPages?: number;
+    status?: BaseOutputListDsdFile.StatusEnum;
     data?: Array<DsdFile>;
 }
+export namespace BaseOutputListDsdFile {
+    export type StatusEnum = 'SUCCESS' | 'FAILED';
+    export const StatusEnum = {
+        Success: 'SUCCESS' as StatusEnum,
+        Failed: 'FAILED' as StatusEnum
+    };
+}
+
 

@@ -18,6 +18,15 @@ export interface BaseOutputRole {
     currentPage?: number;
     pageSize?: number;
     totalPages?: number;
+    status?: BaseOutputRole.StatusEnum;
     data?: Role;
 }
+export namespace BaseOutputRole {
+    export type StatusEnum = 'SUCCESS' | 'FAILED';
+    export const StatusEnum = {
+        Success: 'SUCCESS' as StatusEnum,
+        Failed: 'FAILED' as StatusEnum
+    };
+}
+
 
