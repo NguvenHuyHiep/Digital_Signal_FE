@@ -13,7 +13,13 @@
         {{ "module.user.userName" | translate }}
       </nz-form-label>
       <nz-form-control [formGroup]="form" [nzSpan]="14">
-        <input nz-input type="text" formControlName="userName" id="userName" name="userName">
+        <input
+          formControlName="userName"
+          id="userName"
+          name="userName"
+          nz-input
+          type="text"
+        />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -21,7 +27,13 @@
         {{ "module.user.password" | translate }}
       </nz-form-label>
       <nz-form-control [formGroup]="form" [nzSpan]="14">
-        <input nz-input type="text" formControlName="password" id="password" name="password">
+        <input
+          formControlName="password"
+          id="password"
+          name="password"
+          nz-input
+          type="password"
+        />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -29,7 +41,13 @@
         {{ "module.user.email" | translate }}
       </nz-form-label>
       <nz-form-control [formGroup]="form" [nzSpan]="14">
-        <input nz-input type="text" formControlName="email" id="email" name="email">
+        <input
+          formControlName="email"
+          id="email"
+          name="email"
+          nz-input
+          type="text"
+        />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -37,7 +55,13 @@
         {{ "module.user.phone" | translate }}
       </nz-form-label>
       <nz-form-control [formGroup]="form" [nzSpan]="14">
-        <input nz-input type="text" formControlName="phone" id="phone" name="phone">
+        <input
+          formControlName="phone"
+          id="phone"
+          name="phone"
+          nz-input
+          type="text"
+        />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -45,7 +69,13 @@
         {{ "module.user.firstName" | translate }}
       </nz-form-label>
       <nz-form-control [formGroup]="form" [nzSpan]="14">
-        <input nz-input type="text" formControlName="firstName" id="firstName" name="firstName">
+        <input
+          formControlName="firstName"
+          id="firstName"
+          name="firstName"
+          nz-input
+          type="text"
+        />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -53,20 +83,43 @@
         {{ "module.user.lastName" | translate }}
       </nz-form-label>
       <nz-form-control [formGroup]="form" [nzSpan]="14">
-        <input nz-input type="text" formControlName="lastName" id="lastName" name="lastName">
+        <input
+          formControlName="lastName"
+          id="lastName"
+          name="lastName"
+          nz-input
+          type="text"
+        />
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="4" nzFor="roles">
-        {{ "module.user.roles" | translate }}
-      </nz-form-label>
-      <nz-form-control [formGroup]="form" [nzSpan]="14">
-        <nz-select formControlName="roles"
-                   [nzPlaceHolder]="'module.user.roles' | translate">
-          <nz-option nzLabel="Admin" nzValue="1"></nz-option>
-          <nz-option nzLabel="User" nzValue="2"></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
+    <!--    <nz-form-item>-->
+    <!--      <nz-form-label [nzSpan]="4" nzFor="license">-->
+    <!--        {{ "module.user.license" | translate }}-->
+    <!--      </nz-form-label>-->
+    <!--      <nz-form-control [nzSpan]="14">-->
+    <!--        <nz-input-group nzSearch [nzAddOnAfter]="genLcsButton" id="license" >-->
+    <!--          <input [disabled]="!userAdmin?.id" id="licenseCode" name="licenseCode"  type="text" nz-input placeholder="" [value]="license"/>-->
+    <!--        </nz-input-group>-->
+    <!--      </nz-form-control>-->
+    <!--    </nz-form-item>-->
   </form>
+  <span>{{ "module.user.license" | translate }}</span>
+  <nz-input-group [nzAddOnAfter]="genLcsButton" id="license" nzSearch>
+    <input [disabled]="true" [value]="license" id="licenseCode" name="licenseCode" nz-input type="text"/>
+  </nz-input-group>
+
+</ng-template>
+
+<ng-template #genLcsButton>
+  <button
+    (click)="genLicense()"
+    [disabled]="!userAdmin?.id"
+    id="generateLicense"
+    name="generateLicense"
+    nz-button
+    nzSearch
+    nzType="primary"
+  >
+    +
+  </button>
 </ng-template>

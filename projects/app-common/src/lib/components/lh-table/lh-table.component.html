@@ -11,11 +11,8 @@
     <tr>
       <td style="width: 20px"  [nzChecked]="setOfCheckedId.has(getKeyValue(record))"
           (nzCheckedChange)="onItemChecked(getKeyValue(record), $event)"></td>
-      <td *ngFor="let field of config.fields" [innerHTML]="getDisplayedValue(record, field)">
-      </td>
 
-      <td>
-        <button [hidden]="config.disableDetail" nz-button nzType="text" (click)="detail(record)">{{'common.update' | translate}}</button>
+      <td *ngFor="let field of config.fields" [innerHTML]="getDisplayedValue(record, field)">
       </td>
 
       <td  style="width: 200px"  nzRight>
