@@ -49,8 +49,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-
-    this.chatTimeout = setTimeout(() => {
+    setTimeout(() => {
       this.loading = false;
 
       setTimeout(() => {

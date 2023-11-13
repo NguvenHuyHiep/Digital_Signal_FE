@@ -15,6 +15,7 @@ import { Device } from './device';
 export interface DeviceLog { 
     id?: number;
     date?: string;
+    status: string;
     device?: Device;
 }
 

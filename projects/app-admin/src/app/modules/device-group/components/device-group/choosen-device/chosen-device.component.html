@@ -1,0 +1,8 @@
+<nz-select nzAllowClear nzShowSearch [nzPlaceHolder]="'common.selectDevice' | translate"
+           [(ngModel)]="deviceId" (ngModelChange)="onChangeData($event)">
+  <nz-option
+    *ngFor="let deviceDeviceGroup of devices"
+    nzLabel="{{deviceDeviceGroup.code?.toUpperCase() + ' - ' + deviceDeviceGroup.name }}"
+    [nzValue]= deviceDeviceGroup.id
+  ></nz-option>
+</nz-select>

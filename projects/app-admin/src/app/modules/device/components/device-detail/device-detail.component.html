@@ -1,0 +1,20 @@
+<lh-common-page>
+  <div [nzGutter]="[16, 16]" nz-row>
+    <div nz-col nzSpan="24">
+      <nz-card>
+        <div id="device-log-chart"></div>
+      </nz-card>
+    </div>
+  </div>
+  <div [nzGutter]="[16, 16]" nz-row>
+    <lh-common-lh-table
+      nz-col
+      nzSpan="24"
+      #table
+      [data]="deviceLogs"
+      [config]="tableConfig"
+      [loading]="loading.searching"
+    >
+    </lh-common-lh-table>
+  </div>
+</lh-common-page>

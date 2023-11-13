@@ -18,42 +18,40 @@ const routes: Routes = [{
           (m) => m.PlaylistsModule
         ),
     },
+        {
+            path: 'user',
+            data: {
+                label: 'module.user.title',
+            },
+            loadChildren: () =>
+                import('../user/user.module').then(
+                    (m) => m.UserModule
+                ),
+        },
+        {
+            path: 'device-group',
+            data: {
+                label: 'Group Device',
+            },
+            loadChildren: () =>
+                import('../device-group/device-group.module').then(
+                    (m) => m.DeviceGroupModule
+                ),
+        },
     {
-      path: 'user',
+      path: 'device',
       data: {
-        label: 'module.user.title',
+        label: 'Device',
       },
       loadChildren: () =>
-        import('../user/user.module').then(
-          (m) => m.UserModule
+        import('../device/device.module').then(
+          (m) => m.DeviceModule
         ),
-    },
-    {
-      path: 'group-device',
-      data: {
-        label: 'Group Device',
-      },
-      loadChildren: () =>
-        import('../group-device-manage/group-device.module').then(
-          (m) => m.GroupDeviceModule
-        ),
-    },
-    {
-      path: 'license',
-      data: {
-        label: 'License',
-      },
-      loadChildren: () =>
-        import('../license/license.module').then(
-          (m) => m.LicenseModule
-        ),
-    },
-
-  ],
+    }],
 },];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)], exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class WelcomeRoutingModule {
-}
+export class WelcomeRoutingModule {}

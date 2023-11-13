@@ -22,7 +22,8 @@
     "updateSuccess": "Cập nhật thành công",
     "detail": "Chi tiết",
     "back": "Quay lại",
-    "cancel": "Hủy"
+    "cancel": "Hủy",
+    "selectDevice": "Chọn thiết bị"
   },
 
   "footer": "Design & Develop by LPDEV",
@@ -53,7 +54,8 @@
       "description": "Mô tả",
       "location": "Địa chỉ",
       "device": "Thiết bị",
-      "deviceAdd": "Thêm thiết bị"
+      "deviceAdd": "Thêm thiết bị",
+      "listDevice": "Danh sách thiết bị"
     },
     "dashboard": {
       "accuracy": "Chính xác",
@@ -122,7 +124,8 @@
       "status": "Trạng thái",
       "activeTime": "Thời gian chạy",
       "inactiveTime": "Thời gian dừng",
-      "license": "License"
+      "license": "License",
+      "add": "Thêm thiết bị"
     }
   },
   "recover": {
