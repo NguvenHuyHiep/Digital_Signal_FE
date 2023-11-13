@@ -159,7 +159,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
         range: [0, 1],
         tickInterval: 2,
         tickCount: 9,
-      },
+      }
     });
 
     chart.tooltip({
@@ -181,7 +181,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
 
     chart.option('slider', {});
 
-    chart.line().position('time*value').color('type');
+    chart.line().position('time*value').color('red');
 
     chart.render();
   }
