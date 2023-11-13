@@ -88,7 +88,7 @@ export class UserComponent implements OnInit {
   getAll(): void {
     this.loading.searching = true;
     this.adminUserService
-      .getAllUserByPaging(5, 10).subscribe({
+      .getAllUserByPaging(1, 20).subscribe({
         next: (response) => {
           if (response.data) {
             this.users = response.data as Array<User>;
