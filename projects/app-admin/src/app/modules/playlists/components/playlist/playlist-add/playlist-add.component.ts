@@ -20,6 +20,7 @@ export class PlaylistAddComponent implements OnInit, OnChanges {
   @ViewChild('fileAddComponent', {static: false}) fileAddComponent?: PlaylistAddComponent;
   form: FormGroupPlayList = this.adminPlaylistService.buildPlaylistForm(this.playlistAdmin)
   tabs = [{
+
     code: 'info',
     name: 'module.user.info'
   }, {
@@ -39,7 +40,14 @@ export class PlaylistAddComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.form.valueChanges.subscribe((value) => console.log('value', value));
+  if(this.playlistAdmin){
+    this.patchValue(this.playlistAdmin)
+  }
+   this.form.valueChanges.subscribe((value) => console.log('value', value));
+  }
+
+  private patchValue(obj: Playlist) {
+    this.form.patchValue(obj as any);
   }
 
   addOrUpdate(): Observable<BaseOutputPlaylist> {

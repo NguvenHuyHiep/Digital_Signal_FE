@@ -1,6 +1,6 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
-import {AdminGroupDeviceService} from "./admin-group-device.service";
+import {AdminDeviceGroupService} from "./admin-group-device.service";
 
 @NgModule({
   declarations:[],
@@ -8,7 +8,7 @@ import {AdminGroupDeviceService} from "./admin-group-device.service";
     CommonModule
   ],
   providers: [
-    AdminGroupDeviceService
+    AdminDeviceGroupService
   ]
 })
-export class AdminGroupDeviceModule {}
+export class AdminDeviceGroupModule {}

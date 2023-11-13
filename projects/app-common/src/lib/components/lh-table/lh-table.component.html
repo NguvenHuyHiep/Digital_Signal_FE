@@ -11,7 +11,8 @@
     <tr>
       <td style="width: 20px"  [nzChecked]="setOfCheckedId.has(getKeyValue(record))"
           (nzCheckedChange)="onItemChecked(getKeyValue(record), $event)"></td>
-
+      <td style="width: 20px"  *ngIf="expandTemplate" [nzExpand]="expandSet.has(getValue(record, config.key))"
+          (nzExpandChange)="onExpandChange(getValue(record, config.key), $event)"></td>
       <td *ngFor="let field of config.fields" [innerHTML]="getDisplayedValue(record, field)">
       </td>
 

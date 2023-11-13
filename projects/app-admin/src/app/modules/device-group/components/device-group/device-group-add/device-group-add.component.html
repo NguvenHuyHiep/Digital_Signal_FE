@@ -1,0 +1,76 @@
+<nz-tabset>
+  <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab.name | translate">
+    <ng-container *ngIf="tab.code === 'info'">
+      <ng-container *ngTemplateOutlet="info"></ng-container>
+    </ng-container>
+  </nz-tab>
+</nz-tabset>
+<ng-template #info>
+  <form [formGroup]="form" nz-form>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="name">
+        {{ "module.groupdevice.name" | translate }}
+      </nz-form-label>
+      <nz-form-control [formGroup]="form" [nzSpan]="14">
+        <input
+          formControlName="name"
+          id="name"
+          name="name"
+          nz-input
+          type="text"
+        />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="description">
+        {{ "module.groupdevice.description" | translate }}
+      </nz-form-label>
+      <nz-form-control [formGroup]="form" [nzSpan]="14">
+        <input formControlName="description" nz-input />
+      </nz-form-control>
+    </nz-form-item>
+    <ng-container *ngIf="deviceGroupAdmin?.id; else elseBlock">
+      <ng-container *ngTemplateOutlet="addDevices"></ng-container>
+    </ng-container>
+
+<ng-template #addDevices>
+      <nz-form-label [nzSpan]="4" nzFor="listDevice">
+        {{ "module.groupdevice.listDevice" | translate }}
+      </nz-form-label>
+    <nz-skeleton [nzActive]="true" *ngIf="loading.device"></nz-skeleton>
+    <lh-common-lh-table *ngIf="!loading.device"
+                        #table
+                        [config]="deviceTableConfig"
+                        [data]="devices"
+                        [loading]="loading.device"
+                        (onDelete)="deleteDevice($event)"
+    ></lh-common-lh-table>
+    <form nz-form [formGroup]="addDeviceForm" nzLayout="vertical">
+      <div nz-row nzGutter="16">
+        <div nz-col [nzLg]="4" [nzSm]="24">
+          <nz-form-item>
+            <nz-form-label
+              nzFor="deviceId">{{ 'module.device.add'  | translate}}</nz-form-label>
+            <nz-form-control [formGroup]="addDeviceForm">
+              <app-admin-chosen-device class="w-100" formControlName="deviceId"
+                                   (onDataChange)="setCurrentDevice($event)"></app-admin-chosen-device>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div nz-col [nzLg]="4" [nzSm]="24" >
+          <div nz-row nzAlign="middle" class="h-100" style="padding-top: 30px">
+            <button nz-button nzType="primary"
+                    [nzLoading]="loading.addDevice" class="w-100"
+                    (click)="addDevice()">{{'module.device.add' |translate}}</button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+</ng-template>
+
+    <ng-template #elseBlock></ng-template>
+  </form>
+</ng-template>
+

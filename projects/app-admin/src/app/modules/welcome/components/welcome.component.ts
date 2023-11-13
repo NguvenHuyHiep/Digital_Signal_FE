@@ -30,7 +30,6 @@ const number12IconLiteral =
   selector: 'lh-welcome',
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.scss'],
-  providers: [MenuService]
 })
 export class WelcomeComponent implements OnInit, AfterViewInit {
   isCollapsed = false;
@@ -275,7 +274,11 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
         },
         {  title: 'Group Device',
           icon: 'home',
-          link: '/group-device',
+          link: '/device-group',
+        },
+        {  title:  'Device',
+          icon: 'home',
+          link: '/device',
         },
       ] :
       [

@@ -26,11 +26,10 @@ export class PlaylistComponent implements OnInit {
     search: true,
     add: false
   }
-  playList?: Playlist;
+  currentPlaylist?: Playlist;
   playlists: Array<Playlist> = [];
   @ViewChild('table') table?: LhTableComponent<Playlist>
   @ViewChild('addComponent', {static: false}) addComponent?: PlaylistAddComponent;
-
   loading: {
     adding: boolean;
     searching: boolean;
@@ -64,13 +63,13 @@ export class PlaylistComponent implements OnInit {
       }
     ]
   };
-  currentPlaylist?: Playlist;
+
 
   constructor(private playlistService: AdminPlaylistService
     , private message: NzMessageService
     , private authenService: LhAuthenService
   ) {
-    this.authenService.userObs.subscribe(playList => this.playList = playList);
+    this.authenService.userObs.subscribe(playList => this.currentPlaylist = playList);
   }
 
   get isSelectedRow(): boolean {
@@ -82,7 +81,7 @@ export class PlaylistComponent implements OnInit {
   }
 
   getAllPlaylist(): void {
-    this.loading.searching = true
+    this.loading.searching = true;
     this.playlistService.getAllPlayList(0,10).subscribe({
       next: (response) => {
         if (response.data) {
