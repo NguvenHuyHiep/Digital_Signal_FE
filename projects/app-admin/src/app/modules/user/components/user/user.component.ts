@@ -84,39 +84,35 @@ export class UserComponent implements OnInit {
 
   getAll(): void {
     this.loading.searching = true;
-    this.adminUserService.getAllUserByPaging(5, 10).subscribe({
-      next: (response) => {
-        if (response.data) {
-          this.users = response.data as Array<User>;
-        }
-      },
-      error: (err) => {
-        this.message.create(
-          'error',
-          err.message
-            ? err.message
-            : this.translateService.instant('common.error')
-        );
-        console.log(err);
-      },
-      complete: () => {
-        this.loading.searching = false;
-      },
-    });
+    this.adminUserService
+      .getAllUserByPaging(0,100, 'id', 'ASC', '').subscribe({
+        next: (response) => {
+          if (response.data) {
+            this.users = response.data;
+            console.log('response', response);
+            console.log('this.users', this.users);
+          }
+        },
+        error: (err) => {
+          this.message.create('error', err.message ? err.message : this.translateService.instant('common.error'));
+          console.log(err)
+        },
+        complete: () => {
+          this.loading.searching = false;
+        },
+      });
   }
 
-  add() {
+  addOrUpdate() {
     if (!this.addComponent) {
       return;
     }
     this.loading.adding = true;
-    this.addComponent.addUser().subscribe({
+    this.addComponent.addOrUpdateUser().subscribe({
       next: (response) => {
         if (response.data) {
           this.currentUser = response.data;
-          this.getAll();
-          this.showFrame.search = true;
-          this.showFrame.add = false;
+            this.message.create('success', this.translateService.instant('common.success'))
         }
       },
       error: (err) => {
@@ -135,6 +131,7 @@ export class UserComponent implements OnInit {
   }
 
   gotoSearch() {
+    this.getAll();
     this.showFrame.search = true;
     this.showFrame.add = false;
   }
@@ -157,19 +154,13 @@ export class UserComponent implements OnInit {
     this.adminUserService.deleteUser(user?.id as number).subscribe({
       next: (response) => {
         this.getAll();
-      },
-      error: (err) => {
-        this.message.create(
-          'error',
-          err.message
-            ? err.message
-            : this.translateService.instant('common.error')
-        );
-        console.log(err);
-      },
-      complete: () => {
-        this.loading.searching = false;
-      },
-    });
+        this.message.create('success', response.message ? response.message : this.translateService.instant('common.deleteSuccess'))
+      }, error: err => {
+        this.message.create('error', err.message ? err.message : this.translateService.instant('common.error'));
+        console.log(err)
+      }, complete: () => {
+        this.loading.searching = false
+      }
+    })
   }
 }

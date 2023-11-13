@@ -40,26 +40,8 @@ export class AdminUserService {
     sortDirection?: string,
     keyword?: string
   ) {
-    let params = new HttpParams();
-
-    // Thêm các tham số vào HttpParams nếu chúng được cung cấp
-    if (page !== undefined && page !== null) {
-      params = params.set('page', page.toString());
-    }
-    if (size !== undefined && size !== null) {
-      params = params.set('size', size.toString());
-    }
-    if (sortBy) {
-      params = params.set('sortBy', sortBy);
-    }
-    if (sortDirection) {
-      params = params.set('sortDirection', sortDirection);
-    }
-    if (keyword) {
-      params = params.set('keyword', keyword);
-    }
-    return this.adminUsersAPIService.getAllByPaging()
-      .pipe(tap(response => console.log(response)))
+    return this.adminUsersAPIService.getAllByPaging(page, size, sortBy, sortDirection, keyword)
+      .pipe(tap(response => console.log('response', response)));
   };
 
   public addUser(user: User): Observable<BaseOutputUser> {

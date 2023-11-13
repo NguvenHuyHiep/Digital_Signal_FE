@@ -41,7 +41,7 @@
 
 <ng-template #addActions>
   <div nz-space>
-    <button (click)="add()" nz-button nzType="primary">
+    <button (click)="addOrUpdate()" nz-button nzType="primary">
       {{ (this.currentUser ? "common.update" : "common.add") | translate }}
     </button>
   </div>
