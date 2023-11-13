@@ -18,26 +18,38 @@ const routes: Routes = [{
           (m) => m.PlaylistsModule
         ),
     },
-        {
-            path: 'user',
-            data: {
-                label: 'module.user.title',
-            },
-            loadChildren: () =>
-                import('../user/user.module').then(
-                    (m) => m.UserModule
-                ),
-        },
-        {
-            path: 'group-device',
-            data: {
-                label: 'Group Device',
-            },
-            loadChildren: () =>
-                import('../group-device-manage/group-device.module').then(
-                    (m) => m.GroupDeviceModule
-                ),
-        }],
+    {
+      path: 'user',
+      data: {
+        label: 'module.user.title',
+      },
+      loadChildren: () =>
+        import('../user/user.module').then(
+          (m) => m.UserModule
+        ),
+    },
+    {
+      path: 'group-device',
+      data: {
+        label: 'Group Device',
+      },
+      loadChildren: () =>
+        import('../group-device-manage/group-device.module').then(
+          (m) => m.GroupDeviceModule
+        ),
+    },
+    {
+      path: 'license',
+      data: {
+        label: 'License',
+      },
+      loadChildren: () =>
+        import('../license/license.module').then(
+          (m) => m.LicenseModule
+        ),
+    },
+
+  ],
 },];
 
 @NgModule({

@@ -56,7 +56,9 @@ export class CommonLoginComponent implements OnInit {
           this.validateForm.controls['password'].value
         )
         .subscribe({
-          error: (err) => {},
+          error: (err) => {
+            console.log(err);
+          },
         });
     } else {
       Object.values(this.validateForm.controls).forEach((control) => {

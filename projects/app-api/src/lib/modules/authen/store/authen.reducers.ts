@@ -20,7 +20,7 @@ export const SIGN_IN_FAILED = createAction(AUTHEN_ACTIONS.SIGN_IN_FAILED, props<
 export const SIGN_OUT = createAction(AUTHEN_ACTIONS.SIGN_OUT);
 
 export interface IAuthenState {
-  token: BaseOutputString| undefined;
+  token: BaseOutputString | undefined;
   user: BaseOutputUser | undefined;
   authenticated: boolean;
   error: HttpResponseBase | BaseOutputUser | undefined;

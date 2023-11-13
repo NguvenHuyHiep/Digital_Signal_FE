@@ -24,9 +24,8 @@
     #table
     [data]="users"
     [config]="tableConfig"
-    [expandTemplate]="userDetail"
     (onUpdate)="update($event)"
-    (onDelete)="delete()"
+    (onDelete)="delete($event)"
     [loading]="loading.searching"
   ></lh-common-lh-table>
 </lh-common-page>
@@ -54,7 +53,4 @@
   </button>
 </ng-template>
 
-<ng-template #userDetail let-data="data">
-  {{ data.description }}
-</ng-template>
 
