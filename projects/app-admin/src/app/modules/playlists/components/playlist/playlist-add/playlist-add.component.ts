@@ -25,7 +25,7 @@ export class PlaylistAddComponent implements OnInit, OnChanges {
     name: 'module.user.info'
   }, {
     code: 'file',
-    name: 'module.user.file'
+    name: 'module.playlist.file'
   }
   ];
   isChecked: boolean = false;

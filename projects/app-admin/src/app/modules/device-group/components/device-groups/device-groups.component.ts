@@ -42,12 +42,12 @@ export class DeviceGroupsComponent implements OnInit{
     key: 'id',
     fields: [
       {
-        label: 'Tên'
+        label: 'module.groupdevice.name'
         , field: 'name'
         , type: LhTableFieldType.STRING
       },
       {
-        label: 'Mô tả'
+        label: 'module.groupdevice.description'
         , field: 'description'
         , type: LhTableFieldType.STRING
       }

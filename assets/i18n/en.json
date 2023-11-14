@@ -89,6 +89,7 @@
       "name": "Filename"
     },
     "playlist": {
+      "title": "Playlist",
       "file": "File",
       "update": "Update file",
       "add": "Add file",
@@ -119,6 +120,7 @@
     },
     "device": {
       "title": "Device",
+      "code": "Code",
       "info": "Info",
       "content": "Content",
       "name": "Name",

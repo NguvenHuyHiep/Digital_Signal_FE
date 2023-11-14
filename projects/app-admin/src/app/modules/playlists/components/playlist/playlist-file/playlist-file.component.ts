@@ -6,6 +6,7 @@ import {
 } from "../../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service";
 import {DsdFile} from "../../../../../../../../app-api/src/lib/api/models/dsdFile";
 import {Playlist} from "../../../../../../../../app-api/src/lib/api/models/playlist";
+import { LhTableConfigModel, LhTableFieldType } from 'projects/app-common/src/lib/components/lh-table/lh-table-config.model';
 
 @Component({
   selector: 'app-admin-playlist-file',
@@ -15,7 +16,7 @@ import {Playlist} from "../../../../../../../../app-api/src/lib/api/models/playl
 export class PlaylistFileComponent implements OnInit {
   @Input() playlist?: Playlist;
   currentFile?: DsdFile;
-  files?: Array<DsdFile> = [];
+  files: Array<DsdFile> = [];
   playlists?: Playlist;
 
   showFrame: {
@@ -33,11 +34,40 @@ export class PlaylistFileComponent implements OnInit {
     , file: false
   };
 
+  tableConfig: LhTableConfigModel = {
+    key: 'id',
+    disableDetail: true,
+    disableUpdate: true,
+    disableDelete: true,
+    fields: [
+      {
+        label: 'ID',
+        field: 'id',
+        type: LhTableFieldType.STRING,
+      },
+      {
+        label: 'module.file.name',
+        field: 'name',
+        type: LhTableFieldType.STRING,
+      },
+      {
+        label: 'module.file.contentType',
+        field: 'fileType',
+        type: LhTableFieldType.STRING,
+      }
+    ],
+  };
+
   constructor(private formBuilder: FormBuilder
     , private adminPlaylistService: AdminPlaylistService) {
   }
 
   ngOnInit(): void {
+    this.adminPlaylistService.getPlaylistWithFile(this.playlist?.id as number).subscribe(response => {
+      if (response && response.data) {
+        this.files = response.data.files || [];
+      }
+    })
   }
 
   openAddFile() {

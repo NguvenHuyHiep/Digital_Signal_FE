@@ -42,22 +42,22 @@ export class PlaylistComponent implements OnInit {
     key: 'id',
     fields: [
       {
-        label: 'Tên'
+        label: 'module.playlist.name'
         , field: 'name'
         , type: LhTableFieldType.STRING
       },
       {
-        label: 'Mô tả'
+        label: 'module.playlist.description'
         , field: 'description'
         , type: LhTableFieldType.STRING
       },
       {
-        label: 'Thời gian bắt đầu'
+        label: 'module.playlist.startTime'
         , field: 'startTime'
         , type: LhTableFieldType.DATE_TIME
       },
       {
-        label: 'Thời gian kết thúc'
+        label: 'module.playlist.endTime'
         , field: 'endTime'
         , type: LhTableFieldType.DATE_TIME
       }
@@ -82,7 +82,7 @@ export class PlaylistComponent implements OnInit {
 
   getAllPlaylist(): void {
     this.loading.searching = true;
-    this.playlistService.getAllPlayList(0,10).subscribe({
+    this.playlistService.getAllPlayList(0,100).subscribe({
       next: (response) => {
         if (response.data) {
           this.playlists = response.data as Array<Playlist>;

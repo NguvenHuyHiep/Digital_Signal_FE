@@ -16,28 +16,19 @@
   </div>
 </nz-layout>
 <ng-template #FileAction>
-  <button nz-button nzType="link" (click)="openAddFile()">
+  <!-- <button nz-button nzType="link" (click)="openAddFile()">
     <span  nz-icon nzType="plus"></span>
-  </button>
+  </button> -->
 </ng-template>
 <ng-template #FileList>
-  <nz-skeleton [nzActive]="true" *ngIf="loading.file"></nz-skeleton>
-  <ul nz-menu nzMode="inline">
-    <li
-      *ngFor="let file of files"
-      nz-menu-item
-      [nzSelected]="currentFile?.id === file.id"
-      (click)="setCurrentLesson(file)"
-    >
-      <span class="menu-item-text">{{ file.name }}</span>
-      <button nz-button nzType="text" (click)="updateFile(file)">
-        <span nz-icon nzType="edit"></span>
-      </button>
-      <button nz-button nzType="text" (click)="deleteLesson(file)" nzDanger>
-        <span nz-icon nzType="delete"></span>
-      </button>
-    </li>
-  </ul>
+  
+  <lh-common-lh-table
+    #table
+    [data]="files"
+    [config]="tableConfig"
+    [loading]="false"
+  >
+  </lh-common-lh-table>
 </ng-template>
 
 <ng-template #FileAdd>

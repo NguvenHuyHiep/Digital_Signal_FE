@@ -96,4 +96,8 @@ export class AdminPlaylistService {
   public delete(playList: number): Observable<BaseOutputString> {
     return this.adminPlayListController.delete3(playList);
   }
+
+  public getPlaylistWithFile(id: number) {
+    return this.adminPlayListController.getByIdWithFiles(id);
+  }
 }

@@ -89,10 +89,11 @@
       "name": "Tên File"
     },
     "playlist": {
-      "file": "Tên Playlist",
+      "title": "Playlist",
+      "file": "File",
       "update": "Cập nhập File",
       "add": "Thêm mới File",
-      "name": "Tên play list,",
+      "name": "Tên Playlist",
       "description": "Mô tả play list",
       "startTime": "Thời gian bắt đầu",
       "endTime": "Thời gian kết thúc",
@@ -100,7 +101,7 @@
       "true": "Có"
     },
     "user": {
-      "title": "User",
+      "title": "Tài khoản",
       "info": "Thông tin",
       "email": "Email",
       "phone": "Số điện thoại",
@@ -118,7 +119,8 @@
       "expireTime": "Thời hạn"
     },
     "device": {
-      "title": "Thiết bị",
+      "title": "Device",
+      "code": "Mã Thiết bị",
       "info": "Thông tin",
       "content": "Nội dung",
       "name": "Tên thiết bị",

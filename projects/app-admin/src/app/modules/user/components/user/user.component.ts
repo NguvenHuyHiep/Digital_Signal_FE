@@ -44,22 +44,22 @@ export class UserComponent implements OnInit {
     disableDetail: true,
     fields: [
       {
-        label: 'user-detail.user.userName',
+        label: 'module.user.userName',
         field: 'userName',
         type: LhTableFieldType.STRING,
       },
       {
-        label: 'user-detail.user.email',
+        label: 'module.user.email',
         field: 'email',
         type: LhTableFieldType.STRING,
       },
       {
-        label: 'user-detail.user.phone',
+        label: 'module.user.phone',
         field: 'phone',
         type: LhTableFieldType.STRING,
       },
       {
-        label: 'user-detail.user.license',
+        label: 'module.user.license',
         field: 'license.code',
         type: LhTableFieldType.STRING,
       },

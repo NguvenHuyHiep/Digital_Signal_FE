@@ -33,7 +33,7 @@ export class AdminDeviceService {
     keyword?: string | ''
   ) {
     return this.adminDeviceController
-      .getByPaging7(page, size, sortBy, sortDirection)
+      .getByPaging7(page, 100, sortBy, sortDirection)
       .pipe(tap((response) => console.log('devices', response)));
   }
 
