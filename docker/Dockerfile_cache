@@ -1,6 +1,7 @@
 FROM node:18.18.1 as build
 
-
+WORKDIR /app
 COPY package*.json ./
-RUN ls
+RUN npm install -g @angular/cli
+RUN ng version
 RUN npm install --no-audit --progress=false
