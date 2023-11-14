@@ -1,6 +1,6 @@
 FROM aninfosys.asia:8082/lpdev/dsd/dsd-fe-cache-staging:latest as build
 
-RUN mkdir -p /app/deploy
+RUN mkdir -p deploy/web
 COPY package.json ./
 COPY package-lock.json ./
 COPY angular.json ./
