@@ -1,0 +1,15 @@
+FROM aninfosys.asia:8082/lpdev/dsd/dsd-fe-cache-staging:latest as build
+
+COPY package.json ./
+COPY package-lock.json ./
+COPY src ./src
+COPY .env* ./
+COPY index.html ./
+COPY ts* ./
+COPY vite.config.ts ./
+
+RUN npm install && npm run build:staging
+
+FROM nginx
+COPY --from=build ./dist /usr/share/nginx/html
+COPY docker/nginx/config/default_staging.conf /etc/nginx/conf.d/default.conf

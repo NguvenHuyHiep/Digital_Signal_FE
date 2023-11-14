@@ -1,0 +1,17 @@
+# Use root/Abcd1234 as user/password credentials
+version: '3.1'
+
+services:
+  backend:
+    image: aninfosys.asia:8082/lpdev/dsd/dsd-backend:latest
+    restart: unless-stopped
+    environment:
+      _JAVA_OPTIONS: "-Xms30m -Xmx1500m"
+      SPRING_PROFILES_ACTIVE: "staging"
+    volumes:
+      - backend_logs:/app/logs
+    networks:
+      - dsd_internal
+
+networks:
+  dsd_internal:

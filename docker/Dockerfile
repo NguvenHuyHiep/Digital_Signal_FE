@@ -1,9 +1,17 @@
-FROM node:13
+FROM node:20.9.0 as build
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY ./deploy .
-RUN npm install
-EXPOSE 8900
-CMD [ "node", "index.js" ]
+COPY package.json ./
+COPY package-lock.json ./
+COPY src ./src
+COPY .env* ./
+COPY index.html ./
+COPY ts* ./
+COPY vite.config.ts ./
+
+RUN  \
+    --mount=type=cache,node_modules=/tmp/bo-fe/node_modules \
+    npm install && npm run build:staging
+
+FROM nginx
+COPY --from=build ./dist /usr/share/nginx/html
+COPY docker/nginx/config/default_prod.conf /etc/nginx/conf.d/default.conf
