@@ -1,4 +1,4 @@
-FROM node:20.9.0 as build
+FROM node:18.18.1 as build
 
 COPY package.json ./
 COPY package-lock.json ./
