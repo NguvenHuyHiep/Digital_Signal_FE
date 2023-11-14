@@ -235,7 +235,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
 
   changeTheme(theme: 'default' | 'dark'): void {
     if (theme === 'dark') {
-      const loading = this.message.loading('正在加载主题', {nzDuration: 0});
+      const loading = this.message.loading('Loading', {nzDuration: 0});
       const style = document.createElement('link');
       style.type = 'text/css';
       style.rel = 'stylesheet';
@@ -256,8 +256,8 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
   public buildMenu(): void {
     this.menuList = this.user ? [
         {
-          title: 'module.dashboard.title',
-          icon: 'home',
+          title: 'Dashboard',
+          icon: 'bar-chart',
           link: '/dashboard',
         },
         {  title: 'User',
@@ -265,15 +265,15 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
           link: '/user',
         },{
           title: 'Playlist',
-          icon: 'home',
+          icon: 'play-circle',
           link: '/playlist',
         },
         {  title: 'Group Device',
-          icon: 'home',
+          icon: 'apartment',
           link: '/device-group',
         },
         {  title:  'Device',
-          icon: 'home',
+          icon: 'video-camera-add',
           link: '/device',
         },
       ] :

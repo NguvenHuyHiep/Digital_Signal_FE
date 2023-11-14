@@ -80,7 +80,7 @@ export class AdminPlaylistService {
     if (keyword) {
       params = params.set('keyword', keyword);
     }
-    return this.adminPlayListController.getByPaging4()
+    return this.adminPlayListController.getByPaging4(0, 100, 'id', 'DESC')
       .pipe(tap(response => console.log(response)));
 
   }

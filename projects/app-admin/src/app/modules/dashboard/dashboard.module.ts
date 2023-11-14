@@ -16,6 +16,7 @@ import {NzTabsModule} from "ng-zorro-antd/tabs";
 import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
 import {NzProgressModule} from "ng-zorro-antd/progress";
 import {NzImageModule} from "ng-zorro-antd/experimental/image";
+import { NgChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import {NzImageModule} from "ng-zorro-antd/experimental/image";
         NzSkeletonModule,
         NzProgressModule,
         NzImageModule,
-        TranslateModule
+        TranslateModule,
+        NgChartsModule
     ]
 })
 export class DashboardModule {

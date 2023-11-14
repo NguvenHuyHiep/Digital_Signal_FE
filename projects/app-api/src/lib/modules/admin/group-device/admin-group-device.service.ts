@@ -62,7 +62,7 @@ export class AdminDeviceGroupService {
     if (keyword) {
       params = params.set('keyword', keyword);
     }
-    return this.adminGroupDeviceController.getByPaging9()
+    return this.adminGroupDeviceController.getByPaging9(0, 100, 'id', 'DESC')
       .pipe(tap(response => console.log(response)));
   }
 

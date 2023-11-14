@@ -29,11 +29,11 @@ export class AdminDeviceService {
     page?: number | 0,
     size?: number | 100,
     sortBy?: string | 'id',
-    sortDirection?: string | 'asc',
+    sortDirection?: string | 'DESC',
     keyword?: string | ''
   ) {
     return this.adminDeviceController
-      .getByPaging7(page, 100, sortBy, sortDirection)
+      .getByPaging7(page, 100, sortBy, 'DESC')
       .pipe(tap((response) => console.log('devices', response)));
   }
 
