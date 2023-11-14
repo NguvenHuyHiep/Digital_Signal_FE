@@ -1,14 +1,7 @@
-docker
-examples
 scripts/genapi.sh
+deploy/web
 node_modules
-openapitools.json
-tsconfig.json
+examples
 .idea
 .vscode
-e2e
-plugins
-resources
-src
-www
-*.*
+.angular
