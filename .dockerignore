@@ -3,9 +3,6 @@ examples
 scripts/genapi.sh
 node_modules
 openapitools.json
-package-lock.json
-package.json
-projects
 tsconfig.json
 .idea
 .vscode

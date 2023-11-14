@@ -1,6 +1,6 @@
 {
   "name": "hub-web",
-  "version": "2.0.1",
+  "version": "2.0.0",
   "scripts": {
     "ng": "ng",
     "start:admin": "ng serve --project app-admin --port 8843",
