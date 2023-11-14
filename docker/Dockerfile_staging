@@ -9,6 +9,7 @@ COPY angular.json ./
 COPY tsconfig.json ./
 COPY libs ./libs
 COPY projects ./projects
+COPY assets ./assets
 
 RUN npm run build:prod
 
