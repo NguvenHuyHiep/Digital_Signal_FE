@@ -178,14 +178,14 @@
       "roles": "Vai trò",
       "firstName": "Tên",
       "lastName": "Họ",
-      "license": "license"
+      "license": "License"
     }
   },
   "license-detail": {
     "license": {
       "code": "Mã token ",
       "token": "Token",
-      "publicKey": "khóa công khai",
+      "publicKey": "Khóa công khai",
       "activationDate": "Ngày kích hoạt",
       "expirationDate": "Ngày hết hạn",
       "description": "Mô tả"

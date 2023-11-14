@@ -256,7 +256,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
   public buildMenu(): void {
     this.menuList = this.user ? [
         {
-          title: 'Dashboard',
+          title: 'module.dashboard.title',
           icon: 'home',
           link: '/dashboard',
         },
@@ -267,10 +267,6 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
           title: 'Playlist',
           icon: 'home',
           link: '/playlist',
-        },
-        {  title: 'License',
-          icon: 'link',
-          link: '/license',
         },
         {  title: 'Group Device',
           icon: 'home',

@@ -3,6 +3,7 @@
     "Search-placeholder": "Search",
     "SignOut": "Signout",
     "accout-center": "Accout infomation",
+										 
     "setting": "Setting",
     "signIn": "Login"
   },
@@ -20,7 +21,10 @@
     "update": "Update",
     "updateSuccess": "Updated successfully",
     "detail": "Detail",
-    "back": "Back"
+    "back": "Back",
+    "cancel": "Cancel",
+    "success": "Successful",
+    "selectDevice": "Select device"					  
   },
 
   "footer": "Design & Develop by LPDEV",
@@ -44,6 +48,16 @@
     "welcomeback": "Welcome Back !"
   },
   "module": {
+    "groupdevice": {
+      "title": "Group Device",
+      "info": "Info",
+      "name": "Name",
+      "description": "Description",
+      "location": "Location",
+      "device": "Device",
+      "deviceAdd": "Add device",
+      "listDevice": "List devices"
+     },					
     "dashboard": {
       "accuracy": "Accuracy",
       "averageTime": "Average time",
@@ -65,6 +79,25 @@
       "title": "Dashboard",
       "unfinished": "Unfinished",
       "welcome": "Welcome to Digital Signage"
+    },
+    "file": {
+      "chooseContentType": "File type",
+      "contentTypes-video": "video",
+      "contentTypes-img": "img",
+      "contentType": "Content type",
+      "list-file": "List files",
+      "name": "Filename"
+    },
+    "playlist": {
+      "file": "File",
+      "update": "Update file",
+      "add": "Add file",
+      "name": "Playlist",
+      "description": "Description",
+      "startTime": "Start time",
+      "endTime": "End time",
+      "isLoop": "Is loop",
+      "true": "Yes"		   
     },
     "user": {
       "title": "User",
@@ -92,14 +125,8 @@
       "status": "Status",
       "activeTime": "Active time",
       "inactiveTime": "Inactive time",
-      "license": "License"
-    },
-    "groupdevice": {
-      "title": "Group Device",
-      "info": "Info",
-      "name": "Name",
-      "description": "Description",
-      "location": "Location"
+      "license": "License",				
+      "add": "Add device"				 
     }
   },
   "recover": {

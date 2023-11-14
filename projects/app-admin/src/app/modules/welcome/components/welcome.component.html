@@ -294,7 +294,7 @@
       <ng-container *ngFor="let menu of menuList">
         <li *ngIf="!menu.children && !menu.link" nz-menu-item >
           <div>
-            <span>{{ menu.title }}</span>
+            <span>{{ menu.title | translate }}</span>
           </div>
           <nz-divider></nz-divider>
         </li>
