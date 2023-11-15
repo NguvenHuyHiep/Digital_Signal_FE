@@ -159,7 +159,7 @@ export class AdminPlayListAPIService {
             } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
                 responseType_ = 'json';
             } else {
-                responseType_ = 'json';
+                responseType_ = 'blob';
             }
         }
 
@@ -235,7 +235,7 @@ export class AdminPlayListAPIService {
             } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
                 responseType_ = 'json';
             } else {
-                responseType_ = 'json';
+                responseType_ = 'blob';
             }
         }
 
@@ -302,7 +302,7 @@ export class AdminPlayListAPIService {
             } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
                 responseType_ = 'json';
             } else {
-                responseType_ = 'json';
+                responseType_ = 'blob';
             }
         }
 
@@ -377,7 +377,7 @@ export class AdminPlayListAPIService {
             } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
                 responseType_ = 'json';
             } else {
-                responseType_ = 'json';
+                responseType_ = 'blob';
             }
         }
 
@@ -444,7 +444,7 @@ export class AdminPlayListAPIService {
             } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
                 responseType_ = 'json';
             } else {
-                responseType_ = 'json';
+                responseType_ = 'blob';
             }
         }
 
@@ -510,7 +510,7 @@ export class AdminPlayListAPIService {
             } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
                 responseType_ = 'json';
             } else {
-                responseType_ = 'json';
+                responseType_ = 'blob';
             }
         }
 
@@ -599,7 +599,7 @@ export class AdminPlayListAPIService {
             } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
                 responseType_ = 'json';
             } else {
-                responseType_ = 'json';
+                responseType_ = 'blob';
             }
         }
 
@@ -679,7 +679,7 @@ export class AdminPlayListAPIService {
             } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
                 responseType_ = 'json';
             } else {
-                responseType_ = 'json';
+                responseType_ = 'blob';
             }
         }
 

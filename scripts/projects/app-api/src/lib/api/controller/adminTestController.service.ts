@@ -134,7 +134,7 @@ export class AdminTestControllerService {
             } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
                 responseType_ = 'json';
             } else {
-                responseType_ = 'json';
+                responseType_ = 'blob';
             }
         }
 
