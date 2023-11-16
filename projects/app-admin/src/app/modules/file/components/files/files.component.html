@@ -1,4 +1,4 @@
-<lh-common-page [hidden]="!showFrame.search" pageTitle="{{ 'module.groupdevice.title' | translate }}">
+<lh-common-page [hidden]="!showFrame.search" pageTitle="{{ 'module.file.title' | translate }}">
   <div nz-space>
     <button
       (click)="openAddFrame()"
@@ -22,9 +22,8 @@
 
   <lh-common-lh-table
     #table
-    [data] = "deviceGroups"
+    [data] = "files"
     [config]="tableConfig"
-    [expandTemplate]="playlistDetail"
     [loading]="loading.searching"
     (onUpdate)="update($event)"
     (onDelete)="delete($event)"
@@ -36,13 +35,13 @@
   [footerTemplateLeft]="backToSearch"
   [footerTemplateRight]="addActions"
 >
-  <app-admin-device-group-add [deviceGroupAdmin]="currentDeviceGroup" #addComponent>
-  </app-admin-device-group-add>
+  <app-admin-file-add [fileAdmin]="currentFile" #addComponent>
+  </app-admin-file-add>
 </lh-common-lh-dialog>
 <ng-template #addActions>
   <div nz-space>
     <button (click)="add()" nz-button nzType="primary">
-      {{ (this.currentDeviceGroup ? "common.update" : "common.add") | translate }}
+      {{ (this.currentFile ? "common.update" : "common.add") | translate }}
     </button>
   </div>
 </ng-template>
@@ -51,9 +50,5 @@
   <button (click)="gotoSearch()" nz-button>
     {{ "common.back" | translate }}
   </button>
-</ng-template>
-
-<ng-template #playlistDetail let-data="data">
-  <app-admin-device-list [deviceGroupAdmin]="data"></app-admin-device-list>
 </ng-template>
 
