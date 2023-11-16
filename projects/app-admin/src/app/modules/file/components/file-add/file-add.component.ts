@@ -28,6 +28,10 @@ import {
 import { from, of } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { BaseOutputListDsdFile } from 'projects/app-api/src/lib/api/models/baseOutputListDsdFile';
+import {
+  LhTableConfigModel,
+  LhTableFieldType,
+} from 'projects/app-common/src/lib/components/lh-table/lh-table-config.model';
 
 @Component({
   selector: 'app-admin-file-add',
@@ -36,7 +40,23 @@ import { BaseOutputListDsdFile } from 'projects/app-api/src/lib/api/models/baseO
 })
 export class FileAddComponent {
   @Input() fileList: NzUploadFile[] = [];
-
+  tableConfig: LhTableConfigModel = {
+    disableDetail: true,
+    disableUpdate: true,
+    key: 'uid',
+    fields: [
+      {
+        label: 'module.file.name',
+        field: 'name',
+        type: LhTableFieldType.STRING,
+      },
+      {
+        label: 'module.file.size',
+        field: 'size',
+        type: LhTableFieldType.SIZE_MEGABYTE,
+      },
+    ],
+  };
   // form: FormGroupFile = this.adminFileService.buildFileForm(this.fileAdmin)
 
   constructor(
@@ -45,8 +65,13 @@ export class FileAddComponent {
   ) {}
 
   beforeUpload = (file: NzUploadFile, fileList: NzUploadFile[]): boolean => {
-    // You can perform validations or add the file to the file list here
-    this.fileList = this.fileList.concat(fileList);
+    // de-duplicate file list
+    const uniqueFileList = fileList.filter((i2) => {
+      return !this.fileList.some(
+        (i1) => i1.name === i2.name && i1.size === i2.size
+      );
+    });
+    this.fileList = this.fileList.concat(uniqueFileList);
     return false; // Return false to stop automatic upload
   };
 
@@ -54,18 +79,7 @@ export class FileAddComponent {
     this.fileList = this.fileList.filter((f) => f !== file);
   }
 
-  handleChange(info: NzUploadChangeParam): void {
-    if (info.file.status === 'done') {
-      console.log(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === 'error') {
-      console.error(`${info.file.name} file upload failed.`);
-    }
-  }
-
   uploadFiles(): Observable<BaseOutputListDsdFile> {
     return this.adminFileService.upload(this.fileList);
-
-    // Call your service to upload files here
-    // Example: this.fileUploadService.upload(formData).subscribe(...);
   }
 }

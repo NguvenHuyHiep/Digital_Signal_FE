@@ -77,7 +77,12 @@
       "contentType": "Loại file",
       "list-file": "Danh sách File",
       "name": "Tên File",
-      "title": "File"
+      "title": "File",
+      "size": "Dung lượng",
+      "upload": {
+        "text": "Ấn hoặc kéo file vào đây để tải lên",
+        "hint": "Hỗ trợ tải lên một hoặc nhiều file, Cấm đưa lên các file có thông tin nhạy cảm"
+      }
     },
     "playlist": {
       "title": "Playlist",
