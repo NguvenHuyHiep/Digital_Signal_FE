@@ -22,7 +22,7 @@
 
   <lh-common-lh-table
     #table
-    [data] = "deviceGroups"
+    [data] = "files"
     [config]="tableConfig"
     [expandTemplate]="playlistDetail"
     [loading]="loading.searching"
@@ -36,13 +36,13 @@
   [footerTemplateLeft]="backToSearch"
   [footerTemplateRight]="addActions"
 >
-  <app-admin-device-group-add [deviceGroupAdmin]="currentDeviceGroup" #addComponent>
-  </app-admin-device-group-add>
+  <app-admin-file-add [fileAdmin]="currentFile" #addComponent>
+  </app-admin-file-add>
 </lh-common-lh-dialog>
 <ng-template #addActions>
   <div nz-space>
     <button (click)="add()" nz-button nzType="primary">
-      {{ (this.currentDeviceGroup ? "common.update" : "common.add") | translate }}
+      {{ (this.currentFile ? "common.update" : "common.add") | translate }}
     </button>
   </div>
 </ng-template>

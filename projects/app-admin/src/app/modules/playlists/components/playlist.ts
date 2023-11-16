@@ -1,11 +1,15 @@
 import {FormArray, FormControl, FormGroup} from "@angular/forms";
+import {FormGroupUser} from "../../user/components/user-type";
 
 export type FormGroupFile = FormGroup<{
-  id: FormControl<string | null>;
-  name?: FormControl<string | null>;
-  fileType?: FormControl<string | null>;
-  path?: FormControl<string | null>;
-  playlist?: FormGroupPlayList
+  id?: FormControl<number>,
+  path?: FormControl<string>;
+
+
+}>
+
+export type FormGroupUploadRequest= FormGroup<{
+  file: FormControl<Blob>
 }>
 
 export type FormGroupPlayList = FormGroup<{

@@ -20,7 +20,6 @@ import {
 export class DeviceGroupsComponent implements OnInit{
   @ViewChild('table') table?: LhTableComponent<DeviceGroup>
   @ViewChild('addComponent', {static: false}) addComponent?: DeviceGroupAddComponent;
-
   showFrame: {
     search: boolean,
     add: boolean
