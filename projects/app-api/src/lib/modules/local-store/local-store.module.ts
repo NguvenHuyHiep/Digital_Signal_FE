@@ -14,7 +14,8 @@ const dbConfig: DBConfig = {
       storeConfig: {keyPath: 'data', autoIncrement: false},
       storeSchema: [
         {name: 'data', keypath: 'data', options: {unique: true}}
-        ,{name: 'message', keypath: 'message', options: {unique: true}}
+        ,{name: 'message', keypath: 'message', options: {unique: false}}
+        ,{name: 'status', keypath: 'status', options: {unique: false}}
       ]
     },
     {

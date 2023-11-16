@@ -3,7 +3,6 @@ import {LhTableConfigModel, LhTableFieldConfigModel, LhTableFieldType} from "./l
 import * as _ from 'lodash';
 import {DatePipe} from "@angular/common";
 import {TranslateService} from "@ngx-translate/core";
-import {vi_VN} from "ng-zorro-antd/i18n";
 
 @Component({
   selector: 'lh-common-lh-table',
@@ -29,7 +28,7 @@ export class LhTableComponent<T extends Object> {
   listOfCurrentPageData: readonly T[] = [];
 
   constructor(private translate: TranslateService
-  , private datePipe: DatePipe) {
+    , private datePipe: DatePipe) {
   }
 
   getValue(record: any, field: string) {
@@ -46,6 +45,9 @@ export class LhTableComponent<T extends Object> {
     }
     if (field.type === LhTableFieldType.DATE_TIME) {
       return this.datePipe.transform(new Date(rawValue), 'dd/MM/yyyy HH:mm');
+    }
+    if (field.type === LhTableFieldType.SIZE_MEGABYTE) {
+      return `${this.formatSize(rawValue)} MB`
     }
     return rawValue;
   }
@@ -90,5 +92,11 @@ export class LhTableComponent<T extends Object> {
 
   delete(record: T) {
     this.onDelete.emit(record);
+  }
+
+  private formatSize = (sizeInBytes: number) => {
+    const megabyte = 1024*1024;
+    const sizeInMB = sizeInBytes / megabyte;
+    return sizeInMB.toFixed(2);
   }
 }

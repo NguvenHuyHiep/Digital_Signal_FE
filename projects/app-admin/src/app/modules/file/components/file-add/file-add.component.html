@@ -1,1 +1,28 @@
-<p>file-add works!</p>
+<lh-common-page>
+  <div [nzGutter]="[16, 16]" nz-row>
+    <div nz-col nzSpan="24">
+      <nz-upload
+        nzType="drag"
+        [nzMultiple]="true"
+        [nzFileList]="fileList"
+        [nzBeforeUpload]="beforeUpload"
+        [nzShowUploadList]="false"
+      >
+        <p class="ant-upload-drag-icon">
+          <span nz-icon nzType="inbox"></span>
+        </p>
+        <p class="ant-upload-text">
+          {{ "module.file.upload.text" | translate }}
+        </p>
+        <p class="ant-upload-hint">
+          {{ "module.file.upload.hint" | translate }}
+        </p>
+      </nz-upload>
+    </div>
+  </div>
+  <div [nzGutter]="[16, 16]" nz-row>
+    <div nz-col nzSpan="24">
+      <lh-common-lh-table #table [data]="fileList" [config]="tableConfig" (onDelete)="deleteFile($event)"></lh-common-lh-table>
+    </div>
+  </div>
+</lh-common-page>

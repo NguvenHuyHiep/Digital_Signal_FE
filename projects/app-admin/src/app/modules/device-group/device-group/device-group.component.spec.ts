@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UploadFileComponent } from './upload-file.component';
+import { DeviceGroupComponent } from './device-group.component';
 
-describe('UploadFileComponent', () => {
-  let component: UploadFileComponent;
-  let fixture: ComponentFixture<UploadFileComponent>;
+describe('DeviceGroupComponent', () => {
+  let component: DeviceGroupComponent;
+  let fixture: ComponentFixture<DeviceGroupComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UploadFileComponent ]
+      declarations: [ DeviceGroupComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(UploadFileComponent);
+    fixture = TestBed.createComponent(DeviceGroupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
