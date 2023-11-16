@@ -13,25 +13,32 @@ import {UiCommonModule} from "../../../../../app-common/src/lib/modules/ui-commo
 import { FileAddComponent } from './components/file-add/file-add.component';
 import { UploadFileComponent } from './components/upload-file/upload-file.component';
 import {NzUploadModule} from "ng-zorro-antd/upload";
+import { FileDetailComponent } from './components/file-detail/file-detail.component';
+
 
 
 @NgModule({
   declarations: [
     FilesComponent,
     FileAddComponent,
-    UploadFileComponent
+    UploadFileComponent,
+    FileDetailComponent
   ],
-    imports: [
-        CommonModule,
-        FileRoutingModule,
-        LhDialogModule,
-        LhTableModule,
-        NzButtonModule,
-        NzSpaceModule,
-        NzWaveModule,
-        TranslateModule,
-        UiCommonModule,
-        NzUploadModule
-    ]
+  exports: [
+    FilesComponent
+  ],
+  imports: [
+    CommonModule,
+    FileRoutingModule,
+    LhDialogModule,
+    LhTableModule,
+    NzButtonModule,
+    NzSpaceModule,
+    NzWaveModule,
+    TranslateModule,
+    UiCommonModule,
+    NzUploadModule,
+
+  ]
 })
 export class FileModule { }

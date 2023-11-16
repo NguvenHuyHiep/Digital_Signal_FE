@@ -22,6 +22,7 @@ import {NzIconModule} from "ng-zorro-antd/icon";
 import {AdminPlaylistModule} from "../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.module";
 import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
 import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
+import {FileModule} from "../file/file.module";
 
 
 
@@ -52,7 +53,8 @@ import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
     NzSelectModule,
     NzIconModule,
     NzDatePickerModule,
-    NzCheckboxModule
+    NzCheckboxModule,
+    FileModule
   ]
 })
 export class PlaylistsModule { }

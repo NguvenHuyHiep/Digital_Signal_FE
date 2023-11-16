@@ -1,28 +1,26 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {LhTableComponent} from "../../../../../../../app-common/src/lib/components/lh-table/lh-table.component";
-import {DeviceGroup} from "../../../../../../../app-api/src/lib/api/models/deviceGroup";
-import {
-  DeviceGroupAddComponent
-} from "../../../device-group/components/device-group/device-group-add/device-group-add.component";
 import {FileAddComponent} from "../file-add/file-add.component";
 import {
   LhTableConfigModel,
   LhTableFieldType
 } from "../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model";
-import {
-  AdminDeviceGroupService
-} from "../../../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.service";
 import {NzMessageService} from "ng-zorro-antd/message";
 import {AdminFileService} from "../../../../../../../app-api/src/lib/modules/admin/admin-file/admin-file.service";
 import {DsdFile} from "../../../../../../../app-api/src/lib/api/models/dsdFile";
 import {Playlist} from "../../../../../../../app-api/src/lib/api/models/playlist";
+import {
+  AdminPlaylistService
+} from "../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service";
 
 @Component({
   selector: 'app-admin-files',
   templateUrl: './files.component.html',
   styleUrls: ['./files.component.scss']
 })
-export class FilesComponent implements OnInit{
+export class FilesComponent<T extends Object> implements OnInit{
+  @Input() playListAdmin?: Playlist;
+  @Output() onGroup: EventEmitter<T> = new EventEmitter<T>();
   @ViewChild('table') table?: LhTableComponent<DsdFile>
   @ViewChild('addComponent', {static: false}) addComponent?: FileAddComponent;
  currentFile?: DsdFile;
@@ -56,13 +54,21 @@ export class FilesComponent implements OnInit{
     return (this.table?.setOfCheckedId?.size || 0) > 0;
   }
 
-  constructor(private adminFileService: AdminFileService
+  constructor(private adminFileService: AdminFileService,
+    private adminPlaylistService: AdminPlaylistService
     , private message: NzMessageService
   ) {
   }
 
   ngOnInit(): void {
-    this.getAllFile();
+
+    if(this.playListAdmin){
+      this.getFileById()
+    }else {
+      this.getAllFile();
+    }
+
+
   }
 
   update(files: DsdFile) {
@@ -90,6 +96,22 @@ export class FilesComponent implements OnInit{
 
   deleteSelected() {
 
+  }
+
+  getFileById(): void{
+    this.adminPlaylistService.getPlaylistWithFile(this.playListAdmin?.id as number).subscribe({
+      next: (response) => {
+        if (response.data) {
+          this.files = response.data.files  as Array<DsdFile>;
+        }
+      }
+      , error: err => {
+        //TODO Xử lý exception
+      }
+      , complete: () => {
+        this.loading.searching = false;
+      }
+    })
   }
   getAllFile(): void {
     this.loading.searching = true;
