@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {LhTableComponent} from "../../../../../../../app-common/src/lib/components/lh-table/lh-table.component";
 import {DeviceGroup} from "../../../../../../../app-api/src/lib/api/models/deviceGroup";
 import {
@@ -22,7 +22,7 @@ import {Playlist} from "../../../../../../../app-api/src/lib/api/models/playlist
   templateUrl: './files.component.html',
   styleUrls: ['./files.component.scss']
 })
-export class FilesComponent {
+export class FilesComponent implements OnInit{
   @ViewChild('table') table?: LhTableComponent<DsdFile>
   @ViewChild('addComponent', {static: false}) addComponent?: FileAddComponent;
  currentFile?: DsdFile;
@@ -46,15 +46,10 @@ export class FilesComponent {
     key: 'id',
     fields: [
       {
-        label: 'module.groupdevice.name'
+        label: 'module.file.name'
         , field: 'name'
         , type: LhTableFieldType.STRING
       },
-      {
-        label: 'module.groupdevice.description'
-        , field: 'description'
-        , type: LhTableFieldType.STRING
-      }
     ]
   };
   isSelectedRow(): boolean{
@@ -64,6 +59,10 @@ export class FilesComponent {
   constructor(private adminFileService: AdminFileService
     , private message: NzMessageService
   ) {
+  }
+
+  ngOnInit(): void {
+    this.getAllFile();
   }
 
   update(files: DsdFile) {

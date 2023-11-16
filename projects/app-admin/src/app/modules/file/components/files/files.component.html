@@ -1,4 +1,4 @@
-<lh-common-page [hidden]="!showFrame.search" pageTitle="{{ 'module.groupdevice.title' | translate }}">
+<lh-common-page [hidden]="!showFrame.search" pageTitle="{{ 'module.file.title' | translate }}">
   <div nz-space>
     <button
       (click)="openAddFrame()"
@@ -24,7 +24,6 @@
     #table
     [data] = "files"
     [config]="tableConfig"
-    [expandTemplate]="playlistDetail"
     [loading]="loading.searching"
     (onUpdate)="update($event)"
     (onDelete)="delete($event)"
