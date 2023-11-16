@@ -1,9 +1,9 @@
   <nz-table #basicTable [nzLoading]="loading" [nzData]="data" *ngIf="data">
   <thead>
   <tr>
-    <th [colSpan]="expandTemplate ? 1 : 1"></th>
+    <th [colSpan]="expandTemplate ? 2 : 1"></th>
     <th *ngFor="let field of config.fields">{{field.label | translate}}</th>
-    <th nzRight></th>
+    <th nzRight>Action</th>
   </tr>
   </thead>
   <tbody>
