@@ -24,8 +24,6 @@ import { BaseOutputDsdFile } from '../models/baseOutputDsdFile';
 import { BaseOutputListDsdFile } from '../models/baseOutputListDsdFile';
 // @ts-ignore
 import { BaseOutputString } from '../models/baseOutputString';
-// @ts-ignore
-import { UploadRequest } from '../models/uploadRequest';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -676,16 +674,24 @@ export class AdminFileControllerService {
     }
 
     /**
-     * @param uploadRequest
+     * @param files
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public upload(uploadRequest: UploadRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputDsdFile>;
-    public upload(uploadRequest: UploadRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputDsdFile>>;
-    public upload(uploadRequest: UploadRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputDsdFile>>;
-    public upload(uploadRequest: UploadRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
-        if (uploadRequest === null || uploadRequest === undefined) {
-            throw new Error('Required parameter uploadRequest was null or undefined when calling upload.');
+    public upload(files: Array<Blob>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputListDsdFile>;
+    public upload(files: Array<Blob>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputListDsdFile>>;
+    public upload(files: Array<Blob>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputListDsdFile>>;
+    public upload(files: Array<Blob>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
+        if (files === null || files === undefined) {
+            throw new Error('Required parameter files was null or undefined when calling upload.');
+        }
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (files) {
+            files.forEach((element) => {
+                localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+                  <any>element, 'files');
+            })
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -715,15 +721,6 @@ export class AdminFileControllerService {
         }
 
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -736,10 +733,10 @@ export class AdminFileControllerService {
         }
 
         let localVarPath = `/api/v1/admin/file/upload`;
-        return this.httpClient.request<BaseOutputDsdFile>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<BaseOutputListDsdFile>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: uploadRequest,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
