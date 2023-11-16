@@ -76,7 +76,8 @@
       "contentTypes-img": "img",
       "contentType": "Loại file",
       "list-file": "Danh sách File",
-      "name": "Tên File"
+      "name": "Tên File",
+      "title": "File"
     },
     "playlist": {
       "title": "Playlist",
