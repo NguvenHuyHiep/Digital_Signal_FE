@@ -1,17 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { LhTableComponent } from '../../../../../../../app-common/src/lib/components/lh-table/lh-table.component';
-import { DeviceGroup } from '../../../../../../../app-api/src/lib/api/models/deviceGroup';
-import { DeviceGroupAddComponent } from '../../../device-group/components/device-group/device-group-add/device-group-add.component';
 import { FileAddComponent } from '../file-add/file-add.component';
 import {
   LhTableConfigModel,
   LhTableFieldType,
 } from '../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model';
-import { AdminDeviceGroupService } from '../../../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { AdminFileService } from '../../../../../../../app-api/src/lib/modules/admin/admin-file/admin-file.service';
 import { DsdFile } from '../../../../../../../app-api/src/lib/api/models/dsdFile';
-import { Playlist } from '../../../../../../../app-api/src/lib/api/models/playlist';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 
 @Component({
