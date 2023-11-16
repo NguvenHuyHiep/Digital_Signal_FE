@@ -3,7 +3,6 @@ import {LhTableConfigModel, LhTableFieldConfigModel, LhTableFieldType} from "./l
 import * as _ from 'lodash';
 import {DatePipe} from "@angular/common";
 import {TranslateService} from "@ngx-translate/core";
-import {vi_VN} from "ng-zorro-antd/i18n";
 
 @Component({
   selector: 'lh-common-lh-table',
@@ -29,7 +28,7 @@ export class LhTableComponent<T extends Object> {
   listOfCurrentPageData: readonly T[] = [];
 
   constructor(private translate: TranslateService
-  , private datePipe: DatePipe) {
+    , private datePipe: DatePipe) {
   }
 
   getValue(record: any, field: string) {

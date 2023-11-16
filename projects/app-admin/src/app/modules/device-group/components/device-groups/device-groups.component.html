@@ -1,7 +1,7 @@
 <lh-common-page [hidden]="!showFrame.search" pageTitle="{{ 'module.groupdevice.title' | translate }}">
   <div nz-space>
     <button
-      (click)="openAddFrame()"
+      (click)="routeToAdd()"
       nz-button
       nzType="primary"
       class="mb-2 btnFunction"
@@ -53,7 +53,7 @@
 </ng-template>
 
 <ng-template #backToSearch>
-  <button (click)="gotoSearch()" nz-button>
+  <button (click)="routeToSearch()" nz-button>
     {{ "common.back" | translate }}
   </button>
 </ng-template>

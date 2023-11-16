@@ -21,6 +21,7 @@ export class AdminDeviceGroupService {
   ) {
   }
 
+
   getDevices(deviceGroupId: number): Observable<BaseOutputDeviceGroup> {
     return this.adminGroupDeviceController.getById8(deviceGroupId)
   }
