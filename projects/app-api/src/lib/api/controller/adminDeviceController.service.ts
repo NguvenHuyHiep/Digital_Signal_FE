@@ -174,12 +174,12 @@ export class AdminDeviceControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public create5(device: Device, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputDevice>;
-    public create5(device: Device, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputDevice>>;
-    public create5(device: Device, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputDevice>>;
-    public create5(device: Device, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
+    public create4(device: Device, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputDevice>;
+    public create4(device: Device, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputDevice>>;
+    public create4(device: Device, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputDevice>>;
+    public create4(device: Device, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
         if (device === null || device === undefined) {
-            throw new Error('Required parameter device was null or undefined when calling create5.');
+            throw new Error('Required parameter device was null or undefined when calling create4.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -456,7 +456,10 @@ export class AdminDeviceControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getByIdWithLogs(id: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputDevice> {
+    public getByIdWithLogs(id: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputDevice>;
+    public getByIdWithLogs(id: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputDevice>>;
+    public getByIdWithLogs(id: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputDevice>>;
+    public getByIdWithLogs(id: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling getByIdWithLogs.');
         }
@@ -605,15 +608,15 @@ export class AdminDeviceControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public update5(id: number, device: Device, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputDevice>;
-    public update5(id: number, device: Device, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputDevice>>;
-    public update5(id: number, device: Device, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputDevice>>;
-    public update5(id: number, device: Device, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
+    public update4(id: number, device: Device, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputDevice>;
+    public update4(id: number, device: Device, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputDevice>>;
+    public update4(id: number, device: Device, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputDevice>>;
+    public update4(id: number, device: Device, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling update5.');
+            throw new Error('Required parameter id was null or undefined when calling update4.');
         }
         if (device === null || device === undefined) {
-            throw new Error('Required parameter device was null or undefined when calling update5.');
+            throw new Error('Required parameter device was null or undefined when calling update4.');
         }
 
         let localVarHeaders = this.defaultHeaders;

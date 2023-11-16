@@ -42,18 +42,6 @@ export class AdminLicenseService {
       .pipe(tap(response => console.log(response)))
   };
 
-  public addLicense(license: License): Observable<BaseOutputLicense> {
-    return this.adminLicenseAPIService.create4(license);
-  }
-
-  public updateLicense(license: License): Observable<BaseOutputLicense> {
-    return this.adminLicenseAPIService.update4(license.id as number, license);
-  }
-
-  public deleteLicense(license: number): Observable<BaseOutputString> {
-    return this.adminLicenseAPIService.delete4(license)
-  }
-
   public buildLicenseForm(license?: License): FormGroupLicense {
     let form = this.formBuilder.group({
       id: [license?.id],
