@@ -31,7 +31,7 @@ export class DeviceGroupsComponent implements OnInit{
     add: false,
     device: false
   }
-  currentDeviceGroup?: DeviceGroup;
+  currentDeviceGroup: DeviceGroup = {};
   deviceGroups: Array<DeviceGroup> = [];
   loading: {
     adding: boolean;
@@ -94,7 +94,6 @@ export class DeviceGroupsComponent implements OnInit{
   }
   ngOnInit(): void {
     this.getAllDeviceGroup();
-    this.loadDevice();
   }
   private getAllDeviceGroup() {
     this.adminDeviceGroupService.getAllDeviceGroup(0,10).subscribe({
@@ -139,7 +138,7 @@ export class DeviceGroupsComponent implements OnInit{
   }
 
   openAddFrame() {
-    this.currentDeviceGroup = undefined;
+    this.currentDeviceGroup = {};
     this.showFrame.search = false;
     this.showFrame.add = true;
   }
@@ -174,29 +173,5 @@ export class DeviceGroupsComponent implements OnInit{
   gotoSearch() {
     this.showFrame.search = true;
     this.showFrame.add = false;
-  }
-
-  private loadDevice(): void {
-    this.loading.searching = true;
-
-    if (true) {
-      this.adminDeviceGroupService.getDevices(this.currentDeviceGroup?.id as number).subscribe({
-
-        next: (response) => {
-          if (response.data) {
-            this.devices = response.data.devices as Array<Device>;
-            console.log(this.devices + "device");
-          }
-        }
-        , error: err => {
-          // TODO i18n
-          this.message.error("Error", err);
-          this.loading.searching = false;
-        }
-        , complete: () => {
-          this.loading.searching = false;
-        }
-      });
-    }
   }
 }

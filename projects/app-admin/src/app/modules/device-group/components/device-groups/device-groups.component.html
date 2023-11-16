@@ -58,11 +58,7 @@
   </button>
 </ng-template>
 
-<ng-template #playlistDetail>
-  <lh-common-lh-table *ngIf="!loading.device"
-                      [config]="tableDeviceConfig"
-                      [data]="devices"
-                      [loading]="loading.device"
-  ></lh-common-lh-table>
+<ng-template #playlistDetail let-data="data">
+  <app-admin-device-list [deviceGroupAdmin]="data"></app-admin-device-list>
 </ng-template>
 

@@ -33,7 +33,8 @@ import { NzCardModule } from 'ng-zorro-antd/card';
     AdminDeviceModule,
   ],
   exports: [
-    DeviceDetailComponent
+    DeviceDetailComponent,
+    DeviceListComponent
   ]
 })
 export class DeviceModule {}
