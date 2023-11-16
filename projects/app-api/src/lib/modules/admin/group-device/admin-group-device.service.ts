@@ -71,11 +71,11 @@ export class AdminDeviceGroupService {
   }
 
   public addGroupDevice(groupDevice: DeviceGroup): Observable<BaseOutputDeviceGroup> {
-    return this.adminGroupDeviceController.create7(groupDevice);
+    return this.adminGroupDeviceController.create6(groupDevice);
   }
 
   updateGroupDevice(groupDevice: DeviceGroup): Observable<BaseOutputDeviceGroup> {
-    return this.adminGroupDeviceController.update7(groupDevice?.id as number, groupDevice);
+    return this.adminGroupDeviceController.update6(groupDevice?.id as number, groupDevice);
   }
 
   public assignDevices(deciveGroupId: number, deviceIds: number[]) {

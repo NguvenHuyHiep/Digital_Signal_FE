@@ -57,7 +57,6 @@ models/models.ts
 models/playlist.ts
 models/role.ts
 models/schedule.ts
-models/uploadRequest.ts
 models/user.ts
 param.ts
 variables.ts

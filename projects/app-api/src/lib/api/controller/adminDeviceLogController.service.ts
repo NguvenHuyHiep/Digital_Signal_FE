@@ -104,12 +104,12 @@ export class AdminDeviceLogControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public create6(deviceLog: DeviceLog, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputDeviceLog>;
-    public create6(deviceLog: DeviceLog, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputDeviceLog>>;
-    public create6(deviceLog: DeviceLog, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputDeviceLog>>;
-    public create6(deviceLog: DeviceLog, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
+    public create5(deviceLog: DeviceLog, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputDeviceLog>;
+    public create5(deviceLog: DeviceLog, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputDeviceLog>>;
+    public create5(deviceLog: DeviceLog, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputDeviceLog>>;
+    public create5(deviceLog: DeviceLog, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
         if (deviceLog === null || deviceLog === undefined) {
-            throw new Error('Required parameter deviceLog was null or undefined when calling create6.');
+            throw new Error('Required parameter deviceLog was null or undefined when calling create5.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -403,15 +403,15 @@ export class AdminDeviceLogControllerService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public update6(id: number, deviceLog: DeviceLog, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputDeviceLog>;
-    public update6(id: number, deviceLog: DeviceLog, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputDeviceLog>>;
-    public update6(id: number, deviceLog: DeviceLog, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputDeviceLog>>;
-    public update6(id: number, deviceLog: DeviceLog, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
+    public update5(id: number, deviceLog: DeviceLog, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputDeviceLog>;
+    public update5(id: number, deviceLog: DeviceLog, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputDeviceLog>>;
+    public update5(id: number, deviceLog: DeviceLog, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputDeviceLog>>;
+    public update5(id: number, deviceLog: DeviceLog, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling update6.');
+            throw new Error('Required parameter id was null or undefined when calling update5.');
         }
         if (deviceLog === null || deviceLog === undefined) {
-            throw new Error('Required parameter deviceLog was null or undefined when calling update6.');
+            throw new Error('Required parameter deviceLog was null or undefined when calling update5.');
         }
 
         let localVarHeaders = this.defaultHeaders;
