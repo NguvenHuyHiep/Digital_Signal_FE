@@ -2,7 +2,6 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {FormControl} from "@angular/forms";
 import {NzUploadFile, NzUploadXHRArgs} from "ng-zorro-antd/upload";
 import {NzMessageService} from "ng-zorro-antd/message";
-import {ResourcesServiceService} from "../../../../../../../app-api/src/lib/modules/resources-service.service";
 import {Subscription} from "rxjs";
 import {
   AdminFileControllerService

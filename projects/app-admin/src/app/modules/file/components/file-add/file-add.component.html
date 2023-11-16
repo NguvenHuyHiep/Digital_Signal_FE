@@ -1,1 +1,35 @@
-<p>file-add works!</p>
+<nz-upload
+  nzType="drag"
+  [nzMultiple]="true"
+  [nzFileList]="fileList"
+  [nzBeforeUpload]="beforeUpload"
+  (nzChange)="handleChange($event)"
+>
+  <p class="ant-upload-drag-icon">
+    <span nz-icon nzType="inbox"></span>
+  </p>
+  <p class="ant-upload-text">{{ "common.clickOrDragToUpload" | translate }}</p>
+  <p class="ant-upload-hint">
+    Support for a single or bulk upload. Strictly prohibit from uploading
+    company data or other band files
+  </p>
+</nz-upload>
+<!-- <ng-container *ngIf="files && files.length > 0">
+  <ng-container *ngFor="let file of files">
+    <ng-container>
+      <img [src]="file.url" style="width: 100%" />
+    </ng-container>
+    <ng-container>
+      <audio controls>
+        <source [src]="file.url" />
+        Trình duyệt không hỗ trợ định dạng
+      </audio>
+    </ng-container>
+    <ng-container>
+      <video controls width="250">
+        <source [src]="file.url" />
+        Trình duyệt không hỗ trợ định dạng
+      </video>
+    </ng-container>
+  </ng-container>
+</ng-container> -->

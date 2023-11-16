@@ -1,65 +1,63 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {LhTableComponent} from "../../../../../../../app-common/src/lib/components/lh-table/lh-table.component";
-import {DeviceGroup} from "../../../../../../../app-api/src/lib/api/models/deviceGroup";
-import {
-  DeviceGroupAddComponent
-} from "../../../device-group/components/device-group/device-group-add/device-group-add.component";
-import {FileAddComponent} from "../file-add/file-add.component";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { LhTableComponent } from '../../../../../../../app-common/src/lib/components/lh-table/lh-table.component';
+import { DeviceGroup } from '../../../../../../../app-api/src/lib/api/models/deviceGroup';
+import { DeviceGroupAddComponent } from '../../../device-group/components/device-group/device-group-add/device-group-add.component';
+import { FileAddComponent } from '../file-add/file-add.component';
 import {
   LhTableConfigModel,
-  LhTableFieldType
-} from "../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model";
-import {
-  AdminDeviceGroupService
-} from "../../../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.service";
-import {NzMessageService} from "ng-zorro-antd/message";
-import {AdminFileService} from "../../../../../../../app-api/src/lib/modules/admin/admin-file/admin-file.service";
-import {DsdFile} from "../../../../../../../app-api/src/lib/api/models/dsdFile";
-import {Playlist} from "../../../../../../../app-api/src/lib/api/models/playlist";
+  LhTableFieldType,
+} from '../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model';
+import { AdminDeviceGroupService } from '../../../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { AdminFileService } from '../../../../../../../app-api/src/lib/modules/admin/admin-file/admin-file.service';
+import { DsdFile } from '../../../../../../../app-api/src/lib/api/models/dsdFile';
+import { Playlist } from '../../../../../../../app-api/src/lib/api/models/playlist';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'app-admin-files',
   templateUrl: './files.component.html',
-  styleUrls: ['./files.component.scss']
+  styleUrls: ['./files.component.scss'],
 })
-export class FilesComponent implements OnInit{
-  @ViewChild('table') table?: LhTableComponent<DsdFile>
-  @ViewChild('addComponent', {static: false}) addComponent?: FileAddComponent;
- currentFile?: DsdFile;
-  files: Array<DsdFile> = []
+export class FilesComponent implements OnInit {
+  @ViewChild('table') table?: LhTableComponent<DsdFile>;
+  @ViewChild('addComponent', { static: false }) addComponent?: FileAddComponent;
+  currentFile?: DsdFile;
+  fileList: NzUploadFile[] = [];
+  files: Array<DsdFile> = [];
   loading: {
     adding: boolean;
     searching: boolean;
   } = {
     adding: false,
-    searching: false
+    searching: false,
   };
   showFrame: {
-    search: boolean,
-    add: boolean
+    search: boolean;
+    add: boolean;
   } = {
     search: true,
-    add: false
-  }
+    add: false,
+  };
   tableConfig: LhTableConfigModel = {
     disableDetail: true,
     key: 'id',
     fields: [
       {
-        label: 'module.file.name'
-        , field: 'name'
-        , type: LhTableFieldType.STRING
+        label: 'module.file.name',
+        field: 'name',
+        type: LhTableFieldType.STRING,
       },
-    ]
+    ],
   };
-  isSelectedRow(): boolean{
+  isSelectedRow(): boolean {
     return (this.table?.setOfCheckedId?.size || 0) > 0;
   }
 
-  constructor(private adminFileService: AdminFileService
-    , private message: NzMessageService
-  ) {
-  }
+  constructor(
+    private adminFileService: AdminFileService,
+    private message: NzMessageService
+  ) {}
 
   ngOnInit(): void {
     this.getAllFile();
@@ -72,14 +70,15 @@ export class FilesComponent implements OnInit{
   }
   delete(files: DsdFile) {
     this.adminFileService.deleteFile(files.path as string).subscribe({
-      next: response => {
+      next: (response) => {
         this.getAllFile();
-      }, error: err => {
+      },
+      error: (err) => {
         //TODO execption
-      }
-      , complete: () => {
+      },
+      complete: () => {
         this.loading.searching = false;
-      }
+      },
     });
   }
   openAddFrame() {
@@ -88,26 +87,24 @@ export class FilesComponent implements OnInit{
     this.showFrame.add = true;
   }
 
-  deleteSelected() {
-
-  }
+  deleteSelected() {}
   getAllFile(): void {
     this.loading.searching = true;
-    this.adminFileService.getAllFile(0,100).subscribe({
+    this.adminFileService.getAllFile(0, 100).subscribe({
       next: (response) => {
         if (response.data) {
           this.files = response.data as Array<DsdFile>;
-          console.log(this.files + "files");
+          console.log(this.files + 'files');
         }
-      }
-      , error: err => {
+      },
+      error: (err) => {
         // TODO i18n
-        this.message.error("Error", err);
+        this.message.error('Error', err);
         this.loading.searching = false;
-      }
-      , complete: () => {
+      },
+      complete: () => {
         this.loading.searching = false;
-      }
+      },
     });
   }
   add() {
@@ -115,7 +112,13 @@ export class FilesComponent implements OnInit{
       return;
     }
     this.loading.adding = true;
-
+    this.addComponent.uploadFiles().subscribe({
+      next: (value) => {
+        console.log(value);
+      },
+      error: (err) => {},
+      complete: () => {},
+    });
   }
 
   gotoSearch() {

@@ -31,7 +31,7 @@ import {NzUploadModule} from "ng-zorro-antd/upload";
         NzWaveModule,
         TranslateModule,
         UiCommonModule,
-        NzUploadModule
+        NzUploadModule,
     ]
 })
 export class FileModule { }
