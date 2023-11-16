@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {DeviceGroup} from "../../../../../../../app-api/src/lib/api/models/deviceGroup";
 import {LhTableComponent} from "../../../../../../../app-common/src/lib/components/lh-table/lh-table.component";
 import {DeviceGroupAddComponent} from "../device-group/device-group-add/device-group-add.component";
@@ -11,6 +11,7 @@ import {translate} from "@antv/g2/lib/util/transform";
 import {
   AdminDeviceGroupService
 } from "../../../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.service";
+import {Device} from "../../../../../../../app-api/src/lib/api/models/device";
 
 @Component({
   selector: 'app-admin-device-groups',
@@ -20,22 +21,26 @@ import {
 export class DeviceGroupsComponent implements OnInit{
   @ViewChild('table') table?: LhTableComponent<DeviceGroup>
   @ViewChild('addComponent', {static: false}) addComponent?: DeviceGroupAddComponent;
-
+  devices: Array<Device> = [];
   showFrame: {
     search: boolean,
-    add: boolean
+    add: boolean,
+    device: boolean
   } = {
     search: true,
-    add: false
+    add: false,
+    device: false
   }
   currentDeviceGroup?: DeviceGroup;
   deviceGroups: Array<DeviceGroup> = [];
   loading: {
     adding: boolean;
     searching: boolean;
+    device: boolean
   } = {
     adding: false,
-    searching: false
+    searching: false,
+    device: false
   };
   tableConfig: LhTableConfigModel = {
     disableDetail: true,
@@ -54,12 +59,42 @@ export class DeviceGroupsComponent implements OnInit{
     ]
   };
 
+  tableDeviceConfig: LhTableConfigModel = {
+    key: 'id',
+    disableDetail: true,
+    disableUpdate: false,
+    disableDelete: true,
+    fields: [
+      {
+        label: 'module.device.code',
+        field: 'code',
+        type: LhTableFieldType.STRING,
+      },
+      {
+        label: 'module.device.name',
+        field: 'name',
+        type: LhTableFieldType.STRING,
+      },
+      {
+        label: 'module.device.info',
+        field: 'information',
+        type: LhTableFieldType.STRING,
+      },
+      {
+        label: 'module.device.status',
+        field: 'status',
+        type: LhTableFieldType.STRING,
+      },
+    ],
+  };
+
   constructor(private adminDeviceGroupService: AdminDeviceGroupService
     , private message: NzMessageService
   ) {
   }
   ngOnInit(): void {
     this.getAllDeviceGroup();
+    this.loadDevice();
   }
   private getAllDeviceGroup() {
     this.adminDeviceGroupService.getAllDeviceGroup(0,10).subscribe({
@@ -139,5 +174,29 @@ export class DeviceGroupsComponent implements OnInit{
   gotoSearch() {
     this.showFrame.search = true;
     this.showFrame.add = false;
+  }
+
+  private loadDevice(): void {
+    this.loading.searching = true;
+
+    if (true) {
+      this.adminDeviceGroupService.getDevices(this.currentDeviceGroup?.id as number).subscribe({
+
+        next: (response) => {
+          if (response.data) {
+            this.devices = response.data.devices as Array<Device>;
+            console.log(this.devices + "device");
+          }
+        }
+        , error: err => {
+          // TODO i18n
+          this.message.error("Error", err);
+          this.loading.searching = false;
+        }
+        , complete: () => {
+          this.loading.searching = false;
+        }
+      });
+    }
   }
 }

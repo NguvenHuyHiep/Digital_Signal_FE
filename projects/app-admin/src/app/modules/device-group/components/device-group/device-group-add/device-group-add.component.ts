@@ -29,8 +29,14 @@ import {
   providers: [AdminDeviceService]
 })
 export class DeviceGroupAddComponent implements OnInit {
+  @Input('deviceId') deviceId?: number;
   @Input() deviceGroupAdmin?: DeviceGroup;
   devices: Array<Device> = [];
+  showFrame: {
+    detail: boolean,
+  } = {
+    detail: false,
+  };
   loading: {
     addDevice: boolean;
     searching: boolean;
@@ -40,44 +46,45 @@ export class DeviceGroupAddComponent implements OnInit {
     addDevice: false,
     device: false,
   };
+  tableConfig: LhTableConfigModel = {
+    key: 'id',
+    disableDetail: true,
+    disableUpdate: false,
+    disableDelete: true,
+    fields: [
+      {
+        label: 'module.device.code',
+        field: 'code',
+        type: LhTableFieldType.STRING,
+      },
+      {
+        label: 'module.device.name',
+        field: 'name',
+        type: LhTableFieldType.STRING,
+      },
+      {
+        label: 'module.device.info',
+        field: 'information',
+        type: LhTableFieldType.STRING,
+      },
+      {
+        label: 'module.device.status',
+        field: 'status',
+        type: LhTableFieldType.STRING,
+      },
+    ],
+  };
+
   tabs = [{
     code: 'info',
     name: 'module.user.info'
   }
   ];
   form: FormDeviceGroup = this.adminDeviceGroupService.buildDeviceGroupForm(this.deviceGroupAdmin)
-  deviceTableConfig: LhTableConfigModel = {
-    key: 'id',
-    disableDetail: true,
-    disableUpdate:true,
-    disableDelete:true,
-    fields: [
-      {
-        label: 'code',
-        field: 'code',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'name',
-        field: 'name',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'information',
-        field: 'information',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'status',
-        field: 'status',
-        type: LhTableFieldType.STRING,
-      },
-    ],
-  };
   addDeviceForm: FormDevice = this.formBuilder.group({
     deviceId: ['', Validators.required]
   }) as unknown as FormDevice;
-  private currentDevice?: Device;
+  currentDevice: Device = {};
 
   constructor(
     private formBuilder: FormBuilder,
@@ -193,4 +200,10 @@ export class DeviceGroupAddComponent implements OnInit {
     }
   }
 
+  detailDevice(record: Device) {
+    this.currentDevice = record;
+    this.showFrame = {
+      detail: true,
+    }
+  }
 }

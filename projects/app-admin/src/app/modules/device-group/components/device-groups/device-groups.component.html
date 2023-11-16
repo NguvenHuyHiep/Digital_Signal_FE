@@ -58,7 +58,11 @@
   </button>
 </ng-template>
 
-<ng-template #playlistDetail let-data="data">
-  {{ data.description }}
+<ng-template #playlistDetail>
+  <lh-common-lh-table *ngIf="!loading.device"
+                      [config]="tableDeviceConfig"
+                      [data]="devices"
+                      [loading]="loading.device"
+  ></lh-common-lh-table>
 </ng-template>
 
