@@ -18,10 +18,14 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { FileDetailComponent } from './components/file-detail/file-detail.component';
 
-
 @NgModule({
-  declarations: [FilesComponent, FileAddComponent, UploadFileComponent, FileDetailComponent],
-  exports: [FilesComponent, FileAddComponent],
+  declarations: [
+    FilesComponent,
+    FileAddComponent,
+    UploadFileComponent,
+    FileDetailComponent,
+  ],
+  exports: [FilesComponent, FileAddComponent, FileDetailComponent],
   imports: [
     CommonModule,
     FileRoutingModule,

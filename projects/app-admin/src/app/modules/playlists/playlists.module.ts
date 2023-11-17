@@ -24,7 +24,6 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { FileModule } from '../file/file.module';
 
-
 @NgModule({
   declarations: [PlaylistComponent, PlaylistAddComponent],
   imports: [
@@ -50,6 +49,7 @@ import { FileModule } from '../file/file.module';
     NzIconModule,
     NzDatePickerModule,
     NzCheckboxModule,
+    FileModule,
   ],
 })
 export class PlaylistsModule {}
