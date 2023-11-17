@@ -55,7 +55,8 @@ export class FileDetailComponent<T extends Object> implements OnInit {
 
   ngOnInit(): void {
     this.loading.searching = true;
-    if (this.currentPlayList) {
+    if (this.currentPlayList?.id) {
+      console.log('this.currentPlayList?.id',this.currentPlayList?.id)
       this.adminPlaylistService.getPlaylistWithFile(this.currentPlayList?.id as number).subscribe({
         next: (response) => {
           if (response.data) {
@@ -69,20 +70,22 @@ export class FileDetailComponent<T extends Object> implements OnInit {
           this.loading.searching = false;
         }
       })
-    } else {
-      this.adminFileService.getAllFile().subscribe({
-        next: (response) => {
-          if (response && response.data) {
-            this.files = response.data;
-          }
-        },
-        error: (err) => {
-          //TODO Xử lý exception
-        },
-        complete: () => {
-          this.loading.searching = false;
-        },
-      });}
+    }
+  //   else {
+  //     this.adminFileService.getAllFile().subscribe({
+  //       next: (response) => {
+  //         if (response && response.data) {
+  //           this.files = response.data;
+  //         }
+  //       },
+  //       error: (err) => {
+  //         //TODO Xử lý exception
+  //       },
+  //       complete: () => {
+  //         this.loading.searching = false;
+  //       },
+  //     });
+  // }
   }
 
   update(files: DsdFile) {

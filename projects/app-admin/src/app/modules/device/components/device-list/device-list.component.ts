@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import { tr } from 'date-fns/locale';
 import { Device } from 'projects/app-api/src/lib/api/models/device';
 import { AdminDeviceService } from 'projects/app-api/src/lib/modules/admin/admin-device/admin-device.service';
 import {
