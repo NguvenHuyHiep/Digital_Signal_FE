@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {DeviceGroupsComponent} from "./components/device-groups/device-groups.component";
 import {DeviceGroupAddComponent} from "./components/device-group/device-group-add/device-group-add.component";
 import {TranslateModule} from "@ngx-translate/core";
@@ -25,14 +25,16 @@ import {
   AdminDeviceGroupModule
 } from "../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.module";
 import {ChosenDeviceComponent} from "./components/device-group/choosen-device/chosen-device.component";
-import { DeviceGroupComponent } from './device-group/device-group.component';
 import {DeviceModule} from "../device/device.module";
+import {DeviceGroupComponent} from "./device-group/device-group.component";
 
 
 @NgModule({
   declarations: [DeviceGroupsComponent,
-  DeviceGroupAddComponent,
-  ChosenDeviceComponent],
+    DeviceGroupAddComponent,
+    ChosenDeviceComponent,
+    DeviceGroupComponent
+  ],
   imports: [
     CommonModule,
     TranslateModule,
@@ -59,4 +61,5 @@ import {DeviceModule} from "../device/device.module";
     DeviceModule,
   ],
 })
-export class DeviceGroupModule { }
+export class DeviceGroupModule {
+}
