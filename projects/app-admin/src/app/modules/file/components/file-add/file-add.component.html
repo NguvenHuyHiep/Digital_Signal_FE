@@ -22,7 +22,12 @@
   </div>
   <div [nzGutter]="[16, 16]" nz-row>
     <div nz-col nzSpan="24">
-      <lh-common-lh-table #table [data]="fileList" [config]="tableConfig" (onDelete)="deleteFile($event)"></lh-common-lh-table>
+      <lh-common-lh-table
+        #table
+        [data]="fileList"
+        [config]="tableConfig"
+        (onDelete)="deleteFile($event)"
+      ></lh-common-lh-table>
     </div>
   </div>
 </lh-common-page>

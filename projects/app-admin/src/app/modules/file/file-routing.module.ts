@@ -1,13 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {FilesComponent} from "./components/files/files.component";
+import { FilesComponent } from './components/files/files.component';
 
-const routes: Routes = [{
-  path: '', component: FilesComponent
-}];
+const routes: Routes = [
+  {
+    path: '',
+    component: FilesComponent,
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class FileRoutingModule { }
+export class FileRoutingModule {}

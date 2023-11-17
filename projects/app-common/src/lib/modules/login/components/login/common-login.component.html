@@ -1,22 +1,45 @@
 <div class="login-container">
   <nz-card [nzCover]="coverTemplate" class="box">
-    <nz-card-meta nzTitle="{{'login.welcomeback' | translate}}" nzDescription="{{'login.appTitle' | translate}}"
-      [nzAvatar]="avatarTemplate"></nz-card-meta>
+    <nz-card-meta
+      nzTitle="{{ 'login.welcomeback' | translate }}"
+      nzDescription="{{ 'login.appTitle' | translate }}"
+      [nzAvatar]="avatarTemplate"
+    ></nz-card-meta>
     <ng-template #avatarTemplate>
-      <nz-avatar nzSrc="./assets/images/login/logo.png" [nzSize]="64"></nz-avatar>
+      <nz-avatar
+        nzSrc="./assets/images/login/logo.png"
+        [nzSize]="64"
+      ></nz-avatar>
     </ng-template>
     <div class="form-container">
-      <form nz-col [nzXXl]="24" [nzXl]="24" [nzMd]="24" [nzXs]="24" nzSpan="24" nz-form [formGroup]="validateForm"
-        class="login-form justify-content-center" (ngSubmit)="submitForm()">
+      <form
+        nz-col
+        [nzXXl]="24"
+        [nzXl]="24"
+        [nzMd]="24"
+        [nzXs]="24"
+        nzSpan="24"
+        nz-form
+        [formGroup]="validateForm"
+        class="login-form justify-content-center"
+        (ngSubmit)="submitForm()"
+      >
         <nz-form-item>
           <div>
             <nz-form-label>{{ "login.username" | translate }}</nz-form-label>
           </div>
         </nz-form-item>
         <nz-form-item>
-          <nz-form-control nzErrorTip="{{ 'login.error.username-required' | translate }}">
+          <nz-form-control
+            nzErrorTip="{{ 'login.error.username-required' | translate }}"
+          >
             <nz-input-group nzPrefixIcon="user">
-              <input type="text" nz-input formControlName="userName" placeholder="{{ 'login.username' | translate }}" />
+              <input
+                type="text"
+                nz-input
+                formControlName="userName"
+                placeholder="{{ 'login.username' | translate }}"
+              />
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
@@ -26,10 +49,16 @@
           </div>
         </nz-form-item>
         <nz-form-item>
-          <nz-form-control nzErrorTip="{{ 'login.error.password-required' | translate }}">
+          <nz-form-control
+            nzErrorTip="{{ 'login.error.password-required' | translate }}"
+          >
             <nz-input-group nzPrefixIcon="lock">
-              <input type="password" nz-input formControlName="password"
-                placeholder="{{ 'login.password' | translate }}" />
+              <input
+                type="password"
+                nz-input
+                formControlName="password"
+                placeholder="{{ 'login.password' | translate }}"
+              />
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
@@ -40,33 +69,66 @@
             </label>
           </div>
           <div nz-col [nzSpan]="12" style="text-align: right">
-            <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'" (click)="submitForm()">
+            <button
+              nz-button
+              class="login-form-button login-form-margin"
+              [nzType]="'primary'"
+              (click)="submitForm()"
+            >
               {{ "login.login" | translate }}
             </button>
           </div>
         </div>
         <div nz-row class="footer" style="text-align: center">
           <div nz-col [nzSpan]="24">
-            <a [routerLink]="['/register']">{{ "login.forgot-password" | translate }}</a>
+            <a [routerLink]="['/register']">{{
+              "login.forgot-password" | translate
+            }}</a>
           </div>
           <div nz-col [nzSpan]="24" class="signup">
             {{ "login.dont-have-an-account" | translate }}
-            <a [routerLink]="['/register']">{{ "login.signup-now" | translate }}</a>
+            <a [routerLink]="['/register']">{{
+              "login.signup-now" | translate
+            }}</a>
           </div>
         </div>
       </form>
       <div class="lang">
-        <nz-select nzBorderless [ngModel]="selectLanguage" (ngModelChange)="updateLocale($event)" [nzCustomTemplate]="displayLanguageTemplate" >
-          <nz-option [nzCustomContent]="true" *ngFor="let l of supportLangs" [nzValue]="l.value"
-                     [nzLabel]="l.label |translate" >
-            <span style="display: flex; align-items: center;"><nz-avatar nzIcon="user" nzSrc="{{l.img}}" [nzSize]=18 style="margin-right: 5px;"></nz-avatar> {{l.label |translate}}</span>
+        <nz-select
+          nzBorderless
+          [ngModel]="selectLanguage"
+          (ngModelChange)="updateLocale($event)"
+          [nzCustomTemplate]="displayLanguageTemplate"
+        >
+          <nz-option
+            [nzCustomContent]="true"
+            *ngFor="let l of supportLangs"
+            [nzValue]="l.value"
+            [nzLabel]="l.label | translate"
+          >
+            <span style="display: flex; align-items: center"
+              ><nz-avatar
+                nzIcon="user"
+                nzSrc="{{ l.img }}"
+                [nzSize]="18"
+                style="margin-right: 5px"
+              ></nz-avatar>
+              {{ l.label | translate }}</span
+            >
           </nz-option>
         </nz-select>
         <ng-template #displayLanguageTemplate>
-          <span  style="display: flex; align-items: center;"><nz-avatar nzIcon="user" nzSrc="{{getCurrentLangObj.img}}" [nzSize]=18  style="margin-right: 5px;"></nz-avatar> {{getCurrentLangObj.label |translate}}</span>
+          <span style="display: flex; align-items: center"
+            ><nz-avatar
+              nzIcon="user"
+              nzSrc="{{ getCurrentLangObj.img }}"
+              [nzSize]="18"
+              style="margin-right: 5px"
+            ></nz-avatar>
+            {{ getCurrentLangObj.label | translate }}</span
+          >
         </ng-template>
       </div>
-
     </div>
   </nz-card>
   <ng-template #coverTemplate>

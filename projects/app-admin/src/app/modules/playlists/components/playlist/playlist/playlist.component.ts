@@ -1,75 +1,76 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {LhTableComponent} from "../../../../../../../../app-common/src/lib/components/lh-table/lh-table.component";
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { LhTableComponent } from '../../../../../../../../app-common/src/lib/components/lh-table/lh-table.component';
 import {
   LhTableConfigModel,
-  LhTableFieldType
-} from "../../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model";
-import {PlaylistAddComponent} from "../playlist-add/playlist-add.component";
-import {Playlist} from "../../../../../../../../app-api/src/lib/api/models/playlist";
-import {
-  AdminPlaylistService
-} from "../../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service";
-import {NzMessageService} from "ng-zorro-antd/message";
-import {LhAuthenService} from "../../../../../../../../app-api/src/lib/modules/authen/lh-authen.service";
-import {BaseOutputListPlaylist} from "../../../../../../../../app-api/src/lib/api/models/baseOutputListPlaylist";
+  LhTableFieldType,
+} from '../../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model';
+import { PlaylistAddComponent } from '../playlist-add/playlist-add.component';
+import { Playlist } from '../../../../../../../../app-api/src/lib/api/models/playlist';
+import { AdminPlaylistService } from '../../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { LhAuthenService } from '../../../../../../../../app-api/src/lib/modules/authen/lh-authen.service';
+import { BaseOutputListPlaylist } from '../../../../../../../../app-api/src/lib/api/models/baseOutputListPlaylist';
 
 @Component({
   selector: 'app-admin-playlist',
   templateUrl: './playlist.component.html',
-  styleUrls: ['./playlist.component.scss']
+  styleUrls: ['./playlist.component.scss'],
 })
 export class PlaylistComponent implements OnInit {
-  @ViewChild('table') table?: LhTableComponent<Playlist>
-  @ViewChild('addComponent', {static: false}) addComponent?: PlaylistAddComponent;
   currentPlaylist?: Playlist;
   playlists: Array<Playlist> = [];
   showFrame: {
-    search: boolean,
-    add: boolean
+    search: boolean;
+    add: boolean;
   } = {
     search: true,
-    add: false
-  }
+    add: false,
+  };
+  @ViewChild('table') table?: LhTableComponent<Playlist>;
+  @ViewChild('addComponent', { static: false })
+  addComponent?: PlaylistAddComponent;
   loading: {
     adding: boolean;
     searching: boolean;
   } = {
     adding: false,
-    searching: false
+    searching: false,
   };
   tableConfig: LhTableConfigModel = {
     disableDetail: true,
     key: 'id',
     fields: [
       {
-        label: 'module.playlist.name'
-        , field: 'name'
-        , type: LhTableFieldType.STRING
+        label: 'module.playlist.name',
+        field: 'name',
+        type: LhTableFieldType.STRING,
       },
       {
-        label: 'module.playlist.description'
-        , field: 'description'
-        , type: LhTableFieldType.STRING
+        label: 'module.playlist.description',
+        field: 'description',
+        type: LhTableFieldType.STRING,
       },
       {
-        label: 'module.playlist.startTime'
-        , field: 'startTime'
-        , type: LhTableFieldType.DATE_TIME
+        label: 'module.playlist.startTime',
+        field: 'startTime',
+        type: LhTableFieldType.DATE_TIME,
       },
       {
-        label: 'module.playlist.endTime'
-        , field: 'endTime'
-        , type: LhTableFieldType.DATE_TIME
-      }
-    ]
+        label: 'module.playlist.endTime',
+        field: 'endTime',
+        type: LhTableFieldType.DATE_TIME,
+      },
+    ],
   };
 
-
-  constructor(private playlistService: AdminPlaylistService
-    , private message: NzMessageService
-    , private authenService: LhAuthenService
+  constructor(
+    private playlistService: AdminPlaylistService,
+    private message: NzMessageService,
+    private authenService: LhAuthenService
   ) {
-    this.authenService.userObs.subscribe(playList => this.currentPlaylist = playList);
+    this.authenService.userObs.subscribe(
+      (playList) => (this.currentPlaylist = playList)
+    );
   }
 
   get isSelectedRow(): boolean {
@@ -82,21 +83,21 @@ export class PlaylistComponent implements OnInit {
 
   getAllPlaylist(): void {
     this.loading.searching = true;
-    this.playlistService.getAllPlayList(0,100).subscribe({
+    this.playlistService.getAllPlayList(0, 100).subscribe({
       next: (response) => {
         if (response.data) {
           this.playlists = response.data as Array<Playlist>;
-          console.log(this.playlists + "playlist");
+          console.log(this.playlists + 'playlist');
         }
-      }
-      , error: err => {
+      },
+      error: (err) => {
         // TODO i18n
-        this.message.error("Error", err);
+        this.message.error('Error', err);
         this.loading.searching = false;
-      }
-      , complete: () => {
+      },
+      complete: () => {
         this.loading.searching = false;
-      }
+      },
     });
   }
 
@@ -107,21 +108,22 @@ export class PlaylistComponent implements OnInit {
     this.loading.adding = true;
     this.addComponent.addOrUpdate().subscribe({
       next: (response) => {
-        if(response.data){
+        if (response.data) {
           this.currentPlaylist = response.data;
-          this.getAllPlaylist()
+          this.getAllPlaylist();
           this.showFrame.search = true;
           this.showFrame.add = false;
         }
-      }  , error: err => {
+      },
+      error: (err) => {
         // TODO i18n
-        this.message.error("Error", err);
+        this.message.error('Error', err);
         this.loading.searching = false;
-      }
-      , complete: () => {
+      },
+      complete: () => {
         this.loading.adding = false;
-      }
-    })
+      },
+    });
   }
 
   gotoSearch() {
@@ -135,9 +137,7 @@ export class PlaylistComponent implements OnInit {
     this.showFrame.add = true;
   }
 
-  deleteSelected() {
-
-  }
+  deleteSelected() {}
 
   update(playlist: Playlist) {
     this.currentPlaylist = playlist;
@@ -147,15 +147,16 @@ export class PlaylistComponent implements OnInit {
 
   delete(playList: Playlist) {
     this.playlistService.delete(playList?.id as number).subscribe({
-      next: response => {
+      next: (response) => {
         this.getAllPlaylist();
-      }, error: err => {
+      },
+      error: (err) => {
         //TODO Xử lý exception
-      }
-      , complete: () => {
+      },
+      complete: () => {
         this.loading.searching = false;
-      }
-    })
+      },
+    });
   }
 
   goToSearch() {

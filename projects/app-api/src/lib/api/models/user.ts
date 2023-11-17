@@ -11,16 +11,14 @@
  */
 import { License } from './license';
 
-
 export interface User {
-    id?: number;
-    userName?: string;
-    email?: string;
-    password?: string;
-    phone?: string;
-    firstName?: string;
-    lastName?: string;
-    roles?: User;
-    license?: License;
+  id?: number;
+  userName?: string;
+  email?: string;
+  password?: string;
+  phone?: string;
+  firstName?: string;
+  lastName?: string;
+  roles?: User;
+  license?: License;
 }
-

@@ -85,7 +85,8 @@ export class UserComponent implements OnInit {
   getAll(): void {
     this.loading.searching = true;
     this.adminUserService
-      .getAllUserByPaging(0,100, 'id', 'DESC', '').subscribe({
+      .getAllUserByPaging(0, 100, 'id', 'DESC', '')
+      .subscribe({
         next: (response) => {
           if (response.data) {
             this.users = response.data;
@@ -94,8 +95,13 @@ export class UserComponent implements OnInit {
           }
         },
         error: (err) => {
-          this.message.create('error', err.message ? err.message : this.translateService.instant('common.error'));
-          console.log(err)
+          this.message.create(
+            'error',
+            err.message
+              ? err.message
+              : this.translateService.instant('common.error')
+          );
+          console.log(err);
         },
         complete: () => {
           this.loading.searching = false;
@@ -112,7 +118,10 @@ export class UserComponent implements OnInit {
       next: (response) => {
         if (response.data) {
           this.currentUser = response.data;
-            this.message.create('success', this.translateService.instant('common.success'))
+          this.message.create(
+            'success',
+            this.translateService.instant('common.success')
+          );
         }
       },
       error: (err) => {
@@ -154,13 +163,25 @@ export class UserComponent implements OnInit {
     this.adminUserService.deleteUser(user?.id as number).subscribe({
       next: (response) => {
         this.getAll();
-        this.message.create('success', response.message ? response.message : this.translateService.instant('common.deleteSuccess'))
-      }, error: err => {
-        this.message.create('error', err.message ? err.message : this.translateService.instant('common.error'));
-        console.log(err)
-      }, complete: () => {
-        this.loading.searching = false
-      }
-    })
+        this.message.create(
+          'success',
+          response.message
+            ? response.message
+            : this.translateService.instant('common.deleteSuccess')
+        );
+      },
+      error: (err) => {
+        this.message.create(
+          'error',
+          err.message
+            ? err.message
+            : this.translateService.instant('common.error')
+        );
+        console.log(err);
+      },
+      complete: () => {
+        this.loading.searching = false;
+      },
+    });
   }
 }

@@ -1,8 +1,6 @@
-import {Component} from '@angular/core';
-import {
-  UntypedFormGroup,
-} from '@angular/forms';
-import {environment} from "../../../../../environments/environment";
+import { Component } from '@angular/core';
+import { UntypedFormGroup } from '@angular/forms';
+import { environment } from '../../../../../environments/environment';
 @Component({
   selector: 'app-admin-login',
   templateUrl: './login.component.html',
@@ -11,9 +9,10 @@ import {environment} from "../../../../../environments/environment";
 export class LoginComponent {
   validateForm!: UntypedFormGroup;
   init: {
-    username: string, password: string
+    username: string;
+    password: string;
   } = {
-    username: environment.INIT_USERNAME
-    , password: environment.INIT_PASS
-  }
+    username: environment.INIT_USERNAME,
+    password: environment.INIT_PASS,
+  };
 }

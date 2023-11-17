@@ -4,4 +4,3 @@ export const environment = {
   INIT_USERNAME: 'dsdadmin@gmail.com',
   INIT_PASS: 'Abcd1234',
 };
-

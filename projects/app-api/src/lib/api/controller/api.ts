@@ -34,4 +34,23 @@ export * from './signedTestController.service';
 import { SignedTestControllerService } from './signedTestController.service';
 export * from './signedUserController.service';
 import { SignedUserControllerService } from './signedUserController.service';
-export const APIS = [AdminDeviceControllerService, AdminDeviceGroupControllerService, AdminDeviceLogControllerService, AdminFileControllerService, AdminLicenseAPIService, AdminPlayListAPIService, AdminRoleAPIService, AdminScheduleAPIService, AdminTestControllerService, AdminUsersAPIService, AuthenticationControllerService, PublicDeviceControllerService, PublicLicenseControllerService, PublicTestControllerService, SignedDeviceControllerService, SignedDeviceGroupControllerService, SignedTestControllerService, SignedUserControllerService];
+export const APIS = [
+  AdminDeviceControllerService,
+  AdminDeviceGroupControllerService,
+  AdminDeviceLogControllerService,
+  AdminFileControllerService,
+  AdminLicenseAPIService,
+  AdminPlayListAPIService,
+  AdminRoleAPIService,
+  AdminScheduleAPIService,
+  AdminTestControllerService,
+  AdminUsersAPIService,
+  AuthenticationControllerService,
+  PublicDeviceControllerService,
+  PublicLicenseControllerService,
+  PublicTestControllerService,
+  SignedDeviceControllerService,
+  SignedDeviceGroupControllerService,
+  SignedTestControllerService,
+  SignedUserControllerService,
+];

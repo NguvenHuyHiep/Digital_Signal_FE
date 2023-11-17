@@ -1,4 +1,4 @@
-.forgot-pass-container{
+.forgot-pass-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,12 +20,11 @@
     .box {
       width: 30%;
     }
-
   }
 
   .box {
     .banner {
-      background-image: url('/assets/images/login/profile-img.png');
+      background-image: url("/assets/images/login/profile-img.png");
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;

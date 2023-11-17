@@ -11,7 +11,8 @@
     "build:prod": "node --max_old_space_size=5048 ./node_modules/@angular/cli/bin/ng build --project app-admin -c production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "json": "jsonsort projects/*/src/assets/i18n/*.json"
+    "json": "jsonsort projects/*/src/assets/i18n/*.json",
+    "pretty": "prettier --write \"./projects/**/*.{js,jsx,mjs,cjs,ts,tsx,json}\""
   },
   "private": true,
   "dependencies": {

@@ -1,19 +1,20 @@
-import {Component, forwardRef, OnInit} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
+import { Component, forwardRef, OnInit } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import CKSource from 'ckeditor5-custom-build/build/ckeditor';
 
 @Component({
   selector: 'lh-common-rich-text',
   templateUrl: './rich-text.component.html',
   styleUrls: ['./rich-text.component.scss'],
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => RichTextComponent),
-    multi: true
-  }]
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => RichTextComponent),
+      multi: true,
+    },
+  ],
 })
 export class RichTextComponent implements ControlValueAccessor, OnInit {
-
   public Editor = CKSource;
 
   value: string = '';
@@ -47,5 +48,4 @@ export class RichTextComponent implements ControlValueAccessor, OnInit {
   onTouched() {
     // This will be called when the input is touched (e.g., when it loses focus)
   }
-
 }

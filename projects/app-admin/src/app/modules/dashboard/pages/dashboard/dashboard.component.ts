@@ -1,10 +1,8 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { BreadcrumbOption } from 'ng-zorro-antd/breadcrumb/breadcrumb.component';
-import {LhAuthenService} from "../../../../../../../app-api/src/lib/modules/authen/lh-authen.service";
-import {User} from "../../../../../../../app-api/src/lib/api/models/user";
-import {
-  SignedDeviceControllerService
-} from "../../../../../../../app-api/src/lib/api/controller/signedDeviceController.service";
+import { LhAuthenService } from '../../../../../../../app-api/src/lib/modules/authen/lh-authen.service';
+import { User } from '../../../../../../../app-api/src/lib/api/models/user';
+import { SignedDeviceControllerService } from '../../../../../../../app-api/src/lib/api/controller/signedDeviceController.service';
 import { ChartConfiguration, ChartData, ChartEvent, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
@@ -19,24 +17,24 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   loading = true;
   chatTimeout: number | null = null;
 
-  statisics: {type: string; label: string; value: number}[] = [
+  statisics: { type: string; label: string; value: number }[] = [
     { type: 'stock', label: 'module.dashboard.deviceTotal', value: 100 },
     { type: 'check', label: 'module.dashboard.deviceOnline', value: 70 },
     { type: 'stop', label: 'module.dashboard.deviceOffline', value: 30 },
     { type: 'cluster', label: 'module.dashboard.deviceGroup', value: 10 },
-  ]
+  ];
 
-  constructor(private authenService:LhAuthenService
-  , private signedDeviceControllerService: SignedDeviceControllerService
+  constructor(
+    private authenService: LhAuthenService,
+    private signedDeviceControllerService: SignedDeviceControllerService
   ) {
-    this.authenService.userObs.subscribe(user => this.user = user);
+    this.authenService.userObs.subscribe((user) => (this.user = user));
   }
 
   ngOnInit() {
-    this.signedDeviceControllerService.getByPaging(1,20).subscribe({
-      next: value => alert(JSON.stringify(value))
-    })
-
+    this.signedDeviceControllerService.getByPaging(1, 20).subscribe({
+      next: (value) => alert(JSON.stringify(value)),
+    });
   }
 
   ngAfterViewInit() {
@@ -45,7 +43,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
       setTimeout(() => {
         // this.getStores();
-
         // this.eventResize();
       }, 0);
     }, 600);
@@ -59,7 +56,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       legend: {
         display: true,
         position: 'top',
-      }
+      },
     },
   };
   public pieChartData: ChartData<'pie', number[], string | string[]> = {

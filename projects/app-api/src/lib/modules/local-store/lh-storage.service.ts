@@ -1,15 +1,14 @@
-import {Injectable} from '@angular/core';
-import {BaseStorage, IBaseStorage} from "./base-storage";
-import {Observable} from "rxjs";
-import {IndexdbStorageService} from "./indexdb-storage.service";
-import {STORAGE_TYPE} from "./storage-enum";
-import {BaseOutputString} from "../../api/models/baseOutputString";
+import { Injectable } from '@angular/core';
+import { BaseStorage, IBaseStorage } from './base-storage';
+import { Observable } from 'rxjs';
+import { IndexdbStorageService } from './indexdb-storage.service';
+import { STORAGE_TYPE } from './storage-enum';
+import { BaseOutputString } from '../../api/models/baseOutputString';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LhStorageService implements IBaseStorage {
-
   private instance: BaseStorage;
 
   constructor(private indexDb: IndexdbStorageService) {

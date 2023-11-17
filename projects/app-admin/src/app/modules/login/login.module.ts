@@ -11,16 +11,16 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule, Routes } from '@angular/router';
-import {CommonLoginModule} from "../../../../../app-common/src/lib/modules/login/common-login.module";
-import {ForgotPasswordComponent} from "./components/forgot-password/forgot-password.component";
-import {RegisterComponent} from "./components/register/register.component";
-const routes: Routes = [{ path: '', component: LoginComponent },
-  { path: 'forgot-password', component: ForgotPasswordComponent }];
+import { CommonLoginModule } from '../../../../../app-common/src/lib/modules/login/common-login.module';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { RegisterComponent } from './components/register/register.component';
+const routes: Routes = [
+  { path: '', component: LoginComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+];
 
 @NgModule({
-  declarations: [LoginComponent
-    , ForgotPasswordComponent, RegisterComponent
-  ],
+  declarations: [LoginComponent, ForgotPasswordComponent, RegisterComponent],
   imports: [
     CommonModule,
     FormsModule,

@@ -1,7 +1,9 @@
 <nz-tabset>
-  <nz-tab *ngFor="let tab of tabs"
-          [nzTitle]="tab.name | translate"
-          [nzDisabled]="tab.code === 'file' && !playlistAdmin?.id">
+  <nz-tab
+    *ngFor="let tab of tabs"
+    [nzTitle]="tab.name | translate"
+    [nzDisabled]="tab.code === 'file' && !playlistAdmin?.id"
+  >
     <ng-container *ngIf="tab.code === 'info'">
       <ng-container *ngTemplateOutlet="info"></ng-container>
     </ng-container>
@@ -11,69 +13,61 @@
   </nz-tab>
 </nz-tabset>
 
-
-<ng-template #file>
-
-</ng-template>
+<ng-template #file> </ng-template>
 
 <ng-template #info>
   <form [formGroup]="form" nz-form>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4">{{
+        "module.playlist.name" | translate
+      }}</nz-form-label>
+      <nz-form-control [formGroup]="form" [nzSpan]="14">
+        <input formControlName="name" name="name" nz-input />
+      </nz-form-control>
+    </nz-form-item>
 
-      <nz-form-item>
-        <nz-form-label [nzSpan]="4">{{
-          "module.playlist.name" | translate
-          }}</nz-form-label>
-        <nz-form-control [formGroup]="form" [nzSpan]="14">
-          <input
-            formControlName="name"
-            name="name"
-            nz-input
-          />
-        </nz-form-control>
-      </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="description">{{
+        "module.playlist.description" | translate
+      }}</nz-form-label>
+      <nz-form-control [formGroup]="form" [nzSpan]="14">
+        <input
+          formControlName="description"
+          id="description"
+          name="description"
+          nz-input
+          rows="5"
+          type="description"
+        />
+      </nz-form-control>
+    </nz-form-item>
 
+    <nz-form-item>
+      <nz-form-label nzFor="startTime" [nzSpan]="4">{{
+        "module.playlist.startTime" | translate
+      }}</nz-form-label>
+      <nz-form-control [formGroup]="form" [nzSpan]="14">
+        <input formControlName="startTime" id="startTime" />
+      </nz-form-control>
+    </nz-form-item>
 
-      <nz-form-item>
-        <nz-form-label [nzSpan]="4"
-          nzFor="description">{{ 'module.playlist.description'  | translate}}</nz-form-label>
-        <nz-form-control [formGroup]="form" [nzSpan]="14">
-          <input formControlName="description" id="description" name="description" nz-input
-                               rows="5" type="description">
-        </nz-form-control>
-      </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzFor="endTime" [nzSpan]="4">{{
+        "module.playlist.endTime" | translate
+      }}</nz-form-label>
+      <nz-form-control [formGroup]="form" [nzSpan]="14">
+        <input formControlName="endTime" id="endTime" />
+      </nz-form-control>
+    </nz-form-item>
 
-
-      <nz-form-item>
-        <nz-form-label nzFor="startTime" [nzSpan]="4">{{
-          "module.playlist.startTime" | translate
-          }}</nz-form-label>
-        <nz-form-control [formGroup]="form" [nzSpan]="14">
-          <input
-            formControlName="startTime"
-            id="startTime"
-          >
-        </nz-form-control>
-      </nz-form-item>
-
-
-      <nz-form-item>
-        <nz-form-label nzFor="endTime" [nzSpan]="4">{{
-          "module.playlist.endTime" | translate
-          }}</nz-form-label>
-        <nz-form-control [formGroup]="form" [nzSpan]="14">
-          <input
-            formControlName="endTime"
-            id="endTime"
-          >
-        </nz-form-control>
-      </nz-form-item>
     <nz-form-item>
       <nz-form-label [nzSpan]="4">
         {{ "module.playlist.isLoop" | translate }}
       </nz-form-label>
       <nz-form-control [formGroup]="form" [nzSpan]="14">
-        <label nz-checkbox [nzChecked]="isChecked"
-               formControlName="isLoop"> {{ "module.playlist.true" | translate }}</label>
+        <label nz-checkbox [nzChecked]="isChecked" formControlName="isLoop">
+          {{ "module.playlist.true" | translate }}</label
+        >
       </nz-form-control>
     </nz-form-item>
 <nz-form-item>

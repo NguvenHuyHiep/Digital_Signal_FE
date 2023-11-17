@@ -1,6 +1,6 @@
-import {User} from "../../../../../../app-api/src/lib/api/models/user";
-import {License} from "../../../../../../app-api/src/lib/api/models/license";
-import {ErrorResponse} from "../../../../../../app-api/src/lib/api/models";
+import { User } from '../../../../../../app-api/src/lib/api/models/user';
+import { License } from '../../../../../../app-api/src/lib/api/models/license';
+import { ErrorResponse } from '../../../../../../app-api/src/lib/api/models';
 
 export interface UserInfo {
   user?: User;

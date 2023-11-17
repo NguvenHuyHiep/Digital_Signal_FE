@@ -1,11 +1,9 @@
-import {NgModule} from '@angular/core';
-import {LocalStoreModule} from "./modules/local-store/local-store.module";
+import { NgModule } from '@angular/core';
+import { LocalStoreModule } from './modules/local-store/local-store.module';
 
 @NgModule({
-  declarations: [
-  ],
+  declarations: [],
   imports: [LocalStoreModule],
-  exports: []
+  exports: [],
 })
-export class AppApiModule {
-}
+export class AppApiModule {}

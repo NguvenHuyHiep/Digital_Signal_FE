@@ -12,14 +12,12 @@
 import { ResponseUserInfo } from './responseUserInfo';
 import { ErrorResponse } from './errorResponse';
 
-
 export interface ResponseUserInfoCustomApiObjResponse {
-    isError?: boolean;
-    statusCode?: number;
-    message?: string | null;
-    errors?: Array<ErrorResponse> | null;
-    result?: ResponseUserInfo;
-    last_page?: number;
-    current_page?: number;
+  isError?: boolean;
+  statusCode?: number;
+  message?: string | null;
+  errors?: Array<ErrorResponse> | null;
+  result?: ResponseUserInfo;
+  last_page?: number;
+  current_page?: number;
 }
-

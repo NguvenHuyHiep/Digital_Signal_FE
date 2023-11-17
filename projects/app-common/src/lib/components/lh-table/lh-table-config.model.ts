@@ -7,7 +7,7 @@ export enum LhTableFieldType {
   DATE = 'date',
   HTML = 'html',
   DATE_TIME = 'datetime',
-  SIZE_MEGABYTE = 'size_megabyte'
+  SIZE_MEGABYTE = 'size_megabyte',
 }
 
 export interface LhTableConfigModel {

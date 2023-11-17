@@ -51,14 +51,39 @@
 
     <div class="header-right">
       <div class="header-action">
-          <nz-select nzBorderless [ngModel]="selectLanguage" (ngModelChange)="updateLocale($event)" [nzCustomTemplate]="displayLanguageTemplate" >
-            <nz-option [nzCustomContent]="true" *ngFor="let l of supportLangs" [nzValue]="l.value"
-                       [nzLabel]="l.label |translate" >
-              <span style="display: flex; align-items: center;"><nz-avatar nzIcon="user" nzSrc="{{l.img}}" [nzSize]=18 style="margin-right: 5px;"></nz-avatar> {{l.label |translate}}</span>
-            </nz-option>
-          </nz-select>
+        <nz-select
+          nzBorderless
+          [ngModel]="selectLanguage"
+          (ngModelChange)="updateLocale($event)"
+          [nzCustomTemplate]="displayLanguageTemplate"
+        >
+          <nz-option
+            [nzCustomContent]="true"
+            *ngFor="let l of supportLangs"
+            [nzValue]="l.value"
+            [nzLabel]="l.label | translate"
+          >
+            <span style="display: flex; align-items: center"
+              ><nz-avatar
+                nzIcon="user"
+                nzSrc="{{ l.img }}"
+                [nzSize]="18"
+                style="margin-right: 5px"
+              ></nz-avatar>
+              {{ l.label | translate }}</span
+            >
+          </nz-option>
+        </nz-select>
         <ng-template #displayLanguageTemplate>
-          <span  style="display: flex; align-items: center;"><nz-avatar nzIcon="user" nzSrc="{{getCurrentLangObj.img}}" [nzSize]=18  style="margin-right: 5px;"></nz-avatar> {{getCurrentLangObj.label |translate}}</span>
+          <span style="display: flex; align-items: center"
+            ><nz-avatar
+              nzIcon="user"
+              nzSrc="{{ getCurrentLangObj.img }}"
+              [nzSize]="18"
+              style="margin-right: 5px"
+            ></nz-avatar>
+            {{ getCurrentLangObj.label | translate }}</span
+          >
         </ng-template>
       </div>
       <ng-container *ngTemplateOutlet="headerNotification"></ng-container>
@@ -280,9 +305,8 @@
         <img src="./assets/images/logoSS.png" alt="" />
       </ng-container>
       <ng-container *ngIf="isCollapsed">
-        <h1 style="margin-left: 0 !important;">{{ 'DSD' }}</h1>
+        <h1 style="margin-left: 0 !important">{{ "DSD" }}</h1>
       </ng-container>
-
     </div>
     <ul
       nz-menu
@@ -292,7 +316,7 @@
       [nzInlineCollapsed]="isCollapsed"
     >
       <ng-container *ngFor="let menu of menuList">
-        <li *ngIf="!menu.children && !menu.link" nz-menu-item >
+        <li *ngIf="!menu.children && !menu.link" nz-menu-item>
           <div>
             <span>{{ menu.title | translate }}</span>
           </div>

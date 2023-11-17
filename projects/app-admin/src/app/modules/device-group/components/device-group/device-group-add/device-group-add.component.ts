@@ -1,32 +1,25 @@
-import {Component, Input, OnInit} from '@angular/core';
-import { FormBuilder, Validators} from "@angular/forms";
-import {BaseOutputDeviceGroup} from "../../../../../../../../app-api/src/lib/api/models/baseOutputDeviceGroup";
-import {DeviceGroup} from "../../../../../../../../app-api/src/lib/api/models/deviceGroup";
-import {Device} from "../../../../../../../../app-api/src/lib/api/models/device";
-import {User} from "../../../../../../../../app-api/src/lib/api/models/user";
-import {
-  AdminDeviceGroupService
-} from "../../../../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.service";
-import {FormDevice, FormDeviceGroup} from "../../form-device-group";
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { BaseOutputDeviceGroup } from '../../../../../../../../app-api/src/lib/api/models/baseOutputDeviceGroup';
+import { DeviceGroup } from '../../../../../../../../app-api/src/lib/api/models/deviceGroup';
+import { Device } from '../../../../../../../../app-api/src/lib/api/models/device';
+import { User } from '../../../../../../../../app-api/src/lib/api/models/user';
+import { AdminDeviceGroupService } from '../../../../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.service';
+import { FormDevice, FormDeviceGroup } from '../../form-device-group';
 import {
   LhTableConfigModel,
-  LhTableFieldType
-} from "../../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model";
-import {
-  AdminDeviceControllerService
-} from "../../../../../../../../app-api/src/lib/api/controller/adminDeviceController.service";
-import {NzMessageService} from "ng-zorro-antd/message";
-import {Observable} from "rxjs";
-import {
-  AdminDeviceService
-} from "../../../../../../../../app-api/src/lib/modules/admin/admin-device/admin-device.service";
-
+  LhTableFieldType,
+} from '../../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model';
+import { AdminDeviceControllerService } from '../../../../../../../../app-api/src/lib/api/controller/adminDeviceController.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { Observable } from 'rxjs';
+import { AdminDeviceService } from '../../../../../../../../app-api/src/lib/modules/admin/admin-device/admin-device.service';
 
 @Component({
   selector: 'app-admin-device-group-add',
   templateUrl: './device-group-add.component.html',
   styleUrls: ['./device-group-add.component.scss'],
-  providers: [AdminDeviceService]
+  providers: [AdminDeviceService],
 })
 export class DeviceGroupAddComponent implements OnInit {
   @Input('deviceId') deviceId?: number;
@@ -34,7 +27,7 @@ export class DeviceGroupAddComponent implements OnInit {
   devices: Array<Device> = [];
   devicesToDelete: Device[] = [];
   showFrame: {
-    detail: boolean,
+    detail: boolean;
   } = {
     detail: false,
   };
@@ -78,26 +71,26 @@ export class DeviceGroupAddComponent implements OnInit {
     ],
   };
 
-  tabs = [{
-    code: 'info',
-    name: 'module.user.info'
-  }
+  tabs = [
+    {
+      code: 'info',
+      name: 'module.user.info',
+    },
   ];
-  form: FormDeviceGroup = this.adminDeviceGroupService.buildDeviceGroupForm(this.deviceGroupAdmin)
+  form: FormDeviceGroup = this.adminDeviceGroupService.buildDeviceGroupForm(
+    this.deviceGroupAdmin
+  );
   addDeviceForm: FormDevice = this.formBuilder.group({
-    deviceId: ['', Validators.required]
+    deviceId: ['', Validators.required],
   }) as unknown as FormDevice;
   currentDevice: Device = {};
-
-
 
   constructor(
     private formBuilder: FormBuilder,
     private adminDeviceGroupService: AdminDeviceGroupService,
     private deviceService: AdminDeviceControllerService,
-    private message: NzMessageService,
-  ) {
-  }
+    private message: NzMessageService
+  ) {}
 
   addOrUpdate(): Observable<BaseOutputDeviceGroup> {
     if (!this.form.valid) {
@@ -120,30 +113,32 @@ export class DeviceGroupAddComponent implements OnInit {
       devices: this.form.controls.devices?.value as Array<Device>,
       user: this.form.controls.user?.value as User,
     };
-    return this.adminDeviceGroupService.updateGroupDevice(updateObj)
+    return this.adminDeviceGroupService.updateGroupDevice(updateObj);
   }
 
   deleteDevice(device: Device) {
     this.deviceService.delete7(device.id as number).subscribe({
-      next: data => {
+      next: (data) => {
         if (!data) {
           this.devices = this.devices.filter((obj) => obj?.id !== device?.id);
           this.message.create('success', data);
           return;
         }
-      }, error: err => {
+      },
+      error: (err) => {
         // TODO i18n
-        this.message.error("Error", err);
+        this.message.error('Error', err);
         this.loading.searching = false;
-      }, complete: () => {
+      },
+      complete: () => {
         this.loading.addDevice = false;
-      }
+      },
     });
   }
 
   setCurrentDevice($event: Device) {
     this.currentDevice = $event;
-    console.log("this.currentDevice", this.currentDevice)
+    console.log('this.currentDevice', this.currentDevice);
   }
 
   addDevice() {
@@ -151,23 +146,25 @@ export class DeviceGroupAddComponent implements OnInit {
       return;
     }
     const deviceIdValue = Number(this.addDeviceForm.controls.deviceId?.value);
-      this.loading.addDevice = true;
-      this.adminDeviceGroupService.assignDevices(this.deviceGroupAdmin?.id as number, [deviceIdValue] ).subscribe({
-        next: data => {
+    this.loading.addDevice = true;
+    this.adminDeviceGroupService
+      .assignDevices(this.deviceGroupAdmin?.id as number, [deviceIdValue])
+      .subscribe({
+        next: (data) => {
           if (data) {
             this.loadDevice();
             return;
           }
-        }, error: err => {
+        },
+        error: (err) => {
           // TODO i18n
-          this.message.error("Error", err);
+          this.message.error('Error', err);
           this.loading.searching = false;
-        }
-        , complete: () => {
+        },
+        complete: () => {
           this.loading.addDevice = false;
-        }
-      })
-
+        },
+      });
   }
 
   // deleteDevices() {
@@ -194,11 +191,13 @@ export class DeviceGroupAddComponent implements OnInit {
 
   // TODO change position of ngOninit to after constructor
   ngOnInit(): void {
-    this.loadDevice()
-    if(this.deviceGroupAdmin){
-      this.patchValue(this.deviceGroupAdmin)
+    this.loadDevice();
+    if (this.deviceGroupAdmin) {
+      this.patchValue(this.deviceGroupAdmin);
     }
-    this.form.valueChanges.subscribe((value) => console.log('Add Device Group', value));
+    this.form.valueChanges.subscribe((value) =>
+      console.log('Add Device Group', value)
+    );
   }
   private patchValue(obj: DeviceGroup) {
     this.form.patchValue(obj as any);
@@ -207,22 +206,24 @@ export class DeviceGroupAddComponent implements OnInit {
   private loadDevice(): void {
     this.loading.searching = true;
     if (this.deviceGroupAdmin) {
-      this.adminDeviceGroupService.getDevices(this.deviceGroupAdmin?.id as number).subscribe({
-        next: (response) => {
-          if (response.data) {
-            this.devices = response.data.devices as Array<Device>;
-            console.log(this.devices + "device");
-          }
-        }
-        , error: err => {
-          // TODO i18n
-          this.message.error("Error", err);
-          this.loading.searching = false;
-        }
-        , complete: () => {
-          this.loading.searching = false;
-        }
-      });
+      this.adminDeviceGroupService
+        .getDevices(this.deviceGroupAdmin?.id as number)
+        .subscribe({
+          next: (response) => {
+            if (response.data) {
+              this.devices = response.data.devices as Array<Device>;
+              console.log(this.devices + 'device');
+            }
+          },
+          error: (err) => {
+            // TODO i18n
+            this.message.error('Error', err);
+            this.loading.searching = false;
+          },
+          complete: () => {
+            this.loading.searching = false;
+          },
+        });
     }
   }
 
@@ -230,6 +231,6 @@ export class DeviceGroupAddComponent implements OnInit {
     this.currentDevice = record;
     this.showFrame = {
       detail: true,
-    }
+    };
   }
 }

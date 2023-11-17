@@ -5,7 +5,7 @@
   justify-content: center;
   padding: 16px;
   line-height: 32px;
-  transition: padding .3s cubic-bezier(.645, .045, .355, 1);
+  transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
 
   &.sider-collapsed {
     padding: 16px 26px;
@@ -53,7 +53,6 @@
 }
 
 :host {
-
   nz-sider {
     width: 208px !important;
     flex: 0 0 208px !important;
@@ -133,8 +132,7 @@ nz-header {
   @media only screen and (max-width: 600px) {
     width: 100% !important;
     .header-right {
-    display: none;
-
+      display: none;
     }
     &.collapsed {
       .header-right {
@@ -149,14 +147,13 @@ nz-header {
 
     &.collapsed {
       width: calc(100% - 80px);
-
     }
   }
 }
 
 .ant-layout-header {
   height: 48px;
-  box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   display: flex;
   z-index: 19;
 }
@@ -171,14 +168,14 @@ nz-header {
   height: 100%;
   padding: 0 12px;
   cursor: pointer;
-  transition: all .3s;
+  transition: all 0.3s;
 
   i {
     vertical-align: middle;
   }
 
   &:hover {
-    background: rgba(0, 0, 0, .025);
+    background: rgba(0, 0, 0, 0.025);
   }
 
   &.header-search:hover {
@@ -189,7 +186,7 @@ nz-header {
 .search-input {
   width: 0;
   margin-left: 0;
-  transition: width .3s, margin-left .3s;
+  transition: width 0.3s, margin-left 0.3s;
 
   &.show {
     width: 210px;

@@ -1,19 +1,29 @@
-import {Component, EventEmitter, Input, Output, TemplateRef} from '@angular/core';
-import {LhTableConfigModel, LhTableFieldConfigModel, LhTableFieldType} from "./lh-table-config.model";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  TemplateRef,
+} from '@angular/core';
+import {
+  LhTableConfigModel,
+  LhTableFieldConfigModel,
+  LhTableFieldType,
+} from './lh-table-config.model';
 import * as _ from 'lodash';
-import {DatePipe} from "@angular/common";
-import {TranslateService} from "@ngx-translate/core";
+import { DatePipe } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'lh-common-lh-table',
   templateUrl: './lh-table.component.html',
-  styleUrls: ['./lh-table.component.css']
+  styleUrls: ['./lh-table.component.css'],
 })
 export class LhTableComponent<T extends Object> {
   @Input() data: T[] = [];
   @Input() loading: boolean = false;
   @Input() config: LhTableConfigModel = {
-    key: ''
+    key: '',
   };
   @Input() expandTemplate?: TemplateRef<any>;
   @Output() onSearch: EventEmitter<string> = new EventEmitter<string>();
@@ -27,9 +37,10 @@ export class LhTableComponent<T extends Object> {
   indeterminate = false;
   listOfCurrentPageData: readonly T[] = [];
 
-  constructor(private translate: TranslateService
-    , private datePipe: DatePipe) {
-  }
+  constructor(
+    private translate: TranslateService,
+    private datePipe: DatePipe
+  ) {}
 
   getValue(record: any, field: string) {
     return _.get(record, field);
@@ -47,7 +58,7 @@ export class LhTableComponent<T extends Object> {
       return this.datePipe.transform(new Date(rawValue), 'dd/MM/yyyy HH:mm');
     }
     if (field.type === LhTableFieldType.SIZE_MEGABYTE) {
-      return `${this.formatSize(rawValue)} MB`
+      return `${this.formatSize(rawValue)} MB`;
     }
     return rawValue;
   }
@@ -78,8 +89,13 @@ export class LhTableComponent<T extends Object> {
   }
 
   refreshCheckedStatus(): void {
-    this.checked = this.listOfCurrentPageData.every(item => this.setOfCheckedId.has(this.getKeyValue(item)));
-    this.indeterminate = this.listOfCurrentPageData.some(item => this.setOfCheckedId.has(this.getKeyValue(item))) && !this.checked;
+    this.checked = this.listOfCurrentPageData.every((item) =>
+      this.setOfCheckedId.has(this.getKeyValue(item))
+    );
+    this.indeterminate =
+      this.listOfCurrentPageData.some((item) =>
+        this.setOfCheckedId.has(this.getKeyValue(item))
+      ) && !this.checked;
   }
 
   detail(record: T) {
@@ -95,8 +111,8 @@ export class LhTableComponent<T extends Object> {
   }
 
   private formatSize = (sizeInBytes: number) => {
-    const megabyte = 1024*1024;
+    const megabyte = 1024 * 1024;
     const sizeInMB = sizeInBytes / megabyte;
     return sizeInMB.toFixed(2);
-  }
+  };
 }
