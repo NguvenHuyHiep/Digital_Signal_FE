@@ -21,6 +21,7 @@ export class FileDetailComponent<T extends Object> implements OnInit {
   currentFile?: DsdFile;
   tableConfig: LhTableConfigModel = {
     disableDetail: true,
+
     key: 'id',
     fields: [
       {

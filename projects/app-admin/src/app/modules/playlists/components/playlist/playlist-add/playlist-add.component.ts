@@ -6,9 +6,9 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
-import { FormGroupPlayList } from '../../playlist';
+import { FormGroupFile, FormGroupPlayList } from '../../playlist';
 import { AdminPlaylistService } from '../../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service';
 import { Playlist } from '../../../../../../../../app-api/src/lib/api/models/playlist';
 import { DsdFile } from '../../../../../../../../app-api/src/lib/api/models/dsdFile';
@@ -32,12 +32,14 @@ export class PlaylistAddComponent implements OnInit, OnChanges {
       code: 'info',
       name: 'module.user.info',
     },
-    {
-      code: 'file',
-      name: 'module.playlist.file',
-    },
   ];
   isChecked: boolean = false;
+
+  showFrame: {
+    detail: boolean;
+  } = {
+    detail: false,
+  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -95,5 +97,16 @@ export class PlaylistAddComponent implements OnInit, OnChanges {
       files: this.form.controls.files?.value as Array<DsdFile>,
     };
     return this.adminPlaylistService.updatePlayList(addObj);
+  }
+
+  fileForm(baseForm: FormGroupPlayList): FormArray<FormGroupPlayList> {
+    if (!baseForm.controls.files) {
+      baseForm.controls.files = new FormArray<FormGroupFile>([]);
+    }
+    return baseForm.controls.files as FormArray<FormGroupFile>;
+  }
+
+  getFormGroupFile(playListForm: FormGroup): FormGroupPlayList {
+    return playListForm as FormGroupPlayList;
   }
 }

@@ -1,20 +1,14 @@
 <nz-tabset>
   <nz-tab
     *ngFor="let tab of tabs"
-    [nzTitle]="tab.name | translate"
     [nzDisabled]="tab.code === 'file' && !playlistAdmin?.id"
+    [nzTitle]="tab.name | translate"
   >
     <ng-container *ngIf="tab.code === 'info'">
       <ng-container *ngTemplateOutlet="info"></ng-container>
     </ng-container>
-    <ng-container *ngIf="tab.code === 'file'">
-      <ng-container *ngTemplateOutlet="file"></ng-container>
-    </ng-container>
   </nz-tab>
 </nz-tabset>
-
-<ng-template #file> </ng-template>
-
 <ng-template #info>
   <form [formGroup]="form" nz-form>
     <nz-form-item>
@@ -43,7 +37,7 @@
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label nzFor="startTime" [nzSpan]="4">{{
+      <nz-form-label [nzSpan]="4" nzFor="startTime">{{
         "module.playlist.startTime" | translate
       }}</nz-form-label>
       <nz-form-control [formGroup]="form" [nzSpan]="14">
@@ -52,7 +46,7 @@
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label nzFor="endTime" [nzSpan]="4">{{
+      <nz-form-label [nzSpan]="4" nzFor="endTime">{{
         "module.playlist.endTime" | translate
       }}</nz-form-label>
       <nz-form-control [formGroup]="form" [nzSpan]="14">
@@ -65,15 +59,16 @@
         {{ "module.playlist.isLoop" | translate }}
       </nz-form-label>
       <nz-form-control [formGroup]="form" [nzSpan]="14">
-        <label nz-checkbox [nzChecked]="isChecked" formControlName="isLoop">
+        <label [nzChecked]="isChecked" formControlName="isLoop" nz-checkbox>
           {{ "module.playlist.true" | translate }}</label
         >
       </nz-form-control>
     </nz-form-item>
-<nz-form-item>
-  <nz-form-control [formGroup]="form" [nzSpan]="14">
-  <!-- <app-admin-file-add ></app-admin-file-add> -->
-  </nz-form-control>
-</nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="24">
+        {{ "module.playlist.file" | translate }}
+      </nz-form-label>
+      <app-admin-file-add [control]="form.controls.files"></app-admin-file-add>
+    </nz-form-item>
   </form>
 </ng-template>
