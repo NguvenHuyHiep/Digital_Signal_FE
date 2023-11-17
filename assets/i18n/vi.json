@@ -124,7 +124,8 @@
       "activeTime": "Thời gian chạy",
       "inactiveTime": "Thời gian dừng",
       "license": "License",
-      "add": "Thêm thiết bị"
+      "add": "Thêm thiết bị",
+      "delete": "Xóa thiết bị"
     }
   },
   "recover": {

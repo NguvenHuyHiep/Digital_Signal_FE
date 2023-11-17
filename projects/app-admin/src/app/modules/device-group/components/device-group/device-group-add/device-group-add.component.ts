@@ -32,6 +32,7 @@ export class DeviceGroupAddComponent implements OnInit {
   @Input('deviceId') deviceId?: number;
   @Input() deviceGroupAdmin?: DeviceGroup;
   devices: Array<Device> = [];
+  devicesToDelete: Device[] = [];
   showFrame: {
     detail: boolean,
   } = {
@@ -39,10 +40,12 @@ export class DeviceGroupAddComponent implements OnInit {
   };
   loading: {
     addDevice: boolean;
+    deleteDevices: boolean;
     searching: boolean;
     device: boolean;
   } = {
     searching: false,
+    deleteDevices: false,
     addDevice: false,
     device: false,
   };
@@ -85,6 +88,8 @@ export class DeviceGroupAddComponent implements OnInit {
     deviceId: ['', Validators.required]
   }) as unknown as FormDevice;
   currentDevice: Device = {};
+
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -164,6 +169,28 @@ export class DeviceGroupAddComponent implements OnInit {
       })
 
   }
+
+  // deleteDevices() {
+  //   if (!this.devicesToDelete || this.devicesToDelete.length === 0) {
+  //     this.message.warning('No devices selected for deletion.');
+  //   }
+  //   this.loading.deleteDevices = true;
+  //   const deviceIdsToDelete: number[] = this.devicesToDelete.map(device => device.id);
+  //   this.deviceService.deleteMultipleDevices(deviceIdsToDelete).subscribe({
+  //     next: () => {
+  //       this.devices = this.devices.filter(device => !deviceIdsToDelete.includes(device.id));
+  //       this.message.success('Devices deleted successfully.');
+  //     },
+  //     error: err => {
+  //       // TODO i18n
+  //       this.message.error("Error", err);
+  //       this.loading.searching = false;
+  //     }
+  //     , complete: () => {
+  //       this.loading.deleteDevices = false;
+  //     }
+  //   })
+  // }
 
   // TODO change position of ngOninit to after constructor
   ngOnInit(): void {

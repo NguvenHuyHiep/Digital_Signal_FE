@@ -25,39 +25,38 @@ import {
   AdminDeviceGroupModule
 } from "../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.module";
 import {ChosenDeviceComponent} from "./components/device-group/choosen-device/chosen-device.component";
+import { DeviceGroupComponent } from './device-group/device-group.component';
 import {DeviceModule} from "../device/device.module";
-import {DeviceGroupComponent} from "./device-group/device-group.component";
 
 
 @NgModule({
   declarations: [DeviceGroupsComponent,
   DeviceGroupAddComponent,
-    DeviceGroupComponent,
   ChosenDeviceComponent],
-    imports: [
-        CommonModule,
-        TranslateModule,
-        LhTableModule,
-        UiCommonModule,
-        NzSpaceModule,
-        NzButtonModule,
-        LhDialogModule,
-        NzTabsModule,
-        ReactiveFormsModule,
-        NzFormModule,
-        NzInputModule,
-        NzLayoutModule,
-        FormsModule,
-        NzCardModule,
-        NzSkeletonModule,
-        NzMenuModule,
-        NzSelectModule,
-        NzIconModule,
-        NzDatePickerModule,
-        NzCheckboxModule,
-        DeviceGroupRoutingModule,
-        AdminDeviceGroupModule,
-        DeviceModule
-    ],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    LhTableModule,
+    UiCommonModule,
+    NzSpaceModule,
+    NzButtonModule,
+    LhDialogModule,
+    NzTabsModule,
+    ReactiveFormsModule,
+    NzFormModule,
+    NzInputModule,
+    NzLayoutModule,
+    FormsModule,
+    NzCardModule,
+    NzSkeletonModule,
+    NzMenuModule,
+    NzSelectModule,
+    NzIconModule,
+    NzDatePickerModule,
+    NzCheckboxModule,
+    DeviceGroupRoutingModule,
+    AdminDeviceGroupModule,
+    DeviceModule,
+  ],
 })
 export class DeviceGroupModule { }

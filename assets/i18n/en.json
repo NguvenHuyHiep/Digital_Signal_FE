@@ -3,7 +3,7 @@
     "Search-placeholder": "Search",
     "SignOut": "Signout",
     "accout-center": "Accout infomation",
-										 
+
     "setting": "Setting",
     "signIn": "Login"
   },
@@ -24,7 +24,7 @@
     "back": "Back",
     "cancel": "Cancel",
     "success": "Successful",
-    "selectDevice": "Select device"					  
+    "selectDevice": "Select device"
   },
 
   "footer": "Design & Develop by LPDEV",
@@ -57,7 +57,7 @@
       "device": "Device",
       "deviceAdd": "Add device",
       "listDevice": "List devices"
-     },					
+     },
     "dashboard": {
       "title":"Dashboard",
       "deviceTotal":"No. Devices",
@@ -93,7 +93,7 @@
       "startTime": "Start time",
       "endTime": "End time",
       "isLoop": "Is loop",
-      "true": "Yes"		   
+      "true": "Yes"
     },
     "user": {
       "title": "User",
@@ -122,8 +122,9 @@
       "status": "Status",
       "activeTime": "Active time",
       "inactiveTime": "Inactive time",
-      "license": "License",				
-      "add": "Add device"				 
+      "license": "License",
+      "add": "Add device",
+      "delete": "Delete device"
     }
   },
   "recover": {

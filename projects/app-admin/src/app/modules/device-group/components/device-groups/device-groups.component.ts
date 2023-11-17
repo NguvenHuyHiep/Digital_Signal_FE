@@ -11,6 +11,7 @@ import {translate} from "@antv/g2/lib/util/transform";
 import {
   AdminDeviceGroupService
 } from "../../../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.service";
+import {Device} from "../../../../../../../app-api/src/lib/api/models/device";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
@@ -61,16 +62,42 @@ export class DeviceGroupsComponent implements OnInit {
   };
   protected readonly translate = translate;
 
-  constructor(private route: ActivatedRoute, private router: Router
-    , private adminDeviceGroupService: AdminDeviceGroupService
-    , private message: NzMessageService
+  tableDeviceConfig: LhTableConfigModel = {
+    key: 'id',
+    disableDetail: true,
+    disableUpdate: false,
+    disableDelete: true,
+    fields: [
+      {
+        label: 'module.device.code',
+        field: 'code',
+        type: LhTableFieldType.STRING,
+      },
+      {
+        label: 'module.device.name',
+        field: 'name',
+        type: LhTableFieldType.STRING,
+      },
+      {
+        label: 'module.device.info',
+        field: 'information',
+        type: LhTableFieldType.STRING,
+      },
+      {
+        label: 'module.device.status',
+        field: 'status',
+        type: LhTableFieldType.STRING,
+      },
+    ],
+  };
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private adminDeviceGroupService: AdminDeviceGroupService,
+    private message: NzMessageService
   ) {
   }
-
-  get isSelectedRow(): boolean {
-    return (this.table?.setOfCheckedId?.size || 0) > 0;
-  }
-
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.query.action = params['action'];
@@ -152,6 +179,10 @@ export class DeviceGroupsComponent implements OnInit {
         this.loading.adding = false;
       }
     })
+  }
+
+  get isSelectedRow(): boolean {
+    return (this.table?.setOfCheckedId?.size || 0) > 0;
   }
 
   openAddFrame() {

@@ -19,14 +19,14 @@ import {Playlist} from "../../../../../../../app-api/src/lib/api/models/playlist
   templateUrl: './files.component.html',
   styleUrls: ['./files.component.scss'],
 })
-export class FilesComponent<T extends Object> implements OnInit {
+export class FilesComponent<T extends Object> implements OnInit{
   @Input() playListAdmin?: Playlist;
   @Output() onGroup: EventEmitter<T> = new EventEmitter<T>();
-  @ViewChild('table') table?: LhTableComponent<DsdFile>;
-  @ViewChild('addComponent', { static: false }) addComponent?: FileAddComponent;
+  @ViewChild('table') table?: LhTableComponent<DsdFile>
+  @ViewChild('addComponent', {static: false}) addComponent?: FileAddComponent;
   currentFile?: DsdFile;
   fileList: NzUploadFile[] = [];
-  files: Array<DsdFile> = [];
+  files: Array<DsdFile> = []
   loading: {
     adding: boolean;
     searching: boolean;
