@@ -1,4 +1,7 @@
-<lh-common-page [hidden]="!showFrame.search" pageTitle="{{ 'module.device.title' | translate }}">
+<lh-common-page
+  [hidden]="!showFrame.search"
+  pageTitle="{{ 'module.device.title' | translate }}"
+>
   <div nz-space></div>
   <lh-common-lh-table
     #table
@@ -16,5 +19,7 @@
 </lh-common-page>
 
 <lh-common-lh-dialog *ngIf="showFrame.detail && currenetDevice?.id">
-  <app-admin-device-detail [deviceId]="currenetDevice.id"></app-admin-device-detail>
+  <app-admin-device-detail
+    [deviceId]="currenetDevice.id"
+  ></app-admin-device-detail>
 </lh-common-lh-dialog>

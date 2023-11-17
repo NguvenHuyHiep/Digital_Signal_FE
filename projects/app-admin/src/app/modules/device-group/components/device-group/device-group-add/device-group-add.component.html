@@ -34,53 +34,69 @@
       <ng-container *ngTemplateOutlet="addDevices"></ng-container>
     </ng-container>
 
-<ng-template #addDevices>
+    <ng-template #addDevices>
       <nz-form-label [nzSpan]="4" nzFor="listDevice">
         {{ "module.groupdevice.listDevice" | translate }}
       </nz-form-label>
-    <nz-skeleton [nzActive]="true" *ngIf="loading.device"></nz-skeleton>
-    <lh-common-lh-table *ngIf="!loading.device"
-                        #table
-                        [config]="tableConfig"
-                        [data]="devices"
-                        [loading]="loading.device"
-                        (onUpdate)="detailDevice($event)"
-    ></lh-common-lh-table>
-    <form nz-form [formGroup]="addDeviceForm" nzLayout="vertical">
-<!--      <div nz-col [nzLg]="4" [nzSm]="24" style="float: right">-->
-<!--        <div nz-row nzAlign="middle" class="h-100" style="padding-top: 15px; padding-bottom: 15px;">-->
-<!--          <button nz-button nzType="primary" nzDanger-->
-<!--                  [nzLoading]="loading.deleteDevices" class="w-100"-->
-<!--                  (click)="deleteDevices()">{{'module.device.delete' |translate}}</button>-->
-<!--        </div>-->
-<!--      </div>-->
-      <div nz-row nzGutter="16">
-        <div nz-col [nzLg]="4" [nzSm]="24">
-          <nz-form-item>
-            <nz-form-label
-              nzFor="deviceId">{{ 'module.device.add'  | translate}}</nz-form-label>
-            <nz-form-control [formGroup]="addDeviceForm">
-              <app-admin-chosen-device class="w-100" formControlName="deviceId"
-                                   (onDataChange)="setCurrentDevice($event)"></app-admin-chosen-device>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-        <div nz-col [nzLg]="4" [nzSm]="24" >
-          <div nz-row nzAlign="middle" class="h-100" style="padding-top: 30px">
-            <button nz-button nzType="primary"
-                    [nzLoading]="loading.addDevice" class="w-100"
-                    (click)="addDevice()">{{'module.device.add' |translate}}</button>
+      <nz-skeleton [nzActive]="true" *ngIf="loading.device"></nz-skeleton>
+      <lh-common-lh-table
+        *ngIf="!loading.device"
+        #table
+        [config]="tableConfig"
+        [data]="devices"
+        [loading]="loading.device"
+        (onUpdate)="detailDevice($event)"
+      ></lh-common-lh-table>
+      <form nz-form [formGroup]="addDeviceForm" nzLayout="vertical">
+        <!--      <div nz-col [nzLg]="4" [nzSm]="24" style="float: right">-->
+        <!--        <div nz-row nzAlign="middle" class="h-100" style="padding-top: 15px; padding-bottom: 15px;">-->
+        <!--          <button nz-button nzType="primary" nzDanger-->
+        <!--                  [nzLoading]="loading.deleteDevices" class="w-100"-->
+        <!--                  (click)="deleteDevices()">{{'module.device.delete' |translate}}</button>-->
+        <!--        </div>-->
+        <!--      </div>-->
+        <div nz-row nzGutter="16">
+          <div nz-col [nzLg]="4" [nzSm]="24">
+            <nz-form-item>
+              <nz-form-label nzFor="deviceId">{{
+                "module.device.add" | translate
+              }}</nz-form-label>
+              <nz-form-control [formGroup]="addDeviceForm">
+                <app-admin-chosen-device
+                  class="w-100"
+                  formControlName="deviceId"
+                  (onDataChange)="setCurrentDevice($event)"
+                ></app-admin-chosen-device>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzLg]="4" [nzSm]="24">
+            <div
+              nz-row
+              nzAlign="middle"
+              class="h-100"
+              style="padding-top: 30px"
+            >
+              <button
+                nz-button
+                nzType="primary"
+                [nzLoading]="loading.addDevice"
+                class="w-100"
+                (click)="addDevice()"
+              >
+                {{ "module.device.add" | translate }}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </form>
-
-</ng-template>
+      </form>
+    </ng-template>
     <ng-template #elseBlock></ng-template>
   </form>
 </ng-template>
 
 <lh-common-lh-dialog *ngIf="showFrame.detail && currentDevice?.id">
-  <app-admin-device-detail [deviceId]="currentDevice.id"></app-admin-device-detail>
+  <app-admin-device-detail
+    [deviceId]="currentDevice.id"
+  ></app-admin-device-detail>
 </lh-common-lh-dialog>
-

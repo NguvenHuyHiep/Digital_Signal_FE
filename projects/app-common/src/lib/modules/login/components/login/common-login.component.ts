@@ -5,10 +5,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { LhAuthenService } from '../../../../../../../app-api/src/lib/modules/authen/lh-authen.service';
-import {TranslateParser, TranslateService} from '@ngx-translate/core';
-import {LhLanguageService} from "../../../../../../../app-api/src/lib/modules/language/lh-language.service";
-import {environment} from "../../../../../../../app-admin/src/environments/environment";
-import {WaterMarkService} from "../../../watermark/water-mark.service";
+import { TranslateParser, TranslateService } from '@ngx-translate/core';
+import { LhLanguageService } from '../../../../../../../app-api/src/lib/modules/language/lh-language.service';
+import { environment } from '../../../../../../../app-admin/src/environments/environment';
+import { WaterMarkService } from '../../../watermark/water-mark.service';
 
 @Component({
   selector: 'lh-common-login',
@@ -26,7 +26,7 @@ export class CommonLoginComponent implements OnInit {
     private authenService: LhAuthenService,
     private languageService: LhLanguageService,
     private waterMarkService: WaterMarkService,
-    private translateService: TranslateService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -74,10 +74,10 @@ export class CommonLoginComponent implements OnInit {
     this.languageService.updateLocale(locale);
   }
   supportLangs = [
-    {label: 'English', value: 'en', img: ''},
-    {label: 'Tieng Viet', value: 'vi', img: ''},
+    { label: 'English', value: 'en', img: '' },
+    { label: 'Tieng Viet', value: 'vi', img: '' },
   ];
   public get getCurrentLangObj(): any {
-    return this.supportLangs.find(f => f.value === this.selectLanguage);
+    return this.supportLangs.find((f) => f.value === this.selectLanguage);
   }
 }

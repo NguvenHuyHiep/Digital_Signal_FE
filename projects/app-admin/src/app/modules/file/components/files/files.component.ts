@@ -1,32 +1,37 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {LhTableComponent} from "../../../../../../../app-common/src/lib/components/lh-table/lh-table.component";
-import {FileAddComponent} from "../file-add/file-add.component";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { LhTableComponent } from '../../../../../../../app-common/src/lib/components/lh-table/lh-table.component';
+import { FileAddComponent } from '../file-add/file-add.component';
 import {
   LhTableConfigModel,
-  LhTableFieldType
-} from "../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model";
-import {NzMessageService} from "ng-zorro-antd/message";
-import {AdminFileService} from "../../../../../../../app-api/src/lib/modules/admin/admin-file/admin-file.service";
-import {DsdFile} from "../../../../../../../app-api/src/lib/api/models/dsdFile";
-import {Playlist} from "../../../../../../../app-api/src/lib/api/models/playlist";
+  LhTableFieldType,
+} from '../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { AdminFileService } from '../../../../../../../app-api/src/lib/modules/admin/admin-file/admin-file.service';
+import { DsdFile } from '../../../../../../../app-api/src/lib/api/models/dsdFile';
+import { Playlist } from '../../../../../../../app-api/src/lib/api/models/playlist';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
-import {
-  AdminPlaylistService
-} from "../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service";
+import { AdminPlaylistService } from '../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service';
 
 @Component({
   selector: 'app-admin-files',
   templateUrl: './files.component.html',
   styleUrls: ['./files.component.scss'],
 })
-export class FilesComponent<T extends Object> implements OnInit{
+export class FilesComponent<T extends Object> implements OnInit {
   @Input() playListAdmin?: Playlist;
   @Output() onGroup: EventEmitter<T> = new EventEmitter<T>();
-  @ViewChild('table') table?: LhTableComponent<DsdFile>
-  @ViewChild('addComponent', {static: false}) addComponent?: FileAddComponent;
+  @ViewChild('table') table?: LhTableComponent<DsdFile>;
+  @ViewChild('addComponent', { static: false }) addComponent?: FileAddComponent;
   currentFile?: DsdFile;
   fileList: NzUploadFile[] = [];
-  files: Array<DsdFile> = []
+  files: Array<DsdFile> = [];
   loading: {
     adding: boolean;
     searching: boolean;
@@ -56,21 +61,18 @@ export class FilesComponent<T extends Object> implements OnInit{
     return (this.table?.setOfCheckedId?.size || 0) > 0;
   }
 
-  constructor(private adminFileService: AdminFileService,
-    private adminPlaylistService: AdminPlaylistService
-    , private message: NzMessageService
-  ) {
-  }
+  constructor(
+    private adminFileService: AdminFileService,
+    private adminPlaylistService: AdminPlaylistService,
+    private message: NzMessageService
+  ) {}
 
   ngOnInit(): void {
-
-    if(this.playListAdmin){
-      this.getFileById()
-    }else {
+    if (this.playListAdmin) {
+      this.getFileById();
+    } else {
       this.getAllFile();
     }
-
-
   }
 
   update(files: DsdFile) {
@@ -97,24 +99,24 @@ export class FilesComponent<T extends Object> implements OnInit{
     this.showFrame.add = true;
   }
 
-  deleteSelected() {
+  deleteSelected() {}
 
-  }
-
-  getFileById(): void{
-    this.adminPlaylistService.getPlaylistWithFile(this.playListAdmin?.id as number).subscribe({
-      next: (response) => {
-        if (response.data) {
-          this.files = response.data.files  as Array<DsdFile>;
-        }
-      }
-      , error: err => {
-        //TODO Xử lý exception
-      }
-      , complete: () => {
-        this.loading.searching = false;
-      }
-    })
+  getFileById(): void {
+    this.adminPlaylistService
+      .getPlaylistWithFile(this.playListAdmin?.id as number)
+      .subscribe({
+        next: (response) => {
+          if (response.data) {
+            this.files = response.data.files as Array<DsdFile>;
+          }
+        },
+        error: (err) => {
+          //TODO Xử lý exception
+        },
+        complete: () => {
+          this.loading.searching = false;
+        },
+      });
   }
   getAllFile(): void {
     this.loading.searching = true;

@@ -93,16 +93,24 @@
         />
       </nz-form-control>
     </nz-form-item>
-        <nz-form-item>
-          <nz-form-label [nzSpan]="4" nzFor="license">
-            {{ "module.user.license" | translate }}
-          </nz-form-label>
-          <nz-form-control [nzSpan]="14">
-            <nz-input-group nzSearch [nzAddOnAfter]="genLcsButton" id="license" >
-              <input [disabled]="true" id="licenseCode" name="licenseCode"  type="text" nz-input placeholder="" [value]="license"/>
-            </nz-input-group>
-          </nz-form-control>
-        </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4" nzFor="license">
+        {{ "module.user.license" | translate }}
+      </nz-form-label>
+      <nz-form-control [nzSpan]="14">
+        <nz-input-group nzSearch [nzAddOnAfter]="genLcsButton" id="license">
+          <input
+            [disabled]="true"
+            id="licenseCode"
+            name="licenseCode"
+            type="text"
+            nz-input
+            placeholder=""
+            [value]="license"
+          />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
   </form>
 </ng-template>
 

@@ -20,12 +20,11 @@
     .box {
       width: 30%;
     }
-
   }
 
   .box {
     .banner {
-      background-image: url('/assets/images/login/profile-img.png');
+      background-image: url("/assets/images/login/profile-img.png");
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
@@ -54,7 +53,7 @@
   }
 }
 
-.lang{
+.lang {
   margin-top: 10px;
   text-align: center;
 }

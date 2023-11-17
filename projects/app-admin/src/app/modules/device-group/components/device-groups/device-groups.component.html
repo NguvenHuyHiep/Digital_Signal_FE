@@ -1,4 +1,7 @@
- <lh-common-page [hidden]="!showFrame.search" pageTitle="{{ 'module.groupdevice.title' | translate }}">
+<lh-common-page
+  [hidden]="!showFrame.search"
+  pageTitle="{{ 'module.groupdevice.title' | translate }}"
+>
   <div nz-space>
     <button
       (click)="routeToAdd()"
@@ -22,7 +25,7 @@
 
   <lh-common-lh-table
     #table
-    [data] = "deviceGroups"
+    [data]="deviceGroups"
     [config]="tableConfig"
     [expandTemplate]="playlistDetail"
     [loading]="loading.searching"
@@ -36,13 +39,18 @@
   [footerTemplateLeft]="backToSearch"
   [footerTemplateRight]="addActions"
 >
-  <app-admin-device-group-add [deviceGroupAdmin]="currentDeviceGroup" #addComponent>
+  <app-admin-device-group-add
+    [deviceGroupAdmin]="currentDeviceGroup"
+    #addComponent
+  >
   </app-admin-device-group-add>
 </lh-common-lh-dialog>
 <ng-template #addActions>
   <div nz-space>
     <button (click)="add()" nz-button nzType="primary">
-      {{ (this.currentDeviceGroup ? "common.update" : "common.add") | translate }}
+      {{
+        (this.currentDeviceGroup ? "common.update" : "common.add") | translate
+      }}
     </button>
   </div>
 </ng-template>
@@ -56,4 +64,3 @@
 <ng-template #playlistDetail let-data="data">
   <app-admin-device-list [deviceGroupAdmin]="data"></app-admin-device-list>
 </ng-template>
-

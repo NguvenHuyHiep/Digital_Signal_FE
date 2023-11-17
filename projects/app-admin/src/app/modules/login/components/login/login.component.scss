@@ -1,14 +1,14 @@
 :host {
-  ::ng-deep{
+  ::ng-deep {
     lh-common-login {
       .login-container {
-        background-image: url('/admin/assets/images/background.svg');
+        background-image: url("/admin/assets/images/background.svg");
         background-position: left center;
         background-size: cover;
       }
-    .signup {
-      display: none;
-    }
+      .signup {
+        display: none;
+      }
     }
   }
 }

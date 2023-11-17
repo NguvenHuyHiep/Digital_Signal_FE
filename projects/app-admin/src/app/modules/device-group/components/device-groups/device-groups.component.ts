@@ -1,69 +1,69 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {DeviceGroup} from "../../../../../../../app-api/src/lib/api/models/deviceGroup";
-import {LhTableComponent} from "../../../../../../../app-common/src/lib/components/lh-table/lh-table.component";
-import {DeviceGroupAddComponent} from "../device-group/device-group-add/device-group-add.component";
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { DeviceGroup } from '../../../../../../../app-api/src/lib/api/models/deviceGroup';
+import { LhTableComponent } from '../../../../../../../app-common/src/lib/components/lh-table/lh-table.component';
+import { DeviceGroupAddComponent } from '../device-group/device-group-add/device-group-add.component';
 import {
   LhTableConfigModel,
-  LhTableFieldType
-} from "../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model";
-import {NzMessageService} from "ng-zorro-antd/message";
-import {translate} from "@antv/g2/lib/util/transform";
-import {
-  AdminDeviceGroupService
-} from "../../../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.service";
-import {Device} from "../../../../../../../app-api/src/lib/api/models/device";
-import {ActivatedRoute, Router} from "@angular/router";
+  LhTableFieldType,
+} from '../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { translate } from '@antv/g2/lib/util/transform';
+import { AdminDeviceGroupService } from '../../../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.service';
+import { Device } from '../../../../../../../app-api/src/lib/api/models/device';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-device-groups',
   templateUrl: './device-groups.component.html',
-  styleUrls: ['./device-groups.component.scss']
+  styleUrls: ['./device-groups.component.scss'],
 })
 export class DeviceGroupsComponent implements OnInit {
-  @ViewChild('table') table?: LhTableComponent<DeviceGroup>
-  @ViewChild('addComponent', {static: false}) addComponent?: DeviceGroupAddComponent;
+  @ViewChild('table') table?: LhTableComponent<DeviceGroup>;
+  @ViewChild('addComponent', { static: false })
+  addComponent?: DeviceGroupAddComponent;
   devices: Array<Device> = [];
   showFrame: {
-    search: boolean,
-    add: boolean,
-    device: boolean
+    search: boolean;
+    add: boolean;
+    device: boolean;
   } = {
     search: true,
     add: false,
-    device: false
-  }
+    device: false,
+  };
   currentDeviceGroup: DeviceGroup = {};
   deviceGroups: Array<DeviceGroup> = [];
   loading: {
     adding: boolean;
     searching: boolean;
-    device: boolean
+    device: boolean;
   } = {
     adding: false,
     searching: false,
-    device: false
+    device: false,
   };
   query: {
-    action?: string, id?: string
+    action?: string;
+    id?: string;
   } = {
-    action: undefined
-    , id: undefined
+    action: undefined,
+    id: undefined,
   };
   tableConfig: LhTableConfigModel = {
     disableDetail: true,
     key: 'id',
     fields: [
       {
-        label: 'module.groupdevice.name'
-        , field: 'name'
-        , type: LhTableFieldType.STRING
+        label: 'module.groupdevice.name',
+        field: 'name',
+        type: LhTableFieldType.STRING,
       },
       {
-        label: 'module.groupdevice.description'
-        , field: 'description'
-        , type: LhTableFieldType.STRING
-      }
-    ]
+        label: 'module.groupdevice.description',
+        field: 'description',
+        type: LhTableFieldType.STRING,
+      },
+    ],
   };
   protected readonly translate = translate;
 
@@ -101,20 +101,19 @@ export class DeviceGroupsComponent implements OnInit {
     private router: Router,
     private adminDeviceGroupService: AdminDeviceGroupService,
     private message: NzMessageService
-  ) {
-  }
+  ) {}
 
   get isSelectedRow(): boolean {
     return (this.table?.setOfCheckedId?.size || 0) > 0;
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       this.query.action = params['action'];
       this.query.id = params['id'];
       switch (this.query.action) {
         case 'add': {
-          this.currentDeviceGroup = undefined;
+          this.currentDeviceGroup = {};
           this.openAddFrame();
           break;
         }
@@ -122,21 +121,26 @@ export class DeviceGroupsComponent implements OnInit {
           if (!this.query.id) {
             break;
           }
-          if (this.currentDeviceGroup && this.currentDeviceGroup.id === Number(this.query.id)) {
+          if (
+            this.currentDeviceGroup &&
+            this.currentDeviceGroup.id === Number(this.query.id)
+          ) {
             break;
           }
-          this.adminDeviceGroupService.getDevices(Number(this.query.id)).subscribe({
-            next: result => {
-              if (result.data) {
-                this.currentDeviceGroup = result.data;
-                this.openAddFrame();
-              }
-            }
-          });
+          this.adminDeviceGroupService
+            .getDevices(Number(this.query.id))
+            .subscribe({
+              next: (result) => {
+                if (result.data) {
+                  this.currentDeviceGroup = result.data;
+                  this.openAddFrame();
+                }
+              },
+            });
           break;
         }
         default: {
-          this.gotoSearch()
+          this.gotoSearch();
           break;
         }
       }
@@ -145,22 +149,17 @@ export class DeviceGroupsComponent implements OnInit {
   }
 
   routeToSearch() {
-    this.router.navigate([],).then(r => {
-
-    });
+    this.router.navigate([]).then((r) => {});
   }
 
   routeToAdd() {
-    const queryParams = {action: 'add'};
-    this.router.navigate([], {queryParams}).then(r => {
-
-    });
+    const queryParams = { action: 'add' };
+    this.router.navigate([], { queryParams }).then((r) => {});
   }
 
   routeToEdit(id?: number) {
-    const queryParams = {action: 'edit', id: id};
-    this.router.navigate([], {queryParams}).then(r => {
-    });
+    const queryParams = { action: 'edit', id: id };
+    this.router.navigate([], { queryParams }).then((r) => {});
   }
 
   add() {
@@ -178,17 +177,17 @@ export class DeviceGroupsComponent implements OnInit {
           if (this.query.action === 'edit') {
             this.gotoSearch();
           }
-
         }
-      }, error: err => {
+      },
+      error: (err) => {
         // TODO i18n
-        this.message.error("Error", err);
+        this.message.error('Error', err);
         this.loading.searching = false;
-      }
-      , complete: () => {
+      },
+      complete: () => {
         this.loading.adding = false;
-      }
-    })
+      },
+    });
   }
 
   openAddFrame() {
@@ -197,9 +196,7 @@ export class DeviceGroupsComponent implements OnInit {
     this.showFrame.add = true;
   }
 
-  deleteSelected() {
-
-  }
+  deleteSelected() {}
 
   update(record: DeviceGroup) {
     this.currentDeviceGroup = record;
@@ -209,16 +206,19 @@ export class DeviceGroupsComponent implements OnInit {
   }
 
   delete(deviceGroup: DeviceGroup) {
-    this.adminDeviceGroupService.deleteDeviceGroup(deviceGroup?.id as number).subscribe({
-      next: response => {
-        this.getAllDeviceGroup();
-      }, error: err => {
-        //TODO Xử lý exception
-      }
-      , complete: () => {
-        this.loading.searching = false;
-      }
-    })
+    this.adminDeviceGroupService
+      .deleteDeviceGroup(deviceGroup?.id as number)
+      .subscribe({
+        next: (response) => {
+          this.getAllDeviceGroup();
+        },
+        error: (err) => {
+          //TODO Xử lý exception
+        },
+        complete: () => {
+          this.loading.searching = false;
+        },
+      });
   }
 
   gotoSearch() {
@@ -233,18 +233,17 @@ export class DeviceGroupsComponent implements OnInit {
       next: (response) => {
         if (response.data) {
           this.deviceGroups = response.data as Array<DeviceGroup>;
-          console.log(this.deviceGroups + "DeviceGroup");
+          console.log(this.deviceGroups + 'DeviceGroup');
         }
-      }
-      , error: err => {
+      },
+      error: (err) => {
         // TODO i18n
-        this.message.error("Error", err);
+        this.message.error('Error', err);
         this.loading.searching = false;
-      }
-      , complete: () => {
+      },
+      complete: () => {
         this.loading.searching = false;
-      }
+      },
     });
   }
 }
-

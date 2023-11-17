@@ -1,36 +1,41 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {FormControl} from "@angular/forms";
-import {NzUploadFile, NzUploadXHRArgs} from "ng-zorro-antd/upload";
-import {NzMessageService} from "ng-zorro-antd/message";
-import {Subscription} from "rxjs";
 import {
-  AdminFileControllerService
-} from "../../../../../../../app-api/src/lib/api/controller/adminFileController.service";
-import {AdminFileService} from "../../../../../../../app-api/src/lib/modules/admin/admin-file/admin-file.service";
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { NzUploadFile, NzUploadXHRArgs } from 'ng-zorro-antd/upload';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { Subscription } from 'rxjs';
+import { AdminFileControllerService } from '../../../../../../../app-api/src/lib/api/controller/adminFileController.service';
+import { AdminFileService } from '../../../../../../../app-api/src/lib/modules/admin/admin-file/admin-file.service';
 
 @Component({
   selector: 'app-admin-upload-file',
   templateUrl: './upload-file.component.html',
-  styleUrls: ['./upload-file.component.scss']
+  styleUrls: ['./upload-file.component.scss'],
 })
 export class UploadFileComponent implements OnInit, OnChanges {
   @Input() control?: FormControl<string | null>;
   fileList: NzUploadFile[] = [];
-  constructor(private msg: NzMessageService
-    , private adminFileService : AdminFileService) {
-  }
+  constructor(
+    private msg: NzMessageService,
+    private adminFileService: AdminFileService
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     let pathUrl = changes['control'].currentValue?.value;
     if (pathUrl) {
       this.fileList = [
         {
-          status: "done",
+          status: 'done',
           name: this.getLatestPathAsFilename(pathUrl) as string,
           uid: '-1',
-          url: pathUrl
-        }
-      ]
+          url: pathUrl,
+        },
+      ];
     }
   }
 
@@ -39,12 +44,12 @@ export class UploadFileComponent implements OnInit, OnChanges {
     if (pathUrl) {
       this.fileList = [
         {
-          status: "done",
+          status: 'done',
           name: this.getLatestPathAsFilename(pathUrl) as string,
           uid: '-1',
-          url: pathUrl
-        }
-      ]
+          url: pathUrl,
+        },
+      ];
     }
   }
 
@@ -53,7 +58,9 @@ export class UploadFileComponent implements OnInit, OnChanges {
     const pathSegments = url.split('/');
 
     // Filter out any empty segments (e.g., if the URL ends with a slash)
-    const nonEmptySegments = pathSegments.filter((segment) => segment.trim() !== '');
+    const nonEmptySegments = pathSegments.filter(
+      (segment) => segment.trim() !== ''
+    );
 
     // Check if there are any valid segments left
     if (nonEmptySegments.length === 0) {

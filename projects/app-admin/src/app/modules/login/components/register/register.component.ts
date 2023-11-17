@@ -1,23 +1,25 @@
-import {Component, OnInit} from '@angular/core';
-import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from "@angular/forms";
-import {NzFormTooltipIcon} from "ng-zorro-antd/form";
+import { Component, OnInit } from '@angular/core';
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
 
 @Component({
   selector: 'app-admin-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: ['./register.component.scss'],
 })
-
-
 export class RegisterComponent {
   validateForm!: UntypedFormGroup;
-
 
   submitForm(): void {
     if (this.validateForm.valid) {
       console.log('submit', this.validateForm.value);
     } else {
-      Object.values(this.validateForm.controls).forEach(control => {
+      Object.values(this.validateForm.controls).forEach((control) => {
         if (control.invalid) {
           control.markAsDirty();
           control.updateValueAndValidity({ onlySelf: true });
@@ -28,15 +30,14 @@ export class RegisterComponent {
 
   updateConfirmValidator(): void {
     /** wait for refresh value */
-    Promise.resolve().then(() => this.validateForm.controls['checkPassword'].updateValueAndValidity());
+    Promise.resolve().then(() =>
+      this.validateForm.controls['checkPassword'].updateValueAndValidity()
+    );
   }
-
 
   getCaptcha(e: MouseEvent): void {
     e.preventDefault();
   }
 
   constructor(private fb: UntypedFormBuilder) {}
-
-
 }

@@ -1,17 +1,16 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
-  selector: 'img[appImgFallback]'
+  selector: 'img[appImgFallback]',
 })
 export class ImgFallbackDirective {
-
   constructor(private element: ElementRef) {}
 
   @Input('appImgFallback') fallback?: string;
 
   @HostListener('error')
   displayFallbackImg() {
-    this.element.nativeElement.src = this.fallback || '/assets/images/login/logo.png';
+    this.element.nativeElement.src =
+      this.fallback || '/assets/images/login/logo.png';
   }
-
 }

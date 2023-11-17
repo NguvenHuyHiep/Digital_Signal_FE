@@ -23,9 +23,8 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { WatermarkModule } from '../../../../../app-common/src/lib/modules/watermark/watermark.module';
-import {NzButtonModule} from "ng-zorro-antd/button";
-import {NzSelectModule} from "ng-zorro-antd/select";
-
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 @NgModule({
   imports: [

@@ -1,4 +1,7 @@
-<lh-common-page [hidden]="!showFrame.search" pageTitle="{{ 'module.playlist.title' | translate }}">
+<lh-common-page
+  [hidden]="!showFrame.search"
+  pageTitle="{{ 'module.playlist.title' | translate }}"
+>
   <div nz-space>
     <button
       (click)="openAddFrame()"
@@ -20,15 +23,15 @@
     </button>
   </div>
 
-<lh-common-lh-table
-#table
-[data] = "playlists"
-[config]="tableConfig"
-[expandTemplate]="playlistDetail"
-[loading]="loading.searching"
-(onUpdate)="update($event)"
-(onDelete)="delete($event)"
-></lh-common-lh-table>
+  <lh-common-lh-table
+    #table
+    [data]="playlists"
+    [config]="tableConfig"
+    [expandTemplate]="playlistDetail"
+    [loading]="loading.searching"
+    (onUpdate)="update($event)"
+    (onDelete)="delete($event)"
+  ></lh-common-lh-table>
 </lh-common-page>
 
 <lh-common-lh-dialog
@@ -55,6 +58,5 @@
 </ng-template>
 
 <ng-template #playlistDetail let-data="data">
-<app-admin-files [playListAdmin]="currentPlaylist" ></app-admin-files>
+  <app-admin-files [playListAdmin]="currentPlaylist"></app-admin-files>
 </ng-template>
-

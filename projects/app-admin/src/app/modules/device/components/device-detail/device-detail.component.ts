@@ -159,7 +159,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
         range: [0, 1],
         tickInterval: 2,
         tickCount: 9,
-      }
+      },
     });
 
     chart.tooltip({

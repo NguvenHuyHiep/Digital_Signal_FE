@@ -1,71 +1,73 @@
-<div class="forgot-pass-container ">
+<div class="forgot-pass-container">
   <nz-card class="box">
-  <div class="bg-soft-primary">
-    <div nz-row>
-      <div nz-col nzSpan="10">
-        <div class="text-primary">
-          <h5>{{ "recover.reset-password" | translate }}</h5>
-          <p>{{ "recover.re-password-with-skote" | translate }}</p>
+    <div class="bg-soft-primary">
+      <div nz-row>
+        <div nz-col nzSpan="10">
+          <div class="text-primary">
+            <h5>{{ "recover.reset-password" | translate }}</h5>
+            <p>{{ "recover.re-password-with-skote" | translate }}</p>
+          </div>
+        </div>
+        <div nz-col nzSpan="14" class="login-img">
+          <img src="/assets/images/login/profile-img.png" alt="" width="100%" />
         </div>
       </div>
-      <div nz-col nzSpan="14" class="login-img">
-        <img src="/assets/images/login/profile-img.png" alt="" width="100%" />
-      </div>
     </div>
-  </div>
-  <form
-    nz-form
-    [formGroup]="validateForm"
-    class="login-form justify-content-center"
-    (ngSubmit)="submitForm()"
-  >
-    <nz-form-item>
-      <div >
-        <a href="/">
-          <div class="avatar-md profile-user-wid mb-4">
-            <span class="avatar-title rounded-circle bg-light"
-            ><img src="/assets/images/login/logo.png" alt="" height="34" />
-            </span>
-          </div>
-        </a>
+    <form
+      nz-form
+      [formGroup]="validateForm"
+      class="login-form justify-content-center"
+      (ngSubmit)="submitForm()"
+    >
+      <nz-form-item>
+        <div>
+          <a href="/">
+            <div class="avatar-md profile-user-wid mb-4">
+              <span class="avatar-title rounded-circle bg-light"
+                ><img src="/assets/images/login/logo.png" alt="" height="34" />
+              </span>
+            </div>
+          </a>
+        </div>
+      </nz-form-item>
+      <nz-form-item>
+        <div>
+          <nz-form-label>{{ "recover.email" | translate }}</nz-form-label>
+        </div>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control
+          nzErrorTip="{{
+            'recover.error.the-input-is-not-valid-email' | translate
+          }}"
+        >
+          <nz-input-group nzPrefixIcon="user">
+            <input
+              type="text"
+              nz-input
+              formControlName="userName"
+              placeholder="{{ 'recover.email' | translate }}"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <div class="reset">
+        <button
+          nz-button
+          class="forgot-password-form-button forgot-password-form-margin"
+          [nzType]="'primary'"
+        >
+          {{ "recover.reset" | translate }}
+        </button>
       </div>
-    </nz-form-item>
-    <nz-form-item>
-      <div>
-        <nz-form-label>{{ "recover.email" | translate }}</nz-form-label>
-      </div>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-control
-        nzErrorTip="{{
-        'recover.error.the-input-is-not-valid-email' | translate
-      }}"
-      >
-        <nz-input-group nzPrefixIcon="user">
-          <input
-            type="text"
-            nz-input
-            formControlName="userName"
-            placeholder="{{ 'recover.email' | translate }}"
-          />
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-    <div class="reset">
-      <button
-        nz-button
-        class="forgot-password-form-button forgot-password-form-margin"
-        [nzType]="'primary'"
-      >
-        {{ "recover.reset" | translate }}
-      </button>
+    </form>
+    <div class="signup">
+      {{ "recover.remember-it" | translate }}
+      <a [routerLink]="['/authenticate/login']">{{
+        "recover.Sign In here" | translate
+      }}</a>
     </div>
-  </form>
-  <div class="signup">
-    {{ "recover.remember-it" | translate }}
-    <a [routerLink]="['/authenticate/login']">{{ "recover.Sign In here" | translate }}</a>
-  </div>
-</nz-card>
+  </nz-card>
   <ng-template #coverTemplate>
     <div class="bg-soft-primary">
       <div class="banner"></div>

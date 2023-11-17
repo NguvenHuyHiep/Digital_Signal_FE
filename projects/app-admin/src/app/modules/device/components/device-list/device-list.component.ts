@@ -1,4 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { tr } from 'date-fns/locale';
 import { Device } from 'projects/app-api/src/lib/api/models/device';
 import { AdminDeviceService } from 'projects/app-api/src/lib/modules/admin/admin-device/admin-device.service';
@@ -7,23 +14,21 @@ import {
   LhTableFieldType,
 } from 'projects/app-common/src/lib/components/lh-table/lh-table-config.model';
 import { LhTableComponent } from 'projects/app-common/src/lib/components/lh-table/lh-table.component';
-import {DeviceGroup} from "../../../../../../../../scripts/projects/app-api/src/lib/api/models/deviceGroup";
-import {
-  AdminDeviceGroupService
-} from "../../../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.service";
+import { DeviceGroup } from '../../../../../../../../scripts/projects/app-api/src/lib/api/models/deviceGroup';
+import { AdminDeviceGroupService } from '../../../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.service';
 
 @Component({
   selector: 'app-admin-device-list',
   templateUrl: './device-list.component.html',
   styleUrls: ['./device-list.component.scss'],
-  providers: [AdminDeviceGroupService]
+  providers: [AdminDeviceGroupService],
 })
 export class DeviceListComponent<T extends Object> implements OnInit {
   @ViewChild('table') table?: LhTableComponent<Device>;
   @Input() deviceGroupAdmin?: DeviceGroup;
   @Output() onGroup: EventEmitter<T> = new EventEmitter<T>();
   showFrame: {
-    detail: boolean,
+    detail: boolean;
     search: boolean;
     add: boolean;
   } = {
@@ -33,7 +38,7 @@ export class DeviceListComponent<T extends Object> implements OnInit {
   };
 
   loading: {
-    detail: boolean,
+    detail: boolean;
     adding: boolean;
     searching: boolean;
   } = {
@@ -79,41 +84,44 @@ export class DeviceListComponent<T extends Object> implements OnInit {
   devices: Device[] = [];
   currenetDevice: Device = {};
 
-  constructor(private adminDeviceService: AdminDeviceService,
-              private adminDeviceGroupService: AdminDeviceGroupService) {}
+  constructor(
+    private adminDeviceService: AdminDeviceService,
+    private adminDeviceGroupService: AdminDeviceGroupService
+  ) {}
 
   ngOnInit(): void {
     this.loading.searching = true;
     if (this.deviceGroupAdmin) {
-      this.adminDeviceGroupService.getDevices(this.deviceGroupAdmin.id as number).subscribe({
-
+      this.adminDeviceGroupService
+        .getDevices(this.deviceGroupAdmin.id as number)
+        .subscribe({
+          next: (response) => {
+            if (response.data) {
+              this.devices = response.data.devices as Array<Device>;
+            }
+          },
+          error: (err) => {
+            //TODO Xử lý exception
+          },
+          complete: () => {
+            this.loading.searching = false;
+          },
+        });
+    } else {
+      this.adminDeviceService.getAllDevice().subscribe({
         next: (response) => {
-          if (response.data) {
-            this.devices = response.data.devices  as Array<Device>;
+          if (response && response.data) {
+            this.devices = response.data;
           }
-        }
-        , error: err => {
+        },
+        error: (err) => {
           //TODO Xử lý exception
-        }
-        , complete: () => {
+        },
+        complete: () => {
           this.loading.searching = false;
-        }
+        },
       });
     }
-    else {
-    this.adminDeviceService.getAllDevice().subscribe({
-      next: (response) => {
-        if (response && response.data) {
-          this.devices = response.data;
-        }
-      },
-      error: (err) => {
-        //TODO Xử lý exception
-      },
-      complete: () => {
-        this.loading.searching = false;
-      },
-    });}
   }
 
   showUpdate(record: Device) {
@@ -121,7 +129,7 @@ export class DeviceListComponent<T extends Object> implements OnInit {
     this.showFrame = {
       detail: true,
       search: false,
-      add: false
-    }
+      add: false,
+    };
   }
 }
