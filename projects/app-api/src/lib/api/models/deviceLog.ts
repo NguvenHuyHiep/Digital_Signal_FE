@@ -15,7 +15,16 @@ import { Device } from './device';
 export interface DeviceLog { 
     id?: number;
     date?: string;
-    status: string;
+    status?: DeviceLog.StatusEnum;
     device?: Device;
 }
+export namespace DeviceLog {
+    export type StatusEnum = 'ONLINE' | 'OFFLINE' | 'UNDEFINED';
+    export const StatusEnum = {
+        Online: 'ONLINE' as StatusEnum,
+        Offline: 'OFFLINE' as StatusEnum,
+        Undefined: 'UNDEFINED' as StatusEnum
+    };
+}
+
 

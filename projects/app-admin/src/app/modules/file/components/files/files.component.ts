@@ -9,6 +9,7 @@ import {NzMessageService} from "ng-zorro-antd/message";
 import {AdminFileService} from "../../../../../../../app-api/src/lib/modules/admin/admin-file/admin-file.service";
 import {DsdFile} from "../../../../../../../app-api/src/lib/api/models/dsdFile";
 import {Playlist} from "../../../../../../../app-api/src/lib/api/models/playlist";
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 import {
   AdminPlaylistService
 } from "../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service";
@@ -16,41 +17,42 @@ import {
 @Component({
   selector: 'app-admin-files',
   templateUrl: './files.component.html',
-  styleUrls: ['./files.component.scss']
+  styleUrls: ['./files.component.scss'],
 })
 export class FilesComponent<T extends Object> implements OnInit{
   @Input() playListAdmin?: Playlist;
   @Output() onGroup: EventEmitter<T> = new EventEmitter<T>();
   @ViewChild('table') table?: LhTableComponent<DsdFile>
   @ViewChild('addComponent', {static: false}) addComponent?: FileAddComponent;
- currentFile?: DsdFile;
+  currentFile?: DsdFile;
+  fileList: NzUploadFile[] = [];
   files: Array<DsdFile> = []
   loading: {
     adding: boolean;
     searching: boolean;
   } = {
     adding: false,
-    searching: false
+    searching: false,
   };
   showFrame: {
-    search: boolean,
-    add: boolean
+    search: boolean;
+    add: boolean;
   } = {
     search: true,
-    add: false
-  }
+    add: false,
+  };
   tableConfig: LhTableConfigModel = {
     disableDetail: true,
     key: 'id',
     fields: [
       {
-        label: 'module.file.name'
-        , field: 'name'
-        , type: LhTableFieldType.STRING
+        label: 'module.file.name',
+        field: 'name',
+        type: LhTableFieldType.STRING,
       },
-    ]
+    ],
   };
-  isSelectedRow(): boolean{
+  isSelectedRow(): boolean {
     return (this.table?.setOfCheckedId?.size || 0) > 0;
   }
 
@@ -78,14 +80,15 @@ export class FilesComponent<T extends Object> implements OnInit{
   }
   delete(files: DsdFile) {
     this.adminFileService.deleteFile(files.path as string).subscribe({
-      next: response => {
+      next: (response) => {
         this.getAllFile();
-      }, error: err => {
+      },
+      error: (err) => {
         //TODO execption
-      }
-      , complete: () => {
+      },
+      complete: () => {
         this.loading.searching = false;
-      }
+      },
     });
   }
   openAddFrame() {
@@ -115,21 +118,21 @@ export class FilesComponent<T extends Object> implements OnInit{
   }
   getAllFile(): void {
     this.loading.searching = true;
-    this.adminFileService.getAllFile(0,100).subscribe({
+    this.adminFileService.getAllFile(0, 100).subscribe({
       next: (response) => {
         if (response.data) {
           this.files = response.data as Array<DsdFile>;
-          console.log(this.files + "files");
+          console.log(this.files + 'files');
         }
-      }
-      , error: err => {
+      },
+      error: (err) => {
         // TODO i18n
-        this.message.error("Error", err);
+        this.message.error('Error', err);
         this.loading.searching = false;
-      }
-      , complete: () => {
+      },
+      complete: () => {
         this.loading.searching = false;
-      }
+      },
     });
   }
   add() {
@@ -137,7 +140,13 @@ export class FilesComponent<T extends Object> implements OnInit{
       return;
     }
     this.loading.adding = true;
-
+    this.addComponent.uploadFiles().subscribe({
+      next: (value) => {
+        console.log(value);
+      },
+      error: (err) => {},
+      complete: () => {},
+    });
   }
 
   gotoSearch() {

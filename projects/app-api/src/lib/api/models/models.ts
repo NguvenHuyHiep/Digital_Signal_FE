@@ -30,5 +30,4 @@ export * from './licenseVerifyRequest';
 export * from './playlist';
 export * from './role';
 export * from './schedule';
-export * from './uploadRequest';
 export * from './user';
