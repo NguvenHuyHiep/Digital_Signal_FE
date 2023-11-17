@@ -31,12 +31,15 @@ import {
 export class DeviceGroupAddComponent implements OnInit {
   @Input() deviceGroupAdmin?: DeviceGroup;
   devices: Array<Device> = [];
+  devicesToDelete: Device[] = [];
   loading: {
     addDevice: boolean;
+    deleteDevices: boolean;
     searching: boolean;
     device: boolean;
   } = {
     searching: false,
+    deleteDevices: false,
     addDevice: false,
     device: false,
   };
@@ -53,22 +56,22 @@ export class DeviceGroupAddComponent implements OnInit {
     disableDelete:true,
     fields: [
       {
-        label: 'code',
+        label: 'module.device.code',
         field: 'code',
         type: LhTableFieldType.STRING,
       },
       {
-        label: 'name',
+        label: 'module.device.name',
         field: 'name',
         type: LhTableFieldType.STRING,
       },
       {
-        label: 'information',
+        label: 'module.device.info',
         field: 'information',
         type: LhTableFieldType.STRING,
       },
       {
-        label: 'status',
+        label: 'module.device.status',
         field: 'status',
         type: LhTableFieldType.STRING,
       },
@@ -78,6 +81,8 @@ export class DeviceGroupAddComponent implements OnInit {
     deviceId: ['', Validators.required]
   }) as unknown as FormDevice;
   private currentDevice?: Device;
+
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -157,6 +162,28 @@ export class DeviceGroupAddComponent implements OnInit {
       })
 
   }
+
+  // deleteDevices() {
+  //   if (!this.devicesToDelete || this.devicesToDelete.length === 0) {
+  //     this.message.warning('No devices selected for deletion.');
+  //   }
+  //   this.loading.deleteDevices = true;
+  //   const deviceIdsToDelete: number[] = this.devicesToDelete.map(device => device.id);
+  //   this.deviceService.deleteMultipleDevices(deviceIdsToDelete).subscribe({
+  //     next: () => {
+  //       this.devices = this.devices.filter(device => !deviceIdsToDelete.includes(device.id));
+  //       this.message.success('Devices deleted successfully.');
+  //     },
+  //     error: err => {
+  //       // TODO i18n
+  //       this.message.error("Error", err);
+  //       this.loading.searching = false;
+  //     }
+  //     , complete: () => {
+  //       this.loading.deleteDevices = false;
+  //     }
+  //   })
+  // }
 
   // TODO change position of ngOninit to after constructor
   ngOnInit(): void {
