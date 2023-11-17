@@ -67,8 +67,6 @@
           >
         </nz-form-control>
       </nz-form-item>
-
-
     <nz-form-item>
       <nz-form-label [nzSpan]="4">
         {{ "module.playlist.isLoop" | translate }}
@@ -78,6 +76,10 @@
                formControlName="isLoop"> {{ "module.playlist.true" | translate }}</label>
       </nz-form-control>
     </nz-form-item>
-
+<nz-form-item>
+  <nz-form-control [formGroup]="form" [nzSpan]="14">
+  <app-admin-file-add ></app-admin-file-add>
+  </nz-form-control>
+</nz-form-item>
   </form>
 </ng-template>

@@ -11,24 +11,19 @@ import {NzWaveModule} from "ng-zorro-antd/core/wave";
 import {TranslateModule} from "@ngx-translate/core";
 import {UiCommonModule} from "../../../../../app-common/src/lib/modules/ui-common/ui-common.module";
 import { FileAddComponent } from './components/file-add/file-add.component';
-
 import {NzUploadModule} from "ng-zorro-antd/upload";
 import { FileDetailComponent } from './components/file-detail/file-detail.component';
-
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzLayoutModule } from 'ng-zorro-antd/layout';
-
-
+import {NzFormModule} from "ng-zorro-antd/form";
 @NgModule({
   declarations: [
     FilesComponent,
     FileAddComponent,
-    UploadFileComponent,
     FileDetailComponent
   ],
   exports: [
-    FilesComponent
+    FilesComponent,
+    FileAddComponent,
+    FileDetailComponent
   ],
   imports: [
     CommonModule,
@@ -41,6 +36,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
     TranslateModule,
     UiCommonModule,
     NzUploadModule,
+    NzFormModule,
 
   ]
 })

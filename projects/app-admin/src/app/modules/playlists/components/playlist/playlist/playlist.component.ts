@@ -19,6 +19,10 @@ import {BaseOutputListPlaylist} from "../../../../../../../../app-api/src/lib/ap
   styleUrls: ['./playlist.component.scss']
 })
 export class PlaylistComponent implements OnInit {
+  @ViewChild('table') table?: LhTableComponent<Playlist>
+  @ViewChild('addComponent', {static: false}) addComponent?: PlaylistAddComponent;
+  currentPlaylist?: Playlist;
+  playlists: Array<Playlist> = [];
   showFrame: {
     search: boolean,
     add: boolean
@@ -26,11 +30,6 @@ export class PlaylistComponent implements OnInit {
     search: true,
     add: false
   }
-  @Input()
-  currentPlaylist?: Playlist;
-  playlists: Array<Playlist> = [];
-  @ViewChild('table') table?: LhTableComponent<Playlist>
-  @ViewChild('addComponent', {static: false}) addComponent?: PlaylistAddComponent;
   loading: {
     adding: boolean;
     searching: boolean;

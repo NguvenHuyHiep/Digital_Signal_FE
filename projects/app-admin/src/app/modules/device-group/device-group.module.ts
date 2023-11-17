@@ -26,11 +26,13 @@ import {
 } from "../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.module";
 import {ChosenDeviceComponent} from "./components/device-group/choosen-device/chosen-device.component";
 import {DeviceModule} from "../device/device.module";
+import {DeviceGroupComponent} from "./device-group/device-group.component";
 
 
 @NgModule({
   declarations: [DeviceGroupsComponent,
   DeviceGroupAddComponent,
+    DeviceGroupComponent,
   ChosenDeviceComponent],
     imports: [
         CommonModule,

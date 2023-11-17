@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import { LhTableComponent } from '../../../../../../../app-common/src/lib/components/lh-table/lh-table.component';
 import { FileAddComponent } from '../file-add/file-add.component';
 import {
@@ -12,6 +12,7 @@ import { NzUploadFile } from 'ng-zorro-antd/upload';
 import {
   AdminPlaylistService
 } from "../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service";
+import {Playlist} from "../../../../../../../app-api/src/lib/api/models/playlist";
 
 @Component({
   selector: 'app-admin-files',
@@ -62,14 +63,11 @@ export class FilesComponent<T extends Object> implements OnInit {
   }
 
   ngOnInit(): void {
-
     if(this.playListAdmin){
       this.getFileById()
     }else {
       this.getAllFile();
     }
-
-
   }
 
   update(files: DsdFile) {
@@ -101,6 +99,7 @@ export class FilesComponent<T extends Object> implements OnInit {
   }
 
   getFileById(): void{
+    if(this.playListAdmin){
     this.adminPlaylistService.getPlaylistWithFile(this.playListAdmin?.id as number).subscribe({
       next: (response) => {
         if (response.data) {
@@ -114,6 +113,7 @@ export class FilesComponent<T extends Object> implements OnInit {
         this.loading.searching = false;
       }
     })
+  }
   }
   getAllFile(): void {
     this.loading.searching = true;
