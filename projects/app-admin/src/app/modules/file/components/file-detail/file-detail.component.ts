@@ -1,20 +1,18 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {DsdFile} from "../../../../../../../app-api/src/lib/api/models/dsdFile";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { DsdFile } from '../../../../../../../app-api/src/lib/api/models/dsdFile';
 import {
   LhTableConfigModel,
-  LhTableFieldType
-} from "../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model";
-import {AdminFileService} from "../../../../../../../app-api/src/lib/modules/admin/admin-file/admin-file.service";
-import {
-  AdminPlaylistService
-} from "../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service";
-import {NzMessageService} from "ng-zorro-antd/message";
-import {Playlist} from "../../../../../../../app-api/src/lib/api/models/playlist";
+  LhTableFieldType,
+} from '../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model';
+import { AdminFileService } from '../../../../../../../app-api/src/lib/modules/admin/admin-file/admin-file.service';
+import { AdminPlaylistService } from '../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { Playlist } from '../../../../../../../app-api/src/lib/api/models/playlist';
 
 @Component({
   selector: 'app-admin-file-detail',
   templateUrl: './file-detail.component.html',
-  styleUrls: ['./file-detail.component.scss']
+  styleUrls: ['./file-detail.component.scss'],
 })
 export class FileDetailComponent<T extends Object> implements OnInit {
   @Input() currentPlayList?: Playlist;
@@ -47,45 +45,46 @@ export class FileDetailComponent<T extends Object> implements OnInit {
     add: false,
   };
 
-  constructor(private adminFileService: AdminFileService,
-              private adminPlaylistService: AdminPlaylistService
-    , private message: NzMessageService
-  ) {
-  }
+  constructor(
+    private adminFileService: AdminFileService,
+    private adminPlaylistService: AdminPlaylistService,
+    private message: NzMessageService
+  ) {}
 
   ngOnInit(): void {
     this.loading.searching = true;
     if (this.currentPlayList?.id) {
-      console.log('this.currentPlayList?.id',this.currentPlayList?.id)
-      this.adminPlaylistService.getPlaylistWithFile(this.currentPlayList?.id as number).subscribe({
+      console.log('this.currentPlayList?.id', this.currentPlayList?.id);
+      this.adminPlaylistService
+        .getPlaylistWithFile(this.currentPlayList?.id as number)
+        .subscribe({
+          next: (response) => {
+            if (response.data) {
+              this.files = response.data.files as Array<DsdFile>;
+            }
+          },
+          error: (err) => {
+            //TODO Xử lý exception
+          },
+          complete: () => {
+            this.loading.searching = false;
+          },
+        });
+    } else {
+      this.adminFileService.getAllFile().subscribe({
         next: (response) => {
-          if (response.data) {
-            this.files = response.data.files as Array<DsdFile>
+          if (response && response.data) {
+            this.files = response.data;
           }
         },
-        error: err => {
+        error: (err) => {
           //TODO Xử lý exception
-        }
-        , complete: () => {
+        },
+        complete: () => {
           this.loading.searching = false;
-        }
-      })
+        },
+      });
     }
-  //   else {
-  //     this.adminFileService.getAllFile().subscribe({
-  //       next: (response) => {
-  //         if (response && response.data) {
-  //           this.files = response.data;
-  //         }
-  //       },
-  //       error: (err) => {
-  //         //TODO Xử lý exception
-  //       },
-  //       complete: () => {
-  //         this.loading.searching = false;
-  //       },
-  //     });
-  // }
   }
 
   update(files: DsdFile) {
@@ -94,9 +93,5 @@ export class FileDetailComponent<T extends Object> implements OnInit {
     this.showFrame.search = false;
   }
 
-  delete($event: DsdFile) {
-
-  }
-
-
+  delete($event: DsdFile) {}
 }
