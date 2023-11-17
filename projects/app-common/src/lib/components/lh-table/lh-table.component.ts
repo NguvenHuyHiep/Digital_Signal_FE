@@ -46,6 +46,9 @@ export class LhTableComponent<T extends Object> {
     if (field.type === LhTableFieldType.DATE_TIME) {
       return this.datePipe.transform(new Date(rawValue), 'dd/MM/yyyy HH:mm');
     }
+    if (field.type === LhTableFieldType.SIZE_MEGABYTE) {
+      return `${this.formatSize(rawValue)} MB`
+    }
     return rawValue;
   }
 
@@ -89,5 +92,11 @@ export class LhTableComponent<T extends Object> {
 
   delete(record: T) {
     this.onDelete.emit(record);
+  }
+
+  private formatSize = (sizeInBytes: number) => {
+    const megabyte = 1024*1024;
+    const sizeInMB = sizeInBytes / megabyte;
+    return sizeInMB.toFixed(2);
   }
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {LhTableComponent} from "../../../../../../../../app-common/src/lib/components/lh-table/lh-table.component";
 import {
   LhTableConfigModel,
@@ -26,6 +26,7 @@ export class PlaylistComponent implements OnInit {
     search: true,
     add: false
   }
+  @Input()
   currentPlaylist?: Playlist;
   playlists: Array<Playlist> = [];
   @ViewChild('table') table?: LhTableComponent<Playlist>

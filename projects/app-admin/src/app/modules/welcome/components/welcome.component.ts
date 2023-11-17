@@ -276,6 +276,10 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
           icon: 'video-camera-add',
           link: '/device',
         },
+        {  title: 'File',
+          icon: 'user',
+          link: '/file',
+        }
       ] :
       [
         {

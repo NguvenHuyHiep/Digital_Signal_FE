@@ -41,10 +41,10 @@
     <nz-skeleton [nzActive]="true" *ngIf="loading.device"></nz-skeleton>
     <lh-common-lh-table *ngIf="!loading.device"
                         #table
-                        [config]="deviceTableConfig"
+                        [config]="tableConfig"
                         [data]="devices"
                         [loading]="loading.device"
-                        (onDelete)="deleteDevice($event)"
+                        (onUpdate)="detailDevice($event)"
     ></lh-common-lh-table>
     <form nz-form [formGroup]="addDeviceForm" nzLayout="vertical">
 <!--      <div nz-col [nzLg]="4" [nzSm]="24" style="float: right">-->
@@ -76,8 +76,11 @@
     </form>
 
 </ng-template>
-
     <ng-template #elseBlock></ng-template>
   </form>
 </ng-template>
+
+<lh-common-lh-dialog *ngIf="showFrame.detail && currentDevice?.id">
+  <app-admin-device-detail [deviceId]="currentDevice.id"></app-admin-device-detail>
+</lh-common-lh-dialog>
 

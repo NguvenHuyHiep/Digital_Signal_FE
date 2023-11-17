@@ -26,13 +26,13 @@ import {
 } from "../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.module";
 import {ChosenDeviceComponent} from "./components/device-group/choosen-device/chosen-device.component";
 import { DeviceGroupComponent } from './device-group/device-group.component';
+import {DeviceModule} from "../device/device.module";
 
 
 @NgModule({
   declarations: [DeviceGroupsComponent,
   DeviceGroupAddComponent,
-  ChosenDeviceComponent,
-  DeviceGroupComponent],
+  ChosenDeviceComponent],
   imports: [
     CommonModule,
     TranslateModule,
@@ -55,7 +55,8 @@ import { DeviceGroupComponent } from './device-group/device-group.component';
     NzDatePickerModule,
     NzCheckboxModule,
     DeviceGroupRoutingModule,
-    AdminDeviceGroupModule
+    AdminDeviceGroupModule,
+    DeviceModule,
   ],
 })
 export class DeviceGroupModule { }

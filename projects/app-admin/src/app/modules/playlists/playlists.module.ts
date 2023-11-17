@@ -15,15 +15,14 @@ import {NzLayoutModule} from "ng-zorro-antd/layout";
 import {NzCardModule} from "ng-zorro-antd/card";
 import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
 import {NzMenuModule} from "ng-zorro-antd/menu";
-import { FileAddComponent } from './components/file/file-add/file-add.component';
 import {PlaylistAddComponent} from "./components/playlist/playlist-add/playlist-add.component";
-import {PlaylistFileComponent} from "./components/playlist/playlist-file/playlist-file.component";
 import {NzSelectModule} from "ng-zorro-antd/select";
 import {PlaylistRoutingModule} from "./playlist-routing.module";
 import {NzIconModule} from "ng-zorro-antd/icon";
 import {AdminPlaylistModule} from "../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.module";
 import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
 import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
+import {FileModule} from "../file/file.module";
 
 
 
@@ -31,8 +30,6 @@ import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
   declarations: [
     PlaylistComponent,
     PlaylistAddComponent,
-    PlaylistFileComponent,
-    FileAddComponent
   ],
   imports: [
     CommonModule,
@@ -56,7 +53,8 @@ import {NzCheckboxModule} from "ng-zorro-antd/checkbox";
     NzSelectModule,
     NzIconModule,
     NzDatePickerModule,
-    NzCheckboxModule
+    NzCheckboxModule,
+    FileModule
   ]
 })
 export class PlaylistsModule { }

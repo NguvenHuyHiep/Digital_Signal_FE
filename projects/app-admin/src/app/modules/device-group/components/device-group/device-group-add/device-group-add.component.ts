@@ -29,9 +29,15 @@ import {
   providers: [AdminDeviceService]
 })
 export class DeviceGroupAddComponent implements OnInit {
+  @Input('deviceId') deviceId?: number;
   @Input() deviceGroupAdmin?: DeviceGroup;
   devices: Array<Device> = [];
   devicesToDelete: Device[] = [];
+  showFrame: {
+    detail: boolean,
+  } = {
+    detail: false,
+  };
   loading: {
     addDevice: boolean;
     deleteDevices: boolean;
@@ -43,17 +49,11 @@ export class DeviceGroupAddComponent implements OnInit {
     addDevice: false,
     device: false,
   };
-  tabs = [{
-    code: 'info',
-    name: 'module.user.info'
-  }
-  ];
-  form: FormDeviceGroup = this.adminDeviceGroupService.buildDeviceGroupForm(this.deviceGroupAdmin)
-  deviceTableConfig: LhTableConfigModel = {
+  tableConfig: LhTableConfigModel = {
     key: 'id',
     disableDetail: true,
-    disableUpdate:true,
-    disableDelete:true,
+    disableUpdate: false,
+    disableDelete: true,
     fields: [
       {
         label: 'module.device.code',
@@ -77,10 +77,17 @@ export class DeviceGroupAddComponent implements OnInit {
       },
     ],
   };
+
+  tabs = [{
+    code: 'info',
+    name: 'module.user.info'
+  }
+  ];
+  form: FormDeviceGroup = this.adminDeviceGroupService.buildDeviceGroupForm(this.deviceGroupAdmin)
   addDeviceForm: FormDevice = this.formBuilder.group({
     deviceId: ['', Validators.required]
   }) as unknown as FormDevice;
-  private currentDevice?: Device;
+  currentDevice: Device = {};
 
 
 
@@ -219,4 +226,10 @@ export class DeviceGroupAddComponent implements OnInit {
     }
   }
 
+  detailDevice(record: Device) {
+    this.currentDevice = record;
+    this.showFrame = {
+      detail: true,
+    }
+  }
 }
