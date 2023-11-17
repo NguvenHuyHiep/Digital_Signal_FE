@@ -118,7 +118,7 @@ export class FilesComponent<T extends Object> implements OnInit {
         },
       });
   }
-  }
+  
   getAllFile(): void {
     this.loading.searching = true;
     this.adminFileService.getAllFile(0, 100).subscribe({
