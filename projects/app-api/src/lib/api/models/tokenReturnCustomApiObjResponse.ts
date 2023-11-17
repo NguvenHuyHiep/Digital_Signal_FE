@@ -12,14 +12,12 @@
 import { TokenReturn } from './tokenReturn';
 import { ErrorResponse } from './errorResponse';
 
-
 export interface TokenReturnCustomApiObjResponse {
-    isError?: boolean;
-    statusCode?: number;
-    message?: string | null;
-    errors?: Array<ErrorResponse> | null;
-    result?: TokenReturn;
-    last_page?: number;
-    current_page?: number;
+  isError?: boolean;
+  statusCode?: number;
+  message?: string | null;
+  errors?: Array<ErrorResponse> | null;
+  result?: TokenReturn;
+  last_page?: number;
+  current_page?: number;
 }
-

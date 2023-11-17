@@ -11,12 +11,18 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { Inject, Injectable, Optional }                      from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams,
-         HttpResponse, HttpEvent, HttpParameterCodec, HttpContext
-        }       from '@angular/common/http';
-import { CustomHttpParameterCodec }                          from '../encoder';
-import { Observable }                                        from 'rxjs';
+import { Inject, Injectable, Optional } from '@angular/core';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams,
+  HttpResponse,
+  HttpEvent,
+  HttpParameterCodec,
+  HttpContext,
+} from '@angular/common/http';
+import { CustomHttpParameterCodec } from '../encoder';
+import { Observable } from 'rxjs';
 
 // @ts-ignore
 import { BaseOutputDeviceGroup } from '../models/baseOutputDeviceGroup';
@@ -28,607 +34,938 @@ import { BaseOutputString } from '../models/baseOutputString';
 import { DeviceGroup } from '../models/deviceGroup';
 
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
-import { Configuration }                                     from '../configuration';
-
-
+import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
+import { Configuration } from '../configuration';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AdminDeviceGroupControllerService {
+  protected basePath = 'http://aninfosys.asia:8079/dsd';
+  public defaultHeaders = new HttpHeaders();
+  public configuration = new Configuration();
+  public encoder: HttpParameterCodec;
 
-    protected basePath = 'http://aninfosys.asia:8079/dsd';
-    public defaultHeaders = new HttpHeaders();
-    public configuration = new Configuration();
-    public encoder: HttpParameterCodec;
+  constructor(
+    protected httpClient: HttpClient,
+    @Optional() @Inject(BASE_PATH) basePath: string | string[],
+    @Optional() configuration: Configuration
+  ) {
+    if (configuration) {
+      this.configuration = configuration;
+    }
+    if (typeof this.configuration.basePath !== 'string') {
+      if (Array.isArray(basePath) && basePath.length > 0) {
+        basePath = basePath[0];
+      }
 
-    constructor(protected httpClient: HttpClient, @Optional()@Inject(BASE_PATH) basePath: string|string[], @Optional() configuration: Configuration) {
-        if (configuration) {
-            this.configuration = configuration;
-        }
-        if (typeof this.configuration.basePath !== 'string') {
-            if (Array.isArray(basePath) && basePath.length > 0) {
-                basePath = basePath[0];
-            }
+      if (typeof basePath !== 'string') {
+        basePath = this.basePath;
+      }
+      this.configuration.basePath = basePath;
+    }
+    this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
+  }
 
-            if (typeof basePath !== 'string') {
-                basePath = this.basePath;
-            }
-            this.configuration.basePath = basePath;
-        }
-        this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
+  // @ts-ignore
+  private addToHttpParams(
+    httpParams: HttpParams,
+    value: any,
+    key?: string
+  ): HttpParams {
+    if (typeof value === 'object' && value instanceof Date === false) {
+      httpParams = this.addToHttpParamsRecursive(httpParams, value);
+    } else {
+      httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
+    }
+    return httpParams;
+  }
+
+  private addToHttpParamsRecursive(
+    httpParams: HttpParams,
+    value?: any,
+    key?: string
+  ): HttpParams {
+    if (value == null) {
+      return httpParams;
     }
 
-
-    // @ts-ignore
-    private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
-        if (typeof value === "object" && value instanceof Date === false) {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value);
+    if (typeof value === 'object') {
+      if (Array.isArray(value)) {
+        (value as any[]).forEach(
+          (elem) =>
+            (httpParams = this.addToHttpParamsRecursive(httpParams, elem, key))
+        );
+      } else if (value instanceof Date) {
+        if (key != null) {
+          httpParams = httpParams.append(
+            key,
+            (value as Date).toISOString().substring(0, 10)
+          );
         } else {
-            httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
+          throw Error('key may not be null if value is Date');
         }
-        return httpParams;
-    }
-
-    private addToHttpParamsRecursive(httpParams: HttpParams, value?: any, key?: string): HttpParams {
-        if (value == null) {
-            return httpParams;
-        }
-
-        if (typeof value === "object") {
-            if (Array.isArray(value)) {
-                (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
-            } else if (value instanceof Date) {
-                if (key != null) {
-                    httpParams = httpParams.append(key, (value as Date).toISOString().substring(0, 10));
-                } else {
-                   throw Error("key may not be null if value is Date");
-                }
-            } else {
-                Object.keys(value).forEach( k => httpParams = this.addToHttpParamsRecursive(
-                    httpParams, value[k], key != null ? `${key}.${k}` : k));
-            }
-        } else if (key != null) {
-            httpParams = httpParams.append(key, value);
-        } else {
-            throw Error("key may not be null if value is not object or array");
-        }
-        return httpParams;
-    }
-
-    /**
-     * Assign devices to device group
-     * Return Assigned devices to device group
-     * @param id
-     * @param requestBody
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public assignDevices(id: number, requestBody: Array<number>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputDeviceGroup>;
-    public assignDevices(id: number, requestBody: Array<number>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputDeviceGroup>>;
-    public assignDevices(id: number, requestBody: Array<number>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputDeviceGroup>>;
-    public assignDevices(id: number, requestBody: Array<number>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling assignDevices.');
-        }
-        if (requestBody === null || requestBody === undefined) {
-            throw new Error('Required parameter requestBody was null or undefined when calling assignDevices.');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (Authorization) required
-        localVarCredential = this.configuration.lookupCredential('Authorization');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                '*/*'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'json';
-            }
-        }
-
-        let localVarPath = `/api/v1/admin/device-group/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}/devices`;
-        return this.httpClient.request<BaseOutputDeviceGroup>('put', `${this.configuration.basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                body: requestBody,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
+      } else {
+        Object.keys(value).forEach(
+          (k) =>
+            (httpParams = this.addToHttpParamsRecursive(
+              httpParams,
+              value[k],
+              key != null ? `${key}.${k}` : k
+            ))
         );
+      }
+    } else if (key != null) {
+      httpParams = httpParams.append(key, value);
+    } else {
+      throw Error('key may not be null if value is not object or array');
+    }
+    return httpParams;
+  }
+
+  /**
+   * Assign devices to device group
+   * Return Assigned devices to device group
+   * @param id
+   * @param requestBody
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public assignDevices(
+    id: number,
+    requestBody: Array<number>,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<BaseOutputDeviceGroup>;
+  public assignDevices(
+    id: number,
+    requestBody: Array<number>,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpResponse<BaseOutputDeviceGroup>>;
+  public assignDevices(
+    id: number,
+    requestBody: Array<number>,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpEvent<BaseOutputDeviceGroup>>;
+  public assignDevices(
+    id: number,
+    requestBody: Array<number>,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<any> {
+    if (id === null || id === undefined) {
+      throw new Error(
+        'Required parameter id was null or undefined when calling assignDevices.'
+      );
+    }
+    if (requestBody === null || requestBody === undefined) {
+      throw new Error(
+        'Required parameter requestBody was null or undefined when calling assignDevices.'
+      );
     }
 
-    /**
-     * Create a new device-group
-     * Create a new device-group
-     * @param deviceGroup
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public create6(deviceGroup: DeviceGroup, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputDeviceGroup>;
-    public create6(deviceGroup: DeviceGroup, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputDeviceGroup>>;
-    public create6(deviceGroup: DeviceGroup, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputDeviceGroup>>;
-    public create6(deviceGroup: DeviceGroup, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
-        if (deviceGroup === null || deviceGroup === undefined) {
-            throw new Error('Required parameter deviceGroup was null or undefined when calling create6.');
-        }
+    let localVarHeaders = this.defaultHeaders;
 
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (Authorization) required
-        localVarCredential = this.configuration.lookupCredential('Authorization');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                '*/*'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'json';
-            }
-        }
-
-        let localVarPath = `/api/v1/admin/device-group`;
-        return this.httpClient.request<BaseOutputDeviceGroup>('post', `${this.configuration.basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                body: deviceGroup,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+    let localVarCredential: string | undefined;
+    // authentication (Authorization) required
+    localVarCredential = this.configuration.lookupCredential('Authorization');
+    if (localVarCredential) {
+      localVarHeaders = localVarHeaders.set(
+        'Authorization',
+        'Bearer ' + localVarCredential
+      );
     }
 
-    /**
-     * Delete a device-group by id
-     * Return deleted device-group
-     * @param id
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public delete9(id: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputString>;
-    public delete9(id: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputString>>;
-    public delete9(id: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputString>>;
-    public delete9(id: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling delete9.');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (Authorization) required
-        localVarCredential = this.configuration.lookupCredential('Authorization');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                '*/*'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'json';
-            }
-        }
-
-        let localVarPath = `/api/v1/admin/device-group/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
-        return this.httpClient.request<BaseOutputString>('delete', `${this.configuration.basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+    let localVarHttpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      localVarHttpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Accept',
+        localVarHttpHeaderAcceptSelected
+      );
     }
 
-    /**
-     * Delete a device groups by ids
-     * Return deleted device groups
-     * @param requestBody
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public deleteByIds3(requestBody: Array<number>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputString>;
-    public deleteByIds3(requestBody: Array<number>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputString>>;
-    public deleteByIds3(requestBody: Array<number>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputString>>;
-    public deleteByIds3(requestBody: Array<number>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
-        if (requestBody === null || requestBody === undefined) {
-            throw new Error('Required parameter requestBody was null or undefined when calling deleteByIds3.');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (Authorization) required
-        localVarCredential = this.configuration.lookupCredential('Authorization');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                '*/*'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'json';
-            }
-        }
-
-        let localVarPath = `/api/v1/admin/device-group`;
-        return this.httpClient.request<BaseOutputString>('delete', `${this.configuration.basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                body: requestBody,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+    let localVarHttpContext: HttpContext | undefined =
+      options && options.context;
+    if (localVarHttpContext === undefined) {
+      localVarHttpContext = new HttpContext();
     }
 
-    /**
-     * Get a device-group by id
-     * Returns a device-group as per the id
-     * @param id
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getById8(id: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputDeviceGroup>;
-    public getById8(id: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputDeviceGroup>>;
-    public getById8(id: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputDeviceGroup>>;
-    public getById8(id: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling getById8.');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (Authorization) required
-        localVarCredential = this.configuration.lookupCredential('Authorization');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                '*/*'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'json';
-            }
-        }
-
-        let localVarPath = `/api/v1/admin/device-group/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
-        return this.httpClient.request<BaseOutputDeviceGroup>('get', `${this.configuration.basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+    // to determine the Content-Type header
+    const consumes: string[] = ['application/json'];
+    const httpContentTypeSelected: string | undefined =
+      this.configuration.selectHeaderContentType(consumes);
+    if (httpContentTypeSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Content-Type',
+        httpContentTypeSelected
+      );
     }
 
-    /**
-     * Get all device-groups with pagination
-     * Returns all device-groups with pagination
-     * @param page
-     * @param size
-     * @param sortBy
-     * @param sortDirection
-     * @param keyword
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getByPaging9(page?: number, size?: number, sortBy?: string, sortDirection?: string, keyword?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputListDeviceGroup>;
-    public getByPaging9(page?: number, size?: number, sortBy?: string, sortDirection?: string, keyword?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputListDeviceGroup>>;
-    public getByPaging9(page?: number, size?: number, sortBy?: string, sortDirection?: string, keyword?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputListDeviceGroup>>;
-    public getByPaging9(page?: number, size?: number, sortBy?: string, sortDirection?: string, keyword?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
-
-        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (page !== undefined && page !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>page, 'page');
-        }
-        if (size !== undefined && size !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>size, 'size');
-        }
-        if (sortBy !== undefined && sortBy !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>sortBy, 'sortBy');
-        }
-        if (sortDirection !== undefined && sortDirection !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>sortDirection, 'sortDirection');
-        }
-        if (keyword !== undefined && keyword !== null) {
-          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>keyword, 'keyword');
-        }
-
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (Authorization) required
-        localVarCredential = this.configuration.lookupCredential('Authorization');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                '*/*'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'json';
-            }
-        }
-
-        let localVarPath = `/api/v1/admin/device-group`;
-        return this.httpClient.request<BaseOutputListDeviceGroup>('get', `${this.configuration.basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                params: localVarQueryParameters,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (
+        this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)
+      ) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'json';
+      }
     }
 
-    /**
-     * Update a device-group by id
-     * Return updated device-group
-     * @param id
-     * @param deviceGroup
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public update6(id: number, deviceGroup: DeviceGroup, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<BaseOutputDeviceGroup>;
-    public update6(id: number, deviceGroup: DeviceGroup, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpResponse<BaseOutputDeviceGroup>>;
-    public update6(id: number, deviceGroup: DeviceGroup, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<HttpEvent<BaseOutputDeviceGroup>>;
-    public update6(id: number, deviceGroup: DeviceGroup, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: '*/*', context?: HttpContext}): Observable<any> {
-        if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling update6.');
-        }
-        if (deviceGroup === null || deviceGroup === undefined) {
-            throw new Error('Required parameter deviceGroup was null or undefined when calling update6.');
-        }
+    let localVarPath = `/api/v1/admin/device-group/${this.configuration.encodeParam(
+      {
+        name: 'id',
+        value: id,
+        in: 'path',
+        style: 'simple',
+        explode: false,
+        dataType: 'number',
+        dataFormat: 'int64',
+      }
+    )}/devices`;
+    return this.httpClient.request<BaseOutputDeviceGroup>(
+      'put',
+      `${this.configuration.basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        body: requestBody,
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: localVarHeaders,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
 
-        let localVarHeaders = this.defaultHeaders;
-
-        let localVarCredential: string | undefined;
-        // authentication (Authorization) required
-        localVarCredential = this.configuration.lookupCredential('Authorization');
-        if (localVarCredential) {
-            localVarHeaders = localVarHeaders.set('Authorization', 'Bearer ' + localVarCredential);
-        }
-
-        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
-        if (localVarHttpHeaderAcceptSelected === undefined) {
-            // to determine the Accept header
-            const httpHeaderAccepts: string[] = [
-                '*/*'
-            ];
-            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        }
-        if (localVarHttpHeaderAcceptSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-        }
-
-        let localVarHttpContext: HttpContext | undefined = options && options.context;
-        if (localVarHttpContext === undefined) {
-            localVarHttpContext = new HttpContext();
-        }
-
-
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
-        let responseType_: 'text' | 'json' | 'blob' = 'json';
-        if (localVarHttpHeaderAcceptSelected) {
-            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-                responseType_ = 'text';
-            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-                responseType_ = 'json';
-            } else {
-                responseType_ = 'json';
-            }
-        }
-
-        let localVarPath = `/api/v1/admin/device-group/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
-        return this.httpClient.request<BaseOutputDeviceGroup>('put', `${this.configuration.basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                body: deviceGroup,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+  /**
+   * Create a new device-group
+   * Create a new device-group
+   * @param deviceGroup
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public create6(
+    deviceGroup: DeviceGroup,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<BaseOutputDeviceGroup>;
+  public create6(
+    deviceGroup: DeviceGroup,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpResponse<BaseOutputDeviceGroup>>;
+  public create6(
+    deviceGroup: DeviceGroup,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpEvent<BaseOutputDeviceGroup>>;
+  public create6(
+    deviceGroup: DeviceGroup,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<any> {
+    if (deviceGroup === null || deviceGroup === undefined) {
+      throw new Error(
+        'Required parameter deviceGroup was null or undefined when calling create6.'
+      );
     }
 
+    let localVarHeaders = this.defaultHeaders;
+
+    let localVarCredential: string | undefined;
+    // authentication (Authorization) required
+    localVarCredential = this.configuration.lookupCredential('Authorization');
+    if (localVarCredential) {
+      localVarHeaders = localVarHeaders.set(
+        'Authorization',
+        'Bearer ' + localVarCredential
+      );
+    }
+
+    let localVarHttpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      localVarHttpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Accept',
+        localVarHttpHeaderAcceptSelected
+      );
+    }
+
+    let localVarHttpContext: HttpContext | undefined =
+      options && options.context;
+    if (localVarHttpContext === undefined) {
+      localVarHttpContext = new HttpContext();
+    }
+
+    // to determine the Content-Type header
+    const consumes: string[] = ['application/json'];
+    const httpContentTypeSelected: string | undefined =
+      this.configuration.selectHeaderContentType(consumes);
+    if (httpContentTypeSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Content-Type',
+        httpContentTypeSelected
+      );
+    }
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (
+        this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)
+      ) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'json';
+      }
+    }
+
+    let localVarPath = `/api/v1/admin/device-group`;
+    return this.httpClient.request<BaseOutputDeviceGroup>(
+      'post',
+      `${this.configuration.basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        body: deviceGroup,
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: localVarHeaders,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
+   * Delete a device-group by id
+   * Return deleted device-group
+   * @param id
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public delete9(
+    id: number,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<BaseOutputString>;
+  public delete9(
+    id: number,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpResponse<BaseOutputString>>;
+  public delete9(
+    id: number,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpEvent<BaseOutputString>>;
+  public delete9(
+    id: number,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<any> {
+    if (id === null || id === undefined) {
+      throw new Error(
+        'Required parameter id was null or undefined when calling delete9.'
+      );
+    }
+
+    let localVarHeaders = this.defaultHeaders;
+
+    let localVarCredential: string | undefined;
+    // authentication (Authorization) required
+    localVarCredential = this.configuration.lookupCredential('Authorization');
+    if (localVarCredential) {
+      localVarHeaders = localVarHeaders.set(
+        'Authorization',
+        'Bearer ' + localVarCredential
+      );
+    }
+
+    let localVarHttpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      localVarHttpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Accept',
+        localVarHttpHeaderAcceptSelected
+      );
+    }
+
+    let localVarHttpContext: HttpContext | undefined =
+      options && options.context;
+    if (localVarHttpContext === undefined) {
+      localVarHttpContext = new HttpContext();
+    }
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (
+        this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)
+      ) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'json';
+      }
+    }
+
+    let localVarPath = `/api/v1/admin/device-group/${this.configuration.encodeParam(
+      {
+        name: 'id',
+        value: id,
+        in: 'path',
+        style: 'simple',
+        explode: false,
+        dataType: 'number',
+        dataFormat: 'int64',
+      }
+    )}`;
+    return this.httpClient.request<BaseOutputString>(
+      'delete',
+      `${this.configuration.basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: localVarHeaders,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
+   * Delete a device groups by ids
+   * Return deleted device groups
+   * @param requestBody
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public deleteByIds3(
+    requestBody: Array<number>,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<BaseOutputString>;
+  public deleteByIds3(
+    requestBody: Array<number>,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpResponse<BaseOutputString>>;
+  public deleteByIds3(
+    requestBody: Array<number>,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpEvent<BaseOutputString>>;
+  public deleteByIds3(
+    requestBody: Array<number>,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<any> {
+    if (requestBody === null || requestBody === undefined) {
+      throw new Error(
+        'Required parameter requestBody was null or undefined when calling deleteByIds3.'
+      );
+    }
+
+    let localVarHeaders = this.defaultHeaders;
+
+    let localVarCredential: string | undefined;
+    // authentication (Authorization) required
+    localVarCredential = this.configuration.lookupCredential('Authorization');
+    if (localVarCredential) {
+      localVarHeaders = localVarHeaders.set(
+        'Authorization',
+        'Bearer ' + localVarCredential
+      );
+    }
+
+    let localVarHttpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      localVarHttpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Accept',
+        localVarHttpHeaderAcceptSelected
+      );
+    }
+
+    let localVarHttpContext: HttpContext | undefined =
+      options && options.context;
+    if (localVarHttpContext === undefined) {
+      localVarHttpContext = new HttpContext();
+    }
+
+    // to determine the Content-Type header
+    const consumes: string[] = ['application/json'];
+    const httpContentTypeSelected: string | undefined =
+      this.configuration.selectHeaderContentType(consumes);
+    if (httpContentTypeSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Content-Type',
+        httpContentTypeSelected
+      );
+    }
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (
+        this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)
+      ) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'json';
+      }
+    }
+
+    let localVarPath = `/api/v1/admin/device-group`;
+    return this.httpClient.request<BaseOutputString>(
+      'delete',
+      `${this.configuration.basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        body: requestBody,
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: localVarHeaders,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
+   * Get a device-group by id
+   * Returns a device-group as per the id
+   * @param id
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getById8(
+    id: number,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<BaseOutputDeviceGroup>;
+  public getById8(
+    id: number,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpResponse<BaseOutputDeviceGroup>>;
+  public getById8(
+    id: number,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpEvent<BaseOutputDeviceGroup>>;
+  public getById8(
+    id: number,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<any> {
+    if (id === null || id === undefined) {
+      throw new Error(
+        'Required parameter id was null or undefined when calling getById8.'
+      );
+    }
+
+    let localVarHeaders = this.defaultHeaders;
+
+    let localVarCredential: string | undefined;
+    // authentication (Authorization) required
+    localVarCredential = this.configuration.lookupCredential('Authorization');
+    if (localVarCredential) {
+      localVarHeaders = localVarHeaders.set(
+        'Authorization',
+        'Bearer ' + localVarCredential
+      );
+    }
+
+    let localVarHttpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      localVarHttpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Accept',
+        localVarHttpHeaderAcceptSelected
+      );
+    }
+
+    let localVarHttpContext: HttpContext | undefined =
+      options && options.context;
+    if (localVarHttpContext === undefined) {
+      localVarHttpContext = new HttpContext();
+    }
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (
+        this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)
+      ) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'json';
+      }
+    }
+
+    let localVarPath = `/api/v1/admin/device-group/${this.configuration.encodeParam(
+      {
+        name: 'id',
+        value: id,
+        in: 'path',
+        style: 'simple',
+        explode: false,
+        dataType: 'number',
+        dataFormat: 'int64',
+      }
+    )}`;
+    return this.httpClient.request<BaseOutputDeviceGroup>(
+      'get',
+      `${this.configuration.basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: localVarHeaders,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
+   * Get all device-groups with pagination
+   * Returns all device-groups with pagination
+   * @param page
+   * @param size
+   * @param sortBy
+   * @param sortDirection
+   * @param keyword
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public getByPaging9(
+    page?: number,
+    size?: number,
+    sortBy?: string,
+    sortDirection?: string,
+    keyword?: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<BaseOutputListDeviceGroup>;
+  public getByPaging9(
+    page?: number,
+    size?: number,
+    sortBy?: string,
+    sortDirection?: string,
+    keyword?: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpResponse<BaseOutputListDeviceGroup>>;
+  public getByPaging9(
+    page?: number,
+    size?: number,
+    sortBy?: string,
+    sortDirection?: string,
+    keyword?: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpEvent<BaseOutputListDeviceGroup>>;
+  public getByPaging9(
+    page?: number,
+    size?: number,
+    sortBy?: string,
+    sortDirection?: string,
+    keyword?: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<any> {
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    if (page !== undefined && page !== null) {
+      localVarQueryParameters = this.addToHttpParams(
+        localVarQueryParameters,
+        <any>page,
+        'page'
+      );
+    }
+    if (size !== undefined && size !== null) {
+      localVarQueryParameters = this.addToHttpParams(
+        localVarQueryParameters,
+        <any>size,
+        'size'
+      );
+    }
+    if (sortBy !== undefined && sortBy !== null) {
+      localVarQueryParameters = this.addToHttpParams(
+        localVarQueryParameters,
+        <any>sortBy,
+        'sortBy'
+      );
+    }
+    if (sortDirection !== undefined && sortDirection !== null) {
+      localVarQueryParameters = this.addToHttpParams(
+        localVarQueryParameters,
+        <any>sortDirection,
+        'sortDirection'
+      );
+    }
+    if (keyword !== undefined && keyword !== null) {
+      localVarQueryParameters = this.addToHttpParams(
+        localVarQueryParameters,
+        <any>keyword,
+        'keyword'
+      );
+    }
+
+    let localVarHeaders = this.defaultHeaders;
+
+    let localVarCredential: string | undefined;
+    // authentication (Authorization) required
+    localVarCredential = this.configuration.lookupCredential('Authorization');
+    if (localVarCredential) {
+      localVarHeaders = localVarHeaders.set(
+        'Authorization',
+        'Bearer ' + localVarCredential
+      );
+    }
+
+    let localVarHttpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      localVarHttpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Accept',
+        localVarHttpHeaderAcceptSelected
+      );
+    }
+
+    let localVarHttpContext: HttpContext | undefined =
+      options && options.context;
+    if (localVarHttpContext === undefined) {
+      localVarHttpContext = new HttpContext();
+    }
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (
+        this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)
+      ) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'json';
+      }
+    }
+
+    let localVarPath = `/api/v1/admin/device-group`;
+    return this.httpClient.request<BaseOutputListDeviceGroup>(
+      'get',
+      `${this.configuration.basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        params: localVarQueryParameters,
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: localVarHeaders,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
+   * Update a device-group by id
+   * Return updated device-group
+   * @param id
+   * @param deviceGroup
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public update6(
+    id: number,
+    deviceGroup: DeviceGroup,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<BaseOutputDeviceGroup>;
+  public update6(
+    id: number,
+    deviceGroup: DeviceGroup,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpResponse<BaseOutputDeviceGroup>>;
+  public update6(
+    id: number,
+    deviceGroup: DeviceGroup,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpEvent<BaseOutputDeviceGroup>>;
+  public update6(
+    id: number,
+    deviceGroup: DeviceGroup,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<any> {
+    if (id === null || id === undefined) {
+      throw new Error(
+        'Required parameter id was null or undefined when calling update6.'
+      );
+    }
+    if (deviceGroup === null || deviceGroup === undefined) {
+      throw new Error(
+        'Required parameter deviceGroup was null or undefined when calling update6.'
+      );
+    }
+
+    let localVarHeaders = this.defaultHeaders;
+
+    let localVarCredential: string | undefined;
+    // authentication (Authorization) required
+    localVarCredential = this.configuration.lookupCredential('Authorization');
+    if (localVarCredential) {
+      localVarHeaders = localVarHeaders.set(
+        'Authorization',
+        'Bearer ' + localVarCredential
+      );
+    }
+
+    let localVarHttpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      localVarHttpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Accept',
+        localVarHttpHeaderAcceptSelected
+      );
+    }
+
+    let localVarHttpContext: HttpContext | undefined =
+      options && options.context;
+    if (localVarHttpContext === undefined) {
+      localVarHttpContext = new HttpContext();
+    }
+
+    // to determine the Content-Type header
+    const consumes: string[] = ['application/json'];
+    const httpContentTypeSelected: string | undefined =
+      this.configuration.selectHeaderContentType(consumes);
+    if (httpContentTypeSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Content-Type',
+        httpContentTypeSelected
+      );
+    }
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (
+        this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)
+      ) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'json';
+      }
+    }
+
+    let localVarPath = `/api/v1/admin/device-group/${this.configuration.encodeParam(
+      {
+        name: 'id',
+        value: id,
+        in: 'path',
+        style: 'simple',
+        explode: false,
+        dataType: 'number',
+        dataFormat: 'int64',
+      }
+    )}`;
+    return this.httpClient.request<BaseOutputDeviceGroup>(
+      'put',
+      `${this.configuration.basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        body: deviceGroup,
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: localVarHeaders,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
 }
