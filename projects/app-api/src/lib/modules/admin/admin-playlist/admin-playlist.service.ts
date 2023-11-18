@@ -108,4 +108,8 @@ export class AdminPlaylistService {
   public getPlaylistWithFile(id: number): Observable<BaseOutputPlaylist> {
     return this.adminPlayListController.getByIdWithFiles(id);
   }
+
+  public assignFile(playListId: number, fileIds: number[]) {
+    return this.adminPlayListController.assignFiles(playListId, fileIds);
+  }
 }

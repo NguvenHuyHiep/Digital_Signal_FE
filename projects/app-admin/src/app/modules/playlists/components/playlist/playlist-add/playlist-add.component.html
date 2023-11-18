@@ -64,11 +64,67 @@
         >
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="24">
-        {{ "module.playlist.file" | translate }}
+
+    <ng-container *ngIf="playlistAdmin?.id; else elseBlock">
+      <ng-container *ngTemplateOutlet="addFiles"></ng-container>
+    </ng-container>
+    <ng-template #addFiles>
+      <nz-form-label [nzSpan]="4" nzFor="listDevice">
+        {{ "module.groupdevice.file" | translate }}
       </nz-form-label>
-      <app-admin-file-add [control]="form.controls.files"></app-admin-file-add>
-    </nz-form-item>
+      <nz-skeleton [nzActive]="true" *ngIf="loading.addFile"></nz-skeleton>
+      <lh-common-lh-table
+        *ngIf="!loading.addFile"
+        #table
+        [config]="tableConfig"
+        [data]="files"
+        [loading]="loading.addFile"
+        (onUpdate)="detailDevice($event)"
+      ></lh-common-lh-table>
+      <form nz-form [formGroup]="addFileForm" nzLayout="vertical">
+        <!--      <div nz-col [nzLg]="4" [nzSm]="24" style="float: right">-->
+        <!--        <div nz-row nzAlign="middle" class="h-100" style="padding-top: 15px; padding-bottom: 15px;">-->
+        <!--          <button nz-button nzType="primary" nzDanger-->
+        <!--                  [nzLoading]="loading.deleteDevices" class="w-100"-->
+        <!--                  (click)="deleteDevices()">{{'module.device.delete' |translate}}</button>-->
+        <!--        </div>-->
+        <!--      </div>-->
+        <div nz-row nzGutter="16">
+          <div nz-col [nzLg]="4" [nzSm]="24">
+            <nz-form-item>
+              <nz-form-label>{{
+                "module.device.add" | translate
+              }}</nz-form-label>
+              <nz-form-control [formGroup]="addFileForm">
+                <app-admin-chosen-file
+                  class="w-100"
+                  formControlName="fileIds"
+                  (onDataFileChange)="setCurrentFile($event)"
+                ></app-admin-chosen-file>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzLg]="4" [nzSm]="24">
+            <div
+              nz-row
+              nzAlign="middle"
+              class="h-100"
+              style="padding-top: 30px"
+            >
+              <button
+                nz-button
+                nzType="primary"
+                [nzLoading]="loading.addFile"
+                class="w-100"
+                (click)="addFile()"
+              >
+                {{ "module.device.add" | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-template>
+    <ng-template #elseBlock></ng-template>
   </form>
 </ng-template>

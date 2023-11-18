@@ -23,9 +23,11 @@ import { AdminPlaylistModule } from '../../../../../app-api/src/lib/modules/admi
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { FileModule } from '../file/file.module';
+import { ChosenFileComponent } from './components/playlist/chosen-file/chosen-file.component';
+import { DeviceModule } from '../device/device.module';
 
 @NgModule({
-  declarations: [PlaylistComponent, PlaylistAddComponent],
+  declarations: [PlaylistComponent, PlaylistAddComponent, ChosenFileComponent],
   imports: [
     CommonModule,
     TranslateModule,
@@ -50,6 +52,7 @@ import { FileModule } from '../file/file.module';
     NzDatePickerModule,
     NzCheckboxModule,
     FileModule,
+    DeviceModule,
   ],
 })
 export class PlaylistsModule {}

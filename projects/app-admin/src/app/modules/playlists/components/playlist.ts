@@ -4,6 +4,7 @@ import { FormGroupUser } from '../../user/components/user-type';
 export type FormGroupFile = FormGroup<{
   id?: FormControl<number>;
   path?: FormControl<string>;
+  fileIds?: FormControl<number>;
 }>;
 
 export type FormGroupUploadRequest = FormGroup<{
