@@ -56,6 +56,7 @@ import { DeviceGroupComponent } from './device-group/device-group.component';
     DeviceGroupRoutingModule,
     AdminDeviceGroupModule,
     DeviceModule,
+    FormsModule,
   ],
 })
 export class DeviceGroupModule {}

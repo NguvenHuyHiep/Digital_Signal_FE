@@ -4,7 +4,6 @@ import {
   OnChanges,
   OnInit,
   SimpleChanges,
-  ViewChild,
 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -28,14 +27,15 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 export class PlaylistAddComponent implements OnInit, OnChanges {
   @Input('fileIds') fileIds?: number;
   @Input() playlistAdmin?: Playlist;
-  @ViewChild('fileAddComponent', { static: false })
-  fileAddComponent?: PlaylistAddComponent;
   files: Array<DsdFile> = [];
-
-  currentFile?: DsdFile;
+  currentFile: DsdFile = {};
   form: FormGroupPlayList = this.adminPlaylistService.buildPlaylistForm(
     this.playlistAdmin
   );
+  addFileForm: FormGroupFile = this.formBuilder.group({
+    fileId: ['', Validators.required],
+  }) as unknown as FormGroupFile;
+
   tabs = [
     {
       code: 'info',
@@ -67,10 +67,6 @@ export class PlaylistAddComponent implements OnInit, OnChanges {
       },
     ],
   };
-  addFileForm: FormGroupFile = this.formBuilder.group({
-    fileIds: ['', Validators.required],
-  }) as unknown as FormGroupFile;
-
   constructor(
     private formBuilder: FormBuilder,
     private adminPlaylistService: AdminPlaylistService,
@@ -80,10 +76,14 @@ export class PlaylistAddComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {}
 
   ngOnInit(): void {
+    this.loadFile();
     if (this.playlistAdmin) {
       this.patchValue(this.playlistAdmin);
     }
     this.form.valueChanges.subscribe((value) => console.log('value', value));
+    this.addFileForm.valueChanges.subscribe((value) =>
+      console.log('value', value)
+    );
   }
 
   addOrUpdate(): Observable<BaseOutputPlaylist> {
@@ -126,17 +126,6 @@ export class PlaylistAddComponent implements OnInit, OnChanges {
     return this.adminPlaylistService.updatePlayList(addObj);
   }
 
-  fileForm(baseForm: FormGroupPlayList): FormArray<FormGroupPlayList> {
-    if (!baseForm.controls.files) {
-      baseForm.controls.files = new FormArray<FormGroupFile>([]);
-    }
-    return baseForm.controls.files as FormArray<FormGroupFile>;
-  }
-
-  getFormGroupFile(playListForm: FormGroup): FormGroupPlayList {
-    return playListForm as FormGroupPlayList;
-  }
-
   detailDevice(record: DsdFile) {
     this.currentFile = record;
     this.showFrame = {
@@ -146,34 +135,34 @@ export class PlaylistAddComponent implements OnInit, OnChanges {
 
   setCurrentFile($event: DsdFile) {
     this.currentFile = $event;
+    console.log('this.currentFile', this.currentFile);
   }
 
   addFile() {
     if (!this.addFileForm) {
       return;
     }
-    if (this.playlistAdmin) {
-      const FileIdValue = Number(this.addFileForm.controls.fileIds?.value);
-      this.loading.addFile = true;
-      this.adminPlaylistService
-        .assignFile(this.playlistAdmin?.id as number, [FileIdValue])
-        .subscribe({
-          next: (data) => {
-            if (data) {
-              this.loadFile();
-              return;
-            }
-          },
-          error: (err) => {
-            // TODO i18n
-            this.message.error('Error', err);
-            this.loading.searching = false;
-          },
-          complete: () => {
-            this.loading.addFile = false;
-          },
-        });
-    }
+
+    const FileIdValue = Number(this.currentFile.id);
+    this.loading.addFile = true;
+    this.adminPlaylistService
+      .assignFile(this.playlistAdmin?.id as number, [FileIdValue])
+      .subscribe({
+        next: (data) => {
+          if (data) {
+            this.loadFile();
+            return;
+          }
+        },
+        error: (err) => {
+          // TODO i18n
+          this.message.error('Error', err);
+          this.loading.searching = false;
+        },
+        complete: () => {
+          this.loading.addFile = false;
+        },
+      });
   }
 
   private patchValue(obj: Playlist) {
@@ -182,6 +171,7 @@ export class PlaylistAddComponent implements OnInit, OnChanges {
 
   private loadFile() {
     this.loading.addFile = true;
+    console.log('playlistAdmin', this.playlistAdmin);
     if (this.playlistAdmin) {
       this.adminPlaylistService
         .getPlaylistWithFile(this.playlistAdmin?.id as number)
@@ -195,10 +185,10 @@ export class PlaylistAddComponent implements OnInit, OnChanges {
           error: (err) => {
             // TODO i18n
             this.message.error('Error', err);
-            this.loading.searching = false;
+            this.loading.addFile = false;
           },
           complete: () => {
-            this.loading.searching = false;
+            this.loading.addFile = false;
           },
         });
     }

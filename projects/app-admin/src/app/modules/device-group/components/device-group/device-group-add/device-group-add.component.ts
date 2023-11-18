@@ -91,6 +91,18 @@ export class DeviceGroupAddComponent implements OnInit {
     private deviceService: AdminDeviceControllerService,
     private message: NzMessageService
   ) {}
+  ngOnInit(): void {
+    this.loadDevice();
+    if (this.deviceGroupAdmin) {
+      this.patchValue(this.deviceGroupAdmin);
+    }
+    this.form.valueChanges.subscribe((value) =>
+      console.log('Add Device Group', value)
+    );
+  }
+  private patchValue(obj: DeviceGroup) {
+    this.form.patchValue(obj as any);
+  }
 
   addOrUpdate(): Observable<BaseOutputDeviceGroup> {
     if (!this.form.valid) {
@@ -188,20 +200,6 @@ export class DeviceGroupAddComponent implements OnInit {
   //     }
   //   })
   // }
-
-  // TODO change position of ngOninit to after constructor
-  ngOnInit(): void {
-    this.loadDevice();
-    if (this.deviceGroupAdmin) {
-      this.patchValue(this.deviceGroupAdmin);
-    }
-    this.form.valueChanges.subscribe((value) =>
-      console.log('Add Device Group', value)
-    );
-  }
-  private patchValue(obj: DeviceGroup) {
-    this.form.patchValue(obj as any);
-  }
 
   private loadDevice(): void {
     this.loading.searching = true;

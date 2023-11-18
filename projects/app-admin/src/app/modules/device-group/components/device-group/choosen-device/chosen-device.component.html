@@ -2,6 +2,8 @@
   nzAllowClear
   nzShowSearch
   [nzPlaceHolder]="'common.selectDevice' | translate"
+  [(ngModel)]="deviceId"
+  (ngModelChange)="onChangeData($event)"
 >
   <nz-option
     *ngFor="let deviceDeviceGroup of devices"

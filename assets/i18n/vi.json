@@ -71,6 +71,7 @@
       "welcome": "Chào mừng tới Digital Signage"
     },
     "file": {
+      "add": "Thêm file",
       "chooseContentType": "Loại file",
       "contentTypes-video": "video",
       "contentTypes-img": "img",

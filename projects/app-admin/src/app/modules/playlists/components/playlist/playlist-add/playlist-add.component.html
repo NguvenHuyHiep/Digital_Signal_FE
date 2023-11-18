@@ -70,7 +70,7 @@
     </ng-container>
     <ng-template #addFiles>
       <nz-form-label [nzSpan]="4" nzFor="listDevice">
-        {{ "module.groupdevice.file" | translate }}
+        {{ "module.file.list-file" | translate }}
       </nz-form-label>
       <nz-skeleton [nzActive]="true" *ngIf="loading.addFile"></nz-skeleton>
       <lh-common-lh-table
@@ -92,13 +92,11 @@
         <div nz-row nzGutter="16">
           <div nz-col [nzLg]="4" [nzSm]="24">
             <nz-form-item>
-              <nz-form-label>{{
-                "module.device.add" | translate
-              }}</nz-form-label>
+              <nz-form-label>{{ "module.file.add" | translate }}</nz-form-label>
               <nz-form-control [formGroup]="addFileForm">
                 <app-admin-chosen-file
                   class="w-100"
-                  formControlName="fileIds"
+                  formControlName="fileId"
                   (onDataFileChange)="setCurrentFile($event)"
                 ></app-admin-chosen-file>
               </nz-form-control>
@@ -118,7 +116,7 @@
                 class="w-100"
                 (click)="addFile()"
               >
-                {{ "module.device.add" | translate }}
+                {{ "module.file.add" | translate }}
               </button>
             </div>
           </div>
