@@ -5,7 +5,7 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 
 import { FormGroupFile, FormGroupPlayList } from '../../playlist';
 import { AdminPlaylistService } from '../../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service';
@@ -67,6 +67,7 @@ export class PlaylistAddComponent implements OnInit, OnChanges {
       },
     ],
   };
+
   constructor(
     private formBuilder: FormBuilder,
     private adminPlaylistService: AdminPlaylistService,

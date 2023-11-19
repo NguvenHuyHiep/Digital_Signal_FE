@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PlaylistComponent } from './components/playlist/playlist/playlist.component';
+import { PlaylistsComponent } from './components/playlist/playlists/playlists.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { LhTableModule } from '../../../../../app-common/src/lib/components/lh-table/lh-table.module';
 import { UiCommonModule } from '../../../../../app-common/src/lib/modules/ui-common/ui-common.module';
@@ -24,10 +24,15 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { FileModule } from '../file/file.module';
 import { ChosenFileComponent } from './components/playlist/chosen-file/chosen-file.component';
-import { DeviceModule } from '../device/device.module';
+import { PlaylistComponent } from './playlist/playlist.component';
 
 @NgModule({
-  declarations: [PlaylistComponent, PlaylistAddComponent, ChosenFileComponent],
+  declarations: [
+    PlaylistsComponent,
+    PlaylistAddComponent,
+    ChosenFileComponent,
+    PlaylistComponent,
+  ],
   imports: [
     CommonModule,
     TranslateModule,
@@ -52,7 +57,6 @@ import { DeviceModule } from '../device/device.module';
     NzDatePickerModule,
     NzCheckboxModule,
     FileModule,
-    DeviceModule,
   ],
 })
 export class PlaylistsModule {}

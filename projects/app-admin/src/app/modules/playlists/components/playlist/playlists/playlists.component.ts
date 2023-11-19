@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LhTableComponent } from '../../../../../../../../app-common/src/lib/components/lh-table/lh-table.component';
 import {
   LhTableConfigModel,
@@ -9,14 +9,14 @@ import { Playlist } from '../../../../../../../../app-api/src/lib/api/models/pla
 import { AdminPlaylistService } from '../../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { LhAuthenService } from '../../../../../../../../app-api/src/lib/modules/authen/lh-authen.service';
-import { BaseOutputListPlaylist } from '../../../../../../../../app-api/src/lib/api/models/baseOutputListPlaylist';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-playlist',
-  templateUrl: './playlist.component.html',
-  styleUrls: ['./playlist.component.scss'],
+  templateUrl: './playlists.component.html',
+  styleUrls: ['./playlists.component.scss'],
 })
-export class PlaylistComponent implements OnInit {
+export class PlaylistsComponent implements OnInit {
   currentPlaylist?: Playlist;
   playlists: Array<Playlist> = [];
   showFrame: {
@@ -66,7 +66,8 @@ export class PlaylistComponent implements OnInit {
   constructor(
     private playlistService: AdminPlaylistService,
     private message: NzMessageService,
-    private authenService: LhAuthenService
+    private authenService: LhAuthenService,
+    private router: Router
   ) {
     this.authenService.userObs.subscribe(
       (playList) => (this.currentPlaylist = playList)
@@ -131,12 +132,6 @@ export class PlaylistComponent implements OnInit {
     this.showFrame.add = false;
   }
 
-  openAddFrame() {
-    this.currentPlaylist = undefined;
-    this.showFrame.search = false;
-    this.showFrame.add = true;
-  }
-
   deleteSelected() {}
 
   update(playlist: Playlist) {
@@ -158,9 +153,8 @@ export class PlaylistComponent implements OnInit {
       },
     });
   }
-
-  goToSearch() {
-    this.showFrame.search = true;
-    this.showFrame.add = false;
+  routeToAdd() {
+    const queryParams = { action: 'add' };
+    this.router.navigate([], { queryParams }).then((r) => {});
   }
 }

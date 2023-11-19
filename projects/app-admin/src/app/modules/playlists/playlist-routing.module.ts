@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PlaylistComponent } from './components/playlist/playlist/playlist.component';
+import { PlaylistsComponent } from './components/playlist/playlists/playlists.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: PlaylistComponent,
+    component: PlaylistsComponent,
   },
 ];
 
