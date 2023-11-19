@@ -24,7 +24,8 @@
     "back": "Quay lại",
     "cancel": "Hủy",
     "success": "Thành công",
-    "selectDevice": "Chọn thiết bị"
+    "selectDevice": "Chọn thiết bị",
+    "selectFile": "Chọn File"
   },
 
   "footer": "Design & Develop by LPDEV",

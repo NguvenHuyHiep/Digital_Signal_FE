@@ -1,0 +1,13 @@
+<nz-select
+  nzAllowClear
+  nzShowSearch
+  [nzPlaceHolder]="'common.selectFile' | translate"
+  [(ngModel)]="fileIds"
+  (ngModelChange)="onChangeData($event)"
+>
+  <nz-option
+    *ngFor="let file of files"
+    nzLabel="{{ file.name?.toUpperCase() + ' - ' + file.fileType }}"
+    [nzValue]="file.id"
+  ></nz-option>
+</nz-select>
