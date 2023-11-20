@@ -1,0 +1,14 @@
+<lh-common-page pageTitle="{{ 'module.groupdevice.title' | translate }}">
+</lh-common-page>
+<lh-common-lh-dialog [footerTemplateRight]="addActions">
+  <app-admin-playlist-add [playlistAdmin]="playlist" #addComponent>
+  </app-admin-playlist-add>
+</lh-common-lh-dialog>
+
+<ng-template #addActions>
+  <div nz-space>
+    <button (click)="update()" nz-button nzType="primary">
+      {{ "common.update" | translate }}
+    </button>
+  </div>
+</ng-template>

@@ -25,13 +25,13 @@ import {
   NzUploadFile,
   NzUploadXHRArgs,
 } from 'ng-zorro-antd/upload';
-import { from, of } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { BaseOutputListDsdFile } from 'projects/app-api/src/lib/api/models/baseOutputListDsdFile';
 import {
   LhTableConfigModel,
   LhTableFieldType,
 } from 'projects/app-common/src/lib/components/lh-table/lh-table-config.model';
+import { FormArray, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-admin-file-add',
@@ -39,6 +39,7 @@ import {
   styleUrls: ['./file-add.component.scss'],
 })
 export class FileAddComponent {
+  @Input() control?: FormArray<FormGroupFile>;
   @Input() fileList: NzUploadFile[] = [];
   tableConfig: LhTableConfigModel = {
     disableDetail: true,

@@ -191,7 +191,6 @@ export class DeviceGroupsComponent implements OnInit {
   }
 
   openAddFrame() {
-    this.currentDeviceGroup = {};
     this.showFrame.search = false;
     this.showFrame.add = true;
   }

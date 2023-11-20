@@ -24,7 +24,8 @@
     "back": "Quay lại",
     "cancel": "Hủy",
     "success": "Thành công",
-    "selectDevice": "Chọn thiết bị"
+    "selectDevice": "Chọn thiết bị",
+    "selectFile": "Chọn File"
   },
 
   "footer": "Design & Develop by LPDEV",
@@ -71,6 +72,7 @@
       "welcome": "Chào mừng tới Digital Signage"
     },
     "file": {
+      "add": "Thêm file",
       "chooseContentType": "Loại file",
       "contentTypes-video": "video",
       "contentTypes-img": "img",
@@ -82,9 +84,13 @@
       "upload": {
         "text": "Ấn hoặc kéo file vào đây để tải lên",
         "hint": "Hỗ trợ tải lên một hoặc nhiều file, Cấm đưa lên các file có thông tin nhạy cảm"
+      },
+      "delete-confirm": {
+        "title" : "Bạn có muốn xóa file: "
       }
     },
     "playlist": {
+
       "title": "Playlist",
       "file": "File",
       "update": "Cập nhập File",
@@ -94,6 +100,7 @@
       "startTime": "Thời gian bắt đầu",
       "endTime": "Thời gian kết thúc",
       "isLoop": "Vòng lặp",
+      "status" : "Trạng thái",
       "true": "Có"
     },
     "user": {
@@ -189,5 +196,9 @@
       "expirationDate": "Ngày hết hạn",
       "description": "Mô tả"
     }
+  },
+  "button": {
+    "ok": "Xác nhận",
+    "cancel": "Hủy"
   }
 }

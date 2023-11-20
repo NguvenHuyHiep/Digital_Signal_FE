@@ -7,7 +7,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Chart } from '@antv/g2';
-import { Device } from 'projects/app-api/src/lib/api/models/device';
 import { DeviceLog } from 'projects/app-api/src/lib/api/models/deviceLog';
 import { AdminDeviceService } from 'projects/app-api/src/lib/modules/admin/admin-device/admin-device.service';
 import {
@@ -15,6 +14,7 @@ import {
   LhTableFieldType,
 } from 'projects/app-common/src/lib/components/lh-table/lh-table-config.model';
 import { LhTableComponent } from 'projects/app-common/src/lib/components/lh-table/lh-table.component';
+import { DeviceStatus } from '../../../../../../../app-api/src/lib/api/models/deviceStatus';
 
 @Component({
   selector: 'app-admin-device-detail',
@@ -108,7 +108,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
       } = {
         time: minute,
         type: 'Status',
-        value: currentLog?.status || Device.StatusEnum.Offline,
+        value: currentLog?.status || DeviceStatus.Offline,
       };
       return obj;
     });
@@ -153,7 +153,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
     chart.data(data);
     chart.scale({
       value: {
-        ticks: [Device.StatusEnum.Offline, Device.StatusEnum.Online],
+        ticks: [DeviceStatus.Offline, DeviceStatus.Online],
       },
       time: {
         range: [0, 1],

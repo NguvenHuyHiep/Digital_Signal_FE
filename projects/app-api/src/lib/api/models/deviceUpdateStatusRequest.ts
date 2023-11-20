@@ -9,17 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { DeviceStatus } from './deviceStatus';
 
 export interface DeviceUpdateStatusRequest {
   license?: string;
   code?: string;
-  status?: DeviceUpdateStatusRequest.StatusEnum;
+  status?: DeviceStatus;
 }
-export namespace DeviceUpdateStatusRequest {
-  export type StatusEnum = 'ONLINE' | 'OFFLINE' | 'UNDEFINED';
-  export const StatusEnum = {
-    Online: 'ONLINE' as StatusEnum,
-    Offline: 'OFFLINE' as StatusEnum,
-    Undefined: 'UNDEFINED' as StatusEnum,
-  };
-}
+export namespace DeviceUpdateStatusRequest {}

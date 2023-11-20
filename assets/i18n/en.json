@@ -81,6 +81,9 @@
       "upload": {
         "text": "Click or drag file to this area to upload",
         "hint": "Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files"
+      },
+      "delete-confirm": {
+        "title" : "Are you sure to delete the file: "
       }
     },
     "playlist": {
@@ -93,6 +96,7 @@
       "startTime": "Start time",
       "endTime": "End time",
       "isLoop": "Is loop",
+      "status" : "Status",
       "true": "Yes"
     },
     "user": {
@@ -188,5 +192,9 @@
       "expirationDate": "Expiration Date",
       "description": "Description"
     }
+  },
+  "button": {
+    "ok": "Ok",
+    "cancel": "Cancel"
   }
 }

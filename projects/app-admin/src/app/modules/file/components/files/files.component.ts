@@ -18,6 +18,7 @@ import { DsdFile } from '../../../../../../../app-api/src/lib/api/models/dsdFile
 import { Playlist } from '../../../../../../../app-api/src/lib/api/models/playlist';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { AdminPlaylistService } from '../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-admin-files',
@@ -31,7 +32,7 @@ export class FilesComponent<T extends Object> implements OnInit {
   @ViewChild('addComponent', { static: false }) addComponent?: FileAddComponent;
   currentFile?: DsdFile;
   fileList: NzUploadFile[] = [];
-  files: Array<DsdFile> = [];
+  files: DsdFile[] = [];
   loading: {
     adding: boolean;
     searching: boolean;
@@ -64,7 +65,8 @@ export class FilesComponent<T extends Object> implements OnInit {
   constructor(
     private adminFileService: AdminFileService,
     private adminPlaylistService: AdminPlaylistService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private modalService: NzModalService
   ) {}
 
   ngOnInit(): void {
@@ -80,8 +82,31 @@ export class FilesComponent<T extends Object> implements OnInit {
     this.showFrame.add = true;
     this.showFrame.search = false;
   }
-  delete(files: DsdFile) {
-    this.adminFileService.deleteFile(files.path as string).subscribe({
+  delete(file: DsdFile) {
+    this.modalService.confirm({
+      nzTitle: `Do you want to delete the file: ${file.path} ?`,
+      nzOnOk: () => {
+        new Promise((resolve, reject) => {
+          this.adminFileService.deleteFile(file.path as string).subscribe({
+            next: (response) => {
+              console.log(response);
+              this.files = this.files.filter((f) => f.path !== file.path);
+              resolve;
+            },
+            error: (err) => {
+              this.message.error(err);
+              // TODO handle error
+              resolve;
+            },
+            complete: () => {
+              resolve;
+            },
+          });
+        }).catch((err) => console.log(err));
+      },
+    });
+
+    this.adminFileService.deleteFile(file.path as string).subscribe({
       next: (response) => {
         this.getAllFile();
       },
@@ -107,17 +132,19 @@ export class FilesComponent<T extends Object> implements OnInit {
       .subscribe({
         next: (response) => {
           if (response.data) {
-            this.files = response.data.files as Array<DsdFile>;
+            this.files = response.data.files as DsdFile[];
           }
         },
         error: (err) => {
           //TODO Xử lý exception
+          this.message.error('Error', err);
         },
         complete: () => {
           this.loading.searching = false;
         },
       });
   }
+
   getAllFile(): void {
     this.loading.searching = true;
     this.adminFileService.getAllFile(0, 100).subscribe({
@@ -130,7 +157,6 @@ export class FilesComponent<T extends Object> implements OnInit {
       error: (err) => {
         // TODO i18n
         this.message.error('Error', err);
-        this.loading.searching = false;
       },
       complete: () => {
         this.loading.searching = false;

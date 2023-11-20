@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PlaylistComponent } from './components/playlist/playlist/playlist.component';
+import { PlaylistsComponent } from './components/playlist/playlists/playlists.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { LhTableModule } from '../../../../../app-common/src/lib/components/lh-table/lh-table.module';
 import { UiCommonModule } from '../../../../../app-common/src/lib/modules/ui-common/ui-common.module';
@@ -23,25 +23,33 @@ import { AdminPlaylistModule } from '../../../../../app-api/src/lib/modules/admi
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { FileModule } from '../file/file.module';
+import { ChosenFileComponent } from './components/playlist/chosen-file/chosen-file.component';
+import { PlaylistComponent } from './playlist/playlist.component';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 @NgModule({
-  declarations: [PlaylistComponent, PlaylistAddComponent],
+  declarations: [
+    PlaylistsComponent,
+    PlaylistAddComponent,
+    ChosenFileComponent,
+    PlaylistComponent,
+  ],
   imports: [
     CommonModule,
-    TranslateModule,
-    LhTableModule,
     UiCommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    PlaylistRoutingModule,
+    LhTableModule,
+    LhDialogModule,
     NzSpaceModule,
     NzButtonModule,
-    PlaylistRoutingModule,
-    AdminPlaylistModule,
-    LhDialogModule,
     NzTabsModule,
-    ReactiveFormsModule,
     NzFormModule,
     NzInputModule,
     NzLayoutModule,
-    FormsModule,
     NzCardModule,
     NzSkeletonModule,
     NzMenuModule,
@@ -49,7 +57,10 @@ import { FileModule } from '../file/file.module';
     NzIconModule,
     NzDatePickerModule,
     NzCheckboxModule,
+    NzModalModule,
+    NzSwitchModule,
     FileModule,
+    AdminPlaylistModule,
   ],
 })
 export class PlaylistsModule {}

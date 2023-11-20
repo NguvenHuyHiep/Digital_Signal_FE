@@ -1,19 +1,14 @@
 <nz-tabset>
   <nz-tab
     *ngFor="let tab of tabs"
-    [nzTitle]="tab.name | translate"
     [nzDisabled]="tab.code === 'file' && !playlistAdmin?.id"
+    [nzTitle]="tab.name | translate"
   >
     <ng-container *ngIf="tab.code === 'info'">
       <ng-container *ngTemplateOutlet="info"></ng-container>
     </ng-container>
-    <ng-container *ngIf="tab.code === 'file'">
-      <ng-container *ngTemplateOutlet="file"></ng-container>
-    </ng-container>
   </nz-tab>
 </nz-tabset>
-
-<ng-template #file> </ng-template>
 
 <ng-template #info>
   <form [formGroup]="form" nz-form>
@@ -43,7 +38,7 @@
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label nzFor="startTime" [nzSpan]="4">{{
+      <nz-form-label [nzSpan]="4" nzFor="startTime">{{
         "module.playlist.startTime" | translate
       }}</nz-form-label>
       <nz-form-control [formGroup]="form" [nzSpan]="14">
@@ -52,7 +47,7 @@
     </nz-form-item>
 
     <nz-form-item>
-      <nz-form-label nzFor="endTime" [nzSpan]="4">{{
+      <nz-form-label [nzSpan]="4" nzFor="endTime">{{
         "module.playlist.endTime" | translate
       }}</nz-form-label>
       <nz-form-control [formGroup]="form" [nzSpan]="14">
@@ -65,10 +60,79 @@
         {{ "module.playlist.isLoop" | translate }}
       </nz-form-label>
       <nz-form-control [formGroup]="form" [nzSpan]="14">
-        <label nz-checkbox [nzChecked]="isChecked" formControlName="isLoop">
+        <label [nzChecked]="isChecked" formControlName="isLoop" nz-checkbox>
           {{ "module.playlist.true" | translate }}</label
         >
       </nz-form-control>
     </nz-form-item>
+    <!-- 
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4">
+        {{ "module.playlist.status" | translate }}
+      </nz-form-label>
+      <nz-form-control [formGroup]="form" [nzSpan]="14">
+        <nz-switch formControlName="playlistStatus"></nz-switch>
+      </nz-form-control>
+    </nz-form-item> -->
+
+    <ng-container *ngIf="playlistAdmin?.id; else elseBlock">
+      <ng-container *ngTemplateOutlet="addFiles"></ng-container>
+    </ng-container>
+    <ng-template #addFiles>
+      <nz-form-label [nzSpan]="4" nzFor="listDevice">
+        {{ "module.file.list-file" | translate }}
+      </nz-form-label>
+      <nz-skeleton [nzActive]="true" *ngIf="loading.addFile"></nz-skeleton>
+      <lh-common-lh-table
+        *ngIf="!loading.addFile"
+        #table
+        [config]="tableConfig"
+        [data]="files"
+        [loading]="loading.addFile"
+        (onDelete)="deleteFile($event)"
+      ></lh-common-lh-table>
+      <form nz-form [formGroup]="addFileForm" nzLayout="vertical">
+        <!--      <div nz-col [nzLg]="4" [nzSm]="24" style="float: right">-->
+        <!--        <div nz-row nzAlign="middle" class="h-100" style="padding-top: 15px; padding-bottom: 15px;">-->
+        <!--          <button nz-button nzType="primary" nzDanger-->
+        <!--                  [nzLoading]="loading.deleteDevices" class="w-100"-->
+        <!--                  (click)="deleteDevices()">{{'module.device.delete' |translate}}</button>-->
+        <!--        </div>-->
+        <!--      </div>-->
+        <div nz-row nzGutter="16">
+          <div nz-col [nzLg]="4" [nzSm]="24">
+            <nz-form-item>
+              <nz-form-label>{{ "module.file.add" | translate }}</nz-form-label>
+              <nz-form-control [formGroup]="addFileForm">
+                <app-admin-chosen-file
+                  class="w-100"
+                  formControlName="fileId"
+                  (onDataFileChange)="setCurrentFile($event)"
+                ></app-admin-chosen-file>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzLg]="4" [nzSm]="24">
+            <div
+              nz-row
+              nzAlign="middle"
+              class="h-100"
+              style="padding-top: 30px"
+            >
+              <button
+                nz-button
+                nzType="primary"
+                [nzLoading]="loading.addFile"
+                class="w-100"
+                (click)="addFile()"
+              >
+                {{ "module.file.add" | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-template>
+    <ng-template #elseBlock></ng-template>
   </form>
 </ng-template>

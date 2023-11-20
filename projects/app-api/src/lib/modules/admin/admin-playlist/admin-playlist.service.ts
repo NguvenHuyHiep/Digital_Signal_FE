@@ -15,6 +15,7 @@ import { tap } from 'rxjs/operators';
 import { AdminPlayListAPIService } from '../../../api/controller/adminPlayListAPI.service';
 import { BaseOutputPlaylist } from '../../../api/models/baseOutputPlaylist';
 import { BaseOutputString } from '../../../api/models/baseOutputString';
+import { PlaylistStatus } from '../../../api/models/playlistStatus';
 
 @Injectable({
   providedIn: 'root',
@@ -38,6 +39,7 @@ export class AdminPlaylistService {
       ],
       endTime: [playlist?.endTime ? new Date(playlist.endTime) : new Date()],
       isLoop: [playlist?.isLoop || ''],
+      playlistStatus: [playlist?.status === PlaylistStatus.Active],
     }) as unknown as FormGroupPlayList;
     form.addControl('files', this.formBuilder.array([]) as FormArray);
     playlist?.files?.forEach((file) => {
@@ -105,7 +107,11 @@ export class AdminPlaylistService {
     return this.adminPlayListController.delete3(playList);
   }
 
-  public getPlaylistWithFile(id: number) {
+  public getPlaylistWithFile(id: number): Observable<BaseOutputPlaylist> {
     return this.adminPlayListController.getByIdWithFiles(id);
+  }
+
+  public assignFile(playListId: number, fileIds: number[]) {
+    return this.adminPlayListController.assignFiles(playListId, fileIds);
   }
 }

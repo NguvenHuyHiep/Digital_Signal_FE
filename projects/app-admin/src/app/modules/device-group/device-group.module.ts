@@ -22,14 +22,16 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { DeviceGroupRoutingModule } from './device-group-routing.module';
 import { AdminDeviceGroupModule } from '../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.module';
-import { ChosenDeviceComponent } from './components/device-group/choosen-device/chosen-device.component';
+import { ChosenDeviceComponent } from './components/device-group/chosen-device/chosen-device.component';
 import { DeviceModule } from '../device/device.module';
+import { DeviceGroupComponent } from './device-group/device-group.component';
 
 @NgModule({
   declarations: [
     DeviceGroupsComponent,
     DeviceGroupAddComponent,
     ChosenDeviceComponent,
+    DeviceGroupComponent,
   ],
   imports: [
     CommonModule,
@@ -54,6 +56,7 @@ import { DeviceModule } from '../device/device.module';
     DeviceGroupRoutingModule,
     AdminDeviceGroupModule,
     DeviceModule,
+    FormsModule,
   ],
 })
 export class DeviceGroupModule {}

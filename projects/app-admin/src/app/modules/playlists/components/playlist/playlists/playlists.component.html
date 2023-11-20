@@ -4,7 +4,9 @@
 >
   <div nz-space>
     <button
-      (click)="openAddFrame()"
+      [disabled]="true"
+      [hidden]="true"
+      (click)="routeToAdd()"
       nz-button
       nzType="primary"
       class="mb-2 btnFunction"
@@ -16,6 +18,7 @@
       nzType="primary"
       class="mb-2"
       [disabled]="!isSelectedRow"
+      [hidden]="true"
       (click)="deleteSelected()"
       nzDanger
     >
@@ -52,11 +55,11 @@
 </ng-template>
 
 <ng-template #backToSearch>
-  <button (click)="gotoSearch()" nz-button>
+  <button (click)="routerToSearch()" nz-button>
     {{ "common.back" | translate }}
   </button>
 </ng-template>
 
 <ng-template #playlistDetail let-data="data">
-  <app-admin-files [playListAdmin]="currentPlaylist"></app-admin-files>
+  <app-admin-file-detail [currentPlayList]="data"></app-admin-file-detail>
 </ng-template>
