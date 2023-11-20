@@ -24,7 +24,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   templateUrl: './playlist-add.component.html',
   styleUrls: ['./playlist-add.component.scss'],
 })
-export class PlaylistAddComponent implements OnInit, OnChanges {
+export class PlaylistAddComponent implements OnInit {
   @Input('fileIds') fileIds?: number;
   @Input() playlistAdmin?: Playlist;
   files: Array<DsdFile> = [];
@@ -58,6 +58,8 @@ export class PlaylistAddComponent implements OnInit, OnChanges {
   };
   tableConfig: LhTableConfigModel = {
     disableDetail: true,
+    disableUpdate: true,
+    disableDelete: true,
     key: 'id',
     fields: [
       {
@@ -73,8 +75,6 @@ export class PlaylistAddComponent implements OnInit, OnChanges {
     private adminPlaylistService: AdminPlaylistService,
     private message: NzMessageService
   ) {}
-
-  ngOnChanges(changes: SimpleChanges): void {}
 
   ngOnInit(): void {
     this.loadFile();

@@ -11,8 +11,8 @@ import { Playlist } from '../../../../../../../app-api/src/lib/api/models/playli
 
 @Component({
   selector: 'app-admin-file-detail',
-  templateUrl: './file-detail.component.html',
-  styleUrls: ['./file-detail.component.scss'],
+  templateUrl: './files-by-playlist.component.html',
+  styleUrls: ['./files-by-playlist.component.scss'],
 })
 export class FileDetailComponent<T extends Object> implements OnInit {
   @Input() currentPlayList?: Playlist;
@@ -21,7 +21,8 @@ export class FileDetailComponent<T extends Object> implements OnInit {
   currentFile?: DsdFile;
   tableConfig: LhTableConfigModel = {
     disableDetail: true,
-
+    disableUpdate: true,
+    disableDelete: true,
     key: 'id',
     fields: [
       {
@@ -55,13 +56,12 @@ export class FileDetailComponent<T extends Object> implements OnInit {
   ngOnInit(): void {
     this.loading.searching = true;
     if (this.currentPlayList?.id) {
-      console.log('this.currentPlayList?.id', this.currentPlayList?.id);
       this.adminPlaylistService
         .getPlaylistWithFile(this.currentPlayList?.id as number)
         .subscribe({
           next: (response) => {
             if (response.data) {
-              this.files = response.data.files as Array<DsdFile>;
+              this.files = response.data.files as DsdFile[];
             }
           },
           error: (err) => {

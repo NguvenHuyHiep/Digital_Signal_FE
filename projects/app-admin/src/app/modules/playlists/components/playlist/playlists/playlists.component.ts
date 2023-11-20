@@ -154,7 +154,6 @@ export class PlaylistsComponent implements OnInit {
     });
   }
   routeToAdd() {
-    const queryParams = { action: 'add' };
-    this.router.navigate([], { queryParams }).then((r) => {});
+    this.router.navigate(['playlist/create']);
   }
 }
