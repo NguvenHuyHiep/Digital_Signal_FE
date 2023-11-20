@@ -9,7 +9,7 @@ import { Playlist } from '../../../../../../../../app-api/src/lib/api/models/pla
 import { AdminPlaylistService } from '../../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { LhAuthenService } from '../../../../../../../../app-api/src/lib/modules/authen/lh-authen.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-playlist',
@@ -25,6 +25,13 @@ export class PlaylistsComponent implements OnInit {
   } = {
     search: true,
     add: false,
+  };
+  query: {
+    action?: string;
+    id?: string;
+  } = {
+    action: undefined,
+    id: undefined,
   };
   @ViewChild('table') table?: LhTableComponent<Playlist>;
   @ViewChild('addComponent', { static: false })
@@ -67,19 +74,52 @@ export class PlaylistsComponent implements OnInit {
     private playlistService: AdminPlaylistService,
     private message: NzMessageService,
     private authenService: LhAuthenService,
-    private router: Router
-  ) {
-    this.authenService.userObs.subscribe(
-      (playList) => (this.currentPlaylist = playList)
-    );
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      this.query.action = params['action'];
+      this.query.id = params['id'];
+      switch (this.query.action) {
+        case 'add': {
+          this.currentPlaylist = {};
+          this.openAddFrame();
+          break;
+        }
+        case 'edit': {
+          if (!this.query.id) {
+            break;
+          }
+          if (
+            this.currentPlaylist &&
+            this.currentPlaylist.id === Number(this.query.id)
+          ) {
+            break;
+          }
+          this.playlistService
+            .getPlaylistWithFile(Number(this.query.id))
+            .subscribe({
+              next: (result) => {
+                if (result.data) {
+                  this.currentPlaylist = result.data;
+                  this.openAddFrame();
+                }
+              },
+            });
+          break;
+        }
+        default: {
+          this.gotoSearch();
+          break;
+        }
+      }
+    });
+    this.getAllPlaylist();
   }
 
   get isSelectedRow(): boolean {
     return (this.table?.setOfCheckedId?.size || 0) > 0;
-  }
-
-  ngOnInit(): void {
-    this.getAllPlaylist();
   }
 
   getAllPlaylist(): void {
@@ -111,9 +151,12 @@ export class PlaylistsComponent implements OnInit {
       next: (response) => {
         if (response.data) {
           this.currentPlaylist = response.data;
-          this.getAllPlaylist();
-          this.showFrame.search = true;
-          this.showFrame.add = false;
+          if (this.query.action === 'add') {
+            this.routeToEdit(response.data.id as number);
+          }
+          if (this.query.action === 'edit') {
+            this.gotoSearch();
+          }
         }
       },
       error: (err) => {
@@ -130,12 +173,14 @@ export class PlaylistsComponent implements OnInit {
   gotoSearch() {
     this.showFrame.search = true;
     this.showFrame.add = false;
+    this.getAllPlaylist();
   }
 
   deleteSelected() {}
 
   update(playlist: Playlist) {
     this.currentPlaylist = playlist;
+    this.routeToEdit(playlist.id as number);
     this.showFrame.add = true;
     this.showFrame.search = false;
   }
@@ -154,6 +199,21 @@ export class PlaylistsComponent implements OnInit {
     });
   }
   routeToAdd() {
-    this.router.navigate(['playlist/create']);
+    const queryParams = { action: 'add' };
+    this.router.navigate([], { queryParams }).then((r) => {});
+  }
+
+  routerToSearch() {
+    this.router.navigate([]).then((r) => {});
+  }
+
+  private routeToEdit(id: number) {
+    const queryParams = { action: 'edit', id: id };
+    this.router.navigate([], { queryParams }).then((r) => {});
+  }
+
+  private openAddFrame() {
+    this.showFrame.search = false;
+    this.showFrame.add = true;
   }
 }
