@@ -922,6 +922,136 @@ export class AdminDeviceControllerService {
   }
 
   /**
+   * remove devices from device group
+   * remove devices from a device group
+   * @param deviceGroupId
+   * @param requestBody
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public removeDevicesFromDeviceGroup(
+    deviceGroupId: number,
+    requestBody: Array<number>,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<BaseOutputString>;
+  public removeDevicesFromDeviceGroup(
+    deviceGroupId: number,
+    requestBody: Array<number>,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpResponse<BaseOutputString>>;
+  public removeDevicesFromDeviceGroup(
+    deviceGroupId: number,
+    requestBody: Array<number>,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpEvent<BaseOutputString>>;
+  public removeDevicesFromDeviceGroup(
+    deviceGroupId: number,
+    requestBody: Array<number>,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<any> {
+    if (deviceGroupId === null || deviceGroupId === undefined) {
+      throw new Error(
+        'Required parameter deviceGroupId was null or undefined when calling removeDevicesFromDeviceGroup.'
+      );
+    }
+    if (requestBody === null || requestBody === undefined) {
+      throw new Error(
+        'Required parameter requestBody was null or undefined when calling removeDevicesFromDeviceGroup.'
+      );
+    }
+
+    let localVarHeaders = this.defaultHeaders;
+
+    let localVarCredential: string | undefined;
+    // authentication (Authorization) required
+    localVarCredential = this.configuration.lookupCredential('Authorization');
+    if (localVarCredential) {
+      localVarHeaders = localVarHeaders.set(
+        'Authorization',
+        'Bearer ' + localVarCredential
+      );
+    }
+
+    let localVarHttpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      localVarHttpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Accept',
+        localVarHttpHeaderAcceptSelected
+      );
+    }
+
+    let localVarHttpContext: HttpContext | undefined =
+      options && options.context;
+    if (localVarHttpContext === undefined) {
+      localVarHttpContext = new HttpContext();
+    }
+
+    // to determine the Content-Type header
+    const consumes: string[] = ['application/json'];
+    const httpContentTypeSelected: string | undefined =
+      this.configuration.selectHeaderContentType(consumes);
+    if (httpContentTypeSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Content-Type',
+        httpContentTypeSelected
+      );
+    }
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (
+        this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)
+      ) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'json';
+      }
+    }
+
+    let localVarPath = `/api/v1/admin/device/remove/device-group/${this.configuration.encodeParam(
+      {
+        name: 'deviceGroupId',
+        value: deviceGroupId,
+        in: 'path',
+        style: 'simple',
+        explode: false,
+        dataType: 'number',
+        dataFormat: 'int64',
+      }
+    )}`;
+    return this.httpClient.request<BaseOutputString>(
+      'put',
+      `${this.configuration.basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        body: requestBody,
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: localVarHeaders,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
    * Update a device by id
    * Return updated device
    * @param id

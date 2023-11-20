@@ -20,7 +20,6 @@ import {
   HttpEvent,
   HttpParameterCodec,
   HttpContext,
-  HttpRequest,
 } from '@angular/common/http';
 import { CustomHttpParameterCodec } from '../encoder';
 import { Observable } from 'rxjs';
@@ -35,7 +34,6 @@ import { BaseOutputString } from '../models/baseOutputString';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
 import { Configuration } from '../configuration';
-import { NzUploadFile } from 'ng-zorro-antd/upload';
 
 @Injectable({
   providedIn: 'root',
@@ -1029,7 +1027,139 @@ export class AdminFileControllerService {
   }
 
   /**
-   * @param files
+   * Remove files from a playlist
+   * Return removed file
+   * @param playlistId
+   * @param requestBody
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public removeFilesFromPlaylist(
+    playlistId: number,
+    requestBody: Array<number>,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<BaseOutputString>;
+  public removeFilesFromPlaylist(
+    playlistId: number,
+    requestBody: Array<number>,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpResponse<BaseOutputString>>;
+  public removeFilesFromPlaylist(
+    playlistId: number,
+    requestBody: Array<number>,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpEvent<BaseOutputString>>;
+  public removeFilesFromPlaylist(
+    playlistId: number,
+    requestBody: Array<number>,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<any> {
+    if (playlistId === null || playlistId === undefined) {
+      throw new Error(
+        'Required parameter playlistId was null or undefined when calling removeFilesFromPlaylist.'
+      );
+    }
+    if (requestBody === null || requestBody === undefined) {
+      throw new Error(
+        'Required parameter requestBody was null or undefined when calling removeFilesFromPlaylist.'
+      );
+    }
+
+    let localVarHeaders = this.defaultHeaders;
+
+    let localVarCredential: string | undefined;
+    // authentication (Authorization) required
+    localVarCredential = this.configuration.lookupCredential('Authorization');
+    if (localVarCredential) {
+      localVarHeaders = localVarHeaders.set(
+        'Authorization',
+        'Bearer ' + localVarCredential
+      );
+    }
+
+    let localVarHttpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      localVarHttpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Accept',
+        localVarHttpHeaderAcceptSelected
+      );
+    }
+
+    let localVarHttpContext: HttpContext | undefined =
+      options && options.context;
+    if (localVarHttpContext === undefined) {
+      localVarHttpContext = new HttpContext();
+    }
+
+    // to determine the Content-Type header
+    const consumes: string[] = ['application/json'];
+    const httpContentTypeSelected: string | undefined =
+      this.configuration.selectHeaderContentType(consumes);
+    if (httpContentTypeSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Content-Type',
+        httpContentTypeSelected
+      );
+    }
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (
+        this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)
+      ) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'json';
+      }
+    }
+
+    let localVarPath = `/api/v1/admin/file/remove/playlist/${this.configuration.encodeParam(
+      {
+        name: 'playlistId',
+        value: playlistId,
+        in: 'path',
+        style: 'simple',
+        explode: false,
+        dataType: 'number',
+        dataFormat: 'int64',
+      }
+    )}`;
+    return this.httpClient.request<BaseOutputString>(
+      'put',
+      `${this.configuration.basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        body: requestBody,
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: localVarHeaders,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
+   * Upload files
+   * Uploads multiple files and returns the uploaded file details.
+   * @param files Files to upload
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
@@ -1065,13 +1195,11 @@ export class AdminFileControllerService {
 
     let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
     if (files) {
-      files.forEach((element) => {
-        localVarQueryParameters = this.addToHttpParams(
-          localVarQueryParameters,
-          <any>element,
-          'files'
-        );
-      });
+      localVarQueryParameters = this.addToHttpParams(
+        localVarQueryParameters,
+        [...files].join(COLLECTION_FORMATS['csv']),
+        'files'
+      );
     }
 
     let localVarHeaders = this.defaultHeaders;
