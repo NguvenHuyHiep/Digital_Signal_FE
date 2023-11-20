@@ -242,25 +242,25 @@ export class PublicDeviceControllerService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public updateStatus(
+  public updateStatus1(
     deviceUpdateStatusRequest: DeviceUpdateStatusRequest,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
   ): Observable<BaseOutputDevice>;
-  public updateStatus(
+  public updateStatus1(
     deviceUpdateStatusRequest: DeviceUpdateStatusRequest,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
   ): Observable<HttpResponse<BaseOutputDevice>>;
-  public updateStatus(
+  public updateStatus1(
     deviceUpdateStatusRequest: DeviceUpdateStatusRequest,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
   ): Observable<HttpEvent<BaseOutputDevice>>;
-  public updateStatus(
+  public updateStatus1(
     deviceUpdateStatusRequest: DeviceUpdateStatusRequest,
     observe: any = 'body',
     reportProgress: boolean = false,
@@ -271,7 +271,7 @@ export class PublicDeviceControllerService {
       deviceUpdateStatusRequest === undefined
     ) {
       throw new Error(
-        'Required parameter deviceUpdateStatusRequest was null or undefined when calling updateStatus.'
+        'Required parameter deviceUpdateStatusRequest was null or undefined when calling updateStatus1.'
       );
     }
 

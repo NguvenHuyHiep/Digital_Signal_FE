@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 import { Playlist } from './playlist';
+import { ResponseStatus } from './responseStatus';
 
 export interface BaseOutputListPlaylist {
   errors?: Array<string>;
@@ -17,13 +18,7 @@ export interface BaseOutputListPlaylist {
   currentPage?: number;
   pageSize?: number;
   totalPages?: number;
-  status?: BaseOutputListPlaylist.StatusEnum;
+  status?: ResponseStatus;
   data?: Array<Playlist>;
 }
-export namespace BaseOutputListPlaylist {
-  export type StatusEnum = 'SUCCESS' | 'FAILED';
-  export const StatusEnum = {
-    Success: 'SUCCESS' as StatusEnum,
-    Failed: 'FAILED' as StatusEnum,
-  };
-}
+export namespace BaseOutputListPlaylist {}

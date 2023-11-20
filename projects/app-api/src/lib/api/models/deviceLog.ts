@@ -10,18 +10,12 @@
  * Do not edit the class manually.
  */
 import { Device } from './device';
+import { DeviceStatus } from './deviceStatus';
 
 export interface DeviceLog {
   id?: number;
   date?: string;
-  status?: DeviceLog.StatusEnum;
+  status?: DeviceStatus;
   device?: Device;
 }
-export namespace DeviceLog {
-  export type StatusEnum = 'ONLINE' | 'OFFLINE' | 'UNDEFINED';
-  export const StatusEnum = {
-    Online: 'ONLINE' as StatusEnum,
-    Offline: 'OFFLINE' as StatusEnum,
-    Undefined: 'UNDEFINED' as StatusEnum,
-  };
-}
+export namespace DeviceLog {}

@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ResponseStatus } from './responseStatus';
 import { DeviceLog } from './deviceLog';
 
 export interface BaseOutputListDeviceLog {
@@ -17,13 +18,7 @@ export interface BaseOutputListDeviceLog {
   currentPage?: number;
   pageSize?: number;
   totalPages?: number;
-  status?: BaseOutputListDeviceLog.StatusEnum;
+  status?: ResponseStatus;
   data?: Array<DeviceLog>;
 }
-export namespace BaseOutputListDeviceLog {
-  export type StatusEnum = 'SUCCESS' | 'FAILED';
-  export const StatusEnum = {
-    Success: 'SUCCESS' as StatusEnum,
-    Failed: 'FAILED' as StatusEnum,
-  };
-}
+export namespace BaseOutputListDeviceLog {}

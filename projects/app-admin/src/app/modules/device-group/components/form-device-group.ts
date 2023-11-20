@@ -1,6 +1,7 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { FormGroupUser } from '../../user/components/user-type';
 import { Device } from '../../../../../../app-api/src/lib/api/models/device';
+import { DeviceStatus } from '../../../../../../app-api/src/lib/api/models/deviceStatus';
 
 export type FormDeviceLog = FormGroup<{
   id?: FormControl<number>;
@@ -14,7 +15,7 @@ export type FormDevice = FormGroup<{
   name?: FormControl<string>;
   information?: FormControl<string>;
   description?: FormControl<string>;
-  status?: FormControl<Device.StatusEnum>;
+  status?: FormControl<DeviceStatus>;
   user?: FormGroupUser;
   deviceGroup?: FormDeviceGroup;
   deviceLogs?: FormArray<FormDeviceLog>;

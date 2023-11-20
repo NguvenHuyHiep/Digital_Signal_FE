@@ -47,6 +47,7 @@ models/baseOutputUser.ts
 models/device.ts
 models/deviceGroup.ts
 models/deviceLog.ts
+models/deviceStatus.ts
 models/deviceUpdateStatusRequest.ts
 models/dsdFile.ts
 models/license.ts
@@ -55,7 +56,10 @@ models/licenseGenerateRequest.ts
 models/licenseVerifyRequest.ts
 models/models.ts
 models/playlist.ts
+models/playlistStatus.ts
+models/responseStatus.ts
 models/role.ts
+models/roleType.ts
 models/schedule.ts
 models/user.ts
 param.ts

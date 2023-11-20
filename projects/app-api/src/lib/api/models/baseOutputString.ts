@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ResponseStatus } from './responseStatus';
 
 export interface BaseOutputString {
   errors?: Array<string>;
@@ -16,13 +17,7 @@ export interface BaseOutputString {
   currentPage?: number;
   pageSize?: number;
   totalPages?: number;
-  status?: BaseOutputString.StatusEnum;
+  status?: ResponseStatus;
   data?: string;
 }
-export namespace BaseOutputString {
-  export type StatusEnum = 'SUCCESS' | 'FAILED';
-  export const StatusEnum = {
-    Success: 'SUCCESS' as StatusEnum,
-    Failed: 'FAILED' as StatusEnum,
-  };
-}
+export namespace BaseOutputString {}

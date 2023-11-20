@@ -11,6 +11,7 @@
  */
 import { User } from './user';
 import { DeviceGroup } from './deviceGroup';
+import { DeviceStatus } from './deviceStatus';
 import { DeviceLog } from './deviceLog';
 
 export interface Device {
@@ -19,16 +20,9 @@ export interface Device {
   name?: string;
   information?: string;
   description?: string;
-  status?: Device.StatusEnum;
+  status?: DeviceStatus;
   user?: User;
   deviceGroup?: DeviceGroup;
   deviceLogs?: Array<DeviceLog>;
 }
-export namespace Device {
-  export type StatusEnum = 'ONLINE' | 'OFFLINE' | 'UNDEFINED';
-  export const StatusEnum = {
-    Online: 'ONLINE' as StatusEnum,
-    Offline: 'OFFLINE' as StatusEnum,
-    Undefined: 'UNDEFINED' as StatusEnum,
-  };
-}
+export namespace Device {}
