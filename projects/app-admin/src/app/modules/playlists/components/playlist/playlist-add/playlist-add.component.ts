@@ -19,6 +19,8 @@ import {
 } from '../../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { AdminFileService } from 'projects/app-api/src/lib/modules/admin/admin-file/admin-file.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-admin-playlist-add',
@@ -81,6 +83,7 @@ export class PlaylistAddComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private adminPlaylistService: AdminPlaylistService,
+    private fileService: AdminFileService,
     private message: NzMessageService,
     private modalService: NzModalService
   ) {}
@@ -139,10 +142,24 @@ export class PlaylistAddComponent implements OnInit {
   deleteFile(record: DsdFile) {
     console.log(record);
     this.modalService.confirm({
-      nzTitle: `Do you want to delete the file: ${record.name} ?`,
+      nzTitle: `Do you want to delete the file: ${record.path} ?`,
       nzOnOk: () => {
         new Promise((resolve, reject) => {
-          setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+          this.fileService.deleteFile(record.path as string).subscribe({
+            next: (response) => {
+              console.log(response);
+              this.files = this.files.filter((f) => f.path !== record.path);
+              resolve;
+            },
+            error: (err) => {
+              this.message.error(err);
+              // TODO handle error
+              resolve;
+            },
+            complete: () => {
+              resolve;
+            },
+          });
         }).catch((err) => console.log(err));
       },
     });

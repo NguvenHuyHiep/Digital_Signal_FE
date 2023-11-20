@@ -84,6 +84,9 @@
       "upload": {
         "text": "Ấn hoặc kéo file vào đây để tải lên",
         "hint": "Hỗ trợ tải lên một hoặc nhiều file, Cấm đưa lên các file có thông tin nhạy cảm"
+      },
+      "delete-confirm": {
+        "title" : "Bạn có muốn xóa file: "
       }
     },
     "playlist": {
