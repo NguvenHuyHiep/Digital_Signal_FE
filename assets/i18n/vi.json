@@ -133,6 +133,11 @@
       "license": "License",
       "add": "Thêm thiết bị",
       "delete": "Xóa thiết bị"
+    },
+    "schedule": {
+      "title": "Lịch phát",
+      "name": "Tên",
+      "description": "Mô tả"
     }
   },
   "recover": {

@@ -273,6 +273,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
           { title: 'Group Device', icon: 'apartment', link: '/device-group' },
           { title: 'Device', icon: 'video-camera-add', link: '/device' },
           { title: 'File', icon: 'user', link: '/file' },
+          { title: 'Schedule', icon: 'user', link: '/schedule' },
         ]
       : [
           {

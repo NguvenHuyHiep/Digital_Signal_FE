@@ -1,0 +1,21 @@
+<lh-common-page pageTitle="{{ 'module.schedule.title' | translate }}">
+  <div nz-space>
+    <button
+      class="mb-2"
+      nz-button
+      nzType="primary"
+      (click)="navigateToCreate()"
+    >
+      {{ "common.add" | translate }}
+    </button>
+  </div>
+
+  <lh-common-lh-table
+    #table
+    [data]="schedules"
+    [config]="tableConfig"
+    [loading]="loading.search"
+    (onDetail)="navigateToDetail($event)"
+  >
+  </lh-common-lh-table>
+</lh-common-page>

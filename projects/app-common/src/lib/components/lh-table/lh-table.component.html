@@ -29,14 +29,21 @@
 
         <td style="width: 200px" nzRight>
           <button
+            [hidden]="config.disableDetail"
+            nz-button
+            nzType="text"
+            (click)="detail(record)"
+          >
+            {{ "common.detail" | translate }}
+          </button>
+          <button
             [hidden]="config.disableUpdate"
             nz-button
             nzType="text"
             (click)="update(record)"
           >
-            {{ "common.detail" | translate }}
+            {{ "common.update" | translate }}
           </button>
-          <!--        <button nz-button nzType="text" (click)="detail(record)">{{'common.update' | translate}}</button>-->
           <button
             [hidden]="config.disableDelete"
             nz-button

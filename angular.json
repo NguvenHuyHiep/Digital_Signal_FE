@@ -39,6 +39,7 @@
               }
             ],
             "styles": [
+              "node_modules/angular-calendar/css/angular-calendar.css",
               "projects/app-admin/src/theme.less",
               "projects/app-admin/src/styles.scss"
             ],
@@ -130,6 +131,7 @@
               "assets"
             ],
             "styles": [
+              "node_modules/angular-calendar/css/angular-calendar.css",
               "projects/app-admin/src/styles.scss"
             ],
             "scripts": []

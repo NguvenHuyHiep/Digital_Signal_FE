@@ -27,6 +27,8 @@ import { AppHttpInterceptor } from './app-http-interceptor.service';
 import { LocalStoreModule } from '../../../app-api/src/lib/modules/local-store/local-store.module';
 import { AppAuthenEffects } from './store/learn-hub-authen-effects.service';
 import { AppApiModule } from '../../../app-api/src/lib/app-api.module';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 registerLocaleData(en);
 
@@ -65,6 +67,10 @@ export function createTranslateLoader(http: HttpClient) {
         deps: [HttpClient],
       },
       defaultLanguage: vi_VN.locale,
+    }),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
     }),
   ],
   providers: [
