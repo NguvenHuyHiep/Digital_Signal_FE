@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { PlaylistStatus } from './playlistStatus';
 import { User } from './user';
 import { DsdFile } from './dsdFile';
 
@@ -19,6 +20,8 @@ export interface Playlist {
   startTime?: string;
   endTime?: string;
   isLoop?: boolean;
+  status?: PlaylistStatus;
   files?: Array<DsdFile>;
   user?: User;
 }
+export namespace Playlist {}

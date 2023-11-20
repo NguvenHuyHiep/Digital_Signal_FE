@@ -9,17 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { RoleType } from './roleType';
 
 export interface Role {
   id?: number;
   name?: string;
-  type?: Role.TypeEnum;
+  type?: RoleType;
 }
-export namespace Role {
-  export type TypeEnum = 'ADMIN' | 'USER' | 'UNDEFINED';
-  export const TypeEnum = {
-    Admin: 'ADMIN' as TypeEnum,
-    User: 'USER' as TypeEnum,
-    Undefined: 'UNDEFINED' as TypeEnum,
-  };
-}
+export namespace Role {}

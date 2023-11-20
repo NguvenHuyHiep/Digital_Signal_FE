@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 import { Role } from './role';
+import { ResponseStatus } from './responseStatus';
 
 export interface BaseOutputListRole {
   errors?: Array<string>;
@@ -17,13 +18,7 @@ export interface BaseOutputListRole {
   currentPage?: number;
   pageSize?: number;
   totalPages?: number;
-  status?: BaseOutputListRole.StatusEnum;
+  status?: ResponseStatus;
   data?: Array<Role>;
 }
-export namespace BaseOutputListRole {
-  export type StatusEnum = 'SUCCESS' | 'FAILED';
-  export const StatusEnum = {
-    Success: 'SUCCESS' as StatusEnum,
-    Failed: 'FAILED' as StatusEnum,
-  };
-}
+export namespace BaseOutputListRole {}
