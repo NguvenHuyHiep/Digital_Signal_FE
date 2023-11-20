@@ -192,5 +192,9 @@
       "expirationDate": "Ngày hết hạn",
       "description": "Mô tả"
     }
+  },
+  "button": {
+    "ok": "Xác nhận",
+    "cancel": "Hủy"
   }
 }

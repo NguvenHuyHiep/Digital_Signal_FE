@@ -18,6 +18,7 @@ import {
   LhTableFieldType,
 } from '../../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-admin-playlist-add',
@@ -27,11 +28,17 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 export class PlaylistAddComponent implements OnInit {
   @Input('fileIds') fileIds?: number;
   @Input() playlistAdmin?: Playlist;
+
   files: Array<DsdFile> = [];
+
   currentFile: DsdFile = {};
+
+  isVisible: boolean = false;
+
   form: FormGroupPlayList = this.adminPlaylistService.buildPlaylistForm(
     this.playlistAdmin
   );
+
   addFileForm: FormGroupFile = this.formBuilder.group({
     fileId: ['', Validators.required],
   }) as unknown as FormGroupFile;
@@ -49,6 +56,7 @@ export class PlaylistAddComponent implements OnInit {
   } = {
     detail: false,
   };
+
   loading: {
     searching: boolean;
     addFile: boolean;
@@ -56,10 +64,10 @@ export class PlaylistAddComponent implements OnInit {
     addFile: false,
     searching: false,
   };
+
   tableConfig: LhTableConfigModel = {
     disableDetail: true,
     disableUpdate: true,
-    disableDelete: true,
     key: 'id',
     fields: [
       {
@@ -73,7 +81,8 @@ export class PlaylistAddComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private adminPlaylistService: AdminPlaylistService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private modalService: NzModalService
   ) {}
 
   ngOnInit(): void {
@@ -127,11 +136,16 @@ export class PlaylistAddComponent implements OnInit {
     return this.adminPlaylistService.updatePlayList(addObj);
   }
 
-  detailDevice(record: DsdFile) {
-    this.currentFile = record;
-    this.showFrame = {
-      detail: true,
-    };
+  deleteFile(record: DsdFile) {
+    console.log(record);
+    this.modalService.confirm({
+      nzTitle: `Do you want to delete the file: ${record.name} ?`,
+      nzOnOk: () => {
+        new Promise((resolve, reject) => {
+          setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+        }).catch((err) => console.log(err));
+      },
+    });
   }
 
   setCurrentFile($event: DsdFile) {

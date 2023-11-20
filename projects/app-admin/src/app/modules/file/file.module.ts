@@ -16,16 +16,16 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
-import { FileDetailComponent } from './components/files-by-playlist/files-by-playlist.component';
+import { FilesByPlaylist } from './components/files-by-playlist/files-by-playlist.component';
 
 @NgModule({
   declarations: [
     FilesComponent,
     FileAddComponent,
     UploadFileComponent,
-    FileDetailComponent,
+    FilesByPlaylist,
   ],
-  exports: [FilesComponent, FileAddComponent, FileDetailComponent],
+  exports: [FilesComponent, FileAddComponent, FilesByPlaylist],
   imports: [
     CommonModule,
     FileRoutingModule,

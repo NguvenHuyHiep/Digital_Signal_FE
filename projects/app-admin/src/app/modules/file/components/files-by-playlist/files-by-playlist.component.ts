@@ -14,7 +14,7 @@ import { Playlist } from '../../../../../../../app-api/src/lib/api/models/playli
   templateUrl: './files-by-playlist.component.html',
   styleUrls: ['./files-by-playlist.component.scss'],
 })
-export class FileDetailComponent<T extends Object> implements OnInit {
+export class FilesByPlaylist<T extends Object> implements OnInit {
   @Input() currentPlayList?: Playlist;
   @Output() onGroup: EventEmitter<T> = new EventEmitter<T>();
   files: Array<DsdFile> = [];

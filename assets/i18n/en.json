@@ -188,5 +188,9 @@
       "expirationDate": "Expiration Date",
       "description": "Description"
     }
+  },
+  "button": {
+    "ok": "Ok",
+    "cancel": "Cancel"
   }
 }

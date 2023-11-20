@@ -25,6 +25,7 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { FileModule } from '../file/file.module';
 import { ChosenFileComponent } from './components/playlist/chosen-file/chosen-file.component';
 import { PlaylistComponent } from './playlist/playlist.component';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 @NgModule({
   declarations: [
@@ -35,20 +36,19 @@ import { PlaylistComponent } from './playlist/playlist.component';
   ],
   imports: [
     CommonModule,
-    TranslateModule,
-    LhTableModule,
     UiCommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    PlaylistRoutingModule,
+    LhTableModule,
+    LhDialogModule,
     NzSpaceModule,
     NzButtonModule,
-    PlaylistRoutingModule,
-    AdminPlaylistModule,
-    LhDialogModule,
     NzTabsModule,
-    ReactiveFormsModule,
     NzFormModule,
     NzInputModule,
     NzLayoutModule,
-    FormsModule,
     NzCardModule,
     NzSkeletonModule,
     NzMenuModule,
@@ -56,7 +56,9 @@ import { PlaylistComponent } from './playlist/playlist.component';
     NzIconModule,
     NzDatePickerModule,
     NzCheckboxModule,
+    NzModalModule,
     FileModule,
+    AdminPlaylistModule,
   ],
 })
 export class PlaylistsModule {}

@@ -80,7 +80,7 @@
         [config]="tableConfig"
         [data]="files"
         [loading]="loading.addFile"
-        (onUpdate)="detailDevice($event)"
+        (onDelete)="deleteFile($event)"
       ></lh-common-lh-table>
       <form nz-form [formGroup]="addFileForm" nzLayout="vertical">
         <!--      <div nz-col [nzLg]="4" [nzSm]="24" style="float: right">-->
