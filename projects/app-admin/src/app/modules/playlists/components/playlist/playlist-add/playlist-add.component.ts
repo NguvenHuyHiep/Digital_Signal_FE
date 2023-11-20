@@ -21,6 +21,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { AdminFileService } from 'projects/app-api/src/lib/modules/admin/admin-file/admin-file.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { PlaylistStatus } from 'projects/app-api/src/lib/api/models/playlistStatus';
 
 @Component({
   selector: 'app-admin-playlist-add',
@@ -117,6 +118,7 @@ export class PlaylistAddComponent implements OnInit {
             ? this.form.controls.endTime?.value?.toISOString()
             : this.form.controls.endTime?.value,
         isLoop: this.form.controls.isLoop?.value,
+        status: PlaylistStatus.Active,
         files: this.form.controls.files?.value as Array<DsdFile>,
       };
       return this.adminPlaylistService.addPlayList(addObj);
@@ -134,6 +136,7 @@ export class PlaylistAddComponent implements OnInit {
           ? this.form.controls.endTime?.value?.toISOString()
           : this.form.controls.endTime?.value,
       isLoop: this.form.controls.isLoop?.value,
+      status: PlaylistStatus.Active,
       files: this.form.controls.files?.value as Array<DsdFile>,
     };
     return this.adminPlaylistService.updatePlayList(addObj);

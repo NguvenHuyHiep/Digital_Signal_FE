@@ -65,6 +65,15 @@
         >
       </nz-form-control>
     </nz-form-item>
+    <!-- 
+    <nz-form-item>
+      <nz-form-label [nzSpan]="4">
+        {{ "module.playlist.status" | translate }}
+      </nz-form-label>
+      <nz-form-control [formGroup]="form" [nzSpan]="14">
+        <nz-switch formControlName="playlistStatus"></nz-switch>
+      </nz-form-control>
+    </nz-form-item> -->
 
     <ng-container *ngIf="playlistAdmin?.id; else elseBlock">
       <ng-container *ngTemplateOutlet="addFiles"></ng-container>

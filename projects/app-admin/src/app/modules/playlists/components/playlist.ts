@@ -18,5 +18,6 @@ export type FormGroupPlayList = FormGroup<{
   startTime?: FormControl<Date>;
   endTime?: FormControl<Date>;
   isLoop?: FormControl<boolean>;
+  playlistStatus?: FormControl<boolean>;
   files?: FormArray<FormGroupFile>;
 }>;

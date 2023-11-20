@@ -4,6 +4,8 @@
 >
   <div nz-space>
     <button
+      [disabled]="true"
+      [hidden]="true"
       (click)="routeToAdd()"
       nz-button
       nzType="primary"
@@ -16,6 +18,7 @@
       nzType="primary"
       class="mb-2"
       [disabled]="!isSelectedRow"
+      [hidden]="true"
       (click)="deleteSelected()"
       nzDanger
     >

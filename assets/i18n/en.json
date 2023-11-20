@@ -96,6 +96,7 @@
       "startTime": "Start time",
       "endTime": "End time",
       "isLoop": "Is loop",
+      "status" : "Status",
       "true": "Yes"
     },
     "user": {

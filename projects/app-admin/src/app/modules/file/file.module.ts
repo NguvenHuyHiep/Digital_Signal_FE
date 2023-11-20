@@ -17,6 +17,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { FilesByPlaylist } from './components/files-by-playlist/files-by-playlist.component';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { FilesByPlaylist } from './components/files-by-playlist/files-by-playlis
     NzGridModule,
     NzCardModule,
     NzLayoutModule,
+    NzModalModule,
   ],
 })
 export class FileModule {}
