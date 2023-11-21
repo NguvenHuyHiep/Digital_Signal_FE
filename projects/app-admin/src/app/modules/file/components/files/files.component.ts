@@ -91,37 +91,28 @@ export class FilesComponent<T extends Object> implements OnInit {
       nzTitle: `Do you want to delete the file: ${file.path} ?`,
       nzOnOk: () => {
         new Promise((resolve, reject) => {
-          this.adminFileService.deleteFile(file.path as string).subscribe({
-            next: (response) => {
-              console.log(response);
-              this.files = this.files.filter((f) => f.path !== file.path);
-              resolve;
-            },
-            error: (err) => {
-              this.message.error(err);
-              // TODO handle error
-              resolve;
-            },
-            complete: () => {
-              resolve;
-            },
-          });
+          return this.adminFileService
+            .deleteFile(file.path as string)
+            .subscribe({
+              next: (response) => {
+                console.log(response);
+                this.files = this.files.filter((f) => f.path !== file.path);
+                resolve;
+              },
+              error: (err) => {
+                this.message.error(err);
+                // TODO handle error
+                resolve;
+              },
+              complete: () => {
+                resolve;
+              },
+            });
         }).catch((err) => console.log(err));
       },
     });
-
-    this.adminFileService.deleteFile(file.path as string).subscribe({
-      next: (response) => {
-        this.getAllFile();
-      },
-      error: (err) => {
-        //TODO execption
-      },
-      complete: () => {
-        this.loading.searching = false;
-      },
-    });
   }
+
   openAddFrame() {
     this.currentFile = undefined;
     this.showFrame.search = false;
