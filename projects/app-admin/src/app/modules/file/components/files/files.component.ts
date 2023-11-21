@@ -19,6 +19,7 @@ import { Playlist } from '../../../../../../../app-api/src/lib/api/models/playli
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { AdminPlaylistService } from '../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-admin-files',
@@ -36,9 +37,11 @@ export class FilesComponent<T extends Object> implements OnInit {
   loading: {
     adding: boolean;
     searching: boolean;
+    uploading: boolean;
   } = {
     adding: false,
     searching: false,
+    uploading: false,
   };
   showFrame: {
     search: boolean;
@@ -63,6 +66,7 @@ export class FilesComponent<T extends Object> implements OnInit {
   }
 
   constructor(
+    private translateService: TranslateService,
     private adminFileService: AdminFileService,
     private adminPlaylistService: AdminPlaylistService,
     private message: NzMessageService,
@@ -171,14 +175,29 @@ export class FilesComponent<T extends Object> implements OnInit {
     this.addComponent.uploadFiles().subscribe({
       next: (value) => {
         console.log(value);
+        this.message.info(
+          `${this.translateService.instant('module.file.upload.success')} ${
+            value.data?.length ? value.data.length : 0
+          }`
+        );
       },
-      error: (err) => {},
-      complete: () => {},
+      error: (err) => {
+        this.message.error('module.file.upload.error');
+        console.log(err);
+      },
+      complete: () => {
+        this.loading.adding = false;
+      },
     });
   }
 
   gotoSearch() {
     this.showFrame.search = true;
     this.showFrame.add = false;
+    if (this.playListAdmin) {
+      this.getFileById();
+    } else {
+      this.getAllFile();
+    }
   }
 }

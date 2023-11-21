@@ -57,16 +57,16 @@
       "device": "Device",
       "deviceAdd": "Add device",
       "listDevice": "List devices"
-     },
+    },
     "dashboard": {
-      "title":"Dashboard",
-      "deviceTotal":"No. Devices",
-      "deviceOnline":"No. Devices ON",
-      "deviceOffline":"No. Devices OFF",
-      "deviceGroup":"No. Devices groups",
+      "title": "Dashboard",
+      "deviceTotal": "No. Devices",
+      "deviceOnline": "No. Devices ON",
+      "deviceOffline": "No. Devices OFF",
+      "deviceGroup": "No. Devices groups",
       "playlistNumber": "No. Playlist",
-      "latestDownloadTime":"Lastest download time",
-      "latestPlaylistID":"Lastest Playlist",
+      "latestDownloadTime": "Lastest download time",
+      "latestPlaylistID": "Lastest Playlist",
       "latestPlaylistDuration": "Lastest Playlist duration",
       "welcome": "Welcome to Digital Signage"
     },
@@ -80,10 +80,12 @@
       "size": "Size",
       "upload": {
         "text": "Click or drag file to this area to upload",
-        "hint": "Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files"
+        "hint": "Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files",
+        "success": "Uploaded successfully with number of files: ",
+        "error": "Upload failed"
       },
       "delete-confirm": {
-        "title" : "Are you sure to delete the file: "
+        "title": "Are you sure to delete the file: "
       }
     },
     "playlist": {
@@ -96,7 +98,7 @@
       "startTime": "Start time",
       "endTime": "End time",
       "isLoop": "Is loop",
-      "status" : "Status",
+      "status": "Status",
       "true": "Yes"
     },
     "user": {
@@ -106,8 +108,8 @@
       "phone": "Phone",
       "userName": "Username",
       "password": "Password",
-      "firstName":"First name",
-      "lastName":"Last name",
+      "firstName": "First name",
+      "lastName": "Last name",
       "license": "License",
       "roles": "Roles"
     },
