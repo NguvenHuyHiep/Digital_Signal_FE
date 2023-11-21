@@ -11,9 +11,16 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { LhDialogModule } from 'projects/app-common/src/lib/components/lh-dialog/lh-dialog.module';
 import { LhTableModule } from 'projects/app-common/src/lib/components/lh-table/lh-table.module';
 import { ScheduleDetailComponent } from './components/schedule-detail/schedule-detail.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { ScheduleAddComponent } from './components/schedule-add/schedule-add.component';
 
 @NgModule({
-  declarations: [ScheduleListComponent, ScheduleDetailComponent],
+  declarations: [
+    ScheduleListComponent,
+    ScheduleDetailComponent,
+    ScheduleAddComponent,
+  ],
   imports: [
     CommonModule,
     UiCommonModule,
@@ -25,6 +32,10 @@ import { ScheduleDetailComponent } from './components/schedule-detail/schedule-d
     NzLayoutModule,
     NzSpaceModule,
     NzGridModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
   ],
 })
 export class ScheduleModule {}

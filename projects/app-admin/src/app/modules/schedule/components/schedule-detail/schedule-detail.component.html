@@ -1,1 +1,7 @@
-<p>schedule-detail works!</p>
+<mwl-calendar-week-view
+  [viewDate]="viewDate"
+  [events]="events"
+  [refresh]="refresh"
+  (eventTimesChanged)="eventTimesChanged($event)"
+>
+</mwl-calendar-week-view>

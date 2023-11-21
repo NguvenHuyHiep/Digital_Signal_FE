@@ -68,10 +68,6 @@ export function createTranslateLoader(http: HttpClient) {
       },
       defaultLanguage: vi_VN.locale,
     }),
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory,
-    }),
   ],
   providers: [
     { provide: NZ_I18N, useValue: vi_VN },

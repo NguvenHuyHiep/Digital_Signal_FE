@@ -73,7 +73,11 @@ export class ScheduleListComponent implements OnInit {
     });
   };
 
-  navigateToCreate = (): void => {};
+  navigateToCreate = (): void => {
+    this.router.navigate(['./create'], {
+      relativeTo: this.activedRoute,
+    });
+  };
 
   navigateToDetail = (record: Schedule): void => {
     console.log(record);
