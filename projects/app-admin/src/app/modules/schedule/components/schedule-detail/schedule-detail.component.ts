@@ -6,6 +6,7 @@ import {
   CalendarView,
 } from 'angular-calendar';
 import { Subject } from 'rxjs';
+import { Color, DsdCalendarEvent } from '../../admin-schedule.model';
 
 @Component({
   selector: 'app-admin-schedule-detail',
@@ -15,6 +16,33 @@ import { Subject } from 'rxjs';
 export class ScheduleDetailComponent implements OnInit {
   scheduleId: number = 0;
 
+  view: CalendarView = CalendarView.Week;
+
+  viewDate = new Date();
+
+  events: DsdCalendarEvent[] = [
+    {
+      title: 'Draggable event',
+      color: Color.yellow,
+      start: new Date(),
+      draggable: true,
+      playlist: {
+        id: 1,
+      },
+    },
+    {
+      title: 'draggable event',
+      color: Color.blue,
+      start: new Date(),
+      draggable: true,
+      playlist: {
+        id: 2,
+      },
+    },
+  ];
+
+  refresh = new Subject<void>();
+
   constructor(private activatedRoute: ActivatedRoute) {
     this.scheduleId = this.activatedRoute.snapshot.params['scheduleId'];
   }
@@ -22,32 +50,6 @@ export class ScheduleDetailComponent implements OnInit {
   ngOnInit(): void {}
 
   getDetail(): void {}
-
-  view: CalendarView = CalendarView.Week;
-
-  viewDate = new Date();
-
-  events: CalendarEvent[] = [
-    {
-      title: 'Draggable event',
-      color: {
-        primary: '#e3bc08',
-        secondary: '#FDF1BA',
-      },
-      start: new Date(),
-      draggable: true,
-    },
-    {
-      title: 'A non draggable event',
-      color: {
-        primary: '#1e90ff',
-        secondary: '#D1E8FF',
-      },
-      start: new Date(),
-    },
-  ];
-
-  refresh = new Subject<void>();
 
   eventTimesChanged({
     event,
@@ -57,5 +59,6 @@ export class ScheduleDetailComponent implements OnInit {
     event.start = newStart;
     event.end = newEnd;
     this.refresh.next();
+    console.log('event: ', event);
   }
 }
