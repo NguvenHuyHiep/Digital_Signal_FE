@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ResponseStatus } from './responseStatus';
 import { DsdFile } from './dsdFile';
 
 
@@ -18,15 +19,10 @@ export interface BaseOutputDsdFile {
     currentPage?: number;
     pageSize?: number;
     totalPages?: number;
-    status?: BaseOutputDsdFile.StatusEnum;
+    status?: ResponseStatus;
     data?: DsdFile;
 }
 export namespace BaseOutputDsdFile {
-    export type StatusEnum = 'SUCCESS' | 'FAILED';
-    export const StatusEnum = {
-        Success: 'SUCCESS' as StatusEnum,
-        Failed: 'FAILED' as StatusEnum
-    };
 }
 
 

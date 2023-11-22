@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 import { User } from './user';
+import { ResponseStatus } from './responseStatus';
 
 
 export interface BaseOutputUser { 
@@ -18,15 +19,10 @@ export interface BaseOutputUser {
     currentPage?: number;
     pageSize?: number;
     totalPages?: number;
-    status?: BaseOutputUser.StatusEnum;
+    status?: ResponseStatus;
     data?: User;
 }
 export namespace BaseOutputUser {
-    export type StatusEnum = 'SUCCESS' | 'FAILED';
-    export const StatusEnum = {
-        Success: 'SUCCESS' as StatusEnum,
-        Failed: 'FAILED' as StatusEnum
-    };
 }
 
 

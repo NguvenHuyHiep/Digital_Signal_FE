@@ -9,15 +9,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { RoleType } from './roleType';
 
 
-export interface Role { 
-    id?: number;
-    name?: string;
-    type?: RoleType;
-}
-export namespace Role {
-}
+export type DeviceStatus = 'ONLINE' | 'OFFLINE' | 'UNDEFINED';
 
+export const DeviceStatus = {
+    Online: 'ONLINE' as DeviceStatus,
+    Offline: 'OFFLINE' as DeviceStatus,
+    Undefined: 'UNDEFINED' as DeviceStatus
+};
 

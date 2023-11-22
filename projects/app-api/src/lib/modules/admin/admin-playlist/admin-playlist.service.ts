@@ -39,7 +39,7 @@ export class AdminPlaylistService {
       ],
       endTime: [playlist?.endTime ? new Date(playlist.endTime) : new Date()],
       isLoop: [playlist?.isLoop || ''],
-      playlistStatus: [playlist?.status === PlaylistStatus.Active],
+      status: [playlist?.status || PlaylistStatus.Active],
     }) as unknown as FormGroupPlayList;
     form.addControl('files', this.formBuilder.array([]) as FormArray);
     playlist?.files?.forEach((file) => {

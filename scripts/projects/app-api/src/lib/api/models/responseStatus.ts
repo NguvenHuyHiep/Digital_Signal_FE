@@ -9,15 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { RoleType } from './roleType';
 
 
-export interface Role { 
-    id?: number;
-    name?: string;
-    type?: RoleType;
-}
-export namespace Role {
-}
+export type ResponseStatus = 'SUCCESS' | 'FAILED';
 
+export const ResponseStatus = {
+    Success: 'SUCCESS' as ResponseStatus,
+    Failed: 'FAILED' as ResponseStatus
+};
 

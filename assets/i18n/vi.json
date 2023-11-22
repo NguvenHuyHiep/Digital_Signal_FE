@@ -8,6 +8,9 @@
     "signIn": "Đăng nhập"
   },
   "common": {
+    "status": "Trạng thái",
+    "active": "Hoạt động",
+    "inactive": "Không hoạt động",
     "checkAll": "Chọn tất cả",
     "dataNotFound": "Không tìm thấy dữ liêu",
     "search": "Tìm kiếm",
