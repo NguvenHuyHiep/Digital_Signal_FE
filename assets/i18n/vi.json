@@ -83,7 +83,9 @@
       "size": "Dung lượng",
       "upload": {
         "text": "Ấn hoặc kéo file vào đây để tải lên",
-        "hint": "Hỗ trợ tải lên một hoặc nhiều file, Cấm đưa lên các file có thông tin nhạy cảm"
+        "hint": "Hỗ trợ tải lên một hoặc nhiều file, Cấm đưa lên các file có thông tin nhạy cảm",
+        "success": "Đã tải lên thành công số lượng file: ",
+        "error": "Tải lên file thất bại"
       },
       "delete-confirm": {
         "title" : "Bạn có muốn xóa file: "

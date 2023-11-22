@@ -1,4 +1,4 @@
-<lh-common-page pageTitle="{{ 'module.file.title' | translate }}">
+<lh-common-page [hidden]="!showFrame.search" pageTitle="List user">
   <div nz-space>
     <button
       (click)="navigateToCreate()"
@@ -8,26 +8,25 @@
     >
       {{ "common.add" | translate }}
     </button>
-    <!--    <button-->
-    <!--      nz-button-->
-    <!--      nzType="primary"-->
-    <!--      class="mb-2"-->
-    <!--      [disabled]="!isSelectedRow"-->
-    <!--      (click)="deleteSelected()"-->
-    <!--      nzDanger-->
-    <!--    >-->
-    <!--      {{ "common.delete" | translate }}-->
-    <!--    </button>-->
+    <button
+      nz-button
+      nzType="primary"
+      class="mb-2"
+      [disabled]="!isSelectedRow"
+      (click)="deleteSelected()"
+      nzDanger
+    >
+      {{ "common.delete" | translate }}
+    </button>
   </div>
 
   <lh-common-lh-table
     #table
-    [data]="files"
+    [data]="users"
     [config]="tableConfig"
-    [loading]="loading.searching"
     (onUpdate)="update($event)"
     (onDelete)="delete($event)"
-    (onDetail)="navigateToDetail($event)"
+    [loading]="loading.searching"
   ></lh-common-lh-table>
 </lh-common-page>
 
@@ -36,12 +35,14 @@
   [footerTemplateLeft]="backToSearch"
   [footerTemplateRight]="addActions"
 >
-  <app-admin-file-add [fileList]="fileList" #addComponent> </app-admin-file-add>
+  <app-admin-user-add [userAdmin]="currentUser" #addComponent>
+  </app-admin-user-add>
 </lh-common-lh-dialog>
+
 <ng-template #addActions>
   <div nz-space>
-    <button (click)="add()" nz-button nzType="primary">
-      {{ (this.currentFile ? "common.update" : "common.add") | translate }}
+    <button (click)="addOrUpdate()" nz-button nzType="primary">
+      {{ (this.currentUser ? "common.update" : "common.add") | translate }}
     </button>
   </div>
 </ng-template>

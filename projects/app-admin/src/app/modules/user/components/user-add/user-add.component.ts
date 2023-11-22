@@ -1,10 +1,8 @@
 import {
   Component,
-  EventEmitter,
   Input,
   OnChanges,
   OnInit,
-  Output,
   SimpleChanges,
 } from '@angular/core';
 import { User } from '../../../../../../../app-api/src/lib/api/models/user';
@@ -14,7 +12,6 @@ import { Observable } from 'rxjs';
 import { FormGroupUser } from '../user-type';
 import { BaseOutputUser } from '../../../../../../../app-api/src/lib/api/models/baseOutputUser';
 import { AdminLicenseService } from '../../../../../../../app-api/src/lib/modules/admin/admin-license/admin-license.service';
-import { BaseOutputLicense } from '../../../../../../../app-api/src/lib/api/models/baseOutputLicense';
 import { LicenseGenerateRequest } from '../../../../../../../app-api/src/lib/api/models/licenseGenerateRequest';
 
 @Component({

@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NzCalendarMode } from 'ng-zorro-antd/calendar';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Schedule } from 'projects/app-api/src/lib/api/models/schedule';
 import { AdminScheduleService } from 'projects/app-api/src/lib/modules/admin/admin-schedule/admin-schedule.service';
@@ -17,7 +16,6 @@ import { LhTableComponent } from 'projects/app-common/src/lib/components/lh-tabl
 })
 export class ScheduleListComponent implements OnInit {
   @ViewChild('table') table?: LhTableComponent<Schedule>;
-
   loading: {
     search: boolean;
   } = {
@@ -41,7 +39,6 @@ export class ScheduleListComponent implements OnInit {
       },
     ],
   };
-
   schedules: Schedule[] = [];
 
   constructor(

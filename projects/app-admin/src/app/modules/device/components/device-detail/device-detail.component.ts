@@ -15,6 +15,8 @@ import {
 } from 'projects/app-common/src/lib/components/lh-table/lh-table-config.model';
 import { LhTableComponent } from 'projects/app-common/src/lib/components/lh-table/lh-table.component';
 import { DeviceStatus } from '../../../../../../../app-api/src/lib/api/models/deviceStatus';
+import { Schedule } from '../../../../../../../app-api/src/lib/api/models/schedule';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-device-detail',
@@ -40,8 +42,6 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   tableConfig: LhTableConfigModel = {
     key: 'id',
     disableDetail: true,
-    disableDelete: true,
-    disableUpdate: true,
     fields: [
       {
         label: 'status',
@@ -60,7 +60,8 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
 
   constructor(
     private adminDeviceService: AdminDeviceService,
-    private datePipe: DatePipe
+    private activedRoute: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -227,4 +228,11 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
     const time = hourStr + ':' + minStr;
     return time;
   }
+
+  navigateToDetail = (record: Schedule): void => {
+    console.log(record);
+    this.router.navigate(['./detail', record.id], {
+      relativeTo: this.activedRoute,
+    });
+  };
 }

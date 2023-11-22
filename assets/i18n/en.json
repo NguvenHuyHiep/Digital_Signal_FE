@@ -80,7 +80,9 @@
       "size": "Size",
       "upload": {
         "text": "Click or drag file to this area to upload",
-        "hint": "Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files"
+        "hint": "Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files",
+        "success": "Uploaded successfully with number of files: ",
+        "error": "Upload failed"
       },
       "delete-confirm": {
         "title": "Are you sure to delete the file: "

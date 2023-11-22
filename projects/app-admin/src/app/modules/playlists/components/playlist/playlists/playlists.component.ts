@@ -10,6 +10,7 @@ import { AdminPlaylistService } from '../../../../../../../../app-api/src/lib/mo
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { LhAuthenService } from '../../../../../../../../app-api/src/lib/modules/authen/lh-authen.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Schedule } from '../../../../../../../../app-api/src/lib/api/models/schedule';
 
 @Component({
   selector: 'app-admin-playlist',
@@ -71,6 +72,7 @@ export class PlaylistsComponent implements OnInit {
   };
 
   constructor(
+    private activedRoute: ActivatedRoute,
     private playlistService: AdminPlaylistService,
     private message: NzMessageService,
     private authenService: LhAuthenService,
@@ -198,10 +200,15 @@ export class PlaylistsComponent implements OnInit {
       },
     });
   }
-  routeToAdd() {
-    const queryParams = { action: 'add' };
-    this.router.navigate([], { queryParams }).then((r) => {});
-  }
+  navigateToCreate = (): void => {
+    this.router.navigate(['./create'], { relativeTo: this.activedRoute });
+  };
+  navigateToDetail = (record: Schedule): void => {
+    console.log(record);
+    this.router.navigate(['./detail', record.id], {
+      relativeTo: this.activedRoute,
+    });
+  };
 
   routerToSearch() {
     this.router.navigate([]).then((r) => {});
