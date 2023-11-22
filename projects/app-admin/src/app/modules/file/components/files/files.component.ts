@@ -22,6 +22,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { Schedule } from '../../../../../../../app-api/src/lib/api/models/schedule';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { ResponseStatus } from 'projects/app-api/src/lib/api/models/responseStatus';
 
 @Component({
   selector: 'app-admin-files',
@@ -40,11 +41,9 @@ export class FilesComponent<T extends Object> implements OnInit {
     adding: boolean;
     searching: boolean;
     uploading: boolean;
-    uploading: boolean;
   } = {
     adding: false,
     searching: false,
-    uploading: false,
     uploading: false,
   };
   showFrame: {
@@ -172,14 +171,20 @@ export class FilesComponent<T extends Object> implements OnInit {
     this.loading.searching = true;
     this.adminFileService.getAllFile(0, 100).subscribe({
       next: (response) => {
-        if (response.data) {
-          this.files = response.data as Array<DsdFile>;
-          console.log(this.files + 'files');
+        if (response && response.status === ResponseStatus.Success) {
+          this.files = response.data as DsdFile[];
+        } else {
+          let errorsInStr: string = response.errors
+            ?.map((e) => this.translateService.instant(e))
+            .join(', ') as string;
+          this.message.error(errorsInStr);
+          this.files = [];
         }
       },
       error: (err) => {
         // TODO i18n
         this.message.error('Error', err);
+        this.files = [];
       },
       complete: () => {
         this.loading.searching = false;
@@ -202,13 +207,6 @@ export class FilesComponent<T extends Object> implements OnInit {
         if (this.query.action === 'detail') {
           this.gotoSearch();
         }
-      },
-      error: (err) => {
-        this.message.error('module.file.upload.error');
-        console.log(err);
-      },
-      complete: () => {
-        this.loading.adding = false;
       },
       error: (err) => {
         this.message.error('module.file.upload.error');
