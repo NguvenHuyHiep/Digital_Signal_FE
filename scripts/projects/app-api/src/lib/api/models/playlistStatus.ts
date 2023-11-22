@@ -9,11 +9,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { DeviceStatus } from './deviceStatus';
 
-export interface DeviceUpdateStatusRequest {
-  license?: string;
-  code?: string;
-  status?: DeviceStatus;
-}
-export namespace DeviceUpdateStatusRequest {}
+export type PlaylistStatus = 'ACTIVE' | 'INACTIVE';
+
+export const PlaylistStatus = {
+  Active: 'ACTIVE' as PlaylistStatus,
+  Inactive: 'INACTIVE' as PlaylistStatus,
+};

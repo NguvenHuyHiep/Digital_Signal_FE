@@ -40,9 +40,11 @@ export class FilesComponent<T extends Object> implements OnInit {
     adding: boolean;
     searching: boolean;
     uploading: boolean;
+    uploading: boolean;
   } = {
     adding: false,
     searching: false,
+    uploading: false,
     uploading: false,
   };
   showFrame: {
@@ -126,6 +128,23 @@ export class FilesComponent<T extends Object> implements OnInit {
                 resolve;
               },
             });
+          return this.adminFileService
+            .deleteFile(file.path as string)
+            .subscribe({
+              next: (response) => {
+                console.log(response);
+                this.files = this.files.filter((f) => f.path !== file.path);
+                resolve;
+              },
+              error: (err) => {
+                this.message.error(err);
+                // TODO handle error
+                resolve;
+              },
+              complete: () => {
+                resolve;
+              },
+            });
         }).catch((err) => console.log(err));
       },
     });
@@ -183,6 +202,13 @@ export class FilesComponent<T extends Object> implements OnInit {
         if (this.query.action === 'detail') {
           this.gotoSearch();
         }
+      },
+      error: (err) => {
+        this.message.error('module.file.upload.error');
+        console.log(err);
+      },
+      complete: () => {
+        this.loading.adding = false;
       },
       error: (err) => {
         this.message.error('module.file.upload.error');

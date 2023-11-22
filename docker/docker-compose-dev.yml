@@ -1,0 +1,23 @@
+# Use root/Abcd1234 as user/password credentials
+version: '3'
+
+services:
+
+  nginx:
+    image: aninfosys.asia:8082/lpdev/dsd/nginx-dev:latest
+    restart: unless-stopped
+    environment:
+      VIRTUAL_HOST: "dsddev.vnditech.com"
+      VIRTUAL_PORT: "80"
+      LETSENCRYPT_HOST: "dsddev.vnditech.com"
+      LETSENCRYPT_EMAIL: "rvdung@gmail.com"
+    networks:
+      - dsd_internal
+      - dsd_external
+
+networks:
+  dsd_internal:
+  dsd_external:
+    external: true
+    name: "anfo"
+

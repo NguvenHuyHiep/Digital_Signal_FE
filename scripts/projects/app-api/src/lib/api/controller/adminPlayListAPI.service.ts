@@ -223,7 +223,7 @@ export class AdminPlayListAPIService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'json';
+        responseType_ = 'blob';
       }
     }
 
@@ -343,7 +343,7 @@ export class AdminPlayListAPIService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'json';
+        responseType_ = 'blob';
       }
     }
 
@@ -442,7 +442,7 @@ export class AdminPlayListAPIService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'json';
+        responseType_ = 'blob';
       }
     }
 
@@ -478,25 +478,25 @@ export class AdminPlayListAPIService {
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public deleteByIds(
+  public deleteByIds2(
     requestBody: Array<number>,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
   ): Observable<BaseOutputString>;
-  public deleteByIds(
+  public deleteByIds2(
     requestBody: Array<number>,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
   ): Observable<HttpResponse<BaseOutputString>>;
-  public deleteByIds(
+  public deleteByIds2(
     requestBody: Array<number>,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
   ): Observable<HttpEvent<BaseOutputString>>;
-  public deleteByIds(
+  public deleteByIds2(
     requestBody: Array<number>,
     observe: any = 'body',
     reportProgress: boolean = false,
@@ -504,7 +504,7 @@ export class AdminPlayListAPIService {
   ): Observable<any> {
     if (requestBody === null || requestBody === undefined) {
       throw new Error(
-        'Required parameter requestBody was null or undefined when calling deleteByIds.'
+        'Required parameter requestBody was null or undefined when calling deleteByIds2.'
       );
     }
 
@@ -561,7 +561,7 @@ export class AdminPlayListAPIService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'json';
+        responseType_ = 'blob';
       }
     }
 
@@ -660,7 +660,7 @@ export class AdminPlayListAPIService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'json';
+        responseType_ = 'blob';
       }
     }
 
@@ -768,7 +768,7 @@ export class AdminPlayListAPIService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'json';
+        responseType_ = 'blob';
       }
     }
 
@@ -927,7 +927,7 @@ export class AdminPlayListAPIService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'json';
+        responseType_ = 'blob';
       }
     }
 
@@ -1047,7 +1047,7 @@ export class AdminPlayListAPIService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'json';
+        responseType_ = 'blob';
       }
     }
 
@@ -1068,6 +1068,132 @@ export class AdminPlayListAPIService {
       {
         context: localVarHttpContext,
         body: playlist,
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: localVarHeaders,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
+   * Update status of playlist
+   * Update status of playlist to ACITVE OR INACTIVE
+   * @param playlistId
+   * @param status
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public updateStatus(
+    playlistId: number,
+    status: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<BaseOutputPlaylist>;
+  public updateStatus(
+    playlistId: number,
+    status: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpResponse<BaseOutputPlaylist>>;
+  public updateStatus(
+    playlistId: number,
+    status: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpEvent<BaseOutputPlaylist>>;
+  public updateStatus(
+    playlistId: number,
+    status: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<any> {
+    if (playlistId === null || playlistId === undefined) {
+      throw new Error(
+        'Required parameter playlistId was null or undefined when calling updateStatus.'
+      );
+    }
+    if (status === null || status === undefined) {
+      throw new Error(
+        'Required parameter status was null or undefined when calling updateStatus.'
+      );
+    }
+
+    let localVarHeaders = this.defaultHeaders;
+
+    let localVarCredential: string | undefined;
+    // authentication (Authorization) required
+    localVarCredential = this.configuration.lookupCredential('Authorization');
+    if (localVarCredential) {
+      localVarHeaders = localVarHeaders.set(
+        'Authorization',
+        'Bearer ' + localVarCredential
+      );
+    }
+
+    let localVarHttpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      localVarHttpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Accept',
+        localVarHttpHeaderAcceptSelected
+      );
+    }
+
+    let localVarHttpContext: HttpContext | undefined =
+      options && options.context;
+    if (localVarHttpContext === undefined) {
+      localVarHttpContext = new HttpContext();
+    }
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (
+        this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)
+      ) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'blob';
+      }
+    }
+
+    let localVarPath = `/api/v1/admin/playlist/${this.configuration.encodeParam(
+      {
+        name: 'playlistId',
+        value: playlistId,
+        in: 'path',
+        style: 'simple',
+        explode: false,
+        dataType: 'number',
+        dataFormat: 'int64',
+      }
+    )}/update-status/${this.configuration.encodeParam({
+      name: 'status',
+      value: status,
+      in: 'path',
+      style: 'simple',
+      explode: false,
+      dataType: 'string',
+      dataFormat: undefined,
+    })}`;
+    return this.httpClient.request<BaseOutputPlaylist>(
+      'put',
+      `${this.configuration.basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
         responseType: <any>responseType_,
         withCredentials: this.configuration.withCredentials,
         headers: localVarHeaders,

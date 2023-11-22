@@ -173,7 +173,7 @@ export class SignedTestControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'json';
+        responseType_ = 'blob';
       }
     }
 

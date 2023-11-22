@@ -9,11 +9,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { DeviceStatus } from './deviceStatus';
 
-export interface DeviceUpdateStatusRequest {
-  license?: string;
-  code?: string;
-  status?: DeviceStatus;
-}
-export namespace DeviceUpdateStatusRequest {}
+export type ResponseStatus = 'SUCCESS' | 'FAILED';
+
+export const ResponseStatus = {
+  Success: 'SUCCESS' as ResponseStatus,
+  Failed: 'FAILED' as ResponseStatus,
+};

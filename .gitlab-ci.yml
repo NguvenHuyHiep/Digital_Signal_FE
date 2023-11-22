@@ -4,8 +4,49 @@ cache:
   paths:
     - node_modules/
 stages:
+  - build-base-dev
+  - deploy-dev
   - build-base-staging
   - deploy-staging
+
+
+build-base-dev:
+  stage: build-base-dev
+  only:
+    refs:
+      - develop
+    changes:
+      - package*.json
+  tags:
+    - dsd
+  before_script:
+    - docker login http://aninfosys.asia:8082 -u bouser -p Bo@123!@#
+  script:
+    - docker login http://aninfosys.asia:8082 -u bouser -p Bo@123!@#
+    - echo "--------------------Run CI for commit $CI_COMMIT_SHA --------------------"
+    - echo "====================== BUILD BASE DOCKER IMAGE FOR dev ON COMMIT $CI_COMMIT_TAG========================="
+    - docker build -t aninfosys.asia:8082/lpdev/dsd/dsd-fe-cache-dev:latest  -f ./docker/Dockerfile_cache .
+    - echo "====================== PUSH DOCKER IMAGE TO REPOSITORY ========================="
+    - docker push aninfosys.asia:8082/lpdev/dsd/dsd-fe-cache-dev:latest
+
+deploy-dev:
+  stage: deploy-dev
+  tags:
+    - dsd
+  only:
+    refs:
+      - develop
+  before_script:
+    - docker login http://aninfosys.asia:8082 -u bouser -p Bo@123!@#
+  script:
+    - echo "--------------------Run CI for commit $CI_COMMIT_SHA --------------------"
+    - echo "====================== BUILD DOCKER IMAGE FOR dev ON COMMIT $CI_COMMIT_TAG========================="
+    - docker build -t aninfosys.asia:8082/lpdev/dsd/nginx-dev:latest  -f ./docker/Dockerfile_dev .
+    - echo "====================== PUSH DOCKER IMAGE FOR dev ON COMMIT $CI_COMMIT_TAG========================="
+    - docker push aninfosys.asia:8082/lpdev/dsd/nginx-dev:latest
+    - echo "====================== DEPLOY FRONTEND FOR dev ON COMMIT $CI_COMMIT_TAG========================="
+    - docker stack deploy dsd_dev --resolve-image always --compose-file docker/docker-compose-dev.yml --with-registry-auth
+
 
 
 build-base-staging:

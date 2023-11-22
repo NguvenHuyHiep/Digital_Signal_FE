@@ -9,11 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { DeviceStatus } from './deviceStatus';
 
-export interface DeviceUpdateStatusRequest {
-  license?: string;
-  code?: string;
-  status?: DeviceStatus;
-}
-export namespace DeviceUpdateStatusRequest {}
+export type RoleType = 'ADMIN' | 'USER' | 'UNDEFINED';
+
+export const RoleType = {
+  Admin: 'ADMIN' as RoleType,
+  User: 'USER' as RoleType,
+  Undefined: 'UNDEFINED' as RoleType,
+};

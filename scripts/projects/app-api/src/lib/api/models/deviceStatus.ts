@@ -9,11 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { DeviceStatus } from './deviceStatus';
 
-export interface DeviceUpdateStatusRequest {
-  license?: string;
-  code?: string;
-  status?: DeviceStatus;
-}
-export namespace DeviceUpdateStatusRequest {}
+export type DeviceStatus = 'ONLINE' | 'OFFLINE' | 'UNDEFINED';
+
+export const DeviceStatus = {
+  Online: 'ONLINE' as DeviceStatus,
+  Offline: 'OFFLINE' as DeviceStatus,
+  Undefined: 'UNDEFINED' as DeviceStatus,
+};
