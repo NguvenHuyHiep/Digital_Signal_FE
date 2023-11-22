@@ -15,6 +15,8 @@ import {
 import { LhTableComponent } from 'projects/app-common/src/lib/components/lh-table/lh-table.component';
 import { DeviceGroup } from 'projects/app-api/src/lib/api/models/deviceGroup';
 import { AdminDeviceGroupService } from 'projects/app-api/src/lib/modules/admin/group-device/admin-group-device.service';
+import { Schedule } from '../../../../../../../app-api/src/lib/api/models/schedule';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-device-list',
@@ -48,8 +50,7 @@ export class DeviceListComponent<T extends Object> implements OnInit {
 
   tableConfig: LhTableConfigModel = {
     key: 'id',
-    disableDetail: true,
-    disableUpdate: false,
+    disableUpdate: true,
     disableDelete: true,
     fields: [
       {
@@ -84,6 +85,8 @@ export class DeviceListComponent<T extends Object> implements OnInit {
   currenetDevice: Device = {};
 
   constructor(
+    private activedRoute: ActivatedRoute,
+    private router: Router,
     private adminDeviceService: AdminDeviceService,
     private adminDeviceGroupService: AdminDeviceGroupService
   ) {}
@@ -123,12 +126,10 @@ export class DeviceListComponent<T extends Object> implements OnInit {
     }
   }
 
-  showUpdate(record: Device) {
-    this.currenetDevice = record;
-    this.showFrame = {
-      detail: true,
-      search: false,
-      add: false,
-    };
-  }
+  navigateToDetail = (record: Schedule): void => {
+    console.log(record);
+    this.router.navigate(['./detail', record.id], {
+      relativeTo: this.activedRoute,
+    });
+  };
 }

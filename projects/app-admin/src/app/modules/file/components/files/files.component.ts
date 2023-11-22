@@ -19,6 +19,9 @@ import { Playlist } from '../../../../../../../app-api/src/lib/api/models/playli
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { AdminPlaylistService } from '../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { Schedule } from '../../../../../../../app-api/src/lib/api/models/schedule';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-admin-files',
@@ -36,9 +39,11 @@ export class FilesComponent<T extends Object> implements OnInit {
   loading: {
     adding: boolean;
     searching: boolean;
+    uploading: boolean;
   } = {
     adding: false,
     searching: false,
+    uploading: false,
   };
   showFrame: {
     search: boolean;
@@ -48,6 +53,8 @@ export class FilesComponent<T extends Object> implements OnInit {
     add: false,
   };
   tableConfig: LhTableConfigModel = {
+    disableUpdate: true,
+    disableDelete: true,
     disableDetail: true,
     key: 'id',
     fields: [
@@ -58,11 +65,21 @@ export class FilesComponent<T extends Object> implements OnInit {
       },
     ],
   };
+  query: {
+    action?: string;
+    id?: string;
+  } = {
+    action: undefined,
+    id: undefined,
+  };
   isSelectedRow(): boolean {
     return (this.table?.setOfCheckedId?.size || 0) > 0;
   }
 
   constructor(
+    private activedRoute: ActivatedRoute,
+    private router: Router,
+    private translateService: TranslateService,
     private adminFileService: AdminFileService,
     private adminPlaylistService: AdminPlaylistService,
     private message: NzMessageService,
@@ -79,53 +96,40 @@ export class FilesComponent<T extends Object> implements OnInit {
 
   update(files: DsdFile) {
     this.currentFile = files as DsdFile;
+    this.routeToEdit(files.id);
     this.showFrame.add = true;
     this.showFrame.search = false;
+  }
+  routeToEdit(id?: number) {
+    const queryParams = { action: 'edit', id: id };
+    this.router.navigate([], { queryParams }).then((r) => {});
   }
   delete(file: DsdFile) {
     this.modalService.confirm({
       nzTitle: `Do you want to delete the file: ${file.path} ?`,
       nzOnOk: () => {
         new Promise((resolve, reject) => {
-          this.adminFileService.deleteFile(file.path as string).subscribe({
-            next: (response) => {
-              console.log(response);
-              this.files = this.files.filter((f) => f.path !== file.path);
-              resolve;
-            },
-            error: (err) => {
-              this.message.error(err);
-              // TODO handle error
-              resolve;
-            },
-            complete: () => {
-              resolve;
-            },
-          });
+          return this.adminFileService
+            .deleteFile(file.path as string)
+            .subscribe({
+              next: (response) => {
+                console.log(response);
+                this.files = this.files.filter((f) => f.path !== file.path);
+                resolve;
+              },
+              error: (err) => {
+                this.message.error(err);
+                // TODO handle error
+                resolve;
+              },
+              complete: () => {
+                resolve;
+              },
+            });
         }).catch((err) => console.log(err));
       },
     });
-
-    this.adminFileService.deleteFile(file.path as string).subscribe({
-      next: (response) => {
-        this.getAllFile();
-      },
-      error: (err) => {
-        //TODO execption
-      },
-      complete: () => {
-        this.loading.searching = false;
-      },
-    });
   }
-  openAddFrame() {
-    this.currentFile = undefined;
-    this.showFrame.search = false;
-    this.showFrame.add = true;
-  }
-
-  deleteSelected() {}
-
   getFileById(): void {
     this.adminPlaylistService
       .getPlaylistWithFile(this.playListAdmin?.id as number)
@@ -171,14 +175,52 @@ export class FilesComponent<T extends Object> implements OnInit {
     this.addComponent.uploadFiles().subscribe({
       next: (value) => {
         console.log(value);
+        this.message.info(
+          `${this.translateService.instant('module.file.upload.success')} ${
+            value.data?.length ? value.data.length : 0
+          }`
+        );
+        if (this.query.action === 'detail') {
+          this.gotoSearch();
+        }
       },
-      error: (err) => {},
-      complete: () => {},
+      error: (err) => {
+        this.message.error('module.file.upload.error');
+        console.log(err);
+      },
+      complete: () => {
+        this.loading.adding = false;
+      },
     });
   }
-
+  routeToSearch() {
+    this.router.navigate([]).then((r) => {});
+    if (this.playListAdmin) {
+      this.getFileById();
+    } else {
+      this.getAllFile();
+    }
+  }
   gotoSearch() {
     this.showFrame.search = true;
     this.showFrame.add = false;
+    if (this.playListAdmin) {
+      this.getFileById();
+    } else {
+      this.getAllFile();
+    }
   }
+
+  navigateToDetail = (record: Schedule): void => {
+    console.log(record);
+    this.router.navigate(['./detail', record.id], {
+      relativeTo: this.activedRoute,
+    });
+  };
+
+  navigateToCreate = (): void => {
+    this.router.navigate(['./create'], {
+      relativeTo: this.activedRoute,
+    });
+  };
 }

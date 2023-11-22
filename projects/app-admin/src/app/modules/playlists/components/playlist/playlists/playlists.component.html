@@ -6,7 +6,7 @@
     <button
       [disabled]="true"
       [hidden]="true"
-      (click)="routeToAdd()"
+      (click)="navigateToCreate()"
       nz-button
       nzType="primary"
       class="mb-2 btnFunction"
@@ -34,6 +34,7 @@
     [loading]="loading.searching"
     (onUpdate)="update($event)"
     (onDelete)="delete($event)"
+    (onDetail)="navigateToDetail($event)"
   ></lh-common-lh-table>
 </lh-common-page>
 

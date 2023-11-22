@@ -1,37 +1,16 @@
 import { Component, Input } from '@angular/core';
-import { DeviceGroup } from '../../../../../../../app-api/src/lib/api/models/deviceGroup';
-import { DsdFile } from '../../../../../../../app-api/src/lib/api/models/dsdFile';
-import {
-  Observable,
-  Subscription,
-  concatMap,
-  map,
-  mergeMap,
-  tap,
-  toArray,
-} from 'rxjs';
-import {
-  FormGroupFile,
-  FormGroupUploadRequest,
-} from '../../../playlists/components/playlist';
-import { AdminFileControllerService } from '../../../../../../../app-api/src/lib/api/controller/adminFileController.service';
+import { Observable } from 'rxjs';
+import { FormGroupFile } from '../../../playlists/components/playlist';
 import { AdminFileService } from '../../../../../../../app-api/src/lib/modules/admin/admin-file/admin-file.service';
-import { BaseOutputDsdFile } from '../../../../../../../app-api/src/lib/api/models/baseOutputDsdFile';
-import { Device } from '../../../../../../../app-api/src/lib/api/models/device';
-import { User } from '../../../../../../../app-api/src/lib/api/models/user';
-import { UploadRequest } from '../../../../../../../app-api/src/lib/api/models/uploadRequest';
-import {
-  NzUploadChangeParam,
-  NzUploadFile,
-  NzUploadXHRArgs,
-} from 'ng-zorro-antd/upload';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { BaseOutputListDsdFile } from 'projects/app-api/src/lib/api/models/baseOutputListDsdFile';
 import {
   LhTableConfigModel,
   LhTableFieldType,
 } from 'projects/app-common/src/lib/components/lh-table/lh-table-config.model';
-import { FormArray, FormControl } from '@angular/forms';
+import { FormArray } from '@angular/forms';
+import { DsdFile } from '../../../../../../../app-api/src/lib/api/models/dsdFile';
 
 @Component({
   selector: 'app-admin-file-add',
@@ -41,6 +20,7 @@ import { FormArray, FormControl } from '@angular/forms';
 export class FileAddComponent {
   @Input() control?: FormArray<FormGroupFile>;
   @Input() fileList: NzUploadFile[] = [];
+  @Input() fileAdmin?: DsdFile;
   tableConfig: LhTableConfigModel = {
     disableDetail: true,
     disableUpdate: true,

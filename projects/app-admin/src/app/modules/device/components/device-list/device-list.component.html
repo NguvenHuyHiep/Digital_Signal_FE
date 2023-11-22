@@ -1,14 +1,11 @@
-<lh-common-page
-  [hidden]="!showFrame.search"
-  pageTitle="{{ 'module.device.title' | translate }}"
->
+<lh-common-page pageTitle="{{ 'module.device.title' | translate }}">
   <div nz-space></div>
   <lh-common-lh-table
     #table
     [data]="devices"
     [config]="tableConfig"
     [loading]="loading.searching"
-    (onUpdate)="showUpdate($event)"
+    (onDetail)="navigateToDetail($event)"
     [expandTemplate]="deviceDetail"
   >
   </lh-common-lh-table>

@@ -14,6 +14,7 @@
       [data]="deviceLogs"
       [config]="tableConfig"
       [loading]="loading.searching"
+      (onDetail)="navigateToDetail($event)"
     >
     </lh-common-lh-table>
   </div>

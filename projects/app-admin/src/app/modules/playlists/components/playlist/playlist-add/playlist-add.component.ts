@@ -1,12 +1,5 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-
 import { FormGroupFile, FormGroupPlayList } from '../../playlist';
 import { AdminPlaylistService } from '../../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service';
 import { Playlist } from '../../../../../../../../app-api/src/lib/api/models/playlist';
@@ -18,10 +11,10 @@ import {
   LhTableFieldType,
 } from '../../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { AdminFileService } from 'projects/app-api/src/lib/modules/admin/admin-file/admin-file.service';
-import { TranslateModule } from '@ngx-translate/core';
 import { PlaylistStatus } from 'projects/app-api/src/lib/api/models/playlistStatus';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-playlist-add',
@@ -82,6 +75,8 @@ export class PlaylistAddComponent implements OnInit {
   };
 
   constructor(
+    private activedRoute: ActivatedRoute,
+    private router: Router,
     private formBuilder: FormBuilder,
     private adminPlaylistService: AdminPlaylistService,
     private fileService: AdminFileService,
@@ -177,7 +172,6 @@ export class PlaylistAddComponent implements OnInit {
     if (!this.addFileForm) {
       return;
     }
-
     const FileIdValue = Number(this.currentFile.id);
     this.loading.addFile = true;
     this.adminPlaylistService

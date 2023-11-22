@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { UserComponent } from './components/user/user.component';
+import { UsersComponent } from './components/users/users.component';
 import { UserAddComponent } from './components/user-add/user-add.component';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -17,9 +17,10 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { UserRoutingModule } from './user-routing.module';
 import { AdminLicenseModule } from '../../../../../app-api/src/lib/modules/admin/admin-license/admin-license.module';
+import { UserComponent } from './components/user/user.component';
 
 @NgModule({
-  declarations: [UserComponent, UserAddComponent],
+  declarations: [UsersComponent, UserAddComponent, UserComponent],
   imports: [
     CommonModule,
     TranslateModule,
