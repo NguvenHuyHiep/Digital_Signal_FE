@@ -25,7 +25,8 @@
     "cancel": "Hủy",
     "success": "Thành công",
     "selectDevice": "Chọn thiết bị",
-    "selectFile": "Chọn File"
+    "selectFile": "Chọn File",
+    "option": "Tùy chỉnh"
   },
 
   "footer": "Design & Develop by LPDEV",
@@ -139,7 +140,10 @@
     "schedule": {
       "title": "Lịch phát",
       "name": "Tên",
-      "description": "Mô tả"
+      "description": "Mô tả",
+      "detail": {
+        "title": "Chi tiết lịch phát"
+      }
     }
   },
   "recover": {

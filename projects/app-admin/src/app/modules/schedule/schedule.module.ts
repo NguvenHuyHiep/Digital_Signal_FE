@@ -14,6 +14,7 @@ import { ScheduleDetailComponent } from './components/schedule-detail/schedule-d
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ScheduleAddComponent } from './components/schedule-add/schedule-add.component';
+import { DragAndDropModule } from 'angular-draggable-droppable';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { ScheduleAddComponent } from './components/schedule-add/schedule-add.com
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+    DragAndDropModule,
   ],
 })
 export class ScheduleModule {}

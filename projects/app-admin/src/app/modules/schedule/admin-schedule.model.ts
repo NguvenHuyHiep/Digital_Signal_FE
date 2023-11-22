@@ -1,5 +1,6 @@
 import { CalendarEvent } from 'angular-calendar';
 import { Playlist } from 'projects/app-api/src/lib/api/models/playlist';
+import { RRule } from 'rrule';
 
 export const Color = {
   yellow: {
@@ -13,5 +14,9 @@ export const Color = {
 };
 
 export interface DsdCalendarEvent extends CalendarEvent {
+  rrule?: {
+    freq: any;
+    byweekday?: any;
+  };
   playlist?: Playlist;
 }

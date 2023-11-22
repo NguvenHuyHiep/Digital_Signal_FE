@@ -11,17 +11,21 @@ export class AdminScheduleService {
     private adminScheduleServiceController: AdminScheduleAPIService
   ) {}
 
-  public getAll = (
+  public getAll(
     page?: number | 0,
     size?: number | 100,
     sortBy?: string | 'id',
     sortDirection?: string | 'desc'
-  ) => {
+  ) {
     return this.adminScheduleServiceController.getByPaging2(
       page,
       size,
       sortBy,
       sortDirection
     );
-  };
+  }
+
+  public getDetailByIdWithPlaylists(id: number) {
+    return this.adminScheduleServiceController.getWithPlaylistsById(id);
+  }
 }

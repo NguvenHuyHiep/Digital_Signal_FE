@@ -3,7 +3,9 @@
     <tr>
       <th [colSpan]="expandTemplate ? 2 : 1"></th>
       <th *ngFor="let field of config.fields">{{ field.label | translate }}</th>
-      <th nzRight>Action</th>
+      <th *ngIf="!config.disableOption" nzRight>
+        {{ "common.option" | translate }}
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -27,9 +29,9 @@
           [innerHTML]="getDisplayedValue(record, field)"
         ></td>
 
-        <td style="width: 200px" nzRight>
+        <td style="width: 200px" *ngIf="!config.disableOption" nzRight>
           <button
-            [hidden]="config.disableDetail"
+            *ngIf="!config.disableDetail"
             nz-button
             nzType="text"
             (click)="detail(record)"
@@ -37,7 +39,7 @@
             {{ "common.detail" | translate }}
           </button>
           <button
-            [hidden]="config.disableUpdate"
+            *ngIf="!config.disableUpdate"
             nz-button
             nzType="text"
             (click)="update(record)"
@@ -45,7 +47,7 @@
             {{ "common.update" | translate }}
           </button>
           <button
-            [hidden]="config.disableDelete"
+            *ngIf="!config.disableDelete"
             nz-button
             nzType="text"
             nzDanger

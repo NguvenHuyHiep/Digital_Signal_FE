@@ -1,9 +1,11 @@
-const proxyConfig = [{
-  context: '/api',
-  target: 'http://aninfosys.asia:8079/dsd',
-  changeOrigin: true,
-  logLevel: 'debug'
-}];
+const proxyConfig = [
+  {
+    context: "/api",
+    target: "http://localhost:8080/dsd",
+    changeOrigin: true,
+    logLevel: "debug",
+  },
+];
 
 function setupForCorporateProxy(proxyConfig) {
   // var agent = new HttpsProxyAgent(proxyConfigTarget);

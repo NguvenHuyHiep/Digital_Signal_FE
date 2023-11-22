@@ -17,6 +17,7 @@ export interface LhTableConfigModel {
   disableDelete?: boolean;
   disableDetail?: boolean;
   disableBreadcrumb?: boolean;
+  disableOption?: boolean;
 }
 
 export interface LhTableFieldConfigModel {

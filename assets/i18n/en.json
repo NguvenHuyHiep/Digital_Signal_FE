@@ -24,7 +24,8 @@
     "back": "Back",
     "cancel": "Cancel",
     "success": "Successful",
-    "selectDevice": "Select device"
+    "selectDevice": "Select device",
+    "option": "Option"
   },
 
   "footer": "Design & Develop by LPDEV",
@@ -135,7 +136,10 @@
     "schedule": {
       "title": "Schedule",
       "name": "Name",
-      "description": "Description"
+      "description": "Description",
+      "detail": {
+        "title": "Schedule detail"
+      }
     }
   },
   "recover": {
