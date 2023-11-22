@@ -118,7 +118,7 @@ export class PlaylistAddComponent implements OnInit {
             ? this.form.controls.endTime?.value?.toISOString()
             : this.form.controls.endTime?.value,
         isLoop: this.form.controls.isLoop?.value,
-        status: PlaylistStatus.Active,
+        status: this.form.controls.status?.value || PlaylistStatus.Inactive,
         files: this.form.controls.files?.value as Array<DsdFile>,
       };
       return this.adminPlaylistService.addPlayList(addObj);
@@ -136,7 +136,7 @@ export class PlaylistAddComponent implements OnInit {
           ? this.form.controls.endTime?.value?.toISOString()
           : this.form.controls.endTime?.value,
       isLoop: this.form.controls.isLoop?.value,
-      status: PlaylistStatus.Active,
+      status: this.form.controls.status?.value || PlaylistStatus.Inactive,
       files: this.form.controls.files?.value as Array<DsdFile>,
     };
     return this.adminPlaylistService.updatePlayList(addObj);

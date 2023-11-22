@@ -57,16 +57,6 @@ export class PlaylistsComponent implements OnInit {
         field: 'description',
         type: LhTableFieldType.STRING,
       },
-      {
-        label: 'module.playlist.startTime',
-        field: 'startTime',
-        type: LhTableFieldType.DATE_TIME,
-      },
-      {
-        label: 'module.playlist.endTime',
-        field: 'endTime',
-        type: LhTableFieldType.DATE_TIME,
-      },
     ],
   };
 

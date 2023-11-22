@@ -9,15 +9,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { RoleType } from './roleType';
 
 
-export interface Role { 
-    id?: number;
-    name?: string;
-    type?: RoleType;
-}
-export namespace Role {
-}
+export type RoleType = 'ADMIN' | 'USER' | 'UNDEFINED';
 
+export const RoleType = {
+    Admin: 'ADMIN' as RoleType,
+    User: 'USER' as RoleType,
+    Undefined: 'UNDEFINED' as RoleType
+};
 

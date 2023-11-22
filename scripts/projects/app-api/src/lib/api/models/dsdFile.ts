@@ -18,6 +18,7 @@ export interface DsdFile {
     name?: string;
     fileType?: string;
     path?: string;
+    createDate?: string;
     playlist?: Playlist;
     user?: User;
 }

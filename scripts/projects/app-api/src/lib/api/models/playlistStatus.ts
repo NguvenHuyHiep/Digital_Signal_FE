@@ -9,15 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { RoleType } from './roleType';
 
 
-export interface Role { 
-    id?: number;
-    name?: string;
-    type?: RoleType;
-}
-export namespace Role {
-}
+export type PlaylistStatus = 'ACTIVE' | 'INACTIVE';
 
+export const PlaylistStatus = {
+    Active: 'ACTIVE' as PlaylistStatus,
+    Inactive: 'INACTIVE' as PlaylistStatus
+};
 

@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ResponseStatus } from './responseStatus';
 import { Schedule } from './schedule';
 
 
@@ -18,15 +19,10 @@ export interface BaseOutputSchedule {
     currentPage?: number;
     pageSize?: number;
     totalPages?: number;
-    status?: BaseOutputSchedule.StatusEnum;
+    status?: ResponseStatus;
     data?: Schedule;
 }
 export namespace BaseOutputSchedule {
-    export type StatusEnum = 'SUCCESS' | 'FAILED';
-    export const StatusEnum = {
-        Success: 'SUCCESS' as StatusEnum,
-        Failed: 'FAILED' as StatusEnum
-    };
 }
 
 

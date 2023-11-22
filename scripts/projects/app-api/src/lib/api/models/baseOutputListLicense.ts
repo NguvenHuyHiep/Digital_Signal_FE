@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ResponseStatus } from './responseStatus';
 import { License } from './license';
 
 
@@ -18,15 +19,10 @@ export interface BaseOutputListLicense {
     currentPage?: number;
     pageSize?: number;
     totalPages?: number;
-    status?: BaseOutputListLicense.StatusEnum;
+    status?: ResponseStatus;
     data?: Array<License>;
 }
 export namespace BaseOutputListLicense {
-    export type StatusEnum = 'SUCCESS' | 'FAILED';
-    export const StatusEnum = {
-        Success: 'SUCCESS' as StatusEnum,
-        Failed: 'FAILED' as StatusEnum
-    };
 }
 
 
