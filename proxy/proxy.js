@@ -1,7 +1,7 @@
 const proxyConfig = [
   {
     context: "/api",
-    target: "http://localhost:8080/dsd",
+    target: "http://aninfosys.asia:8079/dsd",
     changeOrigin: true,
     logLevel: "debug",
   },
