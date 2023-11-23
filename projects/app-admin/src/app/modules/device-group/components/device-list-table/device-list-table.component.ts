@@ -5,16 +5,16 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { LhTableComponent } from '../../../../../../../app-common/src/lib/components/lh-table/lh-table.component';
-import { Device } from '../../../../../../../app-api/src/lib/api/models/device';
-import { DeviceGroup } from '../../../../../../../../scripts/projects/app-api/src/lib/api/models/deviceGroup';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { Device } from 'projects/app-api/src/lib/api/models/device';
+import { DeviceGroup } from 'projects/app-api/src/lib/api/models/deviceGroup';
+import { AdminDeviceService } from 'projects/app-api/src/lib/modules/admin/admin-device/admin-device.service';
+import { AdminDeviceGroupService } from 'projects/app-api/src/lib/modules/admin/group-device/admin-group-device.service';
 import {
   LhTableConfigModel,
   LhTableFieldType,
-} from '../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model';
-import { AdminDeviceService } from '../../../../../../../app-api/src/lib/modules/admin/admin-device/admin-device.service';
-import { AdminDeviceGroupService } from '../../../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.service';
-import { NzMessageService } from 'ng-zorro-antd/message';
+} from 'projects/app-common/src/lib/components/lh-table/lh-table-config.model';
+import { LhTableComponent } from 'projects/app-common/src/lib/components/lh-table/lh-table.component';
 
 @Component({
   selector: 'app-admin-device-list-table',
