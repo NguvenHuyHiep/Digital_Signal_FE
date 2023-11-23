@@ -61,7 +61,8 @@
       "location": "Địa chỉ",
       "device": "Thiết bị",
       "deviceAdd": "Thêm thiết bị",
-      "listDevice": "Danh sách thiết bị"
+      "listDevice": "Danh sách thiết bị",
+      "no-devices": "Nhóm không có thiết bị"
     },
     "dashboard": {
       "title": "Thống kê",

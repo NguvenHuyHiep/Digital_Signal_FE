@@ -31,5 +31,7 @@
   ></lh-common-lh-table>
 </lh-common-page>
 <ng-template #playlistDetail let-data="data">
-  <app-admin-device-list [deviceGroupAdmin]="data"></app-admin-device-list>
+  <app-admin-device-list-table
+    [deviceGroup]="data"
+  ></app-admin-device-list-table>
 </ng-template>
