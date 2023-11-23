@@ -25,4 +25,11 @@ export interface Device {
   deviceGroup?: DeviceGroup;
   deviceLogs?: Array<DeviceLog>;
 }
-export namespace Device {}
+export namespace Device {
+  export type StatusEnum = 'ONLINE' | 'OFFLINE' | 'UNDEFINED';
+  export const StatusEnum = {
+    Online: 'ONLINE' as StatusEnum,
+    Offline: 'OFFLINE' as StatusEnum,
+    Undefined: 'UNDEFINED' as StatusEnum,
+  };
+}

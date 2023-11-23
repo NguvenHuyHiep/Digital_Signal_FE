@@ -30,10 +30,10 @@ import { ResponseStatus } from 'projects/app-api/src/lib/api/models/responseStat
   styleUrls: ['./files.component.scss'],
 })
 export class FilesComponent<T extends Object> implements OnInit {
-  @Input() playListAdmin?: Playlist;
+  playListAdmin?: Playlist;
   @Output() onGroup: EventEmitter<T> = new EventEmitter<T>();
-  @ViewChild('table') table?: LhTableComponent<DsdFile>;
-  @ViewChild('addComponent', { static: false }) addComponent?: FileAddComponent;
+  table?: LhTableComponent<DsdFile>;
+  addComponent?: FileAddComponent;
   currentFile?: DsdFile;
   fileList: NzUploadFile[] = [];
   files: DsdFile[] = [];
@@ -46,16 +46,9 @@ export class FilesComponent<T extends Object> implements OnInit {
     searching: false,
     uploading: false,
   };
-  showFrame: {
-    search: boolean;
-    add: boolean;
-  } = {
-    search: true,
-    add: false,
-  };
+
   tableConfig: LhTableConfigModel = {
     disableUpdate: true,
-    disableDelete: true,
     disableDetail: true,
     key: 'id',
     fields: [
@@ -95,38 +88,11 @@ export class FilesComponent<T extends Object> implements OnInit {
     }
   }
 
-  update(files: DsdFile) {
-    this.currentFile = files as DsdFile;
-    this.routeToEdit(files.id);
-    this.showFrame.add = true;
-    this.showFrame.search = false;
-  }
-  routeToEdit(id?: number) {
-    const queryParams = { action: 'edit', id: id };
-    this.router.navigate([], { queryParams }).then((r) => {});
-  }
   delete(file: DsdFile) {
     this.modalService.confirm({
       nzTitle: `Do you want to delete the file: ${file.path} ?`,
       nzOnOk: () => {
         new Promise((resolve, reject) => {
-          return this.adminFileService
-            .deleteFile(file.path as string)
-            .subscribe({
-              next: (response) => {
-                console.log(response);
-                this.files = this.files.filter((f) => f.path !== file.path);
-                resolve;
-              },
-              error: (err) => {
-                this.message.error(err);
-                // TODO handle error
-                resolve;
-              },
-              complete: () => {
-                resolve;
-              },
-            });
           return this.adminFileService
             .deleteFile(file.path as string)
             .subscribe({
@@ -190,49 +156,6 @@ export class FilesComponent<T extends Object> implements OnInit {
         this.loading.searching = false;
       },
     });
-  }
-  add() {
-    if (!this.addComponent) {
-      return;
-    }
-    this.loading.adding = true;
-    this.addComponent.uploadFiles().subscribe({
-      next: (value) => {
-        console.log(value);
-        this.message.info(
-          `${this.translateService.instant('module.file.upload.success')} ${
-            value.data?.length ? value.data.length : 0
-          }`
-        );
-        if (this.query.action === 'detail') {
-          this.gotoSearch();
-        }
-      },
-      error: (err) => {
-        this.message.error('module.file.upload.error');
-        console.log(err);
-      },
-      complete: () => {
-        this.loading.adding = false;
-      },
-    });
-  }
-  routeToSearch() {
-    this.router.navigate([]).then((r) => {});
-    if (this.playListAdmin) {
-      this.getFileById();
-    } else {
-      this.getAllFile();
-    }
-  }
-  gotoSearch() {
-    this.showFrame.search = true;
-    this.showFrame.add = false;
-    if (this.playListAdmin) {
-      this.getFileById();
-    } else {
-      this.getAllFile();
-    }
   }
 
   navigateToDetail = (record: Schedule): void => {

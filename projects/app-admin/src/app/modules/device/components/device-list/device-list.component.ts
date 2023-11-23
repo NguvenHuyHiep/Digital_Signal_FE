@@ -17,6 +17,9 @@ import { DeviceGroup } from 'projects/app-api/src/lib/api/models/deviceGroup';
 import { AdminDeviceGroupService } from 'projects/app-api/src/lib/modules/admin/group-device/admin-group-device.service';
 import { Schedule } from '../../../../../../../app-api/src/lib/api/models/schedule';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ResponseStatus } from '../../../../../../../app-api/src/lib/api/models/responseStatus';
+import { TranslateService } from '@ngx-translate/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-admin-device-list',
@@ -28,15 +31,6 @@ export class DeviceListComponent<T extends Object> implements OnInit {
   @ViewChild('table') table?: LhTableComponent<Device>;
   @Input() deviceGroupAdmin?: DeviceGroup;
   @Output() onGroup: EventEmitter<T> = new EventEmitter<T>();
-  showFrame: {
-    detail: boolean;
-    search: boolean;
-    add: boolean;
-  } = {
-    detail: false,
-    search: true,
-    add: false,
-  };
 
   loading: {
     detail: boolean;
@@ -82,24 +76,31 @@ export class DeviceListComponent<T extends Object> implements OnInit {
   };
 
   devices: Device[] = [];
-  currenetDevice: Device = {};
+  currentDevice: Device = {};
 
   constructor(
     private activedRoute: ActivatedRoute,
     private router: Router,
     private adminDeviceService: AdminDeviceService,
-    private adminDeviceGroupService: AdminDeviceGroupService
+    private adminDeviceGroupService: AdminDeviceGroupService,
+    private translateService: TranslateService,
+    private message: NzMessageService
   ) {}
 
   ngOnInit(): void {
     this.loading.searching = true;
     if (this.deviceGroupAdmin) {
       this.adminDeviceGroupService
-        .getDevices(this.deviceGroupAdmin.id as number)
+        .getDeviceGroupByDeviceGroupId(this.deviceGroupAdmin.id as number)
         .subscribe({
           next: (response) => {
-            if (response.data) {
-              this.devices = response.data.devices as Array<Device>;
+            if (response && response.status === ResponseStatus.Success) {
+              this.devices = response.data?.devices as Array<Device>;
+            } else {
+              let errorsInStr: string = response.errors
+                ?.map((e) => this.translateService.instant(e))
+                .join(', ') as string;
+              this.message.error(errorsInStr);
             }
           },
           error: (err) => {

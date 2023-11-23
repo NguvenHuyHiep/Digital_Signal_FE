@@ -15,6 +15,9 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { AdminFileService } from 'projects/app-api/src/lib/modules/admin/admin-file/admin-file.service';
 import { PlaylistStatus } from 'projects/app-api/src/lib/api/models/playlistStatus';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { ResponseStatus } from '../../../../../../../../app-api/src/lib/api/models/responseStatus';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-admin-playlist-add',
@@ -23,8 +26,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class PlaylistAddComponent implements OnInit {
   @Input('fileIds') fileIds?: number;
-  @Input() playlistAdmin?: Playlist;
-
+  @Input() currentPlaylist?: Playlist;
+  playlistId: number | undefined;
   files: Array<DsdFile> = [];
 
   currentFile: DsdFile = {};
@@ -32,19 +35,13 @@ export class PlaylistAddComponent implements OnInit {
   isVisible: boolean = false;
 
   form: FormGroupPlayList = this.adminPlaylistService.buildPlaylistForm(
-    this.playlistAdmin
+    this.currentPlaylist
   );
 
   addFileForm: FormGroupFile = this.formBuilder.group({
     fileId: ['', Validators.required],
   }) as unknown as FormGroupFile;
 
-  tabs = [
-    {
-      code: 'info',
-      name: 'module.user.info',
-    },
-  ];
   isChecked: boolean = false;
 
   showFrame: {
@@ -56,9 +53,11 @@ export class PlaylistAddComponent implements OnInit {
   loading: {
     searching: boolean;
     addFile: boolean;
+    adding: boolean;
   } = {
     addFile: false,
     searching: false,
+    adding: false,
   };
 
   tableConfig: LhTableConfigModel = {
@@ -75,27 +74,50 @@ export class PlaylistAddComponent implements OnInit {
   };
 
   constructor(
-    private activedRoute: ActivatedRoute,
+    private location: Location,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
+    private translateService: TranslateService,
     private formBuilder: FormBuilder,
     private adminPlaylistService: AdminPlaylistService,
     private fileService: AdminFileService,
     private message: NzMessageService,
     private modalService: NzModalService
-  ) {}
+  ) {
+    this.playlistId = this.activatedRoute.snapshot.params['playlistId'];
+  }
 
   ngOnInit(): void {
     this.loadFile();
-    if (this.playlistAdmin) {
-      this.patchValue(this.playlistAdmin);
+    if (this.playlistId) {
+      this.getPlaylistById(this.playlistId);
+    } else {
     }
-    this.form.valueChanges.subscribe((value) => console.log('value', value));
-    this.addFileForm.valueChanges.subscribe((value) =>
-      console.log('value', value)
-    );
   }
-
-  addOrUpdate(): Observable<BaseOutputPlaylist> {
+  public add() {
+    if (!this.form) {
+      return;
+    }
+    this.loading.adding = true;
+    this.addOrUpdate().subscribe({
+      next: (response) => {
+        if (response.data) {
+          this.currentPlaylist = response.data;
+        }
+      },
+      error: (err) => {
+        // TODO i18n
+        this.message.error('Error', err);
+        this.loading.searching = false;
+      },
+      complete: () => {
+        this.loading.adding = false;
+        this.message.create('success', 'Thêm mới thành công');
+        this.location.back();
+      },
+    });
+  }
+  public addOrUpdate(): Observable<BaseOutputPlaylist> {
     if (!this.form.valid) {
       this.form.markAsTouched();
       this.form.markAsDirty();
@@ -175,12 +197,17 @@ export class PlaylistAddComponent implements OnInit {
     const FileIdValue = Number(this.currentFile.id);
     this.loading.addFile = true;
     this.adminPlaylistService
-      .assignFile(this.playlistAdmin?.id as number, [FileIdValue])
+      .assignFile(this.currentPlaylist?.id as number, [FileIdValue])
       .subscribe({
-        next: (data) => {
-          if (data) {
+        next: (response) => {
+          if (response && response.status === ResponseStatus.Success) {
             this.loadFile();
             return;
+          } else {
+            let errorsInStr: string = response.errors
+              ?.map((e) => this.translateService.instant(e))
+              .join(', ') as string;
+            this.message.error(errorsInStr);
           }
         },
         error: (err) => {
@@ -200,15 +227,20 @@ export class PlaylistAddComponent implements OnInit {
 
   private loadFile() {
     this.loading.addFile = true;
-    console.log('playlistAdmin', this.playlistAdmin);
-    if (this.playlistAdmin) {
+    console.log('playlistAdmin', this.currentPlaylist);
+    if (this.currentPlaylist) {
       this.adminPlaylistService
-        .getPlaylistWithFile(this.playlistAdmin?.id as number)
+        .getPlaylistWithFile(this.currentPlaylist?.id as number)
         .subscribe({
           next: (response) => {
-            if (response.data) {
-              this.files = response.data.files as Array<DsdFile>;
+            if (response && response.status === ResponseStatus.Success) {
+              this.files = response.data?.files as Array<DsdFile>;
               console.log(this.files + 'files');
+            } else {
+              let errorsInStr: string = response.errors
+                ?.map((e) => this.translateService.instant(e))
+                .join(', ') as string;
+              this.message.error(errorsInStr);
             }
           },
           error: (err) => {
@@ -221,5 +253,30 @@ export class PlaylistAddComponent implements OnInit {
           },
         });
     }
+  }
+
+  getPlaylistById(playlistId: number) {
+    this.loading.searching = true;
+    this.adminPlaylistService.getPlaylistByPlaylistId(playlistId).subscribe({
+      next: (response) => {
+        if (response && response.status === ResponseStatus.Success) {
+          this.currentPlaylist = response.data;
+          this.form.patchValue(this.currentPlaylist as any);
+        } else {
+          let errorsInStr: string = response.errors
+            ?.map((e) => this.translateService.instant(e))
+            .join(', ') as string;
+          this.message.error(errorsInStr);
+        }
+      },
+      error: (err) => {},
+      complete: () => {
+        this.loading.searching = false;
+      },
+    });
+  }
+
+  navigateToPrevious() {
+    this.location.back();
   }
 }

@@ -24,14 +24,14 @@ import { DeviceGroupRoutingModule } from './device-group-routing.module';
 import { AdminDeviceGroupModule } from '../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.module';
 import { ChosenDeviceComponent } from './components/device-group/chosen-device/chosen-device.component';
 import { DeviceModule } from '../device/device.module';
-import { DeviceGroupComponent } from './device-group/device-group.component';
+import { DeviceListTableComponent } from './components/device-list-table/device-list-table.component';
 
 @NgModule({
   declarations: [
     DeviceGroupsComponent,
     DeviceGroupAddComponent,
     ChosenDeviceComponent,
-    DeviceGroupComponent,
+    DeviceListTableComponent,
   ],
   imports: [
     CommonModule,

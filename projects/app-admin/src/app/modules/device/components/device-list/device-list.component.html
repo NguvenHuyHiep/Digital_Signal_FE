@@ -9,14 +9,7 @@
     [expandTemplate]="deviceDetail"
   >
   </lh-common-lh-table>
-  <ng-template #deviceDetail let-data="data">
-    <div [innerHTML]="data.description"></div>
-    <div [innerHTML]="data.user"></div>
-  </ng-template>
 </lh-common-page>
-
-<lh-common-lh-dialog *ngIf="showFrame.detail && currenetDevice?.id">
-  <app-admin-device-detail
-    [deviceId]="currenetDevice.id"
-  ></app-admin-device-detail>
-</lh-common-lh-dialog>
+<ng-template #deviceDetail let-data="data">
+  <app-admin-device-chart [device]="data"></app-admin-device-chart>
+</ng-template>

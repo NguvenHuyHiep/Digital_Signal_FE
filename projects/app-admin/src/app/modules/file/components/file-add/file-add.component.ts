@@ -11,6 +11,9 @@ import {
 } from 'projects/app-common/src/lib/components/lh-table/lh-table-config.model';
 import { FormArray } from '@angular/forms';
 import { DsdFile } from '../../../../../../../app-api/src/lib/api/models/dsdFile';
+import { Location } from '@angular/common';
+import { ResponseStatus } from 'projects/app-api/src/lib/api/models/responseStatus';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-admin-file-add',
@@ -38,10 +41,11 @@ export class FileAddComponent {
       },
     ],
   };
-  // form: FormGroupFile = this.adminFileService.buildFileForm(this.fileAdmin)
 
   constructor(
+    private location: Location,
     private msg: NzMessageService,
+    private translateService: TranslateService,
     private adminFileService: AdminFileService
   ) {}
 
@@ -60,7 +64,27 @@ export class FileAddComponent {
     this.fileList = this.fileList.filter((f) => f !== file);
   }
 
-  uploadFiles(): Observable<BaseOutputListDsdFile> {
-    return this.adminFileService.upload(this.fileList);
+  uploadFiles() {
+    this.adminFileService.upload(this.fileList).subscribe({
+      next: (value) => {
+        console.log(value);
+        this.msg.info(
+          `${this.translateService.instant('module.file.upload.success')} ${
+            value.data?.length ? value.data.length : 0
+          }`
+        );
+      },
+      error: (err) => {
+        this.msg.error(
+          this.translateService.instant('module.file.upload.error')
+        );
+        console.log(err);
+      },
+      complete: () => {},
+    });
+  }
+
+  navigateToPrevious() {
+    this.location.back();
   }
 }

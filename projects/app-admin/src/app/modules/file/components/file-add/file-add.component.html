@@ -1,4 +1,14 @@
 <lh-common-page>
+  <div class="mb-2" nz-space>
+    <button (click)="navigateToPrevious()" nz-button nzType="primary">
+      {{ "common.back" | translate }}
+    </button>
+  </div>
+  <div class="mb-2" nz-space>
+    <button (click)="uploadFiles()" nz-button nzType="primary">
+      {{ "module.file.add" | translate }}
+    </button>
+  </div>
   <div [nzGutter]="[16, 16]" nz-row>
     <div nz-col nzSpan="24">
       <nz-upload

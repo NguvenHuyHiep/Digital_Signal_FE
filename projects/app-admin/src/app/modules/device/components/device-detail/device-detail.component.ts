@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, Location } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -25,6 +25,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class DeviceDetailComponent implements OnInit, AfterViewInit {
   @Input('deviceId') deviceId?: number;
+  @Input('currentDevice') currentDevice?: DeviceStatus;
   @ViewChild('table') table?: LhTableComponent<DeviceLog>;
 
   showFrame: {
@@ -60,9 +61,12 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
 
   constructor(
     private adminDeviceService: AdminDeviceService,
-    private activedRoute: ActivatedRoute,
-    private router: Router
-  ) {}
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private location: Location
+  ) {
+    this.deviceId = this.activatedRoute.snapshot.params['deviceId'];
+  }
 
   ngOnInit() {
     console.log(this.deviceId);
@@ -114,6 +118,8 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
       return obj;
     });
 
+    console.log('Data log: ', data);
+
     // const data1 = [
     //   { time: '21:08', type: 'ONLINE', value: 1 },
     //   { time: '21:08', type: 'ONLINE', value: 1 },
@@ -146,7 +152,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
     // ];
 
     const chart = new Chart({
-      container: 'device-log-chart',
+      container: 'device-log-chart1',
       autoFit: true,
       height: 300,
     });
@@ -232,7 +238,11 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   navigateToDetail = (record: Schedule): void => {
     console.log(record);
     this.router.navigate(['./detail', record.id], {
-      relativeTo: this.activedRoute,
+      relativeTo: this.activatedRoute,
     });
   };
+
+  navigateToPrevious() {
+    this.location.back();
+  }
 }

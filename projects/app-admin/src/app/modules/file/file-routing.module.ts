@@ -13,7 +13,7 @@ const routes: Routes = [
     component: FileAddComponent,
   },
   {
-    path: 'detail',
+    path: 'update/:fileId',
     component: FileAddComponent,
   },
 ];

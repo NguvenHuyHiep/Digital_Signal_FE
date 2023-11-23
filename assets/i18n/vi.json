@@ -53,7 +53,7 @@
     "welcomeback": "Chào mừng quay lại!"
   },
   "module": {
-    "groupdevice": {
+    "groupDevice": {
       "title": "Group Device",
       "info": "Thông tin",
       "name": "Tên Group",

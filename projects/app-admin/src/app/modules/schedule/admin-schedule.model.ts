@@ -1,6 +1,5 @@
 import { CalendarEvent } from 'angular-calendar';
 import { Playlist } from 'projects/app-api/src/lib/api/models/playlist';
-import { RRule } from 'rrule';
 
 export const Color = {
   yellow: {
