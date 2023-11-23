@@ -118,39 +118,6 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
       return obj;
     });
 
-    console.log('Data log: ', data);
-
-    // const data1 = [
-    //   { time: '21:08', type: 'ONLINE', value: 1 },
-    //   { time: '21:08', type: 'ONLINE', value: 1 },
-    //   { time: '21:38', type: 'ONLINE', value: 1 },
-    //   { time: '21:38', type: 'ONLINE', value: 1 },
-    //   { time: '22:08', type: 'ONLINE', value: 1 },
-    //   { time: '22:08', type: 'ONLINE', value: 1 },
-    //   { time: '22:38', type: 'ONLINE', value: 1 },
-    //   { time: '22:38', type: 'ONLINE', value: 1 },
-    //   { time: '23:08', type: 'ONLINE', value: 1 },
-    //   { time: '23:08', type: 'ONLINE', value: 1 },
-    //   { time: '23:38', type: 'ONLINE', value: 1 },
-    //   { time: '23:38', type: 'ONLINE', value: 1 },
-    //   { time: '00:08', type: 'ONLINE', value: 1 },
-    //   { time: '00:08', type: 'ONLINE', value: 1 },
-    //   { time: '00:38', type: 'ONLINE', value: 1 },
-    //   { time: '00:38', type: 'ONLINE', value: 1 },
-    //   { time: '01:08', type: 'ONLINE', value: 1 },
-    //   { time: '01:08', type: 'ONLINE', value: 1 },
-    //   { time: '01:38', type: 'ONLINE', value: 1 },
-    //   { time: '01:38', type: 'ONLINE', value: 1 },
-    //   { time: '02:08', type: 'ONLINE', value: 1 },
-    //   { time: '02:08', type: 'ONLINE', value: 1 },
-    //   { time: '02:38', type: 'ONLINE', value: 1 },
-    //   { time: '02:38', type: 'ONLINE', value: 1 },
-    //   { time: '02:08', type: 'ONLINE', value: 1 },
-    //   { time: '02:08', type: 'ONLINE', value: 1 },
-    //   { time: '02:38', type: 'ONLINE', value: 1 },
-    //   { time: '02:38', type: 'ONLINE', value: 1 },
-    // ];
-
     const chart = new Chart({
       container: 'device-log-chart1',
       autoFit: true,
