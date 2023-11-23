@@ -15,10 +15,10 @@ export interface User {
   id?: number;
   userName?: string;
   email?: string;
-  password?: User;
+  password?: string;
   phone?: string;
   firstName?: string;
   lastName?: string;
-  roles?: User;
+  roles?: string;
   license?: License;
 }
