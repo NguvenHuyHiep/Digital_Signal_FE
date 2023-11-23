@@ -106,10 +106,20 @@ export class UserAddComponent implements OnInit {
   }
 
   genLicense(): void {
+    if (!this.currentUser?.email) {
+      this.message.info(
+        this.translateService.instant(
+          'resgister.error.the-input-is-not-valid-email'
+        )
+      );
+      return;
+    }
+
     let licenseGenerateRequest: LicenseGenerateRequest = {
-      email: this.currentUser?.email,
+      email: this.currentUser.email,
       duration: 1000 * 60 * 60 * 24 * 365,
     };
+
     this.adminLicenseService
       .genLicense(licenseGenerateRequest)
       .subscribe((response) => {
