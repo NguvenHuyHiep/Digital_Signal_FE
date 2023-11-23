@@ -115,19 +115,17 @@ export class PlaylistsComponent implements OnInit {
       },
     });
   }
+
   navigateToCreate = (): void => {
     this.router.navigate(['./create'], {
       relativeTo: this.activatedRoute,
     });
   };
+
   navigateToDetail = (record: Schedule): void => {
     console.log(record);
     this.router.navigate(['./detail', record.id], {
       relativeTo: this.activatedRoute,
     });
   };
-
-  routerToSearch() {
-    this.router.navigate([]).then((r) => {});
-  }
 }

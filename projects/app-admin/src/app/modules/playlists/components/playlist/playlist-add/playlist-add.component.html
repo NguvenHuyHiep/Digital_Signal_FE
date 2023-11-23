@@ -9,88 +9,89 @@
       {{ (this.currentPlaylist ? "common.update" : "common.add") | translate }}
     </button>
   </div>
+
+  <div [nzGutter]="[16, 16]" nz-row>
+    <form [formGroup]="form" nz-col nz-form nzSpan="24">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4">{{
+          "module.playlist.name" | translate
+        }}</nz-form-label>
+        <nz-form-control [formGroup]="form" [nzSpan]="14">
+          <input formControlName="name" name="name" nz-input />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" nzFor="description">{{
+          "module.playlist.description" | translate
+        }}</nz-form-label>
+        <nz-form-control [formGroup]="form" [nzSpan]="14">
+          <input
+            formControlName="description"
+            id="description"
+            name="description"
+            nz-input
+          />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" nzFor="startTime">{{
+          "module.playlist.startTime" | translate
+        }}</nz-form-label>
+        <nz-form-control [formGroup]="form" [nzSpan]="14">
+          <input formControlName="startTime" id="startTime" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" nzFor="endTime">{{
+          "module.playlist.endTime" | translate
+        }}</nz-form-label>
+        <nz-form-control [formGroup]="form" [nzSpan]="14">
+          <input formControlName="endTime" id="endTime" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4">
+          {{ "module.playlist.isLoop" | translate }}
+        </nz-form-label>
+        <nz-form-control [formGroup]="form" [nzSpan]="14">
+          <label [nzChecked]="isChecked" formControlName="isLoop" nz-checkbox>
+            {{ "module.playlist.true" | translate }}</label
+          >
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4">
+          {{ "module.playlist.status" | translate }}
+        </nz-form-label>
+        <nz-form-control [formGroup]="form" [nzSpan]="14">
+          <nz-select
+            [nzPlaceHolder]="'common.status' | translate"
+            formControlName="status"
+          >
+            <nz-option
+              [nzLabel]="'common.active' | translate"
+              nzValue="ACTIVE"
+            ></nz-option>
+            <nz-option
+              [nzLabel]="'common.inactive' | translate"
+              nzValue="INACTIVE"
+            ></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <ng-container *ngIf="currentPlaylist?.id; else elseBlock">
+        <ng-container *ngTemplateOutlet="addFiles"></ng-container>
+      </ng-container>
+    </form>
+  </div>
 </lh-common-page>
 
-<div [nzGutter]="[16, 16]" nz-row>
-  <form [formGroup]="form" nz-col nz-form nzSpan="24">
-    <nz-form-item>
-      <nz-form-label [nzSpan]="4">{{
-        "module.playlist.name" | translate
-      }}</nz-form-label>
-      <nz-form-control [formGroup]="form" [nzSpan]="14">
-        <input formControlName="name" name="name" nz-input />
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-      <nz-form-label [nzSpan]="4" nzFor="description">{{
-        "module.playlist.description" | translate
-      }}</nz-form-label>
-      <nz-form-control [formGroup]="form" [nzSpan]="14">
-        <input
-          formControlName="description"
-          id="description"
-          name="description"
-          nz-input
-        />
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-      <nz-form-label [nzSpan]="4" nzFor="startTime">{{
-        "module.playlist.startTime" | translate
-      }}</nz-form-label>
-      <nz-form-control [formGroup]="form" [nzSpan]="14">
-        <input formControlName="startTime" id="startTime" />
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-      <nz-form-label [nzSpan]="4" nzFor="endTime">{{
-        "module.playlist.endTime" | translate
-      }}</nz-form-label>
-      <nz-form-control [formGroup]="form" [nzSpan]="14">
-        <input formControlName="endTime" id="endTime" />
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-      <nz-form-label [nzSpan]="4">
-        {{ "module.playlist.isLoop" | translate }}
-      </nz-form-label>
-      <nz-form-control [formGroup]="form" [nzSpan]="14">
-        <label [nzChecked]="isChecked" formControlName="isLoop" nz-checkbox>
-          {{ "module.playlist.true" | translate }}</label
-        >
-      </nz-form-control>
-    </nz-form-item>
-
-    <nz-form-item>
-      <nz-form-label [nzSpan]="4">
-        {{ "module.playlist.status" | translate }}
-      </nz-form-label>
-      <nz-form-control [formGroup]="form" [nzSpan]="14">
-        <nz-select
-          [nzPlaceHolder]="'common.status' | translate"
-          formControlName="status"
-        >
-          <nz-option
-            [nzLabel]="'common.active' | translate"
-            nzValue="ACTIVE"
-          ></nz-option>
-          <nz-option
-            [nzLabel]="'common.inactive' | translate"
-            nzValue="INACTIVE"
-          ></nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-
-    <ng-container *ngIf="currentPlaylist?.id; else elseBlock">
-      <ng-container *ngTemplateOutlet="addFiles"></ng-container>
-    </ng-container>
-  </form>
-</div>
 <ng-template #elseBlock></ng-template>
 
 <ng-template #addFiles>

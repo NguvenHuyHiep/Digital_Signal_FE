@@ -42,7 +42,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
 
   tableConfig: LhTableConfigModel = {
     key: 'id',
-    disableDetail: true,
+    disableOption: true,
     fields: [
       {
         label: 'status',

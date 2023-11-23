@@ -213,7 +213,7 @@ export class PlaylistAddComponent implements OnInit {
         error: (err) => {
           // TODO i18n
           this.message.error('Error', err);
-          this.loading.searching = false;
+          this.loading.addFile = false;
         },
         complete: () => {
           this.loading.addFile = false;
@@ -228,13 +228,13 @@ export class PlaylistAddComponent implements OnInit {
   private loadFile() {
     this.loading.addFile = true;
     console.log('playlistAdmin', this.currentPlaylist);
-    if (this.currentPlaylist) {
+    if (this.playlistId) {
       this.adminPlaylistService
-        .getPlaylistWithFile(this.currentPlaylist?.id as number)
+        .getPlaylistWithFile(this.playlistId as number)
         .subscribe({
           next: (response) => {
             if (response && response.status === ResponseStatus.Success) {
-              this.files = response.data?.files as Array<DsdFile>;
+              this.files = response.data?.files as DsdFile[];
               console.log(this.files + 'files');
             } else {
               let errorsInStr: string = response.errors
