@@ -57,7 +57,8 @@
       "location": "Location",
       "device": "Device",
       "deviceAdd": "Add device",
-      "listDevice": "List devices"
+      "listDevice": "List devices",
+      "no-devices": "This group don't have any device"
     },
     "dashboard": {
       "title": "Dashboard",

@@ -21,7 +21,6 @@ import { DeviceChartComponent } from './components/device-chart/device-chart.com
     DeviceListComponent,
     DeviceDetailComponent,
     DeviceChartComponent,
-    DeviceChartComponent,
   ],
   imports: [
     CommonModule,

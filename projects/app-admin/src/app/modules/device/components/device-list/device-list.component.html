@@ -10,6 +10,13 @@
   >
   </lh-common-lh-table>
 </lh-common-page>
+
+<lh-common-lh-dialog *ngIf="currentDevice?.id">
+  <app-admin-device-detail
+    [deviceId]="currentDevice.id"
+  ></app-admin-device-detail>
+</lh-common-lh-dialog>
+
 <ng-template #deviceDetail let-data="data">
   <app-admin-device-chart [device]="data"></app-admin-device-chart>
 </ng-template>
