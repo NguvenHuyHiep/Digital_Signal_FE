@@ -1,4 +1,11 @@
-<nz-table #basicTable [nzLoading]="loading" [nzData]="data" *ngIf="data">
+<nz-table
+  #basicTable
+  *ngIf="data"
+  [nzData]="showData"
+  [nzLoading]="loading"
+  [nzFrontPagination]="false"
+  [nzShowPagination]="false"
+>
   <thead>
     <tr>
       <th [colSpan]="expandTemplate ? 2 : 1"></th>
@@ -70,3 +77,10 @@
     </ng-container>
   </tbody>
 </nz-table>
+<br />
+<nz-pagination
+  [nzTotal]="getTotal()"
+  [nzPageSize]="getPageSize()"
+  [nzPageIndex]="getPageIndex()"
+  (nzPageIndexChange)="onPageIndexChange($event)"
+></nz-pagination>

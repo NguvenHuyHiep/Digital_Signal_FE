@@ -12,6 +12,7 @@ export enum LhTableFieldType {
 
 export interface LhTableConfigModel {
   key: string;
+  pagination?: LhTablePaginationConfigModel;
   fields?: LhTableFieldConfigModel[];
   disableUpdate?: boolean;
   disableDelete?: boolean;
@@ -25,4 +26,10 @@ export interface LhTableFieldConfigModel {
   field: string;
   type: LhTableFieldType;
   formatter?: Function;
+}
+
+export interface LhTablePaginationConfigModel {
+  total: number;
+  size: number;
+  page: number;
 }

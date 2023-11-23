@@ -5,6 +5,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 
 @NgModule({
   declarations: [LhTableComponent],
@@ -14,6 +15,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzDividerModule,
     TranslateModule,
     NzButtonModule,
+    NzPaginationModule,
   ],
   providers: [DatePipe],
   exports: [LhTableComponent],

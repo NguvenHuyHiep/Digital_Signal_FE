@@ -2,13 +2,17 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
+  OnInit,
   Output,
+  SimpleChanges,
   TemplateRef,
 } from '@angular/core';
 import {
   LhTableConfigModel,
   LhTableFieldConfigModel,
   LhTableFieldType,
+  LhTablePaginationConfigModel,
 } from './lh-table-config.model';
 import * as _ from 'lodash';
 import { DatePipe } from '@angular/common';
@@ -19,7 +23,7 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './lh-table.component.html',
   styleUrls: ['./lh-table.component.css'],
 })
-export class LhTableComponent<T extends Object> {
+export class LhTableComponent<T extends Object> implements OnInit, OnChanges {
   @Input() data: T[] = [];
   @Input() loading: boolean = false;
   @Input() config: LhTableConfigModel = {
@@ -37,10 +41,27 @@ export class LhTableComponent<T extends Object> {
   indeterminate = false;
   listOfCurrentPageData: readonly T[] = [];
 
+  showData: T[] = this.data;
+  pageIndex: number = 1;
+  pageSize = 20;
+  total = 0;
+
   constructor(
     private translate: TranslateService,
     private datePipe: DatePipe
   ) {}
+
+  ngOnInit(): void {
+    this.onPageIndexChange(1);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // handle input data for clientside pagination
+    if (!this.config.pagination) {
+      this.total = changes['data'].currentValue.length | 0;
+      this.onPageIndexChange(this.pageIndex);
+    }
+  }
 
   getValue(record: any, field: string) {
     return _.get(record, field);
@@ -108,6 +129,27 @@ export class LhTableComponent<T extends Object> {
 
   delete(record: T) {
     this.onDelete.emit(record);
+  }
+
+  onPageIndexChange(newPage: number) {
+    this.pageIndex = newPage;
+    const startIndex = (this.pageIndex - 1) * this.pageSize;
+    const endIndex = Math.min(startIndex + this.pageSize - 1, this.total - 1);
+    this.showData = this.data.slice(startIndex, endIndex + 1);
+  }
+
+  getTotal() {
+    return this.data ? this.data.length : this.total;
+  }
+
+  getPageSize() {
+    return this.config.pagination ? this.config.pagination.size : this.pageSize;
+  }
+
+  getPageIndex() {
+    return this.config.pagination
+      ? this.config.pagination.page
+      : this.pageIndex;
   }
 
   private formatSize = (sizeInBytes: number) => {
