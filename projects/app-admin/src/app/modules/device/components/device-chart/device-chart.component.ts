@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AdminDeviceService } from '../../../../../../../app-api/src/lib/modules/admin/admin-device/admin-device.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { DeviceLog } from '../../../../../../../app-api/src/lib/api/models/deviceLog';
 import { Chart } from '@antv/g2';
-import { Device } from '../../../../../../../../scripts/projects/app-api/src/lib/api/models/device';
+import { DeviceLog } from 'projects/app-api/src/lib/api/models/deviceLog';
+import { Device } from 'scripts/projects/app-api/src/lib/api/models/device';
 
 @Component({
   selector: 'app-admin-device-chart',
