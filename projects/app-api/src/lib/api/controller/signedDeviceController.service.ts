@@ -223,7 +223,7 @@ export class SignedDeviceControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'json';
+        responseType_ = 'blob';
       }
     }
 

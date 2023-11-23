@@ -212,7 +212,7 @@ export class AdminDeviceControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'json';
+        responseType_ = 'blob';
       }
     }
 
@@ -337,7 +337,7 @@ export class AdminDeviceControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'json';
+        responseType_ = 'blob';
       }
     }
 
@@ -447,7 +447,7 @@ export class AdminDeviceControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'json';
+        responseType_ = 'blob';
       }
     }
 
@@ -546,7 +546,7 @@ export class AdminDeviceControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'json';
+        responseType_ = 'blob';
       }
     }
 
@@ -652,7 +652,7 @@ export class AdminDeviceControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'json';
+        responseType_ = 'blob';
       }
     }
 
@@ -756,7 +756,7 @@ export class AdminDeviceControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'json';
+        responseType_ = 'blob';
       }
     }
 
@@ -901,7 +901,7 @@ export class AdminDeviceControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'json';
+        responseType_ = 'blob';
       }
     }
 
@@ -1021,7 +1021,7 @@ export class AdminDeviceControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'json';
+        responseType_ = 'blob';
       }
     }
 
@@ -1151,7 +1151,7 @@ export class AdminDeviceControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'json';
+        responseType_ = 'blob';
       }
     }
 

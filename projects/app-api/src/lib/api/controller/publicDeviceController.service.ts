@@ -292,7 +292,7 @@ export class PublicDeviceControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'json';
+        responseType_ = 'blob';
       }
     }
 
@@ -401,7 +401,7 @@ export class PublicDeviceControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'json';
+        responseType_ = 'blob';
       }
     }
 
