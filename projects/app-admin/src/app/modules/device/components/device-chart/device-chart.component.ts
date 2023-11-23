@@ -3,7 +3,8 @@ import { AdminDeviceService } from '../../../../../../../app-api/src/lib/modules
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Chart } from '@antv/g2';
 import { DeviceLog } from 'projects/app-api/src/lib/api/models/deviceLog';
-import { Device } from 'scripts/projects/app-api/src/lib/api/models/device';
+import { DeviceStatus } from 'projects/app-api/src/lib/api/models/deviceStatus';
+import { Device } from 'projects/app-api/src/lib/api/models/device';
 
 @Component({
   selector: 'app-admin-device-chart',
@@ -64,7 +65,7 @@ export class DeviceChartComponent<T extends Object> {
       } = {
         time: minute,
         type: 'Status',
-        value: currentLog?.status || Device.StatusEnum.Offline,
+        value: currentLog?.status || DeviceStatus.Offline,
       };
       return obj;
     });
@@ -81,7 +82,7 @@ export class DeviceChartComponent<T extends Object> {
     chart.data(data);
     chart.scale({
       value: {
-        ticks: [Device.StatusEnum.Offline, Device.StatusEnum.Online],
+        ticks: [DeviceStatus.Offline, DeviceStatus.Online],
       },
       time: {
         range: [0, 1],
