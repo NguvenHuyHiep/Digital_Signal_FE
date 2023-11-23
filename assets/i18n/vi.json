@@ -64,14 +64,14 @@
       "listDevice": "Danh sách thiết bị"
     },
     "dashboard": {
-      "title":"Thống kê",
-      "deviceTotal":"Số lượng devices",
-      "deviceOnline":"Số lượng devices ON",
-      "deviceOffline":"Số lượng devices OFF",
-      "deviceGroup":"Số lượng nhóm device",
+      "title": "Thống kê",
+      "deviceTotal": "Số lượng devices",
+      "deviceOnline": "Số lượng devices ON",
+      "deviceOffline": "Số lượng devices OFF",
+      "deviceGroup": "Số lượng nhóm device",
       "playlistNumber": "Số lượng playlist",
-      "latestDownloadTime":"Lượt download gần nhất",
-      "latestPlaylistID":"Playlist mới nhất",
+      "latestDownloadTime": "Lượt download gần nhất",
+      "latestPlaylistID": "Playlist mới nhất",
       "latestPlaylistDuration": "Thời lượng playlist mới nhất",
       "welcome": "Chào mừng tới Digital Signage"
     },
@@ -92,11 +92,10 @@
         "error": "Tải lên file thất bại"
       },
       "delete-confirm": {
-        "title" : "Bạn có muốn xóa file: "
+        "title": "Bạn có muốn xóa file: "
       }
     },
     "playlist": {
-
       "title": "Playlist",
       "file": "File",
       "update": "Cập nhập File",
@@ -106,7 +105,7 @@
       "startTime": "Thời gian bắt đầu",
       "endTime": "Thời gian kết thúc",
       "isLoop": "Vòng lặp",
-      "status" : "Trạng thái",
+      "status": "Trạng thái",
       "true": "Có"
     },
     "user": {
@@ -116,8 +115,8 @@
       "phone": "Số điện thoại",
       "userName": "Tài khoản",
       "password": "Mật khẩu",
-      "firstName":"Tên",
-      "lastName":"Họ",
+      "firstName": "Tên",
+      "lastName": "Họ",
       "license": "License",
       "roles": "Vai trò"
     },
@@ -214,5 +213,15 @@
   "button": {
     "ok": "Xác nhận",
     "cancel": "Hủy"
+  },
+  "menu": {
+    "search": "Tìm kiếm",
+    "dashboard": "Thống kê",
+    "user": "Tài khoản",
+    "playlist": "Danh sách phát",
+    "device-group": "Nhóm thiết bị",
+    "device": "Thiết bị",
+    "file": "File",
+    "schedule": "Lịch phát"
   }
 }

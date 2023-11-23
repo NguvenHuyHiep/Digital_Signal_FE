@@ -207,5 +207,15 @@
   "button": {
     "ok": "Ok",
     "cancel": "Cancel"
+  },
+  "menu": {
+    "search": "Search",
+    "dashboard": "Dashboard",
+    "user": "User",
+    "playlist": "Playlist",
+    "device-group": "Device Group",
+    "device": "Device",
+    "file": "File",
+    "schedule": "Schedule"
   }
 }
