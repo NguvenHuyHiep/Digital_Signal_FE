@@ -14,9 +14,15 @@ import { DeviceDetailComponent } from './components/device-detail/device-detail.
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { DeviceChartComponent } from './components/device-chart/device-chart.component';
 
 @NgModule({
-  declarations: [DeviceListComponent, DeviceDetailComponent],
+  declarations: [
+    DeviceListComponent,
+    DeviceDetailComponent,
+    DeviceChartComponent,
+    DeviceChartComponent,
+  ],
   imports: [
     CommonModule,
     DeviceRoutingModule,

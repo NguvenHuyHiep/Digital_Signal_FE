@@ -1,123 +1,135 @@
-<nz-tabset>
-  <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab.name | translate">
-    <ng-container *ngIf="tab.code === 'info'">
-      <ng-container *ngTemplateOutlet="info"></ng-container>
-    </ng-container>
-  </nz-tab>
-</nz-tabset>
+<lh-common-page pageTitle="Add user">
+  <div class="mb-2" nz-space>
+    <button (click)="navigateToPrevious()" nz-button nzType="primary">
+      {{ "common.back" | translate }}
+    </button>
+  </div>
+  <div class="mb-2" nz-space>
+    <button (click)="addOrUpdate()" nz-button nzType="primary">
+      {{ (this.currentUser ? "common.update" : "common.add") | translate }}
+    </button>
+  </div>
 
-<ng-template #info>
-  <form [formGroup]="form" nz-form>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="4" nzFor="userName">
-        {{ "module.user.userName" | translate }}
-      </nz-form-label>
-      <nz-form-control [formGroup]="form" [nzSpan]="14">
-        <input
-          formControlName="userName"
-          id="userName"
-          name="userName"
-          nz-input
-          type="text"
-        />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="4" nzFor="password">
-        {{ "module.user.password" | translate }}
-      </nz-form-label>
-      <nz-form-control [formGroup]="form" [nzSpan]="14">
-        <input
-          formControlName="password"
-          id="password"
-          name="password"
-          nz-input
-          type="password"
-          [disabled]="!userAdmin?.id"
-        />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="4" nzFor="email">
-        {{ "module.user.email" | translate }}
-      </nz-form-label>
-      <nz-form-control [formGroup]="form" [nzSpan]="14">
-        <input
-          formControlName="email"
-          id="email"
-          name="email"
-          nz-input
-          type="text"
-        />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="4" nzFor="phone">
-        {{ "module.user.phone" | translate }}
-      </nz-form-label>
-      <nz-form-control [formGroup]="form" [nzSpan]="14">
-        <input
-          formControlName="phone"
-          id="phone"
-          name="phone"
-          nz-input
-          type="text"
-        />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="4" nzFor="firstName">
-        {{ "module.user.firstName" | translate }}
-      </nz-form-label>
-      <nz-form-control [formGroup]="form" [nzSpan]="14">
-        <input
-          formControlName="firstName"
-          id="firstName"
-          name="firstName"
-          nz-input
-          type="text"
-        />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="4" nzFor="lastName">
-        {{ "module.user.lastName" | translate }}
-      </nz-form-label>
-      <nz-form-control [formGroup]="form" [nzSpan]="14">
-        <input
-          formControlName="lastName"
-          id="lastName"
-          name="lastName"
-          nz-input
-          type="text"
-        />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="4" nzFor="license">
-        {{ "module.user.license" | translate }}
-      </nz-form-label>
-      <nz-form-control [nzSpan]="14">
-        <nz-input-group nzSearch [nzAddOnAfter]="genLcsButton" id="license">
+  <div [nzGutter]="[16, 16]" nz-row>
+    <form [formGroup]="form" nz-col nz-form nzSpan="24">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" nzFor="userName">
+          {{ "module.user.userName" | translate }}
+        </nz-form-label>
+        <nz-form-control [formGroup]="form" [nzSpan]="14">
           <input
-            [disabled]="true"
-            id="licenseCode"
-            name="licenseCode"
-            type="text"
+            formControlName="userName"
+            id="userName"
+            name="userName"
             nz-input
-            placeholder=""
-            [value]="license"
+            type="text"
           />
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-  </form>
-</ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" nzFor="password">
+          {{ "module.user.password" | translate }}
+        </nz-form-label>
+        <nz-form-control [formGroup]="form" [nzSpan]="14">
+          <input
+            [disabled]="!currentUser?.id"
+            formControlName="password"
+            id="password"
+            name="password"
+            nz-input
+            type="password"
+          />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" nzFor="email">
+          {{ "module.user.email" | translate }}
+        </nz-form-label>
+        <nz-form-control [formGroup]="form" [nzSpan]="14">
+          <input
+            formControlName="email"
+            id="email"
+            name="email"
+            nz-input
+            type="text"
+          />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" nzFor="phone">
+          {{ "module.user.phone" | translate }}
+        </nz-form-label>
+        <nz-form-control [formGroup]="form" [nzSpan]="14">
+          <input
+            formControlName="phone"
+            id="phone"
+            name="phone"
+            nz-input
+            type="text"
+          />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" nzFor="firstName">
+          {{ "module.user.firstName" | translate }}
+        </nz-form-label>
+        <nz-form-control [formGroup]="form" [nzSpan]="14">
+          <input
+            formControlName="firstName"
+            id="firstName"
+            name="firstName"
+            nz-input
+            type="text"
+          />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" nzFor="lastName">
+          {{ "module.user.lastName" | translate }}
+        </nz-form-label>
+        <nz-form-control [formGroup]="form" [nzSpan]="14">
+          <input
+            formControlName="lastName"
+            id="lastName"
+            name="lastName"
+            nz-input
+            type="text"
+          />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="4" nzFor="license">
+          {{ "module.user.license" | translate }}
+        </nz-form-label>
+        <nz-form-control [nzSpan]="14">
+          <nz-input-group [nzAddOnAfter]="genLcsButton" id="license" nzSearch>
+            <input
+              [disabled]="true"
+              [value]="license"
+              id="licenseCode"
+              name="licenseCode"
+              nz-input
+              placeholder=""
+              type="text"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+</lh-common-page>
 
+<ng-template #addActions>
+  <div nz-space>
+    <button (click)="addOrUpdate()" nz-button nzType="primary">
+      {{ (this.currentUser ? "common.update" : "common.add") | translate }}
+    </button>
+  </div>
+</ng-template>
 <ng-template #genLcsButton>
   <button
     (click)="genLicense()"
-    [disabled]="!userAdmin?.id"
+    [disabled]="!currentUser?.id"
     id="generateLicense"
     name="generateLicense"
     nz-button

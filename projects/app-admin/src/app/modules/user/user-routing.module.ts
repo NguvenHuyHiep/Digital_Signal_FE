@@ -9,7 +9,11 @@ const routes: Routes = [
     component: UsersComponent,
   },
   {
-    path: 'add',
+    path: 'create',
+    component: UserAddComponent,
+  },
+  {
+    path: 'update/:userId',
     component: UserAddComponent,
   },
 ];

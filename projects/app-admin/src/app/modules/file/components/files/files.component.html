@@ -25,29 +25,7 @@
     [data]="files"
     [config]="tableConfig"
     [loading]="loading.searching"
-    (onUpdate)="update($event)"
     (onDelete)="delete($event)"
     (onDetail)="navigateToDetail($event)"
   ></lh-common-lh-table>
 </lh-common-page>
-
-<lh-common-lh-dialog
-  *ngIf="showFrame.add"
-  [footerTemplateLeft]="backToSearch"
-  [footerTemplateRight]="addActions"
->
-  <app-admin-file-add [fileList]="fileList" #addComponent> </app-admin-file-add>
-</lh-common-lh-dialog>
-<ng-template #addActions>
-  <div nz-space>
-    <button (click)="add()" nz-button nzType="primary">
-      {{ (this.currentFile ? "common.update" : "common.add") | translate }}
-    </button>
-  </div>
-</ng-template>
-
-<ng-template #backToSearch>
-  <button (click)="routeToSearch()" nz-button>
-    {{ "common.back" | translate }}
-  </button>
-</ng-template>

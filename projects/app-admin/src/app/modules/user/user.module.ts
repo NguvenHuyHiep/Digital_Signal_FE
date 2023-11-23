@@ -17,10 +17,9 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { UserRoutingModule } from './user-routing.module';
 import { AdminLicenseModule } from '../../../../../app-api/src/lib/modules/admin/admin-license/admin-license.module';
-import { UserComponent } from './components/user/user.component';
 
 @NgModule({
-  declarations: [UsersComponent, UserAddComponent, UserComponent],
+  declarations: [UsersComponent, UserAddComponent],
   imports: [
     CommonModule,
     TranslateModule,

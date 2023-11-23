@@ -114,4 +114,8 @@ export class AdminPlaylistService {
   public assignFile(playListId: number, fileIds: number[]) {
     return this.adminPlayListController.assignFiles(playListId, fileIds);
   }
+
+  public getPlaylistByPlaylistId(playlistId: number) {
+    return this.adminPlayListController.getById3(playlistId);
+  }
 }

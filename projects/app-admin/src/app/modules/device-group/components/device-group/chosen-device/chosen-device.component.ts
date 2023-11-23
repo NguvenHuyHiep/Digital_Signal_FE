@@ -11,6 +11,8 @@ import { Device } from '../../../../../../../../app-api/src/lib/api/models/devic
 import { AdminDeviceService } from '../../../../../../../../app-api/src/lib/modules/admin/admin-device/admin-device.service';
 import { DeviceGroup } from '../../../../../../../../app-api/src/lib/api/models/deviceGroup';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ResponseStatus } from '../../../../../../../../app-api/src/lib/api/models/responseStatus';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-admin-chosen-device',
@@ -38,7 +40,8 @@ export class ChosenDeviceComponent implements ControlValueAccessor, OnInit {
   deviceId?: number;
   constructor(
     private adminDeviceService: AdminDeviceService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -75,9 +78,14 @@ export class ChosenDeviceComponent implements ControlValueAccessor, OnInit {
     // TODO use search instead of get all records with 10 items, or apply infinitive scroll for this func
     this.adminDeviceService.getAllDevice(0, 10).subscribe({
       next: (response) => {
-        if (response.data) {
+        if (response && response.status === ResponseStatus.Success) {
           this.devices = response.data;
           console.log(this.devices + 'DeviceGroup');
+        } else {
+          let errorsInStr: string = response.errors
+            ?.map((e) => this.translateService.instant(e))
+            .join(', ') as string;
+          this.message.error(errorsInStr);
         }
       },
       error: (err) => {

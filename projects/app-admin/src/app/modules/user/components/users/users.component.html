@@ -24,31 +24,8 @@
     #table
     [data]="users"
     [config]="tableConfig"
-    (onUpdate)="update($event)"
+    (onUpdate)="navigateToUpdate($event)"
     (onDelete)="delete($event)"
     [loading]="loading.searching"
   ></lh-common-lh-table>
 </lh-common-page>
-
-<lh-common-lh-dialog
-  *ngIf="showFrame.add"
-  [footerTemplateLeft]="backToSearch"
-  [footerTemplateRight]="addActions"
->
-  <app-admin-user-add [userAdmin]="currentUser" #addComponent>
-  </app-admin-user-add>
-</lh-common-lh-dialog>
-
-<ng-template #addActions>
-  <div nz-space>
-    <button (click)="addOrUpdate()" nz-button nzType="primary">
-      {{ (this.currentUser ? "common.update" : "common.add") | translate }}
-    </button>
-  </div>
-</ng-template>
-
-<ng-template #backToSearch>
-  <button (click)="routeToSearch()" nz-button>
-    {{ "common.back" | translate }}
-  </button>
-</ng-template>

@@ -8,6 +8,10 @@ import { AdminFileService } from '../../../../../../../app-api/src/lib/modules/a
 import { AdminPlaylistService } from '../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Playlist } from '../../../../../../../app-api/src/lib/api/models/playlist';
+import { ResponseStatus } from '../../../../../../../app-api/src/lib/api/models/responseStatus';
+import { TranslateService } from '@ngx-translate/core';
+import { User } from '../../../../../../../app-api/src/lib/api/models/user';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-file-detail',
@@ -48,9 +52,12 @@ export class FilesByPlaylist<T extends Object> implements OnInit {
   };
 
   constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
     private adminFileService: AdminFileService,
     private adminPlaylistService: AdminPlaylistService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -60,8 +67,13 @@ export class FilesByPlaylist<T extends Object> implements OnInit {
         .getPlaylistWithFile(this.currentPlayList?.id as number)
         .subscribe({
           next: (response) => {
-            if (response.data) {
-              this.files = response.data.files as DsdFile[];
+            if (response && response.status === ResponseStatus.Success) {
+              this.files = response.data?.files as DsdFile[];
+            } else {
+              let errorsInStr: string = response.errors
+                ?.map((e) => this.translateService.instant(e))
+                .join(', ') as string;
+              this.message.error(errorsInStr);
             }
           },
           error: (err) => {
@@ -95,4 +107,12 @@ export class FilesByPlaylist<T extends Object> implements OnInit {
   }
 
   delete($event: DsdFile) {}
+
+  navigateToUpdate = (record: DsdFile): void => {
+    console.log(record);
+    this.currentFile = record;
+    this.router.navigate(['./update', record.id], {
+      relativeTo: this.activatedRoute,
+    });
+  };
 }

@@ -20,7 +20,9 @@ export class AdminDeviceGroupService {
     private adminGroupDeviceController: AdminDeviceGroupControllerService
   ) {}
 
-  getDevices(deviceGroupId: number): Observable<BaseOutputDeviceGroup> {
+  public getDeviceGroupByDeviceGroupId(
+    deviceGroupId: number
+  ): Observable<BaseOutputDeviceGroup> {
     return this.adminGroupDeviceController.getById8(deviceGroupId);
   }
 

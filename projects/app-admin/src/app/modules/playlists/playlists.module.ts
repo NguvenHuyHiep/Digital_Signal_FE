@@ -24,17 +24,11 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { FileModule } from '../file/file.module';
 import { ChosenFileComponent } from './components/playlist/chosen-file/chosen-file.component';
-import { PlaylistComponent } from './playlist/playlist.component';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 @NgModule({
-  declarations: [
-    PlaylistsComponent,
-    PlaylistAddComponent,
-    ChosenFileComponent,
-    PlaylistComponent,
-  ],
+  declarations: [PlaylistsComponent, PlaylistAddComponent, ChosenFileComponent],
   imports: [
     CommonModule,
     UiCommonModule,
