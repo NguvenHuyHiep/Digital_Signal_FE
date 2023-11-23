@@ -12,6 +12,7 @@
 import { PlaylistStatus } from './playlistStatus';
 import { User } from './user';
 import { DsdFile } from './dsdFile';
+import { DeviceGroup } from './deviceGroup';
 
 export interface Playlist {
   id?: number;
@@ -22,6 +23,7 @@ export interface Playlist {
   isLoop?: boolean;
   status?: PlaylistStatus;
   files?: Array<DsdFile>;
+  deviceGroups?: Array<DeviceGroup>;
   user?: User;
 }
 export namespace Playlist {}

@@ -17,6 +17,7 @@ export interface BaseOutputString {
   currentPage?: number;
   pageSize?: number;
   totalPages?: number;
+  total?: number;
   status?: ResponseStatus;
   data?: string;
 }

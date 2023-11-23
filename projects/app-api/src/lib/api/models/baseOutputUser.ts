@@ -18,6 +18,7 @@ export interface BaseOutputUser {
   currentPage?: number;
   pageSize?: number;
   totalPages?: number;
+  total?: number;
   status?: ResponseStatus;
   data?: User;
 }

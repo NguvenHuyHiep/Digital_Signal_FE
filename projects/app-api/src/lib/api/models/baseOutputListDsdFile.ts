@@ -18,6 +18,7 @@ export interface BaseOutputListDsdFile {
   currentPage?: number;
   pageSize?: number;
   totalPages?: number;
+  total?: number;
   status?: ResponseStatus;
   data?: Array<DsdFile>;
 }
