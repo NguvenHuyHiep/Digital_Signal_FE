@@ -213,7 +213,7 @@ export class AdminDeviceLogControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'blob';
+        responseType_ = 'json';
       }
     }
 
@@ -312,7 +312,7 @@ export class AdminDeviceLogControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'blob';
+        responseType_ = 'json';
       }
     }
 
@@ -420,7 +420,7 @@ export class AdminDeviceLogControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'blob';
+        responseType_ = 'json';
       }
     }
 
@@ -579,7 +579,7 @@ export class AdminDeviceLogControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'blob';
+        responseType_ = 'json';
       }
     }
 
@@ -699,7 +699,7 @@ export class AdminDeviceLogControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'blob';
+        responseType_ = 'json';
       }
     }
 

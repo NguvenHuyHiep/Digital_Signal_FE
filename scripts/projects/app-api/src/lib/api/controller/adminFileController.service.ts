@@ -208,7 +208,7 @@ export class AdminFileControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'blob';
+        responseType_ = 'json';
       }
     }
 
@@ -331,7 +331,7 @@ export class AdminFileControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'blob';
+        responseType_ = 'json';
       }
     }
 
@@ -439,7 +439,7 @@ export class AdminFileControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'blob';
+        responseType_ = 'json';
       }
     }
 
@@ -547,7 +547,7 @@ export class AdminFileControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'blob';
+        responseType_ = 'json';
       }
     }
 
@@ -741,7 +741,7 @@ export class AdminFileControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'blob';
+        responseType_ = 'json';
       }
     }
 
@@ -898,7 +898,7 @@ export class AdminFileControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'blob';
+        responseType_ = 'json';
       }
     }
 
@@ -1006,7 +1006,7 @@ export class AdminFileControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'blob';
+        responseType_ = 'json';
       }
     }
 
@@ -1126,7 +1126,7 @@ export class AdminFileControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'blob';
+        responseType_ = 'json';
       }
     }
 
@@ -1244,7 +1244,7 @@ export class AdminFileControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'blob';
+        responseType_ = 'json';
       }
     }
 

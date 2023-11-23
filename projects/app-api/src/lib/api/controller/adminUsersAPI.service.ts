@@ -202,7 +202,7 @@ export class AdminUsersAPIService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'blob';
+        responseType_ = 'json';
       }
     }
 
@@ -316,7 +316,7 @@ export class AdminUsersAPIService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'blob';
+        responseType_ = 'json';
       }
     }
 
@@ -441,7 +441,7 @@ export class AdminUsersAPIService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'blob';
+        responseType_ = 'json';
       }
     }
 
@@ -551,7 +551,7 @@ export class AdminUsersAPIService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'blob';
+        responseType_ = 'json';
       }
     }
 
@@ -701,7 +701,7 @@ export class AdminUsersAPIService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'blob';
+        responseType_ = 'json';
       }
     }
 
@@ -800,7 +800,7 @@ export class AdminUsersAPIService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'blob';
+        responseType_ = 'json';
       }
     }
 
@@ -908,7 +908,7 @@ export class AdminUsersAPIService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'blob';
+        responseType_ = 'json';
       }
     }
 
@@ -1035,7 +1035,7 @@ export class AdminUsersAPIService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'blob';
+        responseType_ = 'json';
       }
     }
 

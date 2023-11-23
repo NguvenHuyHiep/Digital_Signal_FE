@@ -197,7 +197,7 @@ export class PublicLicenseControllerService {
       ) {
         responseType_ = 'json';
       } else {
-        responseType_ = 'blob';
+        responseType_ = 'json';
       }
     }
 
