@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AdminScheduleAPIService } from '../../../api/controller/adminScheduleAPI.service';
 import { FormBuilder } from '@angular/forms';
+import { AdminScheduleAPIService } from '@app-api/lib/api';
 
 @Injectable({
   providedIn: 'root',

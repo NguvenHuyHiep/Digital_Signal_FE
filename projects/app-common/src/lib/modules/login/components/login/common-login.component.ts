@@ -4,11 +4,11 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { LhAuthenService } from '../../../../../../../app-api/src/lib/modules/authen/lh-authen.service';
-import { TranslateParser, TranslateService } from '@ngx-translate/core';
-import { LhLanguageService } from '../../../../../../../app-api/src/lib/modules/language/lh-language.service';
-import { environment } from '../../../../../../../app-admin/src/environments/environment';
-import { WaterMarkService } from '../../../watermark/water-mark.service';
+import { environment } from '@app-admin/environments/environment';
+import { LhAuthenService } from '@app-api/lib/modules/authen/lh-authen.service';
+import { LhLanguageService } from '@app-api/lib/modules/language/lh-language.service';
+import { WaterMarkService } from '@app-common/public-api';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'lh-common-login',

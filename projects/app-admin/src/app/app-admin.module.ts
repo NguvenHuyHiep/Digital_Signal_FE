@@ -11,24 +11,22 @@ import {
   HttpClient,
   HttpClientModule,
 } from '@angular/common/http';
-import { ApiModule, Configuration } from '../../../app-api/src/lib/api';
 import { environment } from '../environments/environment';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { LH_API_VERSION } from '../../../app-api/src/public-api';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IconsProviderModule } from './icons-provider.module';
-import { AuthenModule } from '../../../app-api/src/lib/modules/authen/authen.module';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { AppHttpInterceptor } from './app-http-interceptor.service';
-import { LocalStoreModule } from '../../../app-api/src/lib/modules/local-store/local-store.module';
 import { AppAuthenEffects } from './store/learn-hub-authen-effects.service';
-import { AppApiModule } from '../../../app-api/src/lib/app-api.module';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { ApiModule, Configuration } from '@app-api/lib/api';
+import { AppApiModule } from '@app-api/lib/app-api.module';
+import { AuthenModule } from '@app-api/lib/modules/authen/authen.module';
+import { LocalStoreModule } from '@app-api/lib/modules/local-store/local-store.module';
+import { LH_API_VERSION } from '@app-api/public-api';
 
 registerLocaleData(en);
 

@@ -1,18 +1,13 @@
 import { Injectable } from '@angular/core';
-import { AdminFileControllerService } from '../../../api/controller/adminFileController.service';
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
-import { UploadRequest } from '../../../api/models/uploadRequest';
-import { BaseOutputDsdFile } from '../../../api/models/baseOutputDsdFile';
-import { DsdFile } from '../../../api/models/dsdFile';
 import { FormBuilder } from '@angular/forms';
-import {
-  FormGroupFile,
-  FormGroupUploadRequest,
-} from '../../../../../../app-admin/src/app/modules/playlists/components/playlist';
-import { BaseOutputListDsdFile } from '../../../api/models/baseOutputListDsdFile';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { AdminFileControllerService } from '@app-api/lib/api';
+import { FormGroupFile } from '@app-admin/app/modules/playlists/components/playlist';
+import { DsdFile } from '@app-api/lib/api/models/dsdFile';
+import { BaseOutputListDsdFile } from '@app-api/lib/api/models/baseOutputListDsdFile';
 
 @Injectable({
   providedIn: 'root',

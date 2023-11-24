@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 
-import {
-  FormGroupFile,
-  FormGroupPlayList,
-} from '../../../../../../app-admin/src/app/modules/playlists/components/playlist';
-import { DsdFile } from '../../../api/models/dsdFile';
-import { Playlist } from '../../../api/models/playlist';
 import { Observable } from 'rxjs';
 
 import { HttpParams } from '@angular/common/http';
 
 import { tap } from 'rxjs/operators';
-import { AdminPlayListAPIService } from '../../../api/controller/adminPlayListAPI.service';
-import { BaseOutputPlaylist } from '../../../api/models/baseOutputPlaylist';
-import { BaseOutputString } from '../../../api/models/baseOutputString';
-import { PlaylistStatus } from '../../../api/models/playlistStatus';
+import { AdminPlayListAPIService } from '@app-api/lib/api';
+import { Playlist } from '@app-api/lib/api/models/playlist';
+import { DsdFile } from '@app-api/lib/api/models/dsdFile';
+import {
+  FormGroupFile,
+  FormGroupPlayList,
+} from '@app-admin/app/modules/playlists/components/playlist';
+import { PlaylistStatus } from '@app-api/lib/api/models/playlistStatus';
+import { BaseOutputPlaylist } from '@app-api/lib/api/models/baseOutputPlaylist';
+import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';
 
 @Injectable({
   providedIn: 'root',

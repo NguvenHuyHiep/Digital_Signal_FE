@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { FormGroupUser } from '@app-admin/app/modules/user/components/user-type';
+import { AdminUsersAPIService } from '@app-api/lib/api';
+import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';
+import { BaseOutputUser } from '@app-api/lib/api/models/baseOutputUser';
+import { User } from '@app-api/lib/api/models/user';
 import { Observable } from 'rxjs';
-import { User } from '../../../api/models/user';
-import { AdminUsersAPIService } from '../../../api/controller/adminUsersAPI.service';
 import { tap } from 'rxjs/operators';
-import { FormGroupUser } from '../../../../../../app-admin/src/app/modules/user/components/user-type';
-import { BaseOutputUser } from '../../../api/models/baseOutputUser';
-import { BaseOutputString } from '../../../api/models/baseOutputString';
 
 @Injectable()
 export class AdminUserService {

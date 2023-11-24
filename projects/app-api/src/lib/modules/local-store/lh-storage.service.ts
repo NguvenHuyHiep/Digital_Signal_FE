@@ -3,7 +3,7 @@ import { BaseStorage, IBaseStorage } from './base-storage';
 import { Observable } from 'rxjs';
 import { IndexdbStorageService } from './indexdb-storage.service';
 import { STORAGE_TYPE } from './storage-enum';
-import { BaseOutputString } from '../../api/models/baseOutputString';
+import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';
 
 @Injectable({
   providedIn: 'root',

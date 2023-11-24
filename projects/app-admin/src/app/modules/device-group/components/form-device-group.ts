@@ -1,6 +1,6 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { FormGroupUser } from '../../user/components/user-type';
 import { DeviceStatus } from '@app-api/lib/api/models/deviceStatus';
+import { FormGroupUser } from '../../user/components/user-type';
 
 export type FormDeviceLog = FormGroup<{
   id?: FormControl<number>;

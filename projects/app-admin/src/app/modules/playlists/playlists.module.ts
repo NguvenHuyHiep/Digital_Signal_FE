@@ -18,7 +18,6 @@ import { PlaylistRoutingModule } from './playlist-routing.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
-import { FileModule } from '../file/file.module';
 import { ChosenFileComponent } from './components/playlist/chosen-file/chosen-file.component';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
@@ -28,6 +27,7 @@ import { LhDialogModule } from '@app-common/lib/components/lh-dialog/lh-dialog.m
 import { AdminPlaylistModule } from '@app-api/lib/modules/admin/admin-playlist/admin-playlist.module';
 import { AdminDeviceGroupModule } from '@app-api/lib/modules/admin/group-device/admin-group-device.module';
 import { UiCommonModule } from '@app-common/lib/modules/ui-common/ui-common.module';
+import { FileModule } from '../file/file.module';
 
 @NgModule({
   declarations: [

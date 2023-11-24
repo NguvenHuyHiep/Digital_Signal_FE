@@ -1,8 +1,8 @@
 import { concat, forkJoin, map, Observable, switchMap } from 'rxjs';
 import { STORAGE_KEY } from './storage-enum';
 import { AppSetting } from '../language/appSetting';
-import { BaseOutputString } from '../../api/models/baseOutputString';
-import { BaseOutputUser } from '../../api/models/baseOutputUser';
+import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';
+import { BaseOutputUser } from '@app-api/lib/api/models/baseOutputUser';
 
 export abstract class BaseStorage implements IBaseStorage {
   public get token(): Observable<BaseOutputString | undefined> {
