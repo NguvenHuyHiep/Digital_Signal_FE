@@ -26,9 +26,16 @@ import { FileModule } from '../file/file.module';
 import { ChosenFileComponent } from './components/playlist/chosen-file/chosen-file.component';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { ChosenGroupDeviceComponent } from './components/playlist/chosen-group-device/chosen-group-device.component';
+import { AdminDeviceGroupModule } from '../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.module';
 
 @NgModule({
-  declarations: [PlaylistsComponent, PlaylistAddComponent, ChosenFileComponent],
+  declarations: [
+    PlaylistsComponent,
+    PlaylistAddComponent,
+    ChosenFileComponent,
+    ChosenGroupDeviceComponent,
+  ],
   imports: [
     CommonModule,
     UiCommonModule,
@@ -55,6 +62,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
     NzSwitchModule,
     FileModule,
     AdminPlaylistModule,
+    AdminDeviceGroupModule,
   ],
 })
 export class PlaylistsModule {}

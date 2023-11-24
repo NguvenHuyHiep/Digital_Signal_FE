@@ -92,7 +92,50 @@
   </form>
 </div>
 <ng-template #elseBlock></ng-template>
-
+<ng-template #addGroupDevice>
+  <nz-form-label [nzSpan]="4" nzFor="listDevice" style="padding-top: 30px">
+    {{ "module.groupDevice.listDeviceGroup" | translate }}
+  </nz-form-label>
+  <nz-skeleton [nzActive]="true" *ngIf="loading.addDeviceGroup"></nz-skeleton>
+  <lh-common-lh-table
+    *ngIf="!loading.addDeviceGroup"
+    [config]="tableConfigDeviceGroup"
+    [data]="deviceGroups"
+    [loading]="loading.addDeviceGroup"
+    (onDelete)="deleteDeviceGroup($event)"
+  ></lh-common-lh-table>
+  <form nz-form [formGroup]="addFileForm" nzLayout="vertical">
+    <div nz-row nzGutter="16">
+      <div nz-col [nzLg]="4" [nzSm]="24">
+        <nz-form-item>
+          <nz-form-label>{{
+            "module.groupDevice.deviceGroupAdd" | translate
+          }}</nz-form-label>
+          <nz-form-control [formGroup]="addFileForm">
+            <app-admin-chosen-group-device
+              class="w-100"
+              formControlName="fileId"
+              (onDataDeviceGroupChange)="setCurrentDeviceGroup($event)"
+            ></app-admin-chosen-group-device>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzLg]="4" [nzSm]="24">
+        <div nz-row nzAlign="middle" class="h-100" style="padding-top: 30px">
+          <button
+            nz-button
+            nzType="primary"
+            [nzLoading]="loading.addDeviceGroup"
+            class="w-100"
+            (click)="addDeviceGroup()"
+          >
+            {{ "module.groupDevice.deviceGroupAdd" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
 <ng-template #addFiles>
   <nz-form-label [nzSpan]="4" nzFor="listDevice">
     {{ "module.file.list-file" | translate }}

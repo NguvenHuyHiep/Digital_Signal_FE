@@ -106,7 +106,10 @@ export class PlaylistsComponent implements OnInit {
 
   delete(playList: Playlist) {
     this.modalService.confirm({
-      nzTitle: `Do you want to delete the device group: ${playList.name} ?`,
+      nzTitle:
+        this.translateService.instant('module.playlist.modalDeletePlayList') +
+        `${playList.name}` +
+        ' ?',
       nzOnOk: () => {
         new Promise((resolve, reject) => {
           return this.playlistService.delete(playList?.id as number).subscribe({

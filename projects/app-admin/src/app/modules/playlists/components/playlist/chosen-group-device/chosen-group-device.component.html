@@ -1,0 +1,13 @@
+<nz-select
+  nzAllowClear
+  nzShowSearch
+  [nzPlaceHolder]="'common.selectDeviceGroup' | translate"
+  [(ngModel)]="deviceGroupIds"
+  (ngModelChange)="onChangeData($event)"
+>
+  <nz-option
+    *ngFor="let groupDevice of deviceGroups"
+    nzLabel="{{ groupDevice.name?.toUpperCase() + ' - ' }}"
+    [nzValue]="groupDevice.id"
+  ></nz-option>
+</nz-select>

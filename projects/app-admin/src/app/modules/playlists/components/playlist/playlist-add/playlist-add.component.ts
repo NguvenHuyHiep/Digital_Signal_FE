@@ -18,6 +18,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { ResponseStatus } from '../../../../../../../../app-api/src/lib/api/models/responseStatus';
 import { TranslateService } from '@ngx-translate/core';
+import { DeviceGroup } from 'projects/app-api/src/lib/api/models/deviceGroup';
+import { AdminDeviceGroupService } from '../../../../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.service';
+import { FormDeviceGroup } from '../../../../device-group/components/form-device-group';
 
 @Component({
   selector: 'app-admin-playlist-add',
@@ -28,10 +31,12 @@ export class PlaylistAddComponent implements OnInit {
   @Input('fileIds') fileIds?: number;
   @Input() currentPlaylist?: Playlist;
   playlistId: number | undefined;
+
   files: Array<DsdFile> = [];
+  deviceGroups: DeviceGroup[] = [];
 
   currentFile: DsdFile = {};
-
+  currentDeviceGroup: DeviceGroup = {};
   isVisible: boolean = false;
 
   form: FormGroupPlayList = this.adminPlaylistService.buildPlaylistForm(
@@ -41,20 +46,19 @@ export class PlaylistAddComponent implements OnInit {
   addFileForm: FormGroupFile = this.formBuilder.group({
     fileId: ['', Validators.required],
   }) as unknown as FormGroupFile;
+  addDeviceGroupForm: FormDeviceGroup = this.formBuilder.group({
+    deviceGroupId: ['', Validators.required],
+  }) as unknown as FormDeviceGroup;
 
   isChecked: boolean = false;
 
-  showFrame: {
-    detail: boolean;
-  } = {
-    detail: false,
-  };
-
   loading: {
+    addDeviceGroup: boolean;
     searching: boolean;
     addFile: boolean;
     adding: boolean;
   } = {
+    addDeviceGroup: false,
     addFile: false,
     searching: false,
     adding: false,
@@ -72,6 +76,18 @@ export class PlaylistAddComponent implements OnInit {
       },
     ],
   };
+  tableConfigDeviceGroup: LhTableConfigModel = {
+    disableDetail: true,
+    disableUpdate: true,
+    key: 'id',
+    fields: [
+      {
+        label: 'module.groupDevice.name',
+        field: 'name',
+        type: LhTableFieldType.STRING,
+      },
+    ],
+  };
 
   constructor(
     private location: Location,
@@ -82,18 +98,21 @@ export class PlaylistAddComponent implements OnInit {
     private adminPlaylistService: AdminPlaylistService,
     private fileService: AdminFileService,
     private message: NzMessageService,
-    private modalService: NzModalService
+    private modalService: NzModalService,
+    private adminDeviceGroupService: AdminDeviceGroupService
   ) {
     this.playlistId = this.activatedRoute.snapshot.params['playlistId'];
   }
 
   ngOnInit(): void {
-    this.loadFile();
+    this.loadDeviceGroupByPlayListId();
     if (this.playlistId) {
       this.getPlaylistById(this.playlistId);
+      this.loadFileByPlayListId();
     } else {
     }
   }
+
   public add() {
     if (!this.form) {
       return;
@@ -117,6 +136,7 @@ export class PlaylistAddComponent implements OnInit {
       },
     });
   }
+
   public addOrUpdate(): Observable<BaseOutputPlaylist> {
     if (!this.form.valid) {
       this.form.markAsTouched();
@@ -201,7 +221,7 @@ export class PlaylistAddComponent implements OnInit {
       .subscribe({
         next: (response) => {
           if (response && response.status === ResponseStatus.Success) {
-            this.loadFile();
+            this.loadFileByPlayListId();
             return;
           } else {
             let errorsInStr: string = response.errors
@@ -219,40 +239,6 @@ export class PlaylistAddComponent implements OnInit {
           this.loading.addFile = false;
         },
       });
-  }
-
-  private patchValue(obj: Playlist) {
-    this.form.patchValue(obj as any);
-  }
-
-  private loadFile() {
-    this.loading.addFile = true;
-    console.log('playlistAdmin', this.currentPlaylist);
-    if (this.playlistId) {
-      this.adminPlaylistService
-        .getPlaylistWithFile(this.playlistId as number)
-        .subscribe({
-          next: (response) => {
-            if (response && response.status === ResponseStatus.Success) {
-              this.files = response.data?.files as DsdFile[];
-              console.log(this.files + 'files');
-            } else {
-              let errorsInStr: string = response.errors
-                ?.map((e) => this.translateService.instant(e))
-                .join(', ') as string;
-              this.message.error(errorsInStr);
-            }
-          },
-          error: (err) => {
-            // TODO i18n
-            this.message.error('Error', err);
-            this.loading.addFile = false;
-          },
-          complete: () => {
-            this.loading.addFile = false;
-          },
-        });
-    }
   }
 
   getPlaylistById(playlistId: number) {
@@ -278,5 +264,118 @@ export class PlaylistAddComponent implements OnInit {
 
   navigateToPrevious() {
     this.location.back();
+  }
+
+  deleteDeviceGroup(deviceGroup: DeviceGroup) {
+    this.modalService.confirm({
+      nzTitle: `Do you want to delete the device group: ${deviceGroup.name} ?`,
+      nzOnOk: () => {
+        new Promise((resolve, reject) => {
+          return this.adminDeviceGroupService
+            .deleteDeviceGroup(deviceGroup?.id as number)
+            .subscribe({
+              next: (response) => {
+                this.loadDeviceGroupByPlayListId();
+              },
+              error: (err) => {
+                this.message.error('Error', err);
+              },
+              complete: () => {
+                this.loading.searching = false;
+              },
+            });
+        });
+      },
+    });
+  }
+
+  setCurrentDeviceGroup($event: DeviceGroup) {
+    this.currentDeviceGroup = $event;
+    console.log('this.currentFile', this.currentFile);
+  }
+
+  addDeviceGroup() {
+    if (!this.addDeviceGroupForm) {
+      return;
+    }
+    const DeviceGroupIdValue = Number(this.currentDeviceGroup.id);
+    this.loading.addDeviceGroup = true;
+    this.adminPlaylistService
+      .assignDeviceGroups(this.playlistId as number, [DeviceGroupIdValue])
+      .subscribe({
+        next: (response) => {
+          if (response && response.status === ResponseStatus.Success) {
+            this.deviceGroups = response.data?.deviceGroups as DeviceGroup[];
+          } else {
+            let errorsInStr: string = response.errors
+              ?.map((e) => this.translateService.instant(e))
+              .join(', ') as string;
+            this.message.error(errorsInStr);
+          }
+        },
+        error: (err) => {
+          this.message.error('Error', err);
+          this.loading.addDeviceGroup = false;
+        },
+        complete: () => {
+          this.loading.addDeviceGroup = false;
+        },
+      });
+  }
+
+  private loadFileByPlayListId() {
+    this.loading.addFile = true;
+    console.log('playlistAdmin', this.currentPlaylist);
+    if (this.playlistId) {
+      this.adminPlaylistService
+        .getPlaylistWithFile(this.playlistId as number)
+        .subscribe({
+          next: (response) => {
+            if (response && response.status === ResponseStatus.Success) {
+              this.files = response.data?.files as DsdFile[];
+              console.log(this.files + 'files');
+            } else {
+              let errorsInStr: string = response.errors
+                ?.map((e) => this.translateService.instant(e))
+                .join(', ') as string;
+              this.message.error(errorsInStr);
+            }
+          },
+          error: (err) => {
+            this.message.error('Error', err);
+            this.loading.addFile = false;
+          },
+          complete: () => {
+            this.loading.addFile = false;
+          },
+        });
+    }
+  }
+
+  private loadDeviceGroupByPlayListId() {
+    this.loading.addDeviceGroup = true;
+    if (this.playlistId) {
+      this.adminPlaylistService
+        .getDeviceGroupByPlayListId(this.playlistId as number)
+        .subscribe({
+          next: (response) => {
+            if (response && response.status === ResponseStatus.Success) {
+              this.deviceGroups = response.data?.deviceGroups as DeviceGroup[];
+            } else {
+              let errorsInStr: string = response.errors
+                ?.map((e) => this.translateService.instant(e))
+                .join(', ') as string;
+              this.message.error(errorsInStr);
+            }
+          },
+          error: (err) => {
+            this.message.error('Error', err);
+            this.loading.addDeviceGroup = false;
+          },
+          complete: () => {
+            this.loading.addDeviceGroup = false;
+          },
+        });
+    }
   }
 }

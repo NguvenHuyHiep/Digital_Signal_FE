@@ -38,13 +38,7 @@ export class DeviceGroupsComponent implements OnInit {
     searching: false,
     device: false,
   };
-  query: {
-    action?: string;
-    id?: string;
-  } = {
-    action: undefined,
-    id: undefined,
-  };
+
   tableConfig: LhTableConfigModel = {
     disableDetail: true,
     key: 'id',
@@ -91,12 +85,12 @@ export class DeviceGroupsComponent implements OnInit {
   };
 
   constructor(
+    private modalService: NzModalService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private adminDeviceGroupService: AdminDeviceGroupService,
     private message: NzMessageService,
-    private translateService: TranslateService,
-    private modalService: NzModalService
+    private translateService: TranslateService
   ) {}
   ngOnInit(): void {
     this.getAllDeviceGroup();
@@ -122,7 +116,12 @@ export class DeviceGroupsComponent implements OnInit {
 
   delete(deviceGroup: DeviceGroup) {
     this.modalService.confirm({
-      nzTitle: `Do you want to delete the device group: ${deviceGroup.name} ?`,
+      nzTitle:
+        this.translateService.instant(
+          'module.groupDevice.modalDeleteGroupDevice'
+        ) +
+        `${deviceGroup.name}` +
+        ' ?',
       nzOnOk: () => {
         new Promise((resolve, reject) => {
           return this.adminDeviceGroupService

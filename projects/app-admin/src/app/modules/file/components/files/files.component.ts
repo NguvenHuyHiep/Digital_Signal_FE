@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { LhTableComponent } from '../../../../../../../app-common/src/lib/components/lh-table/lh-table.component';
 import { FileAddComponent } from '../file-add/file-add.component';
 import {
@@ -71,7 +64,7 @@ export class FilesComponent<T extends Object> implements OnInit {
   }
 
   constructor(
-    private activedRoute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private translateService: TranslateService,
     private adminFileService: AdminFileService,
@@ -90,7 +83,10 @@ export class FilesComponent<T extends Object> implements OnInit {
 
   delete(file: DsdFile) {
     this.modalService.confirm({
-      nzTitle: `Do you want to delete the file: ${file.path} ?`,
+      nzTitle:
+        this.translateService.instant('module.file.modalDeleteFile') +
+        `${file.name}` +
+        ' ?',
       nzOnOk: () => {
         new Promise((resolve, reject) => {
           return this.adminFileService
@@ -161,13 +157,13 @@ export class FilesComponent<T extends Object> implements OnInit {
   navigateToDetail = (record: Schedule): void => {
     console.log(record);
     this.router.navigate(['./detail', record.id], {
-      relativeTo: this.activedRoute,
+      relativeTo: this.activatedRoute,
     });
   };
 
   navigateToCreate = (): void => {
     this.router.navigate(['./create'], {
-      relativeTo: this.activedRoute,
+      relativeTo: this.activatedRoute,
     });
   };
 }
