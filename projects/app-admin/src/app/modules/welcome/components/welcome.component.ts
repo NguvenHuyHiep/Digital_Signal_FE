@@ -2,25 +2,22 @@ import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { DOCUMENT, PlatformLocation } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
-
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzIconService } from 'ng-zorro-antd/icon';
+import { TranslateService } from '@ngx-translate/core';
+import { Store } from '@ngrx/store';
 import {
   Menu,
   NotificationModel,
-} from '../../../../../../app-common/src/lib/modules/common-module';
-import { MessageModel } from '../../../../../../app-common/src/lib/modules/common-module/models/message-model';
-import { WaterMarkService } from '../../../../../../app-common/src/lib/modules/watermark/water-mark.service';
-import { TaskModel } from '../../../../../../app-common/src/lib/modules/common-module/models/task-model';
-import { environment } from '../../../../environments/environment';
-import { TranslateService } from '@ngx-translate/core';
-import { LhAuthenService } from '../../../../../../app-api/src/lib/modules/authen/lh-authen.service';
-import { Store } from '@ngrx/store';
-import { SIGN_OUT } from '../../../../../../app-api/src/lib/modules/authen/store/authen.reducers';
-import { MenuService } from 'ng-zorro-antd/menu';
-import { LhLanguageService } from '../../../../../../app-api/src/lib/modules/language/lh-language.service';
-import { BaseOutputUser } from '../../../../../../app-api/src/lib/api/models/baseOutputUser';
-import { User } from '../../../../../../app-api/src/lib/api/models/user';
+  WaterMarkService,
+} from '@app-common/public-api';
+import { MessageModel } from '@app-common/lib/modules/common-module/models/message-model';
+import { TaskModel } from '@app-common/lib/modules/common-module/models/task-model';
+import { LhAuthenService } from '@app-api/lib/modules/authen/lh-authen.service';
+import { LhLanguageService } from '@app-api/lib/modules/language/lh-language.service';
+import { environment } from '@app-admin/environments/environment';
+import { SIGN_OUT } from '@app-api/lib/modules/authen/store/authen.reducers';
+import { User } from '@app-api/lib/api/models/user';
 
 const number10IconLiteral =
   '<svg t="1614656301570" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="667" width="24" height="24"><path d="M613.449901 887.558133l-57.825944 68.909933-17.418983-24.519976c-8.785991-13.791987-14.199986-27.583973-15.119985-41.37696-0.307-4.596996 0.409-10.72699 0.153-15.272985l20.17798-300.262707 48.169953-59.766941 42.347959 59.766941-20.48398 312.522695z m28.452972-434.967575l-50.264951 62.831939-40.30396-62.831939 16.754983-266.49674c2.195998-18.389982 2.655997-29.116972 3.370997-35.246965 1.379999-13.741987 6.333994-24.519976 15.835984-35.195966l30.444971-36.728964 43.929957 67.377934-19.767981 306.290701zM850.879669 901.40112l48.885952 73.507928-25.182975 30.69997c-10.42099 13.740987-22.578978 18.389982-44.084957 18.389982H631.277884c-21.505979 0-34.327966-6.129994-43.062958-18.389982l-20.125981-30.69997 60.889941-73.507928H850.879669zM678.426837 124.845878L631.174884 58.999942l21.812978-30.69997C666.524849 9.90999 679.601836 2.247998 696.55982 2.247998h207.139797c15.834985 0 31.261969 10.72699 41.32496 26.051974l17.725983 29.116972-59.050943 67.377934H678.426837z m211.379794 450.23956l50.315951-61.24694 40.200961 61.24794-16.805984 265.015742c-0.969999 19.921981-2.451998 32.181969-2.144998 36.779964-1.379999 13.739987-6.436994 22.934978-16.959983 35.194965l-32.794968 35.195966-41.32496-61.24794 19.512981-310.939697z m28.859972-428.836581l58.898942-68.909933 13.842987 21.45498c10.06399 15.323985 15.477985 29.116972 16.448984 44.389956 0.409 6.129994 0.816999 12.259988 0.051 18.389982l-18.542982 291.016716-51.49095 61.29994-39.077962-61.29994 19.869981-306.341701z m-699.931317-25.182975l-36.779964-54.147947L225.58028 0h139.914863l-84.898917 121.065882h-61.85994z m24.468976 445.949564l53.993948-56.189945 47.149954 56.189945-29.321972 394.356615-55.219946 60.276941-45.923955-60.78794 29.321971-393.845616z m31.05797-422.962587L383.885125 24.519976l-31.00697 421.429589-55.679945 64.874936-45.054956-65.385936 22.118978-301.385706z" p-id="668"></path></svg>';
