@@ -110,6 +110,11 @@ export class AdminPlaylistService {
   public getPlaylistWithFile(id: number): Observable<BaseOutputPlaylist> {
     return this.adminPlayListController.getByIdWithFiles(id);
   }
+  public getDeviceGroupByPlayListId(
+    id: number
+  ): Observable<BaseOutputPlaylist> {
+    return this.adminPlayListController.getByIdWithFilesDeviceGroups(id);
+  }
 
   public assignFile(playListId: number, fileIds: number[]) {
     return this.adminPlayListController.assignFiles(playListId, fileIds);
@@ -117,5 +122,12 @@ export class AdminPlaylistService {
 
   public getPlaylistByPlaylistId(playlistId: number) {
     return this.adminPlayListController.getById3(playlistId);
+  }
+
+  public assignDeviceGroups(playlistId: number, deviceGroupIds: number[]) {
+    return this.adminPlayListController.assignDeviceGroups(
+      playlistId,
+      deviceGroupIds
+    );
   }
 }

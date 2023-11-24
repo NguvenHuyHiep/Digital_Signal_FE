@@ -89,9 +89,9 @@ export class AdminDeviceGroupService {
     );
   }
 
-  public assignDevices(deciveGroupId: number, deviceIds: number[]) {
+  public assignDevices(deviceGroupId: number, deviceIds: number[]) {
     return this.adminGroupDeviceController.assignDevices(
-      deciveGroupId,
+      deviceGroupId,
       deviceIds
     );
   }
@@ -105,5 +105,12 @@ export class AdminDeviceGroupService {
       description: [device.description],
       status: [device.status],
     }) as FormDevice;
+  }
+
+  public assignDeviceGroup(playListId: number, deviceGroupIds: number[]) {
+    return this.adminGroupDeviceController.assignDevices(
+      playListId,
+      deviceGroupIds
+    );
   }
 }

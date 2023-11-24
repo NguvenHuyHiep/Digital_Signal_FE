@@ -118,7 +118,10 @@ export class UsersComponent implements OnInit {
 
   delete(user: User) {
     this.modalService.confirm({
-      nzTitle: `Do you want to delete the device group: ${user.userName} ?`,
+      nzTitle:
+        this.translateService.instant('module.user.modalDeleteUser') +
+        `${user.userName}` +
+        ' ?',
       nzOnOk: () => {
         new Promise((resolve, reject) => {
           return this.adminUserService

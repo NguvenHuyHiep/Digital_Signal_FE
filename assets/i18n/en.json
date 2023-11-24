@@ -49,7 +49,8 @@
     "welcomeback": "Welcome Back !"
   },
   "module": {
-    "groupdevice": {
+    "groupDevice": {
+      "modalDeleteGroupDevice": " Do you want delete device group :  ",
       "title": "Group Device",
       "info": "Info",
       "name": "Name",
@@ -57,8 +58,9 @@
       "location": "Location",
       "device": "Device",
       "deviceAdd": "Add device",
+      "deviceGroupAdd": "Add group device",
       "listDevice": "List devices",
-      "no-devices": "This group don't have any device"
+      "listDeviceGroup": "List group devices"
     },
     "dashboard": {
       "title": "Dashboard",
@@ -73,6 +75,9 @@
       "welcome": "Welcome to Digital Signage"
     },
     "file": {
+      "title": "File",
+      "add": "Add",
+      "modalDeleteFile": "Do you want delete : ",
       "chooseContentType": "File type",
       "contentTypes-video": "video",
       "contentTypes-img": "img",
@@ -91,6 +96,7 @@
       }
     },
     "playlist": {
+      "modalDeletePlayList": "Do you want delete PlayList : ",
       "title": "Playlist",
       "file": "File",
       "update": "Update file",
@@ -104,6 +110,7 @@
       "true": "Yes"
     },
     "user": {
+      "modalDeleteUser": "Do you want delete user : ",
       "title": "User",
       "info": "Information",
       "email": "Email",

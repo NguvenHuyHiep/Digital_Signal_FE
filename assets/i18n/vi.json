@@ -29,6 +29,7 @@
     "success": "Thành công",
     "selectDevice": "Chọn thiết bị",
     "selectFile": "Chọn File",
+    "selectDeviceGroup": "Chọn nhóm thiết bị ",
     "option": "Tùy chỉnh"
   },
 
@@ -54,6 +55,7 @@
   },
   "module": {
     "groupDevice": {
+      "modalDeleteGroupDevice": " Bạn muốn xóa nhóm thiết bị :  ",
       "title": "Group Device",
       "info": "Thông tin",
       "name": "Tên Group",
@@ -61,8 +63,10 @@
       "location": "Địa chỉ",
       "device": "Thiết bị",
       "deviceAdd": "Thêm thiết bị",
+      "no-devices": "This group don't have any device",
+      "deviceGroupAdd": "Thêm nhóm thiết bị",
       "listDevice": "Danh sách thiết bị",
-      "no-devices": "Nhóm không có thiết bị"
+      "listDeviceGroup": "Danh sách nhóm thiết bị"
     },
     "dashboard": {
       "title": "Thống kê",
@@ -77,6 +81,7 @@
       "welcome": "Chào mừng tới Digital Signage"
     },
     "file": {
+      "modalDeleteFile": "Bạn muốn xóa File : ",
       "add": "Thêm file",
       "chooseContentType": "Loại file",
       "contentTypes-video": "video",
@@ -97,6 +102,7 @@
       }
     },
     "playlist": {
+      "modalDeletePlayList": "Bạn muốn xóa PlayList : ",
       "title": "Playlist",
       "file": "File",
       "update": "Cập nhập File",
@@ -110,6 +116,7 @@
       "true": "Có"
     },
     "user": {
+      "modalDeleteUser": "Bạn muốn xóa người dùng : ",
       "title": "Tài khoản",
       "info": "Thông tin",
       "email": "Email",
@@ -213,7 +220,7 @@
   },
   "button": {
     "ok": "Xác nhận",
-    "cancel": "Hủy"
+    "cancel": "Hủy "
   },
   "menu": {
     "search": "Tìm kiếm",
