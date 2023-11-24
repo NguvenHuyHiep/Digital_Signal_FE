@@ -1,18 +1,17 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { User } from '../../../../../../../app-api/src/lib/api/models/user';
-import { LhTableComponent } from '../../../../../../../app-common/src/lib/components/lh-table/lh-table.component';
-import { UserAddComponent } from '../user-add/user-add.component';
+import { User } from '@app-api/lib/api/models/user';
+import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.component';
+import { UserAddComponent } from '@app-admin/app/modules/user/components/user-add/user-add.component';
 import {
   LhTableConfigModel,
   LhTableFieldType,
-} from '../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model';
-import { AdminUserService } from '../../../../../../../app-api/src/lib/modules/admin/admin-user/admin-user.service';
+} from '@app-common/lib/components/lh-table/lh-table-config.model';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AdminUserService } from '@app-api/lib/modules/admin/admin-user/admin-user.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ActivatedRoute, Router } from '@angular/router';
-import { translate } from '@antv/g2/lib/util/transform';
-import { ResponseStatus } from '../../../../../../../app-api/src/lib/api/models/responseStatus';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 
 @Component({
   selector: 'app-admin-users',

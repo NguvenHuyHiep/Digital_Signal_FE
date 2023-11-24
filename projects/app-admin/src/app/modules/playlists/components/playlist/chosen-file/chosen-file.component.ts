@@ -5,12 +5,12 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { DsdFile } from '../../../../../../../../app-api/src/lib/api/models/dsdFile';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { AdminFileService } from '../../../../../../../../app-api/src/lib/modules/admin/admin-file/admin-file.service';
-import { ResponseStatus } from '../../../../../../../../app-api/src/lib/api/models/responseStatus';
 import { TranslateService } from '@ngx-translate/core';
+import { DsdFile } from '@app-api/lib/api/models/dsdFile';
+import { AdminFileService } from '@app-api/lib/modules/admin/admin-file/admin-file.service';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 
 @Component({
   selector: 'app-admin-chosen-file',

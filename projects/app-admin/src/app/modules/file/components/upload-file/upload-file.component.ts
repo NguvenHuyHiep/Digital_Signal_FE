@@ -6,11 +6,9 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { NzUploadFile, NzUploadXHRArgs } from 'ng-zorro-antd/upload';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Subscription } from 'rxjs';
-import { AdminFileControllerService } from '../../../../../../../app-api/src/lib/api/controller/adminFileController.service';
-import { AdminFileService } from '../../../../../../../app-api/src/lib/modules/admin/admin-file/admin-file.service';
+import { AdminFileService } from '@app-api/lib/modules/admin/admin-file/admin-file.service';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'app-admin-upload-file',

@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { LhTableComponent } from '../../../../../../../app-common/src/lib/components/lh-table/lh-table.component';
-import { License } from '../../../../../../../app-api/src/lib/api/models/license';
+
+import { TranslateService } from '@ngx-translate/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.component';
+import { License } from '@app-api/lib/api/models/license';
 import {
   LhTableConfigModel,
   LhTableFieldType,
-} from '../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model';
-import { AdminLicenseService } from '../../../../../../../app-api/src/lib/modules/admin/admin-license/admin-license.service';
-import { TranslateService } from '@ngx-translate/core';
-import { NzMessageService } from 'ng-zorro-antd/message';
+} from '@app-common/lib/components/lh-table/lh-table-config.model';
+import { AdminLicenseService } from '@app-api/lib/modules/admin/admin-license/admin-license.service';
 
 @Component({
   selector: 'app-admin-license',

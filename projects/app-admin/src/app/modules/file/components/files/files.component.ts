@@ -1,21 +1,21 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { LhTableComponent } from '../../../../../../../app-common/src/lib/components/lh-table/lh-table.component';
-import { FileAddComponent } from '../file-add/file-add.component';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import {
   LhTableConfigModel,
   LhTableFieldType,
-} from '../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { AdminFileService } from '../../../../../../../app-api/src/lib/modules/admin/admin-file/admin-file.service';
-import { DsdFile } from '../../../../../../../app-api/src/lib/api/models/dsdFile';
-import { Playlist } from '../../../../../../../app-api/src/lib/api/models/playlist';
-import { NzUploadFile } from 'ng-zorro-antd/upload';
-import { AdminPlaylistService } from '../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import { Schedule } from '../../../../../../../app-api/src/lib/api/models/schedule';
-import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { ResponseStatus } from 'projects/app-api/src/lib/api/models/responseStatus';
+} from '@app-common/lib/components/lh-table/lh-table-config.model';
+import { Playlist } from '@app-api/lib/api/models/playlist';
+import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.component';
+import { DsdFile } from '@app-api/lib/api/models/dsdFile';
+import { AdminFileService } from '@app-api/lib/modules/admin/admin-file/admin-file.service';
+import { AdminPlaylistService } from '@app-api/lib/modules/admin/admin-playlist/admin-playlist.service';
+import { Schedule } from '@app-api/lib/api/models/schedule';
+import { FileAddComponent } from '@app-admin/app/modules/file/components/file-add/file-add.component';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 
 @Component({
   selector: 'app-admin-files',
@@ -52,13 +52,7 @@ export class FilesComponent<T extends Object> implements OnInit {
       },
     ],
   };
-  query: {
-    action?: string;
-    id?: string;
-  } = {
-    action: undefined,
-    id: undefined,
-  };
+
   isSelectedRow(): boolean {
     return (this.table?.setOfCheckedId?.size || 0) > 0;
   }

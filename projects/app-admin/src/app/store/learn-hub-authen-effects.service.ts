@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import { tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { SIGN_OUT } from 'projects/app-api/src/lib/modules/authen/store/authen.reducers';
+import { SIGN_OUT } from '@app-api/lib/modules/authen/store/authen.reducers';
 
 @Injectable()
 export class AppAuthenEffects {

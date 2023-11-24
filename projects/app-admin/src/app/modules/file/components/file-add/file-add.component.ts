@@ -1,19 +1,16 @@
 import { Component, Input } from '@angular/core';
-import { Observable } from 'rxjs';
-import { FormGroupFile } from '../../../playlists/components/playlist';
-import { AdminFileService } from '../../../../../../../app-api/src/lib/modules/admin/admin-file/admin-file.service';
+import { FormArray } from '@angular/forms';
+import { FormGroupFile } from '@app-admin/app/modules/playlists/components/playlist';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { BaseOutputListDsdFile } from 'projects/app-api/src/lib/api/models/baseOutputListDsdFile';
+import { DsdFile } from '@app-api/lib/api/models/dsdFile';
 import {
   LhTableConfigModel,
   LhTableFieldType,
-} from 'projects/app-common/src/lib/components/lh-table/lh-table-config.model';
-import { FormArray } from '@angular/forms';
-import { DsdFile } from '../../../../../../../app-api/src/lib/api/models/dsdFile';
-import { Location } from '@angular/common';
-import { ResponseStatus } from 'projects/app-api/src/lib/api/models/responseStatus';
+} from '@app-common/lib/components/lh-table/lh-table-config.model';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { TranslateService } from '@ngx-translate/core';
+import { AdminFileService } from '@app-api/lib/modules/admin/admin-file/admin-file.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-admin-file-add',

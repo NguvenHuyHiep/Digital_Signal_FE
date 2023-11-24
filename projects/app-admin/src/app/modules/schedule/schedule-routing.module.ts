@@ -1,8 +1,8 @@
 import { RouterModule, Routes } from '@angular/router';
-import { ScheduleListComponent } from './components/schedule-list/schedule-list.component';
 import { NgModule } from '@angular/core';
-import { ScheduleDetailComponent } from './components/schedule-detail/schedule-detail.component';
-import { ScheduleAddComponent } from './components/schedule-add/schedule-add.component';
+import { ScheduleListComponent } from '@app-admin/app/modules/schedule/components/schedule-list/schedule-list.component';
+import { ScheduleDetailComponent } from '@app-admin/app/modules/schedule/components/schedule-detail/schedule-detail.component';
+import { ScheduleAddComponent } from '@app-admin/app/modules/schedule/components/schedule-add/schedule-add.component';
 
 const routes: Routes = [
   {

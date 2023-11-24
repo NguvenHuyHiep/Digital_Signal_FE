@@ -1,24 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { BaseOutputDeviceGroup } from '../../../../../../../../app-api/src/lib/api/models/baseOutputDeviceGroup';
-import { DeviceGroup } from '../../../../../../../../app-api/src/lib/api/models/deviceGroup';
-import { Device } from '../../../../../../../../app-api/src/lib/api/models/device';
-import { User } from '../../../../../../../../app-api/src/lib/api/models/user';
-import { AdminDeviceGroupService } from '../../../../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.service';
-import { FormDevice, FormDeviceGroup } from '../../form-device-group';
+import { AdminDeviceService } from '@app-api/lib/modules/admin/admin-device/admin-device.service';
+import { Device } from '@app-api/lib/api/models/device';
+import { DeviceGroup } from '@app-api/lib/api/models/deviceGroup';
 import {
   LhTableConfigModel,
   LhTableFieldType,
-} from '../../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model';
-import { AdminDeviceControllerService } from '../../../../../../../../app-api/src/lib/api/controller/adminDeviceController.service';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { Observable } from 'rxjs';
-import { AdminDeviceService } from '../../../../../../../../app-api/src/lib/modules/admin/admin-device/admin-device.service';
-import { Location } from '@angular/common';
-import { ResponseStatus } from '../../../../../../../../app-api/src/lib/api/models/responseStatus';
-import { TranslateService } from '@ngx-translate/core';
+} from '@app-common/lib/components/lh-table/lh-table-config.model';
+import {
+  FormDevice,
+  FormDeviceGroup,
+} from '@app-admin/app/modules/device-group/components/form-device-group';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-
+import { AdminDeviceGroupService } from '@app-api/lib/modules/admin/group-device/admin-group-device.service';
+import { AdminDeviceControllerService } from '@app-api/lib/api';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { TranslateService } from '@ngx-translate/core';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
+import { Observable } from 'rxjs';
+import { BaseOutputDeviceGroup } from '@app-api/lib/api/models/baseOutputDeviceGroup';
+import { User } from '@app-api/lib/api/models/user';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-admin-device-group-add',
   templateUrl: './device-group-add.component.html',

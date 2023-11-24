@@ -1,26 +1,30 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { FormGroupFile, FormGroupPlayList } from '../../playlist';
-import { AdminPlaylistService } from '../../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service';
-import { Playlist } from '../../../../../../../../app-api/src/lib/api/models/playlist';
-import { DsdFile } from '../../../../../../../../app-api/src/lib/api/models/dsdFile';
-import { BaseOutputPlaylist } from '../../../../../../../../app-api/src/lib/api/models/baseOutputPlaylist';
+
 import { Observable } from 'rxjs';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
+import { AdminDeviceGroupService } from '@app-api/lib/modules/admin/group-device/admin-group-device.service';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
+import { Playlist } from '@app-api/lib/api/models/playlist';
+import { DsdFile } from '@app-api/lib/api/models/dsdFile';
 import {
   LhTableConfigModel,
   LhTableFieldType,
-} from '../../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model';
+} from '@app-common/lib/components/lh-table/lh-table-config.model';
+import { AdminPlaylistService } from '@app-api/lib/modules/admin/admin-playlist/admin-playlist.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import { AdminFileService } from 'projects/app-api/src/lib/modules/admin/admin-file/admin-file.service';
-import { PlaylistStatus } from 'projects/app-api/src/lib/api/models/playlistStatus';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
-import { ResponseStatus } from '../../../../../../../../app-api/src/lib/api/models/responseStatus';
-import { TranslateService } from '@ngx-translate/core';
-import { DeviceGroup } from 'projects/app-api/src/lib/api/models/deviceGroup';
-import { AdminDeviceGroupService } from '../../../../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.service';
-import { FormDeviceGroup } from '../../../../device-group/components/form-device-group';
+import { BaseOutputPlaylist } from '@app-api/lib/api/models/baseOutputPlaylist';
+import { DeviceGroup } from '@app-api/lib/api/models/deviceGroup';
+import {
+  FormGroupFile,
+  FormGroupPlayList,
+} from '@app-admin/app/modules/playlists/components/playlist';
+import { FormDeviceGroup } from '@app-admin/app/modules/device-group/components/form-device-group';
+import { AdminFileService } from '@app-api/lib/modules/admin/admin-file/admin-file.service';
+import { PlaylistStatus } from '@app-api/lib/api/models/playlistStatus';
 
 @Component({
   selector: 'app-admin-playlist-add',
