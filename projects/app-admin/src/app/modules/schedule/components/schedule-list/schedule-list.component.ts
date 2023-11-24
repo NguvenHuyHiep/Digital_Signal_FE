@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Schedule } from 'projects/app-api/src/lib/api/models/schedule';
-import { AdminScheduleService } from 'projects/app-api/src/lib/modules/admin/admin-schedule/admin-schedule.service';
+import { LhTableComponent } from 'projects/app-common/src/lib/components/lh-table/lh-table.component';
+import { Schedule } from '@app-api/lib/api/models/schedule';
 import {
   LhTableConfigModel,
   LhTableFieldType,
-} from 'projects/app-common/src/lib/components/lh-table/lh-table-config.model';
-import { LhTableComponent } from 'projects/app-common/src/lib/components/lh-table/lh-table.component';
+} from '@app-common/lib/components/lh-table/lh-table-config.model';
+import { AdminScheduleService } from '@app-api/lib/modules/admin/admin-schedule/admin-schedule.service';
 
 @Component({
   selector: 'app-admin-schedule-list',

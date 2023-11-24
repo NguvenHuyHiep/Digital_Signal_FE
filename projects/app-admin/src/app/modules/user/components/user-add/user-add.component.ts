@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../../../../../../app-api/src/lib/api/models/user';
-import { FormBuilder } from '@angular/forms';
-import { AdminUserService } from '../../../../../../../app-api/src/lib/modules/admin/admin-user/admin-user.service';
-import { Observable } from 'rxjs';
-import { FormGroupUser } from '../user-type';
-import { BaseOutputUser } from '../../../../../../../app-api/src/lib/api/models/baseOutputUser';
-import { AdminLicenseService } from '../../../../../../../app-api/src/lib/modules/admin/admin-license/admin-license.service';
-import { LicenseGenerateRequest } from '../../../../../../../app-api/src/lib/api/models/licenseGenerateRequest';
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { ResponseStatus } from '../../../../../../../app-api/src/lib/api/models/responseStatus';
+import { User } from '@app-api/lib/api/models/user';
+import { FormGroupUser } from '@app-admin/app/modules/user/components/user-type';
+import { FormBuilder } from '@angular/forms';
+import { AdminUserService } from '@app-api/lib/modules/admin/admin-user/admin-user.service';
+import { AdminLicenseService } from '@app-api/lib/modules/admin/admin-license/admin-license.service';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
+import { Observable } from 'rxjs';
+import { BaseOutputUser } from '@app-api/lib/api/models/baseOutputUser';
+import { LicenseGenerateRequest } from '@app-api/lib/api/models/licenseGenerateRequest';
 
 @Component({
   selector: 'app-admin-user-add',

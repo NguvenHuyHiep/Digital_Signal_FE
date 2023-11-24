@@ -1,23 +1,15 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  CalendarDayViewBeforeRenderEvent,
-  CalendarEvent,
-  CalendarEventTimesChangedEvent,
-  CalendarMonthViewBeforeRenderEvent,
-  CalendarView,
-  CalendarWeekViewBeforeRenderEvent,
-} from 'angular-calendar';
+import { CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 import { Subject } from 'rxjs';
 import { Color, DsdCalendarEvent } from '../../admin-schedule.model';
-import { RRule } from 'rrule';
-import { AdminScheduleService } from 'projects/app-api/src/lib/modules/admin/admin-schedule/admin-schedule.service';
-import { Schedule } from 'projects/app-api/src/lib/api/models/schedule';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { Schedule } from '@app-api/lib/api/models/schedule';
 import {
   LhTableConfigModel,
   LhTableFieldType,
-} from 'projects/app-common/src/lib/components/lh-table/lh-table-config.model';
+} from '@app-common/lib/components/lh-table/lh-table-config.model';
+import { AdminScheduleService } from '@app-api/lib/modules/admin/admin-schedule/admin-schedule.service';
 
 @Component({
   selector: 'app-admin-schedule-detail',

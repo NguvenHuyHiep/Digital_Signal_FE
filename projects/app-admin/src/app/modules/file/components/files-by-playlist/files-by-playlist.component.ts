@@ -1,17 +1,17 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { DsdFile } from '../../../../../../../app-api/src/lib/api/models/dsdFile';
+
+import { ActivatedRoute, Router } from '@angular/router';
+import { Playlist } from '@app-api/lib/api/models/playlist';
+import { DsdFile } from '@app-api/lib/api/models/dsdFile';
 import {
   LhTableConfigModel,
   LhTableFieldType,
-} from '../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model';
-import { AdminFileService } from '../../../../../../../app-api/src/lib/modules/admin/admin-file/admin-file.service';
-import { AdminPlaylistService } from '../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service';
+} from '@app-common/lib/components/lh-table/lh-table-config.model';
+import { AdminFileService } from '@app-api/lib/modules/admin/admin-file/admin-file.service';
+import { AdminPlaylistService } from '@app-api/lib/modules/admin/admin-playlist/admin-playlist.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Playlist } from '../../../../../../../app-api/src/lib/api/models/playlist';
-import { ResponseStatus } from '../../../../../../../app-api/src/lib/api/models/responseStatus';
 import { TranslateService } from '@ngx-translate/core';
-import { User } from '../../../../../../../app-api/src/lib/api/models/user';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 
 @Component({
   selector: 'app-admin-file-detail',

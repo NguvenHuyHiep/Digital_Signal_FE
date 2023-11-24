@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { environment } from '../../../../../environments/environment';
+import { environment } from '@app-admin/environments/environment';
+
 @Component({
   selector: 'app-admin-login',
   templateUrl: './login.component.html',

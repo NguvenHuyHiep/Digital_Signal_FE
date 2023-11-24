@@ -1,5 +1,5 @@
 import { CalendarEvent } from 'angular-calendar';
-import { Playlist } from 'projects/app-api/src/lib/api/models/playlist';
+import { Playlist } from '@app-api/lib/api/models/playlist';
 
 export const Color = {
   yellow: {

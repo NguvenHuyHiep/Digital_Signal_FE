@@ -1,20 +1,19 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DeviceGroup } from '../../../../../../../app-api/src/lib/api/models/deviceGroup';
-import { LhTableComponent } from '../../../../../../../app-common/src/lib/components/lh-table/lh-table.component';
-import { DeviceGroupAddComponent } from '../device-group/device-group-add/device-group-add.component';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.component';
+import { DeviceGroup } from '@app-api/lib/api/models/deviceGroup';
+import { DeviceGroupAddComponent } from '@app-admin/app/modules/device-group/components/device-group/device-group-add/device-group-add.component';
+import { Device } from '@app-api/lib/api/models/device';
 import {
   LhTableConfigModel,
   LhTableFieldType,
-} from '../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { translate } from '@antv/g2/lib/util/transform';
-import { AdminDeviceGroupService } from '../../../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.service';
-import { Device } from '../../../../../../../app-api/src/lib/api/models/device';
+} from '@app-common/lib/components/lh-table/lh-table-config.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AdminDeviceGroupService } from '@app-api/lib/modules/admin/group-device/admin-group-device.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { TranslateService } from '@ngx-translate/core';
-import { User } from '../../../../../../../app-api/src/lib/api/models/user';
-import { ResponseStatus } from '../../../../../../../app-api/src/lib/api/models/responseStatus';
-import { NzModalService } from 'ng-zorro-antd/modal';
+import { User } from '@app-api/lib/api/models/user';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 
 @Component({
   selector: 'app-admin-device-groups',
@@ -51,34 +50,6 @@ export class DeviceGroupsComponent implements OnInit {
       {
         label: 'module.groupDevice.description',
         field: 'description',
-        type: LhTableFieldType.STRING,
-      },
-    ],
-  };
-  tableDeviceConfig: LhTableConfigModel = {
-    key: 'id',
-    disableDetail: true,
-    disableUpdate: false,
-    disableDelete: true,
-    fields: [
-      {
-        label: 'module.device.code',
-        field: 'code',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'module.device.name',
-        field: 'name',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'module.device.info',
-        field: 'information',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'module.device.status',
-        field: 'status',
         type: LhTableFieldType.STRING,
       },
     ],

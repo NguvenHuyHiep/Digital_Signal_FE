@@ -1,5 +1,4 @@
 import { FormControl, FormGroup } from '@angular/forms';
-import { License } from '../../../../../../app-api/src/lib/api/models/license';
 
 export type FormGroupUser = FormGroup<{
   id?: FormControl<number>;

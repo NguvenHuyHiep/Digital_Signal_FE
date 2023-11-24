@@ -1,18 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { LhTableComponent } from '../../../../../../../../app-common/src/lib/components/lh-table/lh-table.component';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { Playlist } from '@app-api/lib/api/models/playlist';
+import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.component';
 import {
   LhTableConfigModel,
   LhTableFieldType,
-} from '../../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model';
-import { PlaylistAddComponent } from '../playlist-add/playlist-add.component';
-import { Playlist } from '../../../../../../../../app-api/src/lib/api/models/playlist';
-import { AdminPlaylistService } from '../../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Schedule } from '../../../../../../../../app-api/src/lib/api/models/schedule';
-import { ResponseStatus } from '../../../../../../../../app-api/src/lib/api/models/responseStatus';
-import { TranslateService } from '@ngx-translate/core';
-import { NzModalService } from 'ng-zorro-antd/modal';
+} from '@app-common/lib/components/lh-table/lh-table-config.model';
+import { AdminPlaylistService } from '@app-api/lib/modules/admin/admin-playlist/admin-playlist.service';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
+import { Schedule } from '@app-api/lib/api/models/schedule';
+import { PlaylistAddComponent } from '@app-admin/app/modules/playlists/components/playlist/playlist-add/playlist-add.component';
 
 @Component({
   selector: 'app-admin-playlist',
@@ -140,8 +140,4 @@ export class PlaylistsComponent implements OnInit {
       relativeTo: this.activatedRoute,
     });
   };
-
-  routerToSearch() {
-    this.router.navigate([]).then((r) => {});
-  }
 }

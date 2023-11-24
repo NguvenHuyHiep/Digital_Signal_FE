@@ -1,6 +1,5 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { FormGroupUser } from '../../user/components/user-type';
-import { PlaylistStatus } from '../../../../../../app-api/src/lib/api/models/playlistStatus';
+import { PlaylistStatus } from '@app-api/lib/api/models/playlistStatus';
 
 export type FormGroupFile = FormGroup<{
   id?: FormControl<number>;

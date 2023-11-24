@@ -5,13 +5,12 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { DeviceGroup } from '../../../../../../../../app-api/src/lib/api/models/deviceGroup';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ResponseStatus } from '../../../../../../../../app-api/src/lib/api/models/responseStatus';
-import { AdminFileService } from '../../../../../../../../app-api/src/lib/modules/admin/admin-file/admin-file.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { TranslateService } from '@ngx-translate/core';
-import { AdminDeviceGroupService } from '../../../../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.service';
+import { DeviceGroup } from '@app-api/lib/api/models/deviceGroup';
+import { AdminDeviceGroupService } from '@app-api/lib/modules/admin/group-device/admin-group-device.service';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 
 @Component({
   selector: 'app-admin-chosen-group-device',

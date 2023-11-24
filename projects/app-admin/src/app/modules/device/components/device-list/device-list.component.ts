@@ -6,20 +6,20 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { Device } from 'projects/app-api/src/lib/api/models/device';
-import { AdminDeviceService } from 'projects/app-api/src/lib/modules/admin/admin-device/admin-device.service';
+import { AdminDeviceGroupService } from '@app-api/lib/modules/admin/group-device/admin-group-device.service';
+import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.component';
+import { Device } from '@app-api/lib/api/models/device';
+import { DeviceGroup } from '@app-api/lib/api/models/deviceGroup';
 import {
   LhTableConfigModel,
   LhTableFieldType,
-} from 'projects/app-common/src/lib/components/lh-table/lh-table-config.model';
-import { LhTableComponent } from 'projects/app-common/src/lib/components/lh-table/lh-table.component';
-import { DeviceGroup } from 'projects/app-api/src/lib/api/models/deviceGroup';
-import { AdminDeviceGroupService } from 'projects/app-api/src/lib/modules/admin/group-device/admin-group-device.service';
-import { Schedule } from '../../../../../../../app-api/src/lib/api/models/schedule';
+} from '@app-common/lib/components/lh-table/lh-table-config.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ResponseStatus } from '../../../../../../../app-api/src/lib/api/models/responseStatus';
+import { AdminDeviceService } from '@app-api/lib/modules/admin/admin-device/admin-device.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
+import { Schedule } from '@app-api/lib/api/models/schedule';
 
 @Component({
   selector: 'app-admin-device-list',

@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UsersComponent } from './components/users/users.component';
-import { UserAddComponent } from './components/user-add/user-add.component';
+import { UsersComponent } from '@app-admin/app/modules/user/components/users/users.component';
+import { UserAddComponent } from '@app-admin/app/modules/user/components/user-add/user-add.component';
 
-const routes: Routes = [
+let routes: Routes;
+routes = [
   {
     path: '',
     component: UsersComponent,

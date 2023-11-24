@@ -1,4 +1,13 @@
-import { DatePipe, Location } from '@angular/common';
+import {
+  LhTableConfigModel,
+  LhTableFieldType,
+} from '@app-common/lib/components/lh-table/lh-table-config.model';
+import { DeviceLog } from '@app-api/lib/api/models/deviceLog';
+import { AdminDeviceService } from '@app-api/lib/modules/admin/admin-device/admin-device.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DeviceStatus } from '@app-api/lib/api/models/deviceStatus';
+import { Chart } from '@antv/g2';
+import { Schedule } from '@app-api/lib/api/models/schedule';
 import {
   AfterViewInit,
   Component,
@@ -6,17 +15,8 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { Chart } from '@antv/g2';
-import { DeviceLog } from 'projects/app-api/src/lib/api/models/deviceLog';
-import { AdminDeviceService } from 'projects/app-api/src/lib/modules/admin/admin-device/admin-device.service';
-import {
-  LhTableConfigModel,
-  LhTableFieldType,
-} from 'projects/app-common/src/lib/components/lh-table/lh-table-config.model';
-import { LhTableComponent } from 'projects/app-common/src/lib/components/lh-table/lh-table.component';
-import { DeviceStatus } from '../../../../../../../app-api/src/lib/api/models/deviceStatus';
-import { Schedule } from '../../../../../../../app-api/src/lib/api/models/schedule';
-import { ActivatedRoute, Router } from '@angular/router';
+import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.component';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-admin-device-detail',
