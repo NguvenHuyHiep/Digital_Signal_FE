@@ -14,6 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from '../../../../../../../app-api/src/lib/api/models/user';
 import { ResponseStatus } from '../../../../../../../app-api/src/lib/api/models/responseStatus';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-admin-device-groups',
@@ -94,7 +95,8 @@ export class DeviceGroupsComponent implements OnInit {
     private router: Router,
     private adminDeviceGroupService: AdminDeviceGroupService,
     private message: NzMessageService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private modalService: NzModalService
   ) {}
   ngOnInit(): void {
     this.getAllDeviceGroup();
@@ -119,19 +121,26 @@ export class DeviceGroupsComponent implements OnInit {
   deleteSelected() {}
 
   delete(deviceGroup: DeviceGroup) {
-    this.adminDeviceGroupService
-      .deleteDeviceGroup(deviceGroup?.id as number)
-      .subscribe({
-        next: (response) => {
-          this.getAllDeviceGroup();
-        },
-        error: (err) => {
-          //TODO Xử lý exception
-        },
-        complete: () => {
-          this.loading.searching = false;
-        },
-      });
+    this.modalService.confirm({
+      nzTitle: `Do you want to delete the device group: ${deviceGroup.name} ?`,
+      nzOnOk: () => {
+        new Promise((resolve, reject) => {
+          return this.adminDeviceGroupService
+            .deleteDeviceGroup(deviceGroup?.id as number)
+            .subscribe({
+              next: (response) => {
+                this.getAllDeviceGroup();
+              },
+              error: (err) => {
+                //TODO Xử lý exception
+              },
+              complete: () => {
+                this.loading.searching = false;
+              },
+            });
+        }).catch((err) => console.log(err));
+      },
+    });
   }
 
   private getAllDeviceGroup() {

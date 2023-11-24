@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Schedule } from '../../../../../../../../app-api/src/lib/api/models/schedule';
 import { ResponseStatus } from '../../../../../../../../app-api/src/lib/api/models/responseStatus';
 import { TranslateService } from '@ngx-translate/core';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-admin-playlist',
@@ -53,7 +54,8 @@ export class PlaylistsComponent implements OnInit {
     private playlistService: AdminPlaylistService,
     private message: NzMessageService,
     private router: Router,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private modalService: NzModalService
   ) {}
   ngOnInit(): void {
     this.getAllPlaylist();
@@ -103,15 +105,22 @@ export class PlaylistsComponent implements OnInit {
   };
 
   delete(playList: Playlist) {
-    this.playlistService.delete(playList?.id as number).subscribe({
-      next: (response) => {
-        this.getAllPlaylist();
-      },
-      error: (err) => {
-        //TODO Xử lý exception
-      },
-      complete: () => {
-        this.loading.searching = false;
+    this.modalService.confirm({
+      nzTitle: `Do you want to delete the device group: ${playList.name} ?`,
+      nzOnOk: () => {
+        new Promise((resolve, reject) => {
+          return this.playlistService.delete(playList?.id as number).subscribe({
+            next: (response) => {
+              this.getAllPlaylist();
+            },
+            error: (err) => {
+              //TODO Xử lý exception
+            },
+            complete: () => {
+              this.loading.searching = false;
+            },
+          });
+        });
       },
     });
   }
@@ -128,4 +137,8 @@ export class PlaylistsComponent implements OnInit {
       relativeTo: this.activatedRoute,
     });
   };
+
+  routerToSearch() {
+    this.router.navigate([]).then((r) => {});
+  }
 }

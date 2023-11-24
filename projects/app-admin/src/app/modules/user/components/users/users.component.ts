@@ -12,6 +12,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { ActivatedRoute, Router } from '@angular/router';
 import { translate } from '@antv/g2/lib/util/transform';
 import { ResponseStatus } from '../../../../../../../app-api/src/lib/api/models/responseStatus';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-admin-users',
@@ -67,14 +68,14 @@ export class UsersComponent implements OnInit {
     ],
   };
   currentUser?: User;
-  protected readonly translate = translate;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private adminUserService: AdminUserService,
     private translateService: TranslateService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private modalService: NzModalService
   ) {}
   ngOnInit(): void {
     this.getAllUser();
@@ -116,26 +117,35 @@ export class UsersComponent implements OnInit {
   deleteSelected() {}
 
   delete(user: User) {
-    this.adminUserService.deleteUser(user?.id as number).subscribe({
-      next: (response) => {
-        this.message.create(
-          'success',
-          response.message
-            ? response.message
-            : this.translateService.instant('common.deleteSuccess')
-        );
-      },
-      error: (err) => {
-        this.message.create(
-          'error',
-          err.message
-            ? err.message
-            : this.translateService.instant('common.error')
-        );
-        console.log(err);
-      },
-      complete: () => {
-        this.loading.searching = false;
+    this.modalService.confirm({
+      nzTitle: `Do you want to delete the device group: ${user.userName} ?`,
+      nzOnOk: () => {
+        new Promise((resolve, reject) => {
+          return this.adminUserService
+            .deleteUser(user?.id as number)
+            .subscribe({
+              next: (response) => {
+                this.message.create(
+                  'success',
+                  response.message
+                    ? response.message
+                    : this.translateService.instant('common.deleteSuccess')
+                );
+              },
+              error: (err) => {
+                this.message.create(
+                  'error',
+                  err.message
+                    ? err.message
+                    : this.translateService.instant('common.error')
+                );
+                console.log(err);
+              },
+              complete: () => {
+                this.loading.searching = false;
+              },
+            });
+        });
       },
     });
   }

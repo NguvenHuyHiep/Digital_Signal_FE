@@ -25,6 +25,7 @@ import { AdminDeviceGroupModule } from '../../../../../app-api/src/lib/modules/a
 import { ChosenDeviceComponent } from './components/device-group/chosen-device/chosen-device.component';
 import { DeviceModule } from '../device/device.module';
 import { DeviceListTableComponent } from './components/device-list-table/device-list-table.component';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { DeviceListTableComponent } from './components/device-list-table/device-
     AdminDeviceGroupModule,
     DeviceModule,
     FormsModule,
+    NzModalModule,
   ],
 })
 export class DeviceGroupModule {}

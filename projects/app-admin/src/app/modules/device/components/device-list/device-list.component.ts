@@ -79,7 +79,7 @@ export class DeviceListComponent<T extends Object> implements OnInit {
   currentDevice: Device = {};
 
   constructor(
-    private activedRoute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private adminDeviceService: AdminDeviceService,
     private adminDeviceGroupService: AdminDeviceGroupService,
@@ -130,7 +130,7 @@ export class DeviceListComponent<T extends Object> implements OnInit {
   navigateToDetail = (record: Schedule): void => {
     console.log(record);
     this.router.navigate(['./detail', record.id], {
-      relativeTo: this.activedRoute,
+      relativeTo: this.activatedRoute,
     });
   };
 }
