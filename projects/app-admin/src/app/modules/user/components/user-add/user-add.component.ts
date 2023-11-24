@@ -116,10 +116,9 @@ export class UserAddComponent implements OnInit {
     }
 
     let licenseGenerateRequest: LicenseGenerateRequest = {
-      email: this.currentUser.email,
-      duration: 1000 * 60 * 60 * 24 * 365,
+      email: this.currentUser?.email,
+      duration: 1000 * 60 * 60 * 24,
     };
-
     this.adminLicenseService
       .genLicense(licenseGenerateRequest)
       .subscribe((response) => {
