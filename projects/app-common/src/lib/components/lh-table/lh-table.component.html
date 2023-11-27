@@ -38,6 +38,14 @@
 
         <td style="width: 200px" *ngIf="!config.disableOption" nzRight>
           <button
+            *ngIf="config.enablePreview"
+            nz-button
+            nzType="text"
+            (click)="preview(record)"
+          >
+            {{ "common.preview" | translate }}
+          </button>
+          <button
             *ngIf="!config.disableDetail"
             nz-button
             nzType="text"

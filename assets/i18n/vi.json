@@ -30,7 +30,8 @@
     "selectDevice": "Chọn thiết bị",
     "selectFile": "Chọn File",
     "selectDeviceGroup": "Chọn nhóm thiết bị ",
-    "option": "Tùy chỉnh"
+    "option": "Tùy chỉnh",
+    "preview": "Xem"
   },
 
   "footer": "Design & Develop by LPDEV",
@@ -220,7 +221,9 @@
   },
   "button": {
     "ok": "Xác nhận",
-    "cancel": "Hủy "
+    "cancel": "Hủy ",
+    "download": "Tải về",
+    "close": "Đóng"
   },
   "menu": {
     "search": "Tìm kiếm",
@@ -231,5 +234,10 @@
     "device": "Thiết bị",
     "file": "File",
     "schedule": "Lịch phát"
+  },
+  "error" : {
+    "cannot-download-file": "Không thể tải về file",
+    "cannot-preivew-file": "Không thể xem trước file",
+    "video-not-support": "Trình duyệt không hỗ trợ định dạng video này"
   }
 }

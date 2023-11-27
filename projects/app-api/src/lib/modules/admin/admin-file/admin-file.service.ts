@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpParams } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
 import { FormBuilder } from '@angular/forms';
-import { NzUploadFile } from 'ng-zorro-antd/upload';
-import { AdminFileControllerService } from '@app-api/lib/api';
 import { FormGroupFile } from '@app-admin/app/modules/playlists/components/playlist';
-import { DsdFile } from '@app-api/lib/api/models/dsdFile';
+import { AdminFileControllerService } from '@app-api/lib/api';
 import { BaseOutputListDsdFile } from '@app-api/lib/api/models/baseOutputListDsdFile';
+import { DsdFile } from '@app-api/lib/api/models/dsdFile';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -34,11 +33,18 @@ export class AdminFileService {
       .pipe(tap((response) => console.log(response)));
   }
 
-  upload(files: NzUploadFile[]): Observable<BaseOutputListDsdFile> {
+  public upload(files: NzUploadFile[]): Observable<BaseOutputListDsdFile> {
     return this.adminFileControllerService.uploadMultipleFiles(files as any);
   }
 
-  buildFileForm(file?: DsdFile): FormGroupFile {
+  public download(dsdFile: DsdFile): Observable<Blob | null> {
+    if (dsdFile && dsdFile.path) {
+      return this.adminFileControllerService.downloadByPath(dsdFile.path);
+    }
+    return of(null);
+  }
+
+  public buildFileForm(file?: DsdFile): FormGroupFile {
     let form = this.formBuilder.group({
       id: [file?.id],
       path: [file?.path],

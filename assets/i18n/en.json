@@ -25,7 +25,8 @@
     "cancel": "Cancel",
     "success": "Successful",
     "selectDevice": "Select device",
-    "option": "Option"
+    "option": "Option",
+    "preview": "Preview"
   },
 
   "footer": "Design & Develop by LPDEV",
@@ -214,7 +215,9 @@
   },
   "button": {
     "ok": "Ok",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "download": "Download",
+    "close": "Close"
   },
   "menu": {
     "search": "Search",
@@ -225,5 +228,10 @@
     "device": "Device",
     "file": "File",
     "schedule": "Schedule"
+  },
+  "error": {
+    "cannot-download-file": "Cannot download file",
+    "cannot-preivew-file": "Cannot preview file",
+    "video-not-support": "Trình duyệt không hỗ trợ định dạng video này"
   }
 }

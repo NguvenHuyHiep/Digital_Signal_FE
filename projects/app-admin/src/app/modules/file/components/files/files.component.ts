@@ -1,35 +1,30 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzUploadFile } from 'ng-zorro-antd/upload';
-import { NzModalService } from 'ng-zorro-antd/modal';
+import { Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { DsdFile } from '@app-api/lib/api/models/dsdFile';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
+import { Schedule } from '@app-api/lib/api/models/schedule';
+import { AdminFileService } from '@app-api/lib/modules/admin/admin-file/admin-file.service';
 import {
   LhTableConfigModel,
   LhTableFieldType,
 } from '@app-common/lib/components/lh-table/lh-table-config.model';
-import { Playlist } from '@app-api/lib/api/models/playlist';
 import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.component';
-import { DsdFile } from '@app-api/lib/api/models/dsdFile';
-import { AdminFileService } from '@app-api/lib/modules/admin/admin-file/admin-file.service';
-import { AdminPlaylistService } from '@app-api/lib/modules/admin/admin-playlist/admin-playlist.service';
-import { Schedule } from '@app-api/lib/api/models/schedule';
-import { FileAddComponent } from '@app-admin/app/modules/file/components/file-add/file-add.component';
-import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
+import { TranslateService } from '@ngx-translate/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-admin-files',
   templateUrl: './files.component.html',
   styleUrls: ['./files.component.scss'],
 })
-export class FilesComponent<T extends Object> implements OnInit {
-  playListAdmin?: Playlist;
-  @Output() onGroup: EventEmitter<T> = new EventEmitter<T>();
+export class FilesComponent implements OnInit {
   table?: LhTableComponent<DsdFile>;
-  addComponent?: FileAddComponent;
   currentFile?: DsdFile;
-  fileList: NzUploadFile[] = [];
   files: DsdFile[] = [];
+
   loading: {
     adding: boolean;
     searching: boolean;
@@ -43,6 +38,7 @@ export class FilesComponent<T extends Object> implements OnInit {
   tableConfig: LhTableConfigModel = {
     disableUpdate: true,
     disableDetail: true,
+    enablePreview: true,
     key: 'id',
     fields: [
       {
@@ -53,26 +49,27 @@ export class FilesComponent<T extends Object> implements OnInit {
     ],
   };
 
-  isSelectedRow(): boolean {
-    return (this.table?.setOfCheckedId?.size || 0) > 0;
-  }
+  previewFile: {
+    isVisible: boolean;
+    dsdFile?: DsdFile;
+    src?: any;
+    blob?: Blob;
+  } = {
+    isVisible: false,
+  };
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private sanitizer: DomSanitizer,
     private translateService: TranslateService,
     private adminFileService: AdminFileService,
-    private adminPlaylistService: AdminPlaylistService,
     private message: NzMessageService,
     private modalService: NzModalService
   ) {}
 
   ngOnInit(): void {
-    if (this.playListAdmin) {
-      this.getFileById();
-    } else {
-      this.getAllFile();
-    }
+    this.getAllFile();
   }
 
   delete(file: DsdFile) {
@@ -104,23 +101,43 @@ export class FilesComponent<T extends Object> implements OnInit {
       },
     });
   }
-  getFileById(): void {
-    this.adminPlaylistService
-      .getPlaylistWithFile(this.playListAdmin?.id as number)
-      .subscribe({
+
+  preview(record: DsdFile) {
+    console.log('preview: ', record);
+    this.previewFile.isVisible = true;
+    this.previewFile.dsdFile = record;
+    if (record && record.id && record.path) {
+      this.adminFileService.download(record).subscribe({
         next: (response) => {
-          if (response.data) {
-            this.files = response.data.files as DsdFile[];
+          if (response) {
+            this.previewFile.src = this.sanitizer.bypassSecurityTrustUrl(
+              URL.createObjectURL(response)
+            );
+            this.previewFile.blob = response;
+          } else {
+            this.message.error(
+              this.translateService.instant('error.cannot-preview-file')
+            );
           }
         },
         error: (err) => {
-          //TODO Xử lý exception
-          this.message.error('Error', err);
+          console.log(err);
+
+          this.message.error(
+            this.translateService.instant('error.cannot-preview-file')
+          );
         },
-        complete: () => {
-          this.loading.searching = false;
-        },
+        complete: () => {},
       });
+    } else {
+      this.message.error(
+        this.translateService.instant('error.cannot-preview-file')
+      );
+    }
+  }
+
+  isFile(fileType: string | any) {
+    return fileType && fileType.startsWith('image/');
   }
 
   getAllFile(): void {
@@ -146,6 +163,29 @@ export class FilesComponent<T extends Object> implements OnInit {
         this.loading.searching = false;
       },
     });
+  }
+
+  onAfterClosePreview() {
+    console.log('closing');
+    this.previewFile = {
+      isVisible: false,
+    };
+  }
+
+  onDownload() {
+    console.log('downloading');
+    if (
+      this.previewFile &&
+      this.previewFile.src &&
+      this.previewFile.blob &&
+      this.previewFile.dsdFile?.path
+    ) {
+      saveAs(this.previewFile.blob, this.previewFile.dsdFile.path);
+    } else {
+      this.message.info(
+        this.translateService.instant('error.cannot-download-file')
+      );
+    }
   }
 
   navigateToDetail = (record: Schedule): void => {

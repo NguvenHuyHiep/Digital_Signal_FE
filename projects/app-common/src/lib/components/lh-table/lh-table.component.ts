@@ -34,6 +34,7 @@ export class LhTableComponent<T extends Object> implements OnInit, OnChanges {
   @Output() onDetail: EventEmitter<T> = new EventEmitter<T>();
   @Output() onUpdate: EventEmitter<T> = new EventEmitter<T>();
   @Output() onDelete: EventEmitter<T> = new EventEmitter<T>();
+  @Output() onPreview: EventEmitter<T> = new EventEmitter<T>();
   expandSet = new Set<number>();
   setOfCheckedId = new Set<string>();
 
@@ -129,6 +130,10 @@ export class LhTableComponent<T extends Object> implements OnInit, OnChanges {
 
   delete(record: T) {
     this.onDelete.emit(record);
+  }
+
+  preview(record: T) {
+    this.onPreview.emit(record);
   }
 
   onPageIndexChange(newPage: number) {
