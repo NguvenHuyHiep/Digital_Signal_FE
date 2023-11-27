@@ -22,11 +22,17 @@
 
   <nz-modal
     [(nzVisible)]="previewFile.isVisible"
-    nzTitle="{{ previewFile.dsdFile?.path }}"
+    [nzTitle]="modalTitle"
+    [nzContent]="modalContent"
+    [nzFooter]="modalFooter"
     (nzOnOk)="onDownload()"
-    (nzAfterClose)="onAfterClosePreview()"
+    (nzOnCancel)="onCancel()"
   >
-    <ng-container *nzModalContent>
+    <ng-template #modalTitle> {{ previewFile.dsdFile?.path }} </ng-template>
+    <ng-template #modalContent>
+      <div *ngIf="!previewFile.src" class="preview-loading">
+        <nz-spin nzSimple></nz-spin>
+      </div>
       <img
         *ngIf="previewFile.src && isFile(previewFile.dsdFile?.fileType)"
         width="100%"
@@ -46,8 +52,8 @@
         />
         {{ "error.video-not-support" | translate }}
       </video>
-    </ng-container>
-    <ng-container *nzModalFooter>
+    </ng-template>
+    <ng-template #modalFooter>
       <button
         nz-button
         nzType="default"
@@ -58,6 +64,6 @@
       <button nz-button nzType="primary" (click)="onDownload()">
         {{ "button.download" | translate }}
       </button>
-    </ng-container>
+    </ng-template>
   </nz-modal>
 </lh-common-page>

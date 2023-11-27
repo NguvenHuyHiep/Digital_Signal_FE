@@ -104,7 +104,15 @@ export class FilesComponent implements OnInit {
 
   preview(record: DsdFile) {
     console.log('preview: ', record);
-    this.previewFile.isVisible = true;
+
+    if (record && record.path === this.previewFile.dsdFile?.path) {
+      this.previewFile.isVisible = true;
+      return;
+    }
+
+    this.previewFile = {
+      isVisible: true,
+    };
     this.previewFile.dsdFile = record;
     if (record && record.id && record.path) {
       this.adminFileService.download(record).subscribe({
@@ -165,11 +173,9 @@ export class FilesComponent implements OnInit {
     });
   }
 
-  onAfterClosePreview() {
+  onCancel() {
     console.log('closing');
-    this.previewFile = {
-      isVisible: false,
-    };
+    this.previewFile.isVisible = false;
   }
 
   onDownload() {
