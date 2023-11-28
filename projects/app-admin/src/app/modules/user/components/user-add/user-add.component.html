@@ -32,7 +32,6 @@
         </nz-form-label>
         <nz-form-control [formGroup]="form" [nzSpan]="14">
           <input
-            [disabled]="!currentUser?.id"
             formControlName="password"
             id="password"
             name="password"
@@ -138,4 +137,54 @@
   >
     +
   </button>
+  <nz-modal
+    [(nzVisible)]="isVisible"
+    nzTitle="{{ 'module.user.modalLicense' | translate }}"
+    (nzOnCancel)="handleCancel()"
+    (nzOnOk)="handleOk()"
+  >
+    <ng-container *nzModalContent>
+      <form [formGroup]="timeLicenseForm">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="5">
+            {{ "module.user.timeType" | translate }}
+          </nz-form-label>
+          <nz-form-control [formGroup]="timeLicenseForm" [nzSpan]="19">
+            <nz-select
+              [nzPlaceHolder]="'module.user.timeType' | translate"
+              formControlName="typeTime"
+            >
+              <nz-option
+                [nzLabel]="'module.user.time.day' | translate"
+                nzValue="day"
+              ></nz-option>
+              <nz-option
+                [nzLabel]="'module.user.time.hour' | translate"
+                nzValue="hour"
+              ></nz-option>
+              <nz-option
+                [nzLabel]="'module.user.time.month' | translate"
+                nzValue="month"
+              ></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="5">
+            {{ "module.user.timeValue" | translate }}
+          </nz-form-label>
+          <nz-form-control [formGroup]="timeLicenseForm" [nzSpan]="19">
+            <input
+              id="timeValue"
+              name="timeValue"
+              nz-input
+              type="number"
+              formControlName="timeValue"
+              (input)="convertToMilliseconds()"
+            />
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </ng-container>
+  </nz-modal>
 </ng-template>
