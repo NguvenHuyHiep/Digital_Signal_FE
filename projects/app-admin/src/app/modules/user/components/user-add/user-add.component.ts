@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { User } from '@app-api/lib/api/models/user';
 import { FormGroupUser } from '@app-admin/app/modules/user/components/user-type';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AdminUserService } from '@app-api/lib/modules/admin/admin-user/admin-user.service';
 import { AdminLicenseService } from '@app-api/lib/modules/admin/admin-license/admin-license.service';
 import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
@@ -22,7 +22,13 @@ export class UserAddComponent implements OnInit {
   userId: number | undefined;
   currentUser?: User;
   license = '';
-
+  isVisible = false;
+  millisecondValue?: number;
+  defaultTimeType: string = 'day';
+  timeLicenseForm: FormGroup = this.formBuilder.group({
+    typeTime: [''],
+    timeValue: [''],
+  });
   form: FormGroupUser = this.adminUserService.buildUserForm(this.currentUser);
 
   loading: {
@@ -32,6 +38,7 @@ export class UserAddComponent implements OnInit {
     adding: false,
     searching: false,
   };
+
   constructor(
     private location: Location,
     private activatedRoute: ActivatedRoute,
@@ -53,6 +60,7 @@ export class UserAddComponent implements OnInit {
       // create
     }
   }
+
   getUserById(userId: number) {
     this.loading.searching = true;
     this.adminUserService.getUserByUserId(userId).subscribe({
@@ -76,6 +84,7 @@ export class UserAddComponent implements OnInit {
       },
     });
   }
+
   addOrUpdateUser(): Observable<BaseOutputUser> {
     if (!this.form.valid) {
       this.form.markAsTouched();
@@ -106,30 +115,10 @@ export class UserAddComponent implements OnInit {
   }
 
   genLicense(): void {
-    if (!this.currentUser?.email) {
-      this.message.info(
-        this.translateService.instant(
-          'resgister.error.the-input-is-not-valid-email'
-        )
-      );
-      return;
-    }
-
-    let licenseGenerateRequest: LicenseGenerateRequest = {
-      email: this.currentUser?.email,
-      duration: 1000 * 60 * 60 * 24,
-    };
-    this.adminLicenseService
-      .genLicense(licenseGenerateRequest)
-      .subscribe((response) => {
-        if (response && response.data) {
-          if (this.currentUser) {
-            this.currentUser.license = response.data;
-            this.license = response.data.code || '';
-          }
-        }
-      });
-    console.log(this.license);
+    this.isVisible = true;
+    this.timeLicenseForm.patchValue({
+      typeTime: this.defaultTimeType,
+    });
   }
 
   addOrUpdate() {
@@ -163,7 +152,6 @@ export class UserAddComponent implements OnInit {
       },
       complete: () => {
         this.loading.adding = false;
-        this.message.create('success', 'Thêm mới thành công');
         this.location.back();
       },
     });
@@ -172,4 +160,54 @@ export class UserAddComponent implements OnInit {
   navigateToPrevious = (): void => {
     this.location.back();
   };
+
+  handleOk(): void {
+    this.isVisible = false;
+    if (!this.currentUser?.email) {
+      this.message.info(
+        this.translateService.instant(
+          'resgister.error.the-input-is-not-valid-email'
+        )
+      );
+      return;
+    }
+    let licenseGenerateRequest: LicenseGenerateRequest = {
+      email: this.currentUser?.email,
+      duration: this.millisecondValue,
+    };
+    this.adminLicenseService
+      .genLicense(licenseGenerateRequest)
+      .subscribe((response) => {
+        if (response && response.data) {
+          if (this.currentUser) {
+            this.currentUser.license = response.data;
+            this.license = response.data.code || '';
+          }
+        }
+      });
+  }
+
+  handleCancel(): void {
+    this.isVisible = false;
+  }
+
+  convertToMilliseconds(): void {
+    const typeTime = this.timeLicenseForm.get('typeTime')?.value;
+    const timeValue = this.timeLicenseForm.get('timeValue')?.value;
+
+    if (typeTime && timeValue) {
+      let multiplier = 1;
+      if (typeTime === 'day') {
+        multiplier = 24 * 60 * 60 * 1000;
+      } else if (typeTime === 'hour') {
+        multiplier = 60 * 60 * 1000;
+      } else if (typeTime === 'month') {
+        multiplier = 30 * 24 * 60 * 60 * 1000;
+      }
+
+      const millisecondValue = timeValue * multiplier;
+      this.millisecondValue = millisecondValue;
+      console.log('millisecond Value:', this.millisecondValue);
+    }
+  }
 }

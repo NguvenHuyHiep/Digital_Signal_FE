@@ -127,7 +127,15 @@
       "firstName": "Tên",
       "lastName": "Họ",
       "license": "License",
-      "roles": "Vai trò"
+      "roles": "Vai trò",
+      "modalLicense": "License",
+      "timeType": "Kiểu thời gian",
+      "timeValue": "Thời gian",
+      "time": {
+        "day": "Ngày",
+        "hour": "Giờ",
+        "month": "Tháng"
+      }
     },
     "license": {
       "title": "License",

@@ -127,12 +127,20 @@ export class UsersComponent implements OnInit {
             .deleteUser(user?.id as number)
             .subscribe({
               next: (response) => {
-                this.message.create(
-                  'success',
-                  response.message
-                    ? response.message
-                    : this.translateService.instant('common.deleteSuccess')
-                );
+                if (response && response.status === ResponseStatus.Success) {
+                  this.message.create(
+                    'success',
+                    response.message
+                      ? response.message
+                      : this.translateService.instant('common.deleteSuccess')
+                  );
+                  this.users = this.users.filter((u) => u.id !== user.id);
+                } else {
+                  let errorsInStr: string = response.errors
+                    ?.map((e) => this.translateService.instant(e))
+                    .join(', ') as string;
+                  this.message.error(errorsInStr);
+                }
               },
               error: (err) => {
                 this.message.create(
