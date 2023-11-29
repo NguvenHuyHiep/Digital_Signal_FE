@@ -87,6 +87,7 @@
       "name": "Filename",
       "size": "Size",
       "upload": {
+        "file-empty": "Không có file để tải lên",
         "text": "Click or drag file to this area to upload",
         "hint": "Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files",
         "success": "Uploaded successfully with number of files: ",
@@ -94,6 +95,10 @@
       },
       "delete-confirm": {
         "title": "Are you sure to delete the file: "
+      },
+      "error": {
+        "delete": "Delete file failed",
+        "get": "Get file list failed"
       }
     },
     "playlist": {

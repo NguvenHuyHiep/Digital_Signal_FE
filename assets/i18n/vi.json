@@ -93,6 +93,7 @@
       "title": "File",
       "size": "Dung lượng",
       "upload": {
+        "file-empty": "Không có file để tải lên",
         "text": "Ấn hoặc kéo file vào đây để tải lên",
         "hint": "Hỗ trợ tải lên một hoặc nhiều file, Cấm đưa lên các file có thông tin nhạy cảm",
         "success": "Đã tải lên thành công số lượng file: ",
@@ -100,6 +101,10 @@
       },
       "delete-confirm": {
         "title": "Bạn có muốn xóa file: "
+      },
+      "error": {
+        "delete": "Xóa file thất bại",
+        "get": "Lấy danh sách file thất bại"
       }
     },
     "playlist": {
@@ -243,7 +248,7 @@
     "file": "File",
     "schedule": "Lịch phát"
   },
-  "error" : {
+  "error": {
     "cannot-download-file": "Không thể tải về file",
     "cannot-preivew-file": "Không thể xem trước file",
     "video-not-support": "Trình duyệt không hỗ trợ định dạng video này"

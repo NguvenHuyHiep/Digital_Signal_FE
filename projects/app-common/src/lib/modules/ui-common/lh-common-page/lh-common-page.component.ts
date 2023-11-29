@@ -14,6 +14,7 @@ const ROUTE_LABELS: { [key: string]: string } = {
 })
 export class LhPageComponent {
   @Input() pageTitle: string = '';
+  @Input() isLoading: boolean = false;
   breadcrumbs: BreadcrumbOption[];
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {

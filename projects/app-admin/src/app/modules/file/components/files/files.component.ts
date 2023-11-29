@@ -84,8 +84,13 @@ export class FilesComponent implements OnInit {
             .deleteFile(file.path as string)
             .subscribe({
               next: (response) => {
-                console.log(response);
-                this.files = this.files.filter((f) => f.path !== file.path);
+                if (response && response?.status === ResponseStatus.Success) {
+                  this.files = this.files.filter((f) => f.path !== file.path);
+                } else {
+                  this.message.error(
+                    this.translateService.instant('module.file.error.delete')
+                  );
+                }
                 resolve;
               },
               error: (err) => {
@@ -155,10 +160,9 @@ export class FilesComponent implements OnInit {
         if (response && response.status === ResponseStatus.Success) {
           this.files = response.data as DsdFile[];
         } else {
-          let errorsInStr: string = response.errors
-            ?.map((e) => this.translateService.instant(e))
-            .join(', ') as string;
-          this.message.error(errorsInStr);
+          this.message.error(
+            this.translateService.instant('module.file.error.get')
+          );
           this.files = [];
         }
       },

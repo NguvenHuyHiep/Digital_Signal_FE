@@ -11,6 +11,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { TranslateService } from '@ngx-translate/core';
 import { AdminFileService } from '@app-api/lib/modules/admin/admin-file/admin-file.service';
 import { Location } from '@angular/common';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 
 @Component({
   selector: 'app-admin-file-add',
@@ -39,6 +40,8 @@ export class FileAddComponent {
     ],
   };
 
+  isLoading: boolean = false;
+
   constructor(
     private location: Location,
     private msg: NzMessageService,
@@ -62,26 +65,58 @@ export class FileAddComponent {
   }
 
   uploadFiles() {
+    if (!this.fileList || this.fileList.length === 0) {
+      this.msg.info(
+        this.translateService.instant('module.file.upload.file-empty')
+      );
+      return;
+    }
+
+    this.isLoading = true;
     this.adminFileService.upload(this.fileList).subscribe({
-      next: (value) => {
-        console.log(value);
-        this.msg.info(
-          `${this.translateService.instant('module.file.upload.success')} ${
-            value.data?.length ? value.data.length : 0
-          }`
-        );
+      next: (response) => {
+        console.log(response);
+        if (response && response.status === ResponseStatus.Success) {
+          this.msg.info(
+            `${this.translateService.instant('module.file.upload.success')} ${
+              response.data?.length ? response.data.length : 0
+            }`
+          );
+          this.fileList = this.filterDuplicatedItem(
+            this.fileList,
+            response.data as DsdFile[]
+          );
+        } else {
+          let errorsInStr: string = response.errors
+            ?.map((e) => this.translateService.instant(e))
+            .join(', ') as string;
+          this.msg.error(errorsInStr);
+        }
       },
       error: (err) => {
         this.msg.error(
           this.translateService.instant('module.file.upload.error')
         );
         console.log(err);
+        this.isLoading = false;
       },
-      complete: () => {},
+      complete: () => {
+        this.isLoading = false;
+      },
     });
   }
 
   navigateToPrevious() {
     this.location.back();
+  }
+
+  private filterDuplicatedItem(fileList: NzUploadFile[], dsdFiles: DsdFile[]) {
+    return fileList.filter(
+      (uf) =>
+        !dsdFiles
+          .map((df) => df.path)
+          .filter((fdp) => !!fdp)
+          .includes(uf.name)
+    );
   }
 }
