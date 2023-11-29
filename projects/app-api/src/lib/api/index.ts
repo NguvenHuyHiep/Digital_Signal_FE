@@ -1,5 +1,5 @@
-export * from './controller/api';
-export * from './models';
+export * from './api/api';
+export * from './model/models';
 export * from './variables';
 export * from './configuration';
 export * from './api.module';
