@@ -25,6 +25,7 @@ import {
 import { FormDeviceGroup } from '@app-admin/app/modules/device-group/components/form-device-group';
 import { AdminFileService } from '@app-api/lib/modules/admin/admin-file/admin-file.service';
 import { PlaylistStatus } from '@app-api/lib/api/models/playlistStatus';
+import { tr } from 'date-fns/locale';
 
 @Component({
   selector: 'app-admin-playlist-add',
@@ -100,7 +101,7 @@ export class PlaylistAddComponent implements OnInit {
     private translateService: TranslateService,
     private formBuilder: FormBuilder,
     private adminPlaylistService: AdminPlaylistService,
-    private fileService: AdminFileService,
+    private adminFileService: AdminFileService,
     private message: NzMessageService,
     private modalService: NzModalService,
     private adminDeviceGroupService: AdminDeviceGroupService
@@ -109,11 +110,10 @@ export class PlaylistAddComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadDeviceGroupByPlayListId();
     if (this.playlistId) {
+      this.loadDeviceGroupByPlayListId(this.playlistId);
       this.getPlaylistById(this.playlistId);
-      this.loadFileByPlayListId();
-    } else {
+      this.loadFileByPlayListId(this.playlistId);
     }
   }
 
@@ -135,7 +135,6 @@ export class PlaylistAddComponent implements OnInit {
       },
       complete: () => {
         this.loading.adding = false;
-        this.message.create('success', 'Thêm mới thành công');
         this.location.back();
       },
     });
@@ -183,32 +182,6 @@ export class PlaylistAddComponent implements OnInit {
     return this.adminPlaylistService.updatePlayList(addObj);
   }
 
-  deleteFile(record: DsdFile) {
-    console.log(record);
-    this.modalService.confirm({
-      nzTitle: `Do you want to delete the file: ${record.path} ?`,
-      nzOnOk: () => {
-        new Promise((resolve, reject) => {
-          this.fileService.deleteFile(record.path as string).subscribe({
-            next: (response) => {
-              console.log(response);
-              this.files = this.files.filter((f) => f.path !== record.path);
-              resolve;
-            },
-            error: (err) => {
-              this.message.error(err);
-              // TODO handle error
-              resolve;
-            },
-            complete: () => {
-              resolve;
-            },
-          });
-        }).catch((err) => console.log(err));
-      },
-    });
-  }
-
   setCurrentFile($event: DsdFile) {
     this.currentFile = $event;
     console.log('this.currentFile', this.currentFile);
@@ -225,7 +198,7 @@ export class PlaylistAddComponent implements OnInit {
       .subscribe({
         next: (response) => {
           if (response && response.status === ResponseStatus.Success) {
-            this.loadFileByPlayListId();
+            this.loadFileByPlayListId(this.playlistId as number);
             return;
           } else {
             let errorsInStr: string = response.errors
@@ -259,7 +232,10 @@ export class PlaylistAddComponent implements OnInit {
           this.message.error(errorsInStr);
         }
       },
-      error: (err) => {},
+      error: (err) => {
+        this.loading.searching = false;
+        this.message.error('Error', err);
+      },
       complete: () => {
         this.loading.searching = false;
       },
@@ -268,29 +244,6 @@ export class PlaylistAddComponent implements OnInit {
 
   navigateToPrevious() {
     this.location.back();
-  }
-
-  deleteDeviceGroup(deviceGroup: DeviceGroup) {
-    this.modalService.confirm({
-      nzTitle: `Do you want to delete the device group: ${deviceGroup.name} ?`,
-      nzOnOk: () => {
-        new Promise((resolve, reject) => {
-          return this.adminDeviceGroupService
-            .deleteDeviceGroup(deviceGroup?.id as number)
-            .subscribe({
-              next: (response) => {
-                this.loadDeviceGroupByPlayListId();
-              },
-              error: (err) => {
-                this.message.error('Error', err);
-              },
-              complete: () => {
-                this.loading.searching = false;
-              },
-            });
-        });
-      },
-    });
   }
 
   setCurrentDeviceGroup($event: DeviceGroup) {
@@ -327,40 +280,38 @@ export class PlaylistAddComponent implements OnInit {
       });
   }
 
-  private loadFileByPlayListId() {
+  private loadFileByPlayListId(playlistId: number) {
     this.loading.addFile = true;
     console.log('playlistAdmin', this.currentPlaylist);
     if (this.playlistId) {
-      this.adminPlaylistService
-        .getPlaylistWithFile(this.playlistId as number)
-        .subscribe({
-          next: (response) => {
-            if (response && response.status === ResponseStatus.Success) {
-              this.files = response.data?.files as DsdFile[];
-              console.log(this.files + 'files');
-            } else {
-              let errorsInStr: string = response.errors
-                ?.map((e) => this.translateService.instant(e))
-                .join(', ') as string;
-              this.message.error(errorsInStr);
-            }
-          },
-          error: (err) => {
-            this.message.error('Error', err);
-            this.loading.addFile = false;
-          },
-          complete: () => {
-            this.loading.addFile = false;
-          },
-        });
+      this.adminPlaylistService.getPlaylistWithFile(playlistId).subscribe({
+        next: (response) => {
+          if (response && response.status === ResponseStatus.Success) {
+            this.files = response.data?.files as DsdFile[];
+            console.log(this.files + 'files');
+          } else {
+            let errorsInStr: string = response.errors
+              ?.map((e) => this.translateService.instant(e))
+              .join(', ') as string;
+            this.message.error(errorsInStr);
+          }
+        },
+        error: (err) => {
+          this.message.error('Error', err);
+          this.loading.addFile = false;
+        },
+        complete: () => {
+          this.loading.addFile = false;
+        },
+      });
     }
   }
 
-  private loadDeviceGroupByPlayListId() {
+  private loadDeviceGroupByPlayListId(playlistId: number) {
     this.loading.addDeviceGroup = true;
     if (this.playlistId) {
       this.adminPlaylistService
-        .getDeviceGroupByPlayListId(this.playlistId as number)
+        .getDeviceGroupByPlayListId(playlistId)
         .subscribe({
           next: (response) => {
             if (response && response.status === ResponseStatus.Success) {
@@ -381,5 +332,82 @@ export class PlaylistAddComponent implements OnInit {
           },
         });
     }
+  }
+
+  removeFileFromPlaylist(file: DsdFile) {
+    this.loading.addFile = true;
+    this.modalService.confirm({
+      nzTitle:
+        this.translateService.instant('module.playlist.modalRemoveFile') +
+        `${file.name}` +
+        ' ?',
+      nzOnOk: () => {
+        new Promise((resolve, reject) => {
+          const fileIds = Number(file.id);
+          return this.adminFileService
+            .removeFilesFromPlaylist(
+              [fileIds],
+              this.currentPlaylist?.id as number
+            )
+            .subscribe({
+              next: (response) => {
+                if (response && response.status === ResponseStatus.Success) {
+                  this.files = this.files.filter((f) => f.id !== fileIds);
+                }
+              },
+              error: (err) => {
+                this.message.create(err, 'error');
+                this.loading.addFile = false;
+              },
+              complete: () => {
+                this.loading.addFile = false;
+              },
+            });
+        }).catch((err) => {
+          console.log(err);
+          this.loading.addFile = false;
+        });
+      },
+    });
+  }
+
+  removeDeviceGroupFromPlaylist(deviceGroup: DeviceGroup) {
+    this.loading.addDeviceGroup = true;
+    this.modalService.confirm({
+      nzTitle:
+        this.translateService.instant(
+          'module.groupDevice.modalRemoveDeviceGroup'
+        ) +
+        `${deviceGroup.name}` +
+        ' ?',
+      nzOnOk: () => {
+        new Promise((resolve, reject) => {
+          const deviceGroupId = Number(deviceGroup.id);
+          return this.adminDeviceGroupService
+            .removeDeviceGroupFromPlaylist(this.currentPlaylist?.id as number, [
+              deviceGroupId,
+            ])
+            .subscribe({
+              next: (response) => {
+                if (response && response.status === ResponseStatus.Success) {
+                  this.deviceGroups = this.deviceGroups.filter(
+                    (dg) => dg.id !== deviceGroupId
+                  );
+                }
+              },
+              error: (err) => {
+                this.message.error('Error', err);
+                this.loading.addDeviceGroup = false;
+              },
+              complete: () => {
+                this.loading.addDeviceGroup = false;
+              },
+            });
+        }).catch((err) => {
+          console.log(err);
+          this.loading.addDeviceGroup = false;
+        });
+      },
+    });
   }
 }

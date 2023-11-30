@@ -56,7 +56,8 @@
   },
   "module": {
     "groupDevice": {
-      "modalDeleteGroupDevice": " Bạn muốn xóa nhóm thiết bị :  ",
+      "modalDeleteGroupDevice": " Bạn muốn xóa nhóm thiết bị:  ",
+      "modalRemoveDeviceGroup": "Bạn có muốn xóa Device Group khỏi Playlist: ",
       "title": "Group Device",
       "info": "Thông tin",
       "name": "Tên Group",
@@ -82,7 +83,7 @@
       "welcome": "Chào mừng tới Digital Signage"
     },
     "file": {
-      "modalDeleteFile": "Bạn muốn xóa File : ",
+      "modalDeleteFile": "Bạn muốn xóa File: ",
       "add": "Thêm file",
       "chooseContentType": "Loại file",
       "contentTypes-video": "video",
@@ -108,7 +109,8 @@
       }
     },
     "playlist": {
-      "modalDeletePlayList": "Bạn muốn xóa PlayList : ",
+      "modalRemoveFile": "Bạn có muốn xóa file khỏi Playlist: ",
+      "modalDeletePlayList": "Bạn muốn xóa PlayList: ",
       "title": "Playlist",
       "file": "File",
       "update": "Cập nhập File",
@@ -122,7 +124,7 @@
       "true": "Có"
     },
     "user": {
-      "modalDeleteUser": "Bạn muốn xóa người dùng : ",
+      "modalDeleteUser": "Bạn muốn xóa người dùng: ",
       "title": "Tài khoản",
       "info": "Thông tin",
       "email": "Email",
@@ -149,6 +151,8 @@
       "expireTime": "Thời hạn"
     },
     "device": {
+      "modalRemoveDevice": "Bạn muốn bỏ thiết bị từ nhóm thiết bị:  ",
+
       "title": "Device",
       "code": "Mã Thiết bị",
       "info": "Thông tin",

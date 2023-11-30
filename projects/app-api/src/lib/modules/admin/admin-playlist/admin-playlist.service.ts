@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
-
 import { Observable } from 'rxjs';
-
 import { HttpParams } from '@angular/common/http';
-
 import { tap } from 'rxjs/operators';
-import { AdminPlayListAPIService } from '@app-api/lib/api';
 import { Playlist } from '@app-api/lib/api/models/playlist';
 import { DsdFile } from '@app-api/lib/api/models/dsdFile';
 import {
@@ -16,6 +12,7 @@ import {
 import { PlaylistStatus } from '@app-api/lib/api/models/playlistStatus';
 import { BaseOutputPlaylist } from '@app-api/lib/api/models/baseOutputPlaylist';
 import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';
+import { AdminPlayListAPIService } from '@app-api/lib/api';
 
 @Injectable({
   providedIn: 'root',

@@ -47,6 +47,7 @@
         *ngIf="!loading.addDevice"
         [config]="tableConfig"
         [data]="devices"
+        (onDelete)="removeDeviceFromDeviceGroup($event)"
         [loading]="loading.addDevice"
         (onUpdate)="detailDevice($event)"
       ></lh-common-lh-table>

@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { tap } from 'rxjs/operators';
-import { AdminDeviceControllerService } from '@app-api/lib/api';
+
 import { FormDevice } from '@app-admin/app/modules/device-group/components/form-device-group';
 import { Device } from '@app-api/lib/api/models/device';
+import { Observable } from 'rxjs';
+import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';
+import { AdminDeviceControllerService } from '@app-api/lib/api';
 
 @Injectable()
 export class AdminDeviceService {
@@ -40,5 +43,15 @@ export class AdminDeviceService {
     return this.adminDeviceController
       .getByIdWithLogs(id)
       .pipe(tap((response) => console.log('devices with logs', response)));
+  }
+
+  public removeDevicesFromDeviceGroup(
+    deviceGroupId: number,
+    deviceIds: number[]
+  ): Observable<BaseOutputString> {
+    return this.adminDeviceController.removeDevicesFromDeviceGroup(
+      deviceGroupId,
+      deviceIds
+    );
   }
 }
