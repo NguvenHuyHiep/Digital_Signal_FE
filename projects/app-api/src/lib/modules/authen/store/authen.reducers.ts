@@ -1,8 +1,8 @@
 import { ActionReducer } from '@ngrx/store/src/models';
 import { createAction, createReducer, on, props } from '@ngrx/store';
 import { HttpResponseBase } from '@angular/common/http';
-import { BaseOutputUser } from '../../../api/models/baseOutputUser';
-import { BaseOutputString } from '../../../api/models/baseOutputString';
+import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';
+import { BaseOutputUser } from '@app-api/lib/api/models/baseOutputUser';
 
 export enum AUTHEN_ACTIONS {
   SIGN_IN_SUCCESS = '@lh/authen/SIGN_IN_SUCCESS',

@@ -1,26 +1,13 @@
-<lh-common-page
-  [hidden]="!showFrame.search"
-  pageTitle="{{ 'module.file.title' | translate }}"
->
+<lh-common-page pageTitle="{{ 'module.file.title' | translate }}">
   <div nz-space>
     <button
-      (click)="openAddFrame()"
+      (click)="navigateToCreate()"
       nz-button
       nzType="primary"
       class="mb-2 btnFunction"
     >
       {{ "common.add" | translate }}
     </button>
-    <!--    <button-->
-    <!--      nz-button-->
-    <!--      nzType="primary"-->
-    <!--      class="mb-2"-->
-    <!--      [disabled]="!isSelectedRow"-->
-    <!--      (click)="deleteSelected()"-->
-    <!--      nzDanger-->
-    <!--    >-->
-    <!--      {{ "common.delete" | translate }}-->
-    <!--    </button>-->
   </div>
 
   <lh-common-lh-table
@@ -28,28 +15,55 @@
     [data]="files"
     [config]="tableConfig"
     [loading]="loading.searching"
-    (onUpdate)="update($event)"
     (onDelete)="delete($event)"
+    (onDetail)="navigateToDetail($event)"
+    (onPreview)="preview($event)"
   ></lh-common-lh-table>
+
+  <nz-modal
+    [(nzVisible)]="previewFile.isVisible"
+    [nzTitle]="modalTitle"
+    [nzContent]="modalContent"
+    [nzFooter]="modalFooter"
+    (nzOnOk)="onDownload()"
+    (nzOnCancel)="onCancel()"
+  >
+    <ng-template #modalTitle> {{ previewFile.dsdFile?.path }} </ng-template>
+    <ng-template #modalContent>
+      <div *ngIf="!previewFile.src" class="preview-loading">
+        <nz-spin nzSimple></nz-spin>
+      </div>
+      <img
+        *ngIf="previewFile.src && isFile(previewFile.dsdFile?.fileType)"
+        width="100%"
+        height="auto"
+        [src]="previewFile.src"
+        alt="{{ previewFile.dsdFile?.path }}"
+      />
+      <video
+        *ngIf="previewFile.src && !isFile(previewFile.dsdFile?.fileType)"
+        width="100%"
+        height="auto"
+        controls
+      >
+        <source
+          [src]="previewFile.src"
+          type="{{ previewFile.dsdFile?.fileType }}"
+        />
+        {{ "error.video-not-support" | translate }}
+      </video>
+    </ng-template>
+    <ng-template #modalFooter>
+      <button
+        nz-button
+        nzType="default"
+        (click)="previewFile.isVisible = false"
+      >
+        {{ "button.close" | translate }}
+      </button>
+      <button nz-button nzType="primary" (click)="onDownload()">
+        {{ "button.download" | translate }}
+      </button>
+    </ng-template>
+  </nz-modal>
 </lh-common-page>
-
-<lh-common-lh-dialog
-  *ngIf="showFrame.add"
-  [footerTemplateLeft]="backToSearch"
-  [footerTemplateRight]="addActions"
->
-  <app-admin-file-add [fileList]="fileList" #addComponent> </app-admin-file-add>
-</lh-common-lh-dialog>
-<ng-template #addActions>
-  <div nz-space>
-    <button (click)="add()" nz-button nzType="primary">
-      {{ (this.currentFile ? "common.update" : "common.add") | translate }}
-    </button>
-  </div>
-</ng-template>
-
-<ng-template #backToSearch>
-  <button (click)="gotoSearch()" nz-button>
-    {{ "common.back" | translate }}
-  </button>
-</ng-template>

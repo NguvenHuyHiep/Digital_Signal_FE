@@ -1,10 +1,7 @@
-<lh-common-page
-  [hidden]="!showFrame.search"
-  pageTitle="{{ 'module.groupdevice.title' | translate }}"
->
+<lh-common-page pageTitle="{{ 'module.groupDevice.title' | translate }}">
   <div nz-space>
     <button
-      (click)="routeToAdd()"
+      (click)="navigateToCreate()"
       nz-button
       nzType="primary"
       class="mb-2 btnFunction"
@@ -29,38 +26,12 @@
     [config]="tableConfig"
     [expandTemplate]="playlistDetail"
     [loading]="loading.searching"
-    (onUpdate)="update($event)"
+    (onUpdate)="navigateToUpdate($event)"
     (onDelete)="delete($event)"
   ></lh-common-lh-table>
 </lh-common-page>
-
-<lh-common-lh-dialog
-  *ngIf="showFrame.add"
-  [footerTemplateLeft]="backToSearch"
-  [footerTemplateRight]="addActions"
->
-  <app-admin-device-group-add
-    [deviceGroupAdmin]="currentDeviceGroup"
-    #addComponent
-  >
-  </app-admin-device-group-add>
-</lh-common-lh-dialog>
-<ng-template #addActions>
-  <div nz-space>
-    <button (click)="add()" nz-button nzType="primary">
-      {{
-        (this.currentDeviceGroup ? "common.update" : "common.add") | translate
-      }}
-    </button>
-  </div>
-</ng-template>
-
-<ng-template #backToSearch>
-  <button (click)="routeToSearch()" nz-button>
-    {{ "common.back" | translate }}
-  </button>
-</ng-template>
-
 <ng-template #playlistDetail let-data="data">
-  <app-admin-device-list [deviceGroupAdmin]="data"></app-admin-device-list>
+  <app-admin-device-list-table
+    [deviceGroup]="data"
+  ></app-admin-device-list-table>
 </ng-template>

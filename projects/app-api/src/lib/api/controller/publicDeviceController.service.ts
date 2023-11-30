@@ -122,6 +122,89 @@ export class PublicDeviceControllerService {
   }
 
   /**
+   * @param code
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public downloadSchedule1(
+    code: string,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<Blob>;
+  public downloadSchedule1(
+    code: string,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpResponse<Blob>>;
+  public downloadSchedule1(
+    code: string,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpEvent<Blob>>;
+  public downloadSchedule1(
+    code: string,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<any> {
+    if (code === null || code === undefined) {
+      throw new Error(
+        'Required parameter code was null or undefined when calling downloadSchedule1.'
+      );
+    }
+
+    let localVarHeaders = this.defaultHeaders;
+
+    let localVarHttpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      localVarHttpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Accept',
+        localVarHttpHeaderAcceptSelected
+      );
+    }
+
+    let localVarHttpContext: HttpContext | undefined =
+      options && options.context;
+    if (localVarHttpContext === undefined) {
+      localVarHttpContext = new HttpContext();
+    }
+
+    let localVarPath = `/api/v1/public/device/download/${this.configuration.encodeParam(
+      {
+        name: 'code',
+        value: code,
+        in: 'path',
+        style: 'simple',
+        explode: false,
+        dataType: 'string',
+        dataFormat: undefined,
+      }
+    )}`;
+    return this.httpClient.request(
+      'get',
+      `${this.configuration.basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        responseType: 'blob',
+        withCredentials: this.configuration.withCredentials,
+        headers: localVarHeaders,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
    * @param license
    * @param device
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.

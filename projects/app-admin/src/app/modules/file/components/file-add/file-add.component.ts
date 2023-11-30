@@ -1,37 +1,17 @@
 import { Component, Input } from '@angular/core';
-import { DeviceGroup } from '../../../../../../../app-api/src/lib/api/models/deviceGroup';
-import { DsdFile } from '../../../../../../../app-api/src/lib/api/models/dsdFile';
-import {
-  Observable,
-  Subscription,
-  concatMap,
-  map,
-  mergeMap,
-  tap,
-  toArray,
-} from 'rxjs';
-import {
-  FormGroupFile,
-  FormGroupUploadRequest,
-} from '../../../playlists/components/playlist';
-import { AdminFileControllerService } from '../../../../../../../app-api/src/lib/api/controller/adminFileController.service';
-import { AdminFileService } from '../../../../../../../app-api/src/lib/modules/admin/admin-file/admin-file.service';
-import { BaseOutputDsdFile } from '../../../../../../../app-api/src/lib/api/models/baseOutputDsdFile';
-import { Device } from '../../../../../../../app-api/src/lib/api/models/device';
-import { User } from '../../../../../../../app-api/src/lib/api/models/user';
-import { UploadRequest } from '../../../../../../../app-api/src/lib/api/models/uploadRequest';
-import {
-  NzUploadChangeParam,
-  NzUploadFile,
-  NzUploadXHRArgs,
-} from 'ng-zorro-antd/upload';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { BaseOutputListDsdFile } from 'projects/app-api/src/lib/api/models/baseOutputListDsdFile';
+import { FormArray } from '@angular/forms';
+import { FormGroupFile } from '@app-admin/app/modules/playlists/components/playlist';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { DsdFile } from '@app-api/lib/api/models/dsdFile';
 import {
   LhTableConfigModel,
   LhTableFieldType,
-} from 'projects/app-common/src/lib/components/lh-table/lh-table-config.model';
-import { FormArray, FormControl } from '@angular/forms';
+} from '@app-common/lib/components/lh-table/lh-table-config.model';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { TranslateService } from '@ngx-translate/core';
+import { AdminFileService } from '@app-api/lib/modules/admin/admin-file/admin-file.service';
+import { Location } from '@angular/common';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 
 @Component({
   selector: 'app-admin-file-add',
@@ -41,6 +21,7 @@ import { FormArray, FormControl } from '@angular/forms';
 export class FileAddComponent {
   @Input() control?: FormArray<FormGroupFile>;
   @Input() fileList: NzUploadFile[] = [];
+  @Input() fileAdmin?: DsdFile;
   tableConfig: LhTableConfigModel = {
     disableDetail: true,
     disableUpdate: true,
@@ -58,10 +39,13 @@ export class FileAddComponent {
       },
     ],
   };
-  // form: FormGroupFile = this.adminFileService.buildFileForm(this.fileAdmin)
+
+  isLoading: boolean = false;
 
   constructor(
+    private location: Location,
     private msg: NzMessageService,
+    private translateService: TranslateService,
     private adminFileService: AdminFileService
   ) {}
 
@@ -80,7 +64,59 @@ export class FileAddComponent {
     this.fileList = this.fileList.filter((f) => f !== file);
   }
 
-  uploadFiles(): Observable<BaseOutputListDsdFile> {
-    return this.adminFileService.upload(this.fileList);
+  uploadFiles() {
+    if (!this.fileList || this.fileList.length === 0) {
+      this.msg.info(
+        this.translateService.instant('module.file.upload.file-empty')
+      );
+      return;
+    }
+
+    this.isLoading = true;
+    this.adminFileService.upload(this.fileList).subscribe({
+      next: (response) => {
+        console.log(response);
+        if (response && response.status === ResponseStatus.Success) {
+          this.msg.info(
+            `${this.translateService.instant('module.file.upload.success')} ${
+              response.data?.length ? response.data.length : 0
+            }`
+          );
+          this.fileList = this.filterDuplicatedItem(
+            this.fileList,
+            response.data as DsdFile[]
+          );
+        } else {
+          let errorsInStr: string = response.errors
+            ?.map((e) => this.translateService.instant(e))
+            .join(', ') as string;
+          this.msg.error(errorsInStr);
+        }
+      },
+      error: (err) => {
+        this.msg.error(
+          this.translateService.instant('module.file.upload.error')
+        );
+        console.log(err);
+        this.isLoading = false;
+      },
+      complete: () => {
+        this.isLoading = false;
+      },
+    });
+  }
+
+  navigateToPrevious() {
+    this.location.back();
+  }
+
+  private filterDuplicatedItem(fileList: NzUploadFile[], dsdFiles: DsdFile[]) {
+    return fileList.filter(
+      (uf) =>
+        !dsdFiles
+          .map((df) => df.path)
+          .filter((fdp) => !!fdp)
+          .includes(uf.name)
+    );
   }
 }

@@ -1,15 +1,19 @@
-<nz-tabset>
-  <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab.name | translate">
-    <ng-container *ngIf="tab.code === 'info'">
-      <ng-container *ngTemplateOutlet="info"></ng-container>
-    </ng-container>
-  </nz-tab>
-</nz-tabset>
-<ng-template #info>
+<lh-common-page pageTitle="Device group">
+  <div class="mb-2" nz-space>
+    <button (click)="navigateToPrevious()" nz-button>
+      {{ "common.back" | translate }}
+    </button>
+  </div>
+  <div class="mb-2" nz-space>
+    <button (click)="add()" nz-button nzType="primary">
+      {{ (this.deviceGroupId ? "common.update" : "common.add") | translate }}
+    </button>
+  </div>
+
   <form [formGroup]="form" nz-form>
     <nz-form-item>
       <nz-form-label [nzSpan]="4" nzFor="name">
-        {{ "module.groupdevice.name" | translate }}
+        {{ "module.groupDevice.name" | translate }}
       </nz-form-label>
       <nz-form-control [formGroup]="form" [nzSpan]="14">
         <input
@@ -24,27 +28,26 @@
 
     <nz-form-item>
       <nz-form-label [nzSpan]="4" nzFor="description">
-        {{ "module.groupdevice.description" | translate }}
+        {{ "module.groupDevice.description" | translate }}
       </nz-form-label>
       <nz-form-control [formGroup]="form" [nzSpan]="14">
         <input formControlName="description" nz-input />
       </nz-form-control>
     </nz-form-item>
-    <ng-container *ngIf="deviceGroupAdmin?.id; else elseBlock">
+    <ng-container *ngIf="deviceGroupId; else elseBlock">
       <ng-container *ngTemplateOutlet="addDevices"></ng-container>
     </ng-container>
 
     <ng-template #addDevices>
       <nz-form-label [nzSpan]="4" nzFor="listDevice">
-        {{ "module.groupdevice.listDevice" | translate }}
+        {{ "module.groupDevice.listDevice" | translate }}
       </nz-form-label>
-      <nz-skeleton [nzActive]="true" *ngIf="loading.device"></nz-skeleton>
+      <nz-skeleton [nzActive]="true" *ngIf="loading.addDevice"></nz-skeleton>
       <lh-common-lh-table
-        *ngIf="!loading.device"
-        #table
+        *ngIf="!loading.addDevice"
         [config]="tableConfig"
         [data]="devices"
-        [loading]="loading.device"
+        [loading]="loading.addDevice"
         (onUpdate)="detailDevice($event)"
       ></lh-common-lh-table>
       <form nz-form [formGroup]="addDeviceForm" nzLayout="vertical">
@@ -93,10 +96,4 @@
     </ng-template>
     <ng-template #elseBlock></ng-template>
   </form>
-</ng-template>
-
-<lh-common-lh-dialog *ngIf="showFrame.detail && currentDevice?.id">
-  <app-admin-device-detail
-    [deviceId]="currentDevice.id"
-  ></app-admin-device-detail>
-</lh-common-lh-dialog>
+</lh-common-page>

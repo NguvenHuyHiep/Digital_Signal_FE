@@ -1,56 +1,87 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
-import { User } from '../../../../../../../app-api/src/lib/api/models/user';
-import { FormBuilder } from '@angular/forms';
-import { AdminUserService } from '../../../../../../../app-api/src/lib/modules/admin/admin-user/admin-user.service';
+import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { User } from '@app-api/lib/api/models/user';
+import { FormGroupUser } from '@app-admin/app/modules/user/components/user-type';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { AdminUserService } from '@app-api/lib/modules/admin/admin-user/admin-user.service';
+import { AdminLicenseService } from '@app-api/lib/modules/admin/admin-license/admin-license.service';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 import { Observable } from 'rxjs';
-import { FormGroupUser } from '../user-type';
-import { BaseOutputUser } from '../../../../../../../app-api/src/lib/api/models/baseOutputUser';
-import { AdminLicenseService } from '../../../../../../../app-api/src/lib/modules/admin/admin-license/admin-license.service';
-import { BaseOutputLicense } from '../../../../../../../app-api/src/lib/api/models/baseOutputLicense';
-import { LicenseGenerateRequest } from '../../../../../../../app-api/src/lib/api/models/licenseGenerateRequest';
+import { BaseOutputUser } from '@app-api/lib/api/models/baseOutputUser';
+import { LicenseGenerateRequest } from '@app-api/lib/api/models/licenseGenerateRequest';
 
 @Component({
   selector: 'app-admin-user-add',
   templateUrl: './user-add.component.html',
   styleUrls: ['./user-add.component.scss'],
 })
-export class UserAddComponent implements OnInit, OnChanges {
-  @Input() userAdmin?: User;
-  form: FormGroupUser = this.adminUserService.buildUserForm(this.userAdmin);
-  tabs = [
-    {
-      code: 'info',
-      name: 'module.user.info',
-    },
-  ];
-
+export class UserAddComponent implements OnInit {
+  userId: number | undefined;
+  currentUser?: User;
   license = '';
+  isVisible = false;
+  millisecondValue?: number;
+  defaultTimeType: string = 'day';
+  timeLicenseForm: FormGroup = this.formBuilder.group({
+    typeTime: [''],
+    timeValue: [''],
+  });
+  form: FormGroupUser = this.adminUserService.buildUserForm(this.currentUser);
+
+  loading: {
+    adding: boolean;
+    searching: boolean;
+  } = {
+    adding: false,
+    searching: false,
+  };
 
   constructor(
+    private location: Location,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
     private formBuilder: FormBuilder,
     private adminUserService: AdminUserService,
-    private adminLicenService: AdminLicenseService
-  ) {}
-
-  ngOnChanges(changes: SimpleChanges): void {}
+    private adminLicenseService: AdminLicenseService,
+    private translateService: TranslateService,
+    private message: NzMessageService
+  ) {
+    this.userId = this.activatedRoute.snapshot.params['userId'];
+  }
 
   ngOnInit(): void {
-    if (this.userAdmin) {
-      this.form.patchValue(this.userAdmin as any);
-      this.license = this.userAdmin?.license?.code || '';
-      console.log('ngOnInit', this.form.value);
-      console.log('license', this.license);
+    if (this.userId) {
+      // update
+      this.getUserById(this.userId);
+    } else {
+      // create
     }
-    this.form.valueChanges.subscribe((value) => {
-      console.log('value', value);
+  }
+
+  getUserById(userId: number) {
+    this.loading.searching = true;
+    this.adminUserService.getUserByUserId(userId).subscribe({
+      next: (response) => {
+        if (response && response.status === ResponseStatus.Success) {
+          this.currentUser = response.data;
+          this.form.patchValue(this.currentUser as any);
+          this.license = this.currentUser?.license?.code || '';
+          console.log('ngOnInit', this.form.value);
+          console.log('license', this.license);
+        } else {
+          let errorsInStr: string = response.errors
+            ?.map((e) => this.translateService.instant(e))
+            .join(', ') as string;
+          this.message.error(errorsInStr);
+        }
+      },
+      error: (err) => {},
+      complete: () => {
+        this.loading.searching = false;
+      },
     });
   }
 
@@ -59,7 +90,7 @@ export class UserAddComponent implements OnInit, OnChanges {
       this.form.markAsTouched();
       this.form.markAsDirty();
     }
-    if (!this.userAdmin?.id && !this.form.controls.id?.value) {
+    if (!this.currentUser?.id && !this.form.controls.id?.value) {
       let addObj: User = {
         userName: this.form.controls.userName?.value,
         password: this.form.controls.password?.value,
@@ -71,36 +102,112 @@ export class UserAddComponent implements OnInit, OnChanges {
       return this.adminUserService.addUser(addObj);
     }
     let uptObj: User = {
-      id: this.form.controls.id?.value || this.userAdmin?.id,
+      id: this.form.controls.id?.value || this.currentUser?.id,
       userName: this.form.controls.userName?.value,
       password: this.form.controls.password?.value,
       email: this.form.controls.email?.value,
       phone: this.form.controls.phone?.value,
       firstName: this.form.controls.firstName?.value,
       lastName: this.form.controls.lastName?.value,
-      license: this.userAdmin?.license,
+      license: this.currentUser?.license,
     };
     return this.adminUserService.updateUser(uptObj);
   }
 
   genLicense(): void {
+    this.isVisible = true;
+    this.timeLicenseForm.patchValue({
+      typeTime: this.defaultTimeType,
+    });
+  }
+
+  addOrUpdate() {
+    if (!this.form) {
+      return;
+    }
+    this.loading.adding = true;
+    this.addOrUpdateUser().subscribe({
+      next: (response) => {
+        if (response && response.status === ResponseStatus.Success) {
+          this.currentUser = response.data;
+          this.message.create(
+            'success',
+            this.translateService.instant('common.success')
+          );
+        } else {
+          let errorsInStr: string = response.errors
+            ?.map((e) => this.translateService.instant(e))
+            .join(', ') as string;
+          this.message.error(errorsInStr);
+        }
+      },
+      error: (err) => {
+        this.message.create(
+          'error',
+          err.message
+            ? err.message
+            : this.translateService.instant('common.error')
+        );
+        console.log(err);
+      },
+      complete: () => {
+        this.loading.adding = false;
+        this.location.back();
+      },
+    });
+  }
+
+  navigateToPrevious = (): void => {
+    this.location.back();
+  };
+
+  handleOk(): void {
+    this.isVisible = false;
+    if (!this.currentUser?.email) {
+      this.message.info(
+        this.translateService.instant(
+          'resgister.error.the-input-is-not-valid-email'
+        )
+      );
+      return;
+    }
     let licenseGenerateRequest: LicenseGenerateRequest = {
-      email: this.userAdmin?.email,
-      duration: 1000 * 60 * 60 * 24,
+      email: this.currentUser?.email,
+      duration: this.millisecondValue,
     };
-    this.adminLicenService
+    this.adminLicenseService
       .genLicense(licenseGenerateRequest)
       .subscribe((response) => {
-        console.log('response', response);
         if (response && response.data) {
-          if (this.userAdmin) {
-            this.userAdmin.license = response.data;
-            console.log('this.userAdmin.license', this.userAdmin.license);
-            console.log('response.data', response.data);
+          if (this.currentUser) {
+            this.currentUser.license = response.data;
             this.license = response.data.code || '';
           }
         }
       });
-    console.log(this.license);
+  }
+
+  handleCancel(): void {
+    this.isVisible = false;
+  }
+
+  convertToMilliseconds(): void {
+    const typeTime = this.timeLicenseForm.get('typeTime')?.value;
+    const timeValue = this.timeLicenseForm.get('timeValue')?.value;
+
+    if (typeTime && timeValue) {
+      let multiplier = 1;
+      if (typeTime === 'day') {
+        multiplier = 24 * 60 * 60 * 1000;
+      } else if (typeTime === 'hour') {
+        multiplier = 60 * 60 * 1000;
+      } else if (typeTime === 'month') {
+        multiplier = 30 * 24 * 60 * 60 * 1000;
+      }
+
+      const millisecondValue = timeValue * multiplier;
+      this.millisecondValue = millisecondValue;
+      console.log('millisecond Value:', this.millisecondValue);
+    }
   }
 }

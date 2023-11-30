@@ -1,0 +1,31 @@
+<lh-common-page [hidden]="!showFrame.search" pageTitle="List user">
+  <div nz-space>
+    <button
+      (click)="navigateToCreate()"
+      nz-button
+      nzType="primary"
+      class="mb-2 btnFunction"
+    >
+      {{ "common.add" | translate }}
+    </button>
+    <button
+      nz-button
+      nzType="primary"
+      class="mb-2"
+      [disabled]="!isSelectedRow"
+      (click)="deleteSelected()"
+      nzDanger
+    >
+      {{ "common.delete" | translate }}
+    </button>
+  </div>
+
+  <lh-common-lh-table
+    #table
+    [data]="users"
+    [config]="tableConfig"
+    (onUpdate)="navigateToUpdate($event)"
+    (onDelete)="delete($event)"
+    [loading]="loading.searching"
+  ></lh-common-lh-table>
+</lh-common-page>

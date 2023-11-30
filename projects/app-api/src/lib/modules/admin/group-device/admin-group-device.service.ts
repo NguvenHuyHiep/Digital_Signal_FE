@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { FormArray, FormBuilder } from '@angular/forms';
-import { AdminDeviceGroupControllerService } from '../../../api/controller/adminDeviceGroupController.service';
 import { HttpParams } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
-import { DeviceGroup } from '../../../api/models/deviceGroup';
 import { Observable } from 'rxjs';
-import { BaseOutputString } from '../../../api/models/baseOutputString';
-import { Device } from '../../../api/models/device';
-import { BaseOutputDeviceGroup } from '../../../api/models/baseOutputDeviceGroup';
+import { AdminDeviceGroupControllerService } from '@app-api/lib/api';
+import { DeviceGroup } from '@app-api/lib/api/models/deviceGroup';
+import { BaseOutputDeviceGroup } from '@app-api/lib/api/models/baseOutputDeviceGroup';
 import {
   FormDevice,
   FormDeviceGroup,
-} from '../../../../../../app-admin/src/app/modules/device-group/components/form-device-group';
+} from '@app-admin/app/modules/device-group/components/form-device-group';
+import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';
+import { Device } from '@app-api/lib/api/models/device';
 
 @Injectable()
 export class AdminDeviceGroupService {
@@ -20,7 +20,9 @@ export class AdminDeviceGroupService {
     private adminGroupDeviceController: AdminDeviceGroupControllerService
   ) {}
 
-  getDevices(deviceGroupId: number): Observable<BaseOutputDeviceGroup> {
+  public getDeviceGroupByDeviceGroupId(
+    deviceGroupId: number
+  ): Observable<BaseOutputDeviceGroup> {
     return this.adminGroupDeviceController.getById8(deviceGroupId);
   }
 
@@ -87,9 +89,9 @@ export class AdminDeviceGroupService {
     );
   }
 
-  public assignDevices(deciveGroupId: number, deviceIds: number[]) {
+  public assignDevices(deviceGroupId: number, deviceIds: number[]) {
     return this.adminGroupDeviceController.assignDevices(
-      deciveGroupId,
+      deviceGroupId,
       deviceIds
     );
   }
@@ -103,5 +105,12 @@ export class AdminDeviceGroupService {
       description: [device.description],
       status: [device.status],
     }) as FormDevice;
+  }
+
+  public assignDeviceGroup(playListId: number, deviceGroupIds: number[]) {
+    return this.adminGroupDeviceController.assignDevices(
+      playListId,
+      deviceGroupIds
+    );
   }
 }

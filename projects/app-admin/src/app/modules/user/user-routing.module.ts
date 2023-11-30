@@ -1,11 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UserComponent } from './components/user/user.component';
+import { UsersComponent } from '@app-admin/app/modules/user/components/users/users.component';
+import { UserAddComponent } from '@app-admin/app/modules/user/components/user-add/user-add.component';
 
-const routes: Routes = [
+let routes: Routes;
+routes = [
   {
     path: '',
-    component: UserComponent,
+    component: UsersComponent,
+  },
+  {
+    path: 'create',
+    component: UserAddComponent,
+  },
+  {
+    path: 'update/:userId',
+    component: UserAddComponent,
   },
 ];
 

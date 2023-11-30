@@ -2,11 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlaylistsComponent } from './components/playlist/playlists/playlists.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { LhTableModule } from '../../../../../app-common/src/lib/components/lh-table/lh-table.module';
-import { UiCommonModule } from '../../../../../app-common/src/lib/modules/ui-common/ui-common.module';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzButtonModule } from 'ng-zorro-antd/button';
-import { LhDialogModule } from '../../../../../app-common/src/lib/components/lh-dialog/lh-dialog.module';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -19,21 +16,25 @@ import { PlaylistAddComponent } from './components/playlist/playlist-add/playlis
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { PlaylistRoutingModule } from './playlist-routing.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { AdminPlaylistModule } from '../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.module';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
-import { FileModule } from '../file/file.module';
 import { ChosenFileComponent } from './components/playlist/chosen-file/chosen-file.component';
-import { PlaylistComponent } from './playlist/playlist.component';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { ChosenGroupDeviceComponent } from './components/playlist/chosen-group-device/chosen-group-device.component';
+import { LhTableModule } from '@app-common/lib/components/lh-table/lh-table.module';
+import { LhDialogModule } from '@app-common/lib/components/lh-dialog/lh-dialog.module';
+import { AdminPlaylistModule } from '@app-api/lib/modules/admin/admin-playlist/admin-playlist.module';
+import { AdminDeviceGroupModule } from '@app-api/lib/modules/admin/group-device/admin-group-device.module';
+import { UiCommonModule } from '@app-common/lib/modules/ui-common/ui-common.module';
+import { FileModule } from '../file/file.module';
 
 @NgModule({
   declarations: [
     PlaylistsComponent,
     PlaylistAddComponent,
     ChosenFileComponent,
-    PlaylistComponent,
+    ChosenGroupDeviceComponent,
   ],
   imports: [
     CommonModule,
@@ -61,6 +62,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
     NzSwitchModule,
     FileModule,
     AdminPlaylistModule,
+    AdminDeviceGroupModule,
   ],
 })
 export class PlaylistsModule {}

@@ -1,8 +1,13 @@
 <lh-common-page>
+  <div class="mb-2" nz-space>
+    <button (click)="navigateToPrevious()" nz-button>
+      {{ "common.back" | translate }}
+    </button>
+  </div>
   <div [nzGutter]="[16, 16]" nz-row>
     <div nz-col nzSpan="24">
       <nz-card>
-        <div id="device-log-chart"></div>
+        <div id="device-log-chart1"></div>
       </nz-card>
     </div>
   </div>
@@ -14,6 +19,7 @@
       [data]="deviceLogs"
       [config]="tableConfig"
       [loading]="loading.searching"
+      (onDetail)="navigateToDetail($event)"
     >
     </lh-common-lh-table>
   </div>

@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 
-import {
-  FormGroupFile,
-  FormGroupPlayList,
-} from '../../../../../../app-admin/src/app/modules/playlists/components/playlist';
-import { DsdFile } from '../../../api/models/dsdFile';
-import { Playlist } from '../../../api/models/playlist';
 import { Observable } from 'rxjs';
 
 import { HttpParams } from '@angular/common/http';
 
 import { tap } from 'rxjs/operators';
-import { AdminPlayListAPIService } from '../../../api/controller/adminPlayListAPI.service';
-import { BaseOutputPlaylist } from '../../../api/models/baseOutputPlaylist';
-import { BaseOutputString } from '../../../api/models/baseOutputString';
-import { PlaylistStatus } from '../../../api/models/playlistStatus';
+import { AdminPlayListAPIService } from '@app-api/lib/api';
+import { Playlist } from '@app-api/lib/api/models/playlist';
+import { DsdFile } from '@app-api/lib/api/models/dsdFile';
+import {
+  FormGroupFile,
+  FormGroupPlayList,
+} from '@app-admin/app/modules/playlists/components/playlist';
+import { PlaylistStatus } from '@app-api/lib/api/models/playlistStatus';
+import { BaseOutputPlaylist } from '@app-api/lib/api/models/baseOutputPlaylist';
+import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';
 
 @Injectable({
   providedIn: 'root',
@@ -39,7 +39,7 @@ export class AdminPlaylistService {
       ],
       endTime: [playlist?.endTime ? new Date(playlist.endTime) : new Date()],
       isLoop: [playlist?.isLoop || ''],
-      playlistStatus: [playlist?.status === PlaylistStatus.Active],
+      status: [playlist?.status || PlaylistStatus.Active],
     }) as unknown as FormGroupPlayList;
     form.addControl('files', this.formBuilder.array([]) as FormArray);
     playlist?.files?.forEach((file) => {
@@ -110,8 +110,24 @@ export class AdminPlaylistService {
   public getPlaylistWithFile(id: number): Observable<BaseOutputPlaylist> {
     return this.adminPlayListController.getByIdWithFiles(id);
   }
+  public getDeviceGroupByPlayListId(
+    id: number
+  ): Observable<BaseOutputPlaylist> {
+    return this.adminPlayListController.getByIdWithFilesDeviceGroups(id);
+  }
 
   public assignFile(playListId: number, fileIds: number[]) {
     return this.adminPlayListController.assignFiles(playListId, fileIds);
+  }
+
+  public getPlaylistByPlaylistId(playlistId: number) {
+    return this.adminPlayListController.getById3(playlistId);
+  }
+
+  public assignDeviceGroups(playlistId: number, deviceGroupIds: number[]) {
+    return this.adminPlayListController.assignDeviceGroups(
+      playlistId,
+      deviceGroupIds
+    );
   }
 }

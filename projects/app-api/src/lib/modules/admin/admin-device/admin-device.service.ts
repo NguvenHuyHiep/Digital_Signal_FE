@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { Device } from '../../../api/models/device';
-import { FormDevice } from '../../../../../../app-admin/src/app/modules/device-group/components/form-device-group';
-import { HttpParams } from '@angular/common/http';
-import { AdminDeviceControllerService } from '../../../api/controller/adminDeviceController.service';
 import { tap } from 'rxjs/operators';
+import { AdminDeviceControllerService } from '@app-api/lib/api';
+import { FormDevice } from '@app-admin/app/modules/device-group/components/form-device-group';
+import { Device } from '@app-api/lib/api/models/device';
 
 @Injectable()
 export class AdminDeviceService {

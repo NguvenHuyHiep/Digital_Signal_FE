@@ -30,8 +30,6 @@ import { BaseOutputDsdFile } from '../models/baseOutputDsdFile';
 import { BaseOutputListDsdFile } from '../models/baseOutputListDsdFile';
 // @ts-ignore
 import { BaseOutputString } from '../models/baseOutputString';
-// @ts-ignore
-import { UploadRequest } from '../models/uploadRequest';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS } from '../variables';
@@ -1029,37 +1027,49 @@ export class AdminFileControllerService {
   }
 
   /**
-   * @param uploadRequest
+   * Remove files from a playlist
+   * Return removed file
+   * @param playlistId
+   * @param requestBody
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public upload(
-    uploadRequest: UploadRequest,
+  public removeFilesFromPlaylist(
+    playlistId: number,
+    requestBody: Array<number>,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
-  ): Observable<BaseOutputDsdFile>;
-  public upload(
-    uploadRequest: UploadRequest,
+  ): Observable<BaseOutputString>;
+  public removeFilesFromPlaylist(
+    playlistId: number,
+    requestBody: Array<number>,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
-  ): Observable<HttpResponse<BaseOutputDsdFile>>;
-  public upload(
-    uploadRequest: UploadRequest,
+  ): Observable<HttpResponse<BaseOutputString>>;
+  public removeFilesFromPlaylist(
+    playlistId: number,
+    requestBody: Array<number>,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
-  ): Observable<HttpEvent<BaseOutputDsdFile>>;
-  public upload(
-    uploadRequest: UploadRequest,
+  ): Observable<HttpEvent<BaseOutputString>>;
+  public removeFilesFromPlaylist(
+    playlistId: number,
+    requestBody: Array<number>,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
   ): Observable<any> {
-    if (uploadRequest === null || uploadRequest === undefined) {
+    if (playlistId === null || playlistId === undefined) {
       throw new Error(
-        'Required parameter uploadRequest was null or undefined when calling upload.'
+        'Required parameter playlistId was null or undefined when calling removeFilesFromPlaylist.'
+      );
+    }
+    if (requestBody === null || requestBody === undefined) {
+      throw new Error(
+        'Required parameter requestBody was null or undefined when calling removeFilesFromPlaylist.'
       );
     }
 
@@ -1120,13 +1130,131 @@ export class AdminFileControllerService {
       }
     }
 
+    let localVarPath = `/api/v1/admin/file/remove/playlist/${this.configuration.encodeParam(
+      {
+        name: 'playlistId',
+        value: playlistId,
+        in: 'path',
+        style: 'simple',
+        explode: false,
+        dataType: 'number',
+        dataFormat: 'int64',
+      }
+    )}`;
+    return this.httpClient.request<BaseOutputString>(
+      'put',
+      `${this.configuration.basePath}${localVarPath}`,
+      {
+        context: localVarHttpContext,
+        body: requestBody,
+        responseType: <any>responseType_,
+        withCredentials: this.configuration.withCredentials,
+        headers: localVarHeaders,
+        observe: observe,
+        reportProgress: reportProgress,
+      }
+    );
+  }
+
+  /**
+   * Upload files
+   * Uploads multiple files and returns the uploaded file details.
+   * @param files Files to upload
+   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+   * @param reportProgress flag to report request and response progress.
+   */
+  public upload(
+    files: Array<Blob>,
+    observe?: 'body',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<BaseOutputListDsdFile>;
+  public upload(
+    files: Array<Blob>,
+    observe?: 'response',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpResponse<BaseOutputListDsdFile>>;
+  public upload(
+    files: Array<Blob>,
+    observe?: 'events',
+    reportProgress?: boolean,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<HttpEvent<BaseOutputListDsdFile>>;
+  public upload(
+    files: Array<Blob>,
+    observe: any = 'body',
+    reportProgress: boolean = false,
+    options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
+  ): Observable<any> {
+    if (files === null || files === undefined) {
+      throw new Error(
+        'Required parameter files was null or undefined when calling upload.'
+      );
+    }
+
+    let localVarQueryParameters = new HttpParams({ encoder: this.encoder });
+    if (files) {
+      localVarQueryParameters = this.addToHttpParams(
+        localVarQueryParameters,
+        [...files].join(COLLECTION_FORMATS['csv']),
+        'files'
+      );
+    }
+
+    let localVarHeaders = this.defaultHeaders;
+
+    let localVarCredential: string | undefined;
+    // authentication (Authorization) required
+    localVarCredential = this.configuration.lookupCredential('Authorization');
+    if (localVarCredential) {
+      localVarHeaders = localVarHeaders.set(
+        'Authorization',
+        'Bearer ' + localVarCredential
+      );
+    }
+
+    let localVarHttpHeaderAcceptSelected: string | undefined =
+      options && options.httpHeaderAccept;
+    if (localVarHttpHeaderAcceptSelected === undefined) {
+      // to determine the Accept header
+      const httpHeaderAccepts: string[] = ['*/*'];
+      localVarHttpHeaderAcceptSelected =
+        this.configuration.selectHeaderAccept(httpHeaderAccepts);
+    }
+    if (localVarHttpHeaderAcceptSelected !== undefined) {
+      localVarHeaders = localVarHeaders.set(
+        'Accept',
+        localVarHttpHeaderAcceptSelected
+      );
+    }
+
+    let localVarHttpContext: HttpContext | undefined =
+      options && options.context;
+    if (localVarHttpContext === undefined) {
+      localVarHttpContext = new HttpContext();
+    }
+
+    let responseType_: 'text' | 'json' | 'blob' = 'json';
+    if (localVarHttpHeaderAcceptSelected) {
+      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+        responseType_ = 'text';
+      } else if (
+        this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)
+      ) {
+        responseType_ = 'json';
+      } else {
+        responseType_ = 'json';
+      }
+    }
+
     let localVarPath = `/api/v1/admin/file/upload`;
-    return this.httpClient.request<BaseOutputDsdFile>(
+    return this.httpClient.request<BaseOutputListDsdFile>(
       'post',
       `${this.configuration.basePath}${localVarPath}`,
       {
         context: localVarHttpContext,
-        body: uploadRequest,
+        params: localVarQueryParameters,
         responseType: <any>responseType_,
         withCredentials: this.configuration.withCredentials,
         headers: localVarHeaders,

@@ -14,7 +14,11 @@
       ],
       "hub-common": [
         "dist/app-common"
-      ]
+      ],
+      "@app-admin/*": ["projects/app-admin/src/*"],
+      "@app-api/*": ["projects/app-api/src/*"],
+      "@app-common/*": ["projects/app-common/src/*"]
+
     },
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,

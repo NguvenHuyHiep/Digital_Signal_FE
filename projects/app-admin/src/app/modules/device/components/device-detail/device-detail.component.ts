@@ -1,4 +1,13 @@
-import { DatePipe } from '@angular/common';
+import {
+  LhTableConfigModel,
+  LhTableFieldType,
+} from '@app-common/lib/components/lh-table/lh-table-config.model';
+import { DeviceLog } from '@app-api/lib/api/models/deviceLog';
+import { AdminDeviceService } from '@app-api/lib/modules/admin/admin-device/admin-device.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DeviceStatus } from '@app-api/lib/api/models/deviceStatus';
+import { Chart } from '@antv/g2';
+import { Schedule } from '@app-api/lib/api/models/schedule';
 import {
   AfterViewInit,
   Component,
@@ -6,15 +15,8 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { Chart } from '@antv/g2';
-import { DeviceLog } from 'projects/app-api/src/lib/api/models/deviceLog';
-import { AdminDeviceService } from 'projects/app-api/src/lib/modules/admin/admin-device/admin-device.service';
-import {
-  LhTableConfigModel,
-  LhTableFieldType,
-} from 'projects/app-common/src/lib/components/lh-table/lh-table-config.model';
-import { LhTableComponent } from 'projects/app-common/src/lib/components/lh-table/lh-table.component';
-import { DeviceStatus } from '../../../../../../../app-api/src/lib/api/models/deviceStatus';
+import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.component';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-admin-device-detail',
@@ -23,6 +25,7 @@ import { DeviceStatus } from '../../../../../../../app-api/src/lib/api/models/de
 })
 export class DeviceDetailComponent implements OnInit, AfterViewInit {
   @Input('deviceId') deviceId?: number;
+  @Input('currentDevice') currentDevice?: DeviceStatus;
   @ViewChild('table') table?: LhTableComponent<DeviceLog>;
 
   showFrame: {
@@ -39,9 +42,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
 
   tableConfig: LhTableConfigModel = {
     key: 'id',
-    disableDetail: true,
-    disableDelete: true,
-    disableUpdate: true,
+    disableOption: true,
     fields: [
       {
         label: 'status',
@@ -60,8 +61,12 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
 
   constructor(
     private adminDeviceService: AdminDeviceService,
-    private datePipe: DatePipe
-  ) {}
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private location: Location
+  ) {
+    this.deviceId = this.activatedRoute.snapshot.params['deviceId'];
+  }
 
   ngOnInit() {
     console.log(this.deviceId);
@@ -113,39 +118,8 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
       return obj;
     });
 
-    // const data1 = [
-    //   { time: '21:08', type: 'ONLINE', value: 1 },
-    //   { time: '21:08', type: 'ONLINE', value: 1 },
-    //   { time: '21:38', type: 'ONLINE', value: 1 },
-    //   { time: '21:38', type: 'ONLINE', value: 1 },
-    //   { time: '22:08', type: 'ONLINE', value: 1 },
-    //   { time: '22:08', type: 'ONLINE', value: 1 },
-    //   { time: '22:38', type: 'ONLINE', value: 1 },
-    //   { time: '22:38', type: 'ONLINE', value: 1 },
-    //   { time: '23:08', type: 'ONLINE', value: 1 },
-    //   { time: '23:08', type: 'ONLINE', value: 1 },
-    //   { time: '23:38', type: 'ONLINE', value: 1 },
-    //   { time: '23:38', type: 'ONLINE', value: 1 },
-    //   { time: '00:08', type: 'ONLINE', value: 1 },
-    //   { time: '00:08', type: 'ONLINE', value: 1 },
-    //   { time: '00:38', type: 'ONLINE', value: 1 },
-    //   { time: '00:38', type: 'ONLINE', value: 1 },
-    //   { time: '01:08', type: 'ONLINE', value: 1 },
-    //   { time: '01:08', type: 'ONLINE', value: 1 },
-    //   { time: '01:38', type: 'ONLINE', value: 1 },
-    //   { time: '01:38', type: 'ONLINE', value: 1 },
-    //   { time: '02:08', type: 'ONLINE', value: 1 },
-    //   { time: '02:08', type: 'ONLINE', value: 1 },
-    //   { time: '02:38', type: 'ONLINE', value: 1 },
-    //   { time: '02:38', type: 'ONLINE', value: 1 },
-    //   { time: '02:08', type: 'ONLINE', value: 1 },
-    //   { time: '02:08', type: 'ONLINE', value: 1 },
-    //   { time: '02:38', type: 'ONLINE', value: 1 },
-    //   { time: '02:38', type: 'ONLINE', value: 1 },
-    // ];
-
     const chart = new Chart({
-      container: 'device-log-chart',
+      container: 'device-log-chart1',
       autoFit: true,
       height: 300,
     });
@@ -226,5 +200,16 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
     // Format as HH:mm string
     const time = hourStr + ':' + minStr;
     return time;
+  }
+
+  navigateToDetail = (record: Schedule): void => {
+    console.log(record);
+    this.router.navigate(['./detail', record.id], {
+      relativeTo: this.activatedRoute,
+    });
+  };
+
+  navigateToPrevious() {
+    this.location.back();
   }
 }

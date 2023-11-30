@@ -1,39 +1,30 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import { LhTableComponent } from '../../../../../../../app-common/src/lib/components/lh-table/lh-table.component';
-import { FileAddComponent } from '../file-add/file-add.component';
+import { Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DsdFile } from '@app-api/lib/api/models/dsdFile';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
+import { Schedule } from '@app-api/lib/api/models/schedule';
+import { AdminFileService } from '@app-api/lib/modules/admin/admin-file/admin-file.service';
 import {
   LhTableConfigModel,
   LhTableFieldType,
-} from '../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { AdminFileService } from '../../../../../../../app-api/src/lib/modules/admin/admin-file/admin-file.service';
-import { DsdFile } from '../../../../../../../app-api/src/lib/api/models/dsdFile';
-import { Playlist } from '../../../../../../../app-api/src/lib/api/models/playlist';
-import { NzUploadFile } from 'ng-zorro-antd/upload';
-import { AdminPlaylistService } from '../../../../../../../app-api/src/lib/modules/admin/admin-playlist/admin-playlist.service';
-import { NzModalService } from 'ng-zorro-antd/modal';
+} from '@app-common/lib/components/lh-table/lh-table-config.model';
+import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.component';
 import { TranslateService } from '@ngx-translate/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-admin-files',
   templateUrl: './files.component.html',
   styleUrls: ['./files.component.scss'],
 })
-export class FilesComponent<T extends Object> implements OnInit {
-  @Input() playListAdmin?: Playlist;
-  @Output() onGroup: EventEmitter<T> = new EventEmitter<T>();
-  @ViewChild('table') table?: LhTableComponent<DsdFile>;
-  @ViewChild('addComponent', { static: false }) addComponent?: FileAddComponent;
+export class FilesComponent implements OnInit {
+  table?: LhTableComponent<DsdFile>;
   currentFile?: DsdFile;
-  fileList: NzUploadFile[] = [];
   files: DsdFile[] = [];
+
   loading: {
     adding: boolean;
     searching: boolean;
@@ -43,15 +34,11 @@ export class FilesComponent<T extends Object> implements OnInit {
     searching: false,
     uploading: false,
   };
-  showFrame: {
-    search: boolean;
-    add: boolean;
-  } = {
-    search: true,
-    add: false,
-  };
+
   tableConfig: LhTableConfigModel = {
+    disableUpdate: true,
     disableDetail: true,
+    enablePreview: true,
     key: 'id',
     fields: [
       {
@@ -61,42 +48,49 @@ export class FilesComponent<T extends Object> implements OnInit {
       },
     ],
   };
-  isSelectedRow(): boolean {
-    return (this.table?.setOfCheckedId?.size || 0) > 0;
-  }
+
+  previewFile: {
+    isVisible: boolean;
+    dsdFile?: DsdFile;
+    src?: any;
+    blob?: Blob;
+  } = {
+    isVisible: false,
+  };
 
   constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private sanitizer: DomSanitizer,
     private translateService: TranslateService,
     private adminFileService: AdminFileService,
-    private adminPlaylistService: AdminPlaylistService,
     private message: NzMessageService,
     private modalService: NzModalService
   ) {}
 
   ngOnInit(): void {
-    if (this.playListAdmin) {
-      this.getFileById();
-    } else {
-      this.getAllFile();
-    }
+    this.getAllFile();
   }
 
-  update(files: DsdFile) {
-    this.currentFile = files as DsdFile;
-    this.showFrame.add = true;
-    this.showFrame.search = false;
-  }
   delete(file: DsdFile) {
     this.modalService.confirm({
-      nzTitle: `Do you want to delete the file: ${file.path} ?`,
+      nzTitle:
+        this.translateService.instant('module.file.modalDeleteFile') +
+        `${file.name}` +
+        ' ?',
       nzOnOk: () => {
         new Promise((resolve, reject) => {
           return this.adminFileService
             .deleteFile(file.path as string)
             .subscribe({
               next: (response) => {
-                console.log(response);
-                this.files = this.files.filter((f) => f.path !== file.path);
+                if (response && response?.status === ResponseStatus.Success) {
+                  this.files = this.files.filter((f) => f.path !== file.path);
+                } else {
+                  this.message.error(
+                    this.translateService.instant('module.file.error.delete')
+                  );
+                }
                 resolve;
               },
               error: (err) => {
@@ -113,82 +107,107 @@ export class FilesComponent<T extends Object> implements OnInit {
     });
   }
 
-  openAddFrame() {
-    this.currentFile = undefined;
-    this.showFrame.search = false;
-    this.showFrame.add = true;
-  }
+  preview(record: DsdFile) {
+    console.log('preview: ', record);
 
-  deleteSelected() {}
+    if (record && record.path === this.previewFile.dsdFile?.path) {
+      this.previewFile.isVisible = true;
+      return;
+    }
 
-  getFileById(): void {
-    this.adminPlaylistService
-      .getPlaylistWithFile(this.playListAdmin?.id as number)
-      .subscribe({
+    this.previewFile = {
+      isVisible: true,
+    };
+    this.previewFile.dsdFile = record;
+    if (record && record.id && record.path) {
+      this.adminFileService.download(record).subscribe({
         next: (response) => {
-          if (response.data) {
-            this.files = response.data.files as DsdFile[];
+          if (response) {
+            this.previewFile.src = this.sanitizer.bypassSecurityTrustUrl(
+              URL.createObjectURL(response)
+            );
+            this.previewFile.blob = response;
+          } else {
+            this.message.error(
+              this.translateService.instant('error.cannot-preview-file')
+            );
           }
         },
         error: (err) => {
-          //TODO Xử lý exception
-          this.message.error('Error', err);
+          console.log(err);
+
+          this.message.error(
+            this.translateService.instant('error.cannot-preview-file')
+          );
         },
-        complete: () => {
-          this.loading.searching = false;
-        },
+        complete: () => {},
       });
+    } else {
+      this.message.error(
+        this.translateService.instant('error.cannot-preview-file')
+      );
+    }
+  }
+
+  isFile(fileType: string | any) {
+    return fileType && fileType.startsWith('image/');
   }
 
   getAllFile(): void {
     this.loading.searching = true;
     this.adminFileService.getAllFile(0, 100).subscribe({
       next: (response) => {
-        if (response.data) {
-          this.files = response.data as Array<DsdFile>;
-          console.log(this.files + 'files');
+        if (response && response.status === ResponseStatus.Success) {
+          this.files = response.data as DsdFile[];
+        } else {
+          this.message.error(
+            this.translateService.instant('module.file.error.get')
+          );
+          this.files = [];
         }
       },
       error: (err) => {
         // TODO i18n
         this.message.error('Error', err);
+        this.files = [];
       },
       complete: () => {
         this.loading.searching = false;
       },
     });
   }
-  add() {
-    if (!this.addComponent) {
-      return;
-    }
-    this.loading.adding = true;
-    this.addComponent.uploadFiles().subscribe({
-      next: (value) => {
-        console.log(value);
-        this.message.info(
-          `${this.translateService.instant('module.file.upload.success')} ${
-            value.data?.length ? value.data.length : 0
-          }`
-        );
-      },
-      error: (err) => {
-        this.message.error('module.file.upload.error');
-        console.log(err);
-      },
-      complete: () => {
-        this.loading.adding = false;
-      },
-    });
+
+  onCancel() {
+    console.log('closing');
+    this.previewFile.isVisible = false;
   }
 
-  gotoSearch() {
-    this.showFrame.search = true;
-    this.showFrame.add = false;
-    if (this.playListAdmin) {
-      this.getFileById();
+  onDownload() {
+    console.log('downloading');
+    if (
+      this.previewFile &&
+      this.previewFile.src &&
+      this.previewFile.blob &&
+      this.previewFile.dsdFile?.path
+    ) {
+      saveAs(this.previewFile.blob, this.previewFile.dsdFile.path);
     } else {
-      this.getAllFile();
+      this.message.info(
+        this.translateService.instant('error.cannot-download-file')
+      );
     }
   }
+
+  navigateToDetail = (record: Schedule): void => {
+    console.log(record);
+    this.router.navigate(['./detail', record.id], {
+      relativeTo: this.activatedRoute,
+    });
+  };
+
+  navigateToCreate = (): void => {
+    this.router.navigate(['./create'], {
+      relativeTo: this.activatedRoute,
+    });
+  };
 }

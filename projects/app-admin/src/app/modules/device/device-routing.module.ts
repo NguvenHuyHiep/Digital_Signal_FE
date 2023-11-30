@@ -1,11 +1,17 @@
-import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DeviceListComponent } from './components/device-list/device-list.component';
+import { DeviceListComponent } from '@app-admin/app/modules/device/components/device-list/device-list.component';
+import { DeviceDetailComponent } from '@app-admin/app/modules/device/components/device-detail/device-detail.component';
+import { NgModule } from '@angular/core';
 
-const routes: Routes = [
+let routes: Routes;
+routes = [
   {
     path: '',
     component: DeviceListComponent,
+  },
+  {
+    path: 'detail/:deviceId',
+    component: DeviceDetailComponent,
   },
 ];
 

@@ -1,12 +1,7 @@
-<lh-common-page
-  [hidden]="!showFrame.search"
-  pageTitle="{{ 'module.playlist.title' | translate }}"
->
+<lh-common-page pageTitle="{{ 'module.playlist.title' | translate }}">
   <div nz-space>
     <button
-      [disabled]="true"
-      [hidden]="true"
-      (click)="routeToAdd()"
+      (click)="navigateToCreate()"
       nz-button
       nzType="primary"
       class="mb-2 btnFunction"
@@ -18,7 +13,6 @@
       nzType="primary"
       class="mb-2"
       [disabled]="!isSelectedRow"
-      [hidden]="true"
       (click)="deleteSelected()"
       nzDanger
     >
@@ -30,36 +24,9 @@
     #table
     [data]="playlists"
     [config]="tableConfig"
-    [expandTemplate]="playlistDetail"
     [loading]="loading.searching"
-    (onUpdate)="update($event)"
+    (onUpdate)="navigateToUpdate($event)"
     (onDelete)="delete($event)"
+    (onDetail)="navigateToDetail($event)"
   ></lh-common-lh-table>
 </lh-common-page>
-
-<lh-common-lh-dialog
-  *ngIf="showFrame.add"
-  [footerTemplateLeft]="backToSearch"
-  [footerTemplateRight]="addActions"
->
-  <app-admin-playlist-add [playlistAdmin]="currentPlaylist" #addComponent>
-  </app-admin-playlist-add>
-</lh-common-lh-dialog>
-
-<ng-template #addActions>
-  <div nz-space>
-    <button (click)="add()" nz-button nzType="primary">
-      {{ (this.currentPlaylist ? "common.update" : "common.add") | translate }}
-    </button>
-  </div>
-</ng-template>
-
-<ng-template #backToSearch>
-  <button (click)="routerToSearch()" nz-button>
-    {{ "common.back" | translate }}
-  </button>
-</ng-template>
-
-<ng-template #playlistDetail let-data="data">
-  <app-admin-file-detail [currentPlayList]="data"></app-admin-file-detail>
-</ng-template>

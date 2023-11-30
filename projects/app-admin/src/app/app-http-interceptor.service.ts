@@ -10,7 +10,6 @@ import {
 import { Store } from '@ngrx/store';
 import { from, Observable } from 'rxjs';
 import { catchError, finalize, tap } from 'rxjs/operators';
-import { SIGN_OUT } from '../../../app-api/src/lib/modules/authen/store/authen.reducers';
 
 @Injectable()
 export class AppHttpInterceptor implements HttpInterceptor {

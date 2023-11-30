@@ -8,6 +8,9 @@
     "signIn": "Đăng nhập"
   },
   "common": {
+    "status": "Trạng thái",
+    "active": "Hoạt động",
+    "inactive": "Không hoạt động",
     "checkAll": "Chọn tất cả",
     "dataNotFound": "Không tìm thấy dữ liêu",
     "search": "Tìm kiếm",
@@ -25,7 +28,10 @@
     "cancel": "Hủy",
     "success": "Thành công",
     "selectDevice": "Chọn thiết bị",
-    "selectFile": "Chọn File"
+    "selectFile": "Chọn File",
+    "selectDeviceGroup": "Chọn nhóm thiết bị ",
+    "option": "Tùy chỉnh",
+    "preview": "Xem"
   },
 
   "footer": "Design & Develop by LPDEV",
@@ -49,7 +55,8 @@
     "welcomeback": "Chào mừng quay lại!"
   },
   "module": {
-    "groupdevice": {
+    "groupDevice": {
+      "modalDeleteGroupDevice": " Bạn muốn xóa nhóm thiết bị :  ",
       "title": "Group Device",
       "info": "Thông tin",
       "name": "Tên Group",
@@ -57,21 +64,25 @@
       "location": "Địa chỉ",
       "device": "Thiết bị",
       "deviceAdd": "Thêm thiết bị",
-      "listDevice": "Danh sách thiết bị"
+      "no-devices": "This group don't have any device",
+      "deviceGroupAdd": "Thêm nhóm thiết bị",
+      "listDevice": "Danh sách thiết bị",
+      "listDeviceGroup": "Danh sách nhóm thiết bị"
     },
     "dashboard": {
-      "title":"Thống kê",
-      "deviceTotal":"Số lượng devices",
-      "deviceOnline":"Số lượng devices ON",
-      "deviceOffline":"Số lượng devices OFF",
-      "deviceGroup":"Số lượng nhóm device",
+      "title": "Thống kê",
+      "deviceTotal": "Số lượng devices",
+      "deviceOnline": "Số lượng devices ON",
+      "deviceOffline": "Số lượng devices OFF",
+      "deviceGroup": "Số lượng nhóm device",
       "playlistNumber": "Số lượng playlist",
-      "latestDownloadTime":"Lượt download gần nhất",
-      "latestPlaylistID":"Playlist mới nhất",
+      "latestDownloadTime": "Lượt download gần nhất",
+      "latestPlaylistID": "Playlist mới nhất",
       "latestPlaylistDuration": "Thời lượng playlist mới nhất",
       "welcome": "Chào mừng tới Digital Signage"
     },
     "file": {
+      "modalDeleteFile": "Bạn muốn xóa File : ",
       "add": "Thêm file",
       "chooseContentType": "Loại file",
       "contentTypes-video": "video",
@@ -82,17 +93,22 @@
       "title": "File",
       "size": "Dung lượng",
       "upload": {
+        "file-empty": "Không có file để tải lên",
         "text": "Ấn hoặc kéo file vào đây để tải lên",
         "hint": "Hỗ trợ tải lên một hoặc nhiều file, Cấm đưa lên các file có thông tin nhạy cảm",
         "success": "Đã tải lên thành công số lượng file: ",
         "error": "Tải lên file thất bại"
       },
       "delete-confirm": {
-        "title" : "Bạn có muốn xóa file: "
+        "title": "Bạn có muốn xóa file: "
+      },
+      "error": {
+        "delete": "Xóa file thất bại",
+        "get": "Lấy danh sách file thất bại"
       }
     },
     "playlist": {
-
+      "modalDeletePlayList": "Bạn muốn xóa PlayList : ",
       "title": "Playlist",
       "file": "File",
       "update": "Cập nhập File",
@@ -102,20 +118,29 @@
       "startTime": "Thời gian bắt đầu",
       "endTime": "Thời gian kết thúc",
       "isLoop": "Vòng lặp",
-      "status" : "Trạng thái",
+      "status": "Trạng thái",
       "true": "Có"
     },
     "user": {
+      "modalDeleteUser": "Bạn muốn xóa người dùng : ",
       "title": "Tài khoản",
       "info": "Thông tin",
       "email": "Email",
       "phone": "Số điện thoại",
       "userName": "Tài khoản",
       "password": "Mật khẩu",
-      "firstName":"Tên",
-      "lastName":"Họ",
+      "firstName": "Tên",
+      "lastName": "Họ",
       "license": "License",
-      "roles": "Vai trò"
+      "roles": "Vai trò",
+      "modalLicense": "License",
+      "timeType": "Kiểu thời gian",
+      "timeValue": "Thời gian",
+      "time": {
+        "day": "Ngày",
+        "hour": "Giờ",
+        "month": "Tháng"
+      }
     },
     "license": {
       "title": "License",
@@ -135,6 +160,14 @@
       "license": "License",
       "add": "Thêm thiết bị",
       "delete": "Xóa thiết bị"
+    },
+    "schedule": {
+      "title": "Lịch phát",
+      "name": "Tên",
+      "description": "Mô tả",
+      "detail": {
+        "title": "Chi tiết lịch phát"
+      }
     }
   },
   "recover": {
@@ -201,6 +234,23 @@
   },
   "button": {
     "ok": "Xác nhận",
-    "cancel": "Hủy"
+    "cancel": "Hủy ",
+    "download": "Tải về",
+    "close": "Đóng"
+  },
+  "menu": {
+    "search": "Tìm kiếm",
+    "dashboard": "Thống kê",
+    "user": "Tài khoản",
+    "playlist": "Danh sách phát",
+    "device-group": "Nhóm thiết bị",
+    "device": "Thiết bị",
+    "file": "File",
+    "schedule": "Lịch phát"
+  },
+  "error": {
+    "cannot-download-file": "Không thể tải về file",
+    "cannot-preivew-file": "Không thể xem trước file",
+    "video-not-support": "Trình duyệt không hỗ trợ định dạng video này"
   }
 }

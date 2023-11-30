@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LhStorageService } from '../../../app-api/src/lib/modules/local-store/lh-storage.service';
 import { Store } from '@ngrx/store';
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { LhStorageService } from '@app-api/lib/modules/local-store/lh-storage.service';
 import {
   SIGN_IN_SUCCESS,
   SIGN_OUT,
-} from '../../../app-api/src/lib/modules/authen/store/authen.reducers';
-import { LhAuthenService } from '../../../app-api/src/lib/modules/authen/lh-authen.service';
-import { ActivatedRoute, Route, Router } from '@angular/router';
-import { Location } from '@angular/common';
+} from '@app-api/lib/modules/authen/store/authen.reducers';
+import { LhAuthenService } from '@app-api/lib/modules/authen/lh-authen.service';
 @Component({
   selector: 'app-admin-root',
   templateUrl: './app.component.html',

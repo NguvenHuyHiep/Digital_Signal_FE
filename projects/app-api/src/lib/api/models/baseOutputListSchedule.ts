@@ -18,6 +18,7 @@ export interface BaseOutputListSchedule {
   currentPage?: number;
   pageSize?: number;
   totalPages?: number;
+  total?: number;
   status?: ResponseStatus;
   data?: Array<Schedule>;
 }

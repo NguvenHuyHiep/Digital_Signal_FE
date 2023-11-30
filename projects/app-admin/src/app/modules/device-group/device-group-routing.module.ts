@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DeviceGroupsComponent } from './components/device-groups/device-groups.component';
-import { DeviceGroupComponent } from './device-group/device-group.component';
+import { DeviceGroupsComponent } from '@app-admin/app/modules/device-group/components/device-groups/device-groups.component';
+import { DeviceGroupAddComponent } from '@app-admin/app/modules/device-group/components/device-group/device-group-add/device-group-add.component';
+import { NgModule } from '@angular/core';
 
 const routes: Routes = [
   {
@@ -9,8 +9,12 @@ const routes: Routes = [
     component: DeviceGroupsComponent,
   },
   {
-    path: ':device',
-    component: DeviceGroupComponent,
+    path: 'create',
+    component: DeviceGroupAddComponent,
+  },
+  {
+    path: 'update/:deviceGroupId',
+    component: DeviceGroupAddComponent,
   },
 ];
 

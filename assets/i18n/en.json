@@ -24,7 +24,9 @@
     "back": "Back",
     "cancel": "Cancel",
     "success": "Successful",
-    "selectDevice": "Select device"
+    "selectDevice": "Select device",
+    "option": "Option",
+    "preview": "Preview"
   },
 
   "footer": "Design & Develop by LPDEV",
@@ -48,7 +50,8 @@
     "welcomeback": "Welcome Back !"
   },
   "module": {
-    "groupdevice": {
+    "groupDevice": {
+      "modalDeleteGroupDevice": " Do you want delete device group :  ",
       "title": "Group Device",
       "info": "Info",
       "name": "Name",
@@ -56,7 +59,9 @@
       "location": "Location",
       "device": "Device",
       "deviceAdd": "Add device",
-      "listDevice": "List devices"
+      "deviceGroupAdd": "Add group device",
+      "listDevice": "List devices",
+      "listDeviceGroup": "List group devices"
     },
     "dashboard": {
       "title": "Dashboard",
@@ -71,6 +76,9 @@
       "welcome": "Welcome to Digital Signage"
     },
     "file": {
+      "title": "File",
+      "add": "Add",
+      "modalDeleteFile": "Do you want delete : ",
       "chooseContentType": "File type",
       "contentTypes-video": "video",
       "contentTypes-img": "img",
@@ -79,6 +87,7 @@
       "name": "Filename",
       "size": "Size",
       "upload": {
+        "file-empty": "Không có file để tải lên",
         "text": "Click or drag file to this area to upload",
         "hint": "Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files",
         "success": "Uploaded successfully with number of files: ",
@@ -86,9 +95,14 @@
       },
       "delete-confirm": {
         "title": "Are you sure to delete the file: "
+      },
+      "error": {
+        "delete": "Delete file failed",
+        "get": "Get file list failed"
       }
     },
     "playlist": {
+      "modalDeletePlayList": "Do you want delete PlayList : ",
       "title": "Playlist",
       "file": "File",
       "update": "Update file",
@@ -102,6 +116,7 @@
       "true": "Yes"
     },
     "user": {
+      "modalDeleteUser": "Do you want delete user : ",
       "title": "User",
       "info": "Information",
       "email": "Email",
@@ -111,7 +126,15 @@
       "firstName": "First name",
       "lastName": "Last name",
       "license": "License",
-      "roles": "Roles"
+      "roles": "Vai trò",
+      "modalLicense": "License",
+      "timeType": "Kiểu thời gian",
+      "timeValue": "Thời gian",
+      "time": {
+        "day": "Ngày",
+        "hour": "Giờ",
+        "month": "Tháng"
+      }
     },
     "license": {
       "title": "License",
@@ -131,6 +154,14 @@
       "license": "License",
       "add": "Add device",
       "delete": "Delete device"
+    },
+    "schedule": {
+      "title": "Schedule",
+      "name": "Name",
+      "description": "Description",
+      "detail": {
+        "title": "Schedule detail"
+      }
     }
   },
   "recover": {
@@ -197,6 +228,23 @@
   },
   "button": {
     "ok": "Ok",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "download": "Download",
+    "close": "Close"
+  },
+  "menu": {
+    "search": "Search",
+    "dashboard": "Dashboard",
+    "user": "User",
+    "playlist": "Playlist",
+    "device-group": "Device Group",
+    "device": "Device",
+    "file": "File",
+    "schedule": "Schedule"
+  },
+  "error": {
+    "cannot-download-file": "Cannot download file",
+    "cannot-preivew-file": "Cannot preview file",
+    "video-not-support": "Trình duyệt không hỗ trợ định dạng video này"
   }
 }

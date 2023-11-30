@@ -10,10 +10,10 @@ import {
   SIGN_OUT,
 } from './authen.reducers';
 import { LhAuthenService } from '../lh-authen.service';
-import { LhStorageService } from '../../local-store/lh-storage.service';
 import { forkJoin, of } from 'rxjs';
-import { BaseOutputString } from '../../../api/models/baseOutputString';
-import { BaseOutputUser } from '../../../api/models/baseOutputUser';
+import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';
+import { BaseOutputUser } from '@app-api/lib/api/models/baseOutputUser';
+import { LhStorageService } from '../../local-store/lh-storage.service';
 
 @Injectable()
 export class AuthenEffects {

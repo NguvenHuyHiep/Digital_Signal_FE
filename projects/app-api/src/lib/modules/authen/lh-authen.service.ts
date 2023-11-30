@@ -1,18 +1,18 @@
 import { Inject, Injectable, Optional } from '@angular/core';
 import { filter, map, Observable, of } from 'rxjs';
-
-import { LH_API_VERSION } from '../../../public-api';
-import { LhStorageService } from '../local-store/lh-storage.service';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { tap } from 'rxjs/operators';
+import {
+  AdminUsersAPIService,
+  AuthenticationControllerService,
+} from '@app-api/lib/api';
+import { LH_API_VERSION } from '@app-api/public-api';
+import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';
 import { SIGN_IN_FAILED, SIGN_IN_SUCCESS } from './store/authen.reducers';
-import { AuthenticationControllerService } from '../../api/controller/authenticationController.service';
-import { BaseOutputString } from '../../api/models/baseOutputString';
-import { AdminUsersAPIService } from '../../api/controller/adminUsersAPI.service';
-import { BaseOutputUser } from '../../api/models/baseOutputUser';
-import { User } from '../../api/models/user';
-import { Configuration } from '../../api';
+import { BaseOutputUser } from '@app-api/lib/api/models/baseOutputUser';
+import { User } from '@app-api/lib/api/models/user';
+import { LhStorageService } from '../local-store/lh-storage.service';
 
 @Injectable({
   providedIn: 'root',

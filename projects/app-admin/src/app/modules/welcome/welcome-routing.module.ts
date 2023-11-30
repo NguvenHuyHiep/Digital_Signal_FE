@@ -62,6 +62,14 @@ const routes: Routes = [
         loadChildren: () =>
           import('../file/file.module').then((m) => m.FileModule),
       },
+      {
+        path: 'schedule',
+        data: {
+          label: 'Schedule',
+        },
+        loadChildren: () =>
+          import('../schedule/schedule.module').then((m) => m.ScheduleModule),
+      },
     ],
   },
 ];

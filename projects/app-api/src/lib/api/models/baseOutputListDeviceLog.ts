@@ -18,6 +18,7 @@ export interface BaseOutputListDeviceLog {
   currentPage?: number;
   pageSize?: number;
   totalPages?: number;
+  total?: number;
   status?: ResponseStatus;
   data?: Array<DeviceLog>;
 }

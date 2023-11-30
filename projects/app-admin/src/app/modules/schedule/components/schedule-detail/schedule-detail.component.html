@@ -1,0 +1,21 @@
+<lh-common-page pageTitle="{{ 'module.schedule.detail.title' | translate }}">
+  <div [nzGutter]="[16, 16]" nz-row>
+    <mwl-calendar-week-view
+      nz-col
+      nzSpan="18"
+      [viewDate]="viewDate"
+      [events]="events"
+      [refresh]="refresh"
+      (eventTimesChanged)="eventTimesChanged($event)"
+    >
+    </mwl-calendar-week-view>
+    <lh-common-lh-table
+      #table
+      nz-col
+      nzSpan="6"
+      *ngIf="dsdSchedule.playlists"
+      [data]="dsdSchedule.playlists"
+      [config]="tableConfig"
+    ></lh-common-lh-table>
+  </div>
+</lh-common-page>

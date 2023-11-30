@@ -1,13 +1,18 @@
-<nz-page-header class="site-page-header" [nzTitle]="pageTitle | translate">
-  <!--  <div>-->
-  <nz-breadcrumb nz-page-header-breadcrumb>
-    <nz-breadcrumb-item *ngFor="let breadcrumb of breadcrumbs">
-      <a [routerLink]="breadcrumb.url">{{ breadcrumb.label | translate }}</a>
-    </nz-breadcrumb-item>
-  </nz-breadcrumb>
-  <!--  </div>-->
-</nz-page-header>
-<div class="content-section">
-  <app-watermark></app-watermark>
-  <ng-content></ng-content>
+<div class="loading-wrapper">
+  <div *ngIf="isLoading" class="loading-container">
+    <nz-spin class="loading-item" nzSimple></nz-spin>
+  </div>
+  <nz-page-header class="site-page-header" [nzTitle]="pageTitle | translate">
+    <!--  <div>-->
+    <nz-breadcrumb nz-page-header-breadcrumb>
+      <nz-breadcrumb-item *ngFor="let breadcrumb of breadcrumbs">
+        <a [routerLink]="breadcrumb.url">{{ breadcrumb.label | translate }}</a>
+      </nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <!--  </div>-->
+  </nz-page-header>
+  <div class="content-section">
+    <app-watermark></app-watermark>
+    <ng-content></ng-content>
+  </div>
 </div>

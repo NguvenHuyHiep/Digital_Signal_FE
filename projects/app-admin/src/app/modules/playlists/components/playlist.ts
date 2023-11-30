@@ -1,5 +1,5 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { FormGroupUser } from '../../user/components/user-type';
+import { PlaylistStatus } from '@app-api/lib/api/models/playlistStatus';
 
 export type FormGroupFile = FormGroup<{
   id?: FormControl<number>;
@@ -18,6 +18,6 @@ export type FormGroupPlayList = FormGroup<{
   startTime?: FormControl<Date>;
   endTime?: FormControl<Date>;
   isLoop?: FormControl<boolean>;
-  playlistStatus?: FormControl<boolean>;
+  status?: FormControl<PlaylistStatus>;
   files?: FormArray<FormGroupFile>;
 }>;

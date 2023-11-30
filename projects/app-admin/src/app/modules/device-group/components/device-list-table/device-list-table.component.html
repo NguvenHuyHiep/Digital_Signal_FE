@@ -1,0 +1,7 @@
+<div *ngIf="devices && devices.length > 0">
+  <lh-common-lh-table #table [data]="devices" [config]="tableConfig">
+  </lh-common-lh-table>
+</div>
+<div *ngIf="!devices || devices.length == 0">
+  <p>{{ "module.groupDevice.no-devices" | translate }}</p>
+</div>

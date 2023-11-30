@@ -1,16 +1,19 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { DeviceGroup } from '../../../../../../../app-api/src/lib/api/models/deviceGroup';
-import { LhTableComponent } from '../../../../../../../app-common/src/lib/components/lh-table/lh-table.component';
-import { DeviceGroupAddComponent } from '../device-group/device-group-add/device-group-add.component';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.component';
+import { DeviceGroup } from '@app-api/lib/api/models/deviceGroup';
+import { DeviceGroupAddComponent } from '@app-admin/app/modules/device-group/components/device-group/device-group-add/device-group-add.component';
+import { Device } from '@app-api/lib/api/models/device';
 import {
   LhTableConfigModel,
   LhTableFieldType,
-} from '../../../../../../../app-common/src/lib/components/lh-table/lh-table-config.model';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { translate } from '@antv/g2/lib/util/transform';
-import { AdminDeviceGroupService } from '../../../../../../../app-api/src/lib/modules/admin/group-device/admin-group-device.service';
-import { Device } from '../../../../../../../app-api/src/lib/api/models/device';
+} from '@app-common/lib/components/lh-table/lh-table-config.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AdminDeviceGroupService } from '@app-api/lib/modules/admin/group-device/admin-group-device.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { TranslateService } from '@ngx-translate/core';
+import { User } from '@app-api/lib/api/models/user';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 
 @Component({
   selector: 'app-admin-device-groups',
@@ -22,15 +25,7 @@ export class DeviceGroupsComponent implements OnInit {
   @ViewChild('addComponent', { static: false })
   addComponent?: DeviceGroupAddComponent;
   devices: Array<Device> = [];
-  showFrame: {
-    search: boolean;
-    add: boolean;
-    device: boolean;
-  } = {
-    search: true,
-    add: false,
-    device: false,
-  };
+
   currentDeviceGroup: DeviceGroup = {};
   deviceGroups: Array<DeviceGroup> = [];
   loading: {
@@ -42,197 +37,94 @@ export class DeviceGroupsComponent implements OnInit {
     searching: false,
     device: false,
   };
-  query: {
-    action?: string;
-    id?: string;
-  } = {
-    action: undefined,
-    id: undefined,
-  };
+
   tableConfig: LhTableConfigModel = {
     disableDetail: true,
     key: 'id',
     fields: [
       {
-        label: 'module.groupdevice.name',
+        label: 'module.groupDevice.name',
         field: 'name',
         type: LhTableFieldType.STRING,
       },
       {
-        label: 'module.groupdevice.description',
+        label: 'module.groupDevice.description',
         field: 'description',
-        type: LhTableFieldType.STRING,
-      },
-    ],
-  };
-  protected readonly translate = translate;
-
-  tableDeviceConfig: LhTableConfigModel = {
-    key: 'id',
-    disableDetail: true,
-    disableUpdate: false,
-    disableDelete: true,
-    fields: [
-      {
-        label: 'module.device.code',
-        field: 'code',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'module.device.name',
-        field: 'name',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'module.device.info',
-        field: 'information',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'module.device.status',
-        field: 'status',
         type: LhTableFieldType.STRING,
       },
     ],
   };
 
   constructor(
-    private route: ActivatedRoute,
+    private modalService: NzModalService,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private adminDeviceGroupService: AdminDeviceGroupService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private translateService: TranslateService
   ) {}
-
+  ngOnInit(): void {
+    this.getAllDeviceGroup();
+  }
   get isSelectedRow(): boolean {
     return (this.table?.setOfCheckedId?.size || 0) > 0;
   }
 
-  ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      this.query.action = params['action'];
-      this.query.id = params['id'];
-      switch (this.query.action) {
-        case 'add': {
-          this.currentDeviceGroup = {};
-          this.openAddFrame();
-          break;
-        }
-        case 'edit': {
-          if (!this.query.id) {
-            break;
-          }
-          if (
-            this.currentDeviceGroup &&
-            this.currentDeviceGroup.id === Number(this.query.id)
-          ) {
-            break;
-          }
-          this.adminDeviceGroupService
-            .getDevices(Number(this.query.id))
-            .subscribe({
-              next: (result) => {
-                if (result.data) {
-                  this.currentDeviceGroup = result.data;
-                  this.openAddFrame();
-                }
-              },
-            });
-          break;
-        }
-        default: {
-          this.gotoSearch();
-          break;
-        }
-      }
+  navigateToUpdate = (record: User): void => {
+    console.log(record);
+    this.currentDeviceGroup = record;
+    this.router.navigate(['./update', record.id], {
+      relativeTo: this.activatedRoute,
     });
-    this.getAllDeviceGroup();
-  }
-
-  routeToSearch() {
-    this.router.navigate([]).then((r) => {});
-  }
-
-  routeToAdd() {
-    const queryParams = { action: 'add' };
-    this.router.navigate([], { queryParams }).then((r) => {});
-  }
-
-  routeToEdit(id?: number) {
-    const queryParams = { action: 'edit', id: id };
-    this.router.navigate([], { queryParams }).then((r) => {});
-  }
-
-  add() {
-    if (!this.addComponent) {
-      return;
-    }
-    this.loading.adding = true;
-    this.addComponent.addOrUpdate().subscribe({
-      next: (response) => {
-        if (response.data) {
-          this.currentDeviceGroup = response.data;
-          if (this.query.action === 'add') {
-            this.routeToEdit(response.data.id);
-          }
-          if (this.query.action === 'edit') {
-            this.gotoSearch();
-          }
-        }
-      },
-      error: (err) => {
-        // TODO i18n
-        this.message.error('Error', err);
-        this.loading.searching = false;
-      },
-      complete: () => {
-        this.loading.adding = false;
-      },
+  };
+  navigateToCreate = (): void => {
+    this.router.navigate(['./create'], {
+      relativeTo: this.activatedRoute,
     });
-  }
-
-  openAddFrame() {
-    this.showFrame.search = false;
-    this.showFrame.add = true;
-  }
+  };
 
   deleteSelected() {}
 
-  update(record: DeviceGroup) {
-    this.currentDeviceGroup = record;
-    this.routeToEdit(record.id);
-    this.showFrame.add = true;
-    this.showFrame.search = false;
-  }
-
   delete(deviceGroup: DeviceGroup) {
-    this.adminDeviceGroupService
-      .deleteDeviceGroup(deviceGroup?.id as number)
-      .subscribe({
-        next: (response) => {
-          this.getAllDeviceGroup();
-        },
-        error: (err) => {
-          //TODO Xử lý exception
-        },
-        complete: () => {
-          this.loading.searching = false;
-        },
-      });
-  }
-
-  gotoSearch() {
-    this.showFrame.search = true;
-    this.showFrame.add = false;
-
-    this.getAllDeviceGroup();
+    this.modalService.confirm({
+      nzTitle:
+        this.translateService.instant(
+          'module.groupDevice.modalDeleteGroupDevice'
+        ) +
+        `${deviceGroup.name}` +
+        ' ?',
+      nzOnOk: () => {
+        new Promise((resolve, reject) => {
+          return this.adminDeviceGroupService
+            .deleteDeviceGroup(deviceGroup?.id as number)
+            .subscribe({
+              next: (response) => {
+                this.getAllDeviceGroup();
+              },
+              error: (err) => {
+                //TODO Xử lý exception
+              },
+              complete: () => {
+                this.loading.searching = false;
+              },
+            });
+        }).catch((err) => console.log(err));
+      },
+    });
   }
 
   private getAllDeviceGroup() {
     this.adminDeviceGroupService.getAllDeviceGroup(0, 10).subscribe({
       next: (response) => {
-        if (response.data) {
-          this.deviceGroups = response.data as Array<DeviceGroup>;
+        if (response && response.status === ResponseStatus.Success) {
+          this.deviceGroups = response.data as DeviceGroup[];
           console.log(this.deviceGroups + 'DeviceGroup');
+        } else {
+          let errorsInStr: string = response.errors
+            ?.map((e) => this.translateService.instant(e))
+            .join(',') as string;
+          this.message.error(errorsInStr);
+          this.deviceGroups = [];
         }
       },
       error: (err) => {

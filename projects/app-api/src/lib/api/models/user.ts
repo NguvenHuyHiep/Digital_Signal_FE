@@ -19,6 +19,6 @@ export interface User {
   phone?: string;
   firstName?: string;
   lastName?: string;
-  roles?: User;
+  roles?: any;
   license?: License;
 }
