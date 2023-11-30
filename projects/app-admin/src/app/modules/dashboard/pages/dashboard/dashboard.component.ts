@@ -24,18 +24,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     { type: 'cluster', label: 'module.dashboard.deviceGroup', value: 10 },
   ];
 
-  constructor(
-    private authenService: LhAuthenService,
-    private signedDeviceControllerService: SignedDeviceControllerService
-  ) {
+  constructor(private authenService: LhAuthenService) {
     this.authenService.userObs.subscribe((user) => (this.user = user));
   }
 
-  ngOnInit() {
-    this.signedDeviceControllerService.getByPaging(1, 20).subscribe({
-      next: (value) => alert(JSON.stringify(value)),
-    });
-  }
+  ngOnInit() {}
 
   ngAfterViewInit() {
     setTimeout(() => {
