@@ -13,7 +13,6 @@ import {
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AdminDeviceGroupService } from '@app-api/lib/modules/admin/group-device/admin-group-device.service';
-import { AdminDeviceControllerService } from '@app-api/lib/api';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { TranslateService } from '@ngx-translate/core';
 import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
@@ -21,6 +20,8 @@ import { Observable } from 'rxjs';
 import { BaseOutputDeviceGroup } from '@app-api/lib/api/models/baseOutputDeviceGroup';
 import { User } from '@app-api/lib/api/models/user';
 import { Location } from '@angular/common';
+import { NzModalService } from 'ng-zorro-antd/modal';
+
 @Component({
   selector: 'app-admin-device-group-add',
   templateUrl: './device-group-add.component.html',
@@ -31,8 +32,7 @@ export class DeviceGroupAddComponent implements OnInit {
   deviceId?: number;
   devices: Device[] = [];
   currentDevice: Device = {};
-
-  deviceGroupId?: number;
+  deviceGroupId: number;
   currentDeviceGroup?: DeviceGroup;
 
   loading: {
@@ -48,8 +48,7 @@ export class DeviceGroupAddComponent implements OnInit {
   tableConfig: LhTableConfigModel = {
     key: 'id',
     disableDetail: true,
-    disableUpdate: false,
-    disableDelete: true,
+    disableUpdate: true,
     fields: [
       {
         label: 'module.device.code',
@@ -83,11 +82,12 @@ export class DeviceGroupAddComponent implements OnInit {
   }) as unknown as FormDevice;
 
   constructor(
+    private modalService: NzModalService,
     private location: Location,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     private adminDeviceGroupService: AdminDeviceGroupService,
-    private deviceService: AdminDeviceControllerService,
+    private adminDeviceService: AdminDeviceService,
     private message: NzMessageService,
     private translateService: TranslateService
   ) {
@@ -150,12 +150,10 @@ export class DeviceGroupAddComponent implements OnInit {
       },
       complete: () => {
         this.loading.addDevice = false;
-        this.message.create('success', 'Thêm mới thành công');
         this.location.back();
       },
     });
   }
-
   addOrUpdate(): Observable<BaseOutputDeviceGroup> {
     if (!this.form.valid) {
       this.form.markAsTouched();
@@ -180,22 +178,40 @@ export class DeviceGroupAddComponent implements OnInit {
     return this.adminDeviceGroupService.updateGroupDevice(updateObj);
   }
 
-  deleteDevice(device: Device) {
-    this.deviceService.delete7(device.id as number).subscribe({
-      next: (data) => {
-        if (!data) {
-          this.devices = this.devices.filter((obj) => obj?.id !== device?.id);
-          this.message.create('success', data);
-          return;
-        }
-      },
-      error: (err) => {
-        // TODO i18n
-        this.message.error('Error', err);
-        this.loading.searching = false;
-      },
-      complete: () => {
-        this.loading.addDevice = false;
+  removeDeviceFromDeviceGroup(device: Device) {
+    this.modalService.confirm({
+      nzTitle:
+        this.translateService.instant('module.device.modalRemoveDevice') +
+        `${device.name}` +
+        ' ?',
+      nzOnOk: () => {
+        new Promise((resolve, reject) => {
+          const deviceIds = Number(device.id);
+          return this.adminDeviceService
+            .removeDevicesFromDeviceGroup(
+              this.currentDeviceGroup?.id as number,
+              [deviceIds]
+            )
+            .subscribe({
+              next: (response) => {
+                if (response && response.status === ResponseStatus.Success) {
+                  this.devices = this.devices.filter((d) => d.id != deviceIds);
+                } else {
+                  console.log(response.errors);
+                }
+              },
+              error: (err) => {
+                console.log(err);
+                this.loading.searching = false;
+              },
+              complete: () => {
+                this.loading.searching = false;
+              },
+            });
+        }).catch((err) => {
+          console.log(err);
+          this.loading.searching = false;
+        });
       },
     });
   }
@@ -239,28 +255,6 @@ export class DeviceGroupAddComponent implements OnInit {
   detailDevice(record: Device) {
     this.currentDevice = record;
   }
-
-  // deleteDevices() {
-  //   if (!this.devicesToDelete || this.devicesToDelete.length === 0) {
-  //     this.message.warning('No devices selected for deletion.');
-  //   }
-  //   this.loading.deleteDevices = true;
-  //   const deviceIdsToDelete: number[] = this.devicesToDelete.map(device => device.id);
-  //   this.deviceService.deleteMultipleDevices(deviceIdsToDelete).subscribe({
-  //     next: () => {
-  //       this.devices = this.devices.filter(device => !deviceIdsToDelete.includes(device.id));
-  //       this.message.success('Devices deleted successfully.');
-  //     },
-  //     error: err => {
-  //       // TODO i18n
-  //       this.message.error("Error", err);
-  //       this.loading.searching = false;
-  //     }
-  //     , complete: () => {
-  //       this.loading.deleteDevices = false;
-  //     }
-  //   })
-  // }
 
   navigateToPrevious() {
     this.location.back();

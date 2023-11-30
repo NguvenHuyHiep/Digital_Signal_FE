@@ -2,9 +2,9 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { BreadcrumbOption } from 'ng-zorro-antd/breadcrumb';
 import { User } from '@app-api/lib/api/models/user';
 import { LhAuthenService } from '@app-api/lib/modules/authen/lh-authen.service';
-import { SignedDeviceControllerService } from '@app-api/lib/api';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
+import { SignedDeviceControllerService } from '@app-api/lib/api/controller/signedDeviceController.service';
 
 @Component({
   selector: 'app-admin-dashboard',

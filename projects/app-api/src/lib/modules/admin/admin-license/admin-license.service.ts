@@ -3,11 +3,11 @@ import { FormBuilder } from '@angular/forms';
 import { HttpParams } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { AdminLicenseAPIService } from '@app-api/lib/api';
 import { FormGroupLicense } from '@app-admin/app/modules/license/components/license-type';
 import { License } from '@app-api/lib/api/models/license';
 import { LicenseGenerateRequest } from '@app-api/lib/api/models/licenseGenerateRequest';
 import { BaseOutputLicense } from '@app-api/lib/api/models/baseOutputLicense';
+import { AdminLicenseAPIService } from '@app-api/lib/api';
 
 @Injectable()
 export class AdminLicenseService {

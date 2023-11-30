@@ -52,6 +52,7 @@
   "module": {
     "groupDevice": {
       "modalDeleteGroupDevice": " Do you want delete device group :  ",
+      "modalRemoveDeviceGroup": "Do you want remove Device Group from PlayList: ",
       "title": "Group Device",
       "info": "Info",
       "name": "Name",
@@ -143,6 +144,8 @@
       "expireTime": "Expire time"
     },
     "device": {
+      "modalRemoveDevice": "Do you want remove device from Device Group: ",
+
       "title": "Device",
       "code": "Code",
       "info": "Info",
