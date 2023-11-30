@@ -53,7 +53,7 @@
       <div class="header-action">
         <nz-select
           nzBorderless
-          [ngModel]="selectLanguage"
+          [(ngModel)]="selectLanguage"
           (ngModelChange)="updateLocale($event)"
           [nzCustomTemplate]="displayLanguageTemplate"
         >

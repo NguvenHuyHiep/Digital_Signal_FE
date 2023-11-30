@@ -72,7 +72,10 @@ export class LhAuthenService {
 
   public get userObs(): Observable<User> {
     return this._store.select<User>((state) => {
-      let user: User = _.get(state, 'authentication.user') as unknown as User;
+      let user: User = _.get(
+        state,
+        'authentication.user.data'
+      ) as unknown as User;
       return user;
     });
   }

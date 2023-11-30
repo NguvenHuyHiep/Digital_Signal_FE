@@ -7,6 +7,8 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class LhLanguageService {
+  private _currentLang: string = 'en';
+
   constructor(
     private translate: TranslateService,
     private store: LhStorageService
@@ -39,14 +41,11 @@ export class LhLanguageService {
     return this._supportLangs;
   }
 
-  private _currentLang: string = 'vi';
-
   get currentLang() {
     return this._currentLang;
   }
 
   updateLocale(locale: string, save: boolean = true) {
-    console.log('update locale', locale);
     if (this._supportLangs.some((l) => l.value === locale)) {
       this._currentLang = locale;
     }

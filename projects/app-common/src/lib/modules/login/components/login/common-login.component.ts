@@ -71,7 +71,7 @@ export class CommonLoginComponent implements OnInit {
   }
   updateLocale(locale: string) {
     this.selectLanguage = locale;
-    this.languageService.updateLocale(locale);
+    this.languageService.updateLocale(locale, true);
   }
   supportLangs = [
     { label: 'English', value: 'en', img: '' },
