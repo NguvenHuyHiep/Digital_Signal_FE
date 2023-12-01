@@ -56,13 +56,15 @@ export class CommonLoginComponent implements OnInit {
     });
     this.selectLanguage = this.languageService.currentLang;
     this.supportLangs = this.languageService.supportLangs;
-    this.translateService
-      .get(environment.WATER_MARK)
-      .subscribe((translated: string) => {
-        this.waterMarkService.updateWatermark.next(
-          this.translateService.instant(environment.WATER_MARK)
-        );
-      });
+    setTimeout(() => {
+      this.translateService
+        .get(environment.WATER_MARK)
+        .subscribe((translated: string) => {
+          this.waterMarkService.updateWatermark.next(
+            this.translateService.instant(environment.WATER_MARK)
+          );
+        });
+    }, 100);
   }
 
   submitForm(): void {
