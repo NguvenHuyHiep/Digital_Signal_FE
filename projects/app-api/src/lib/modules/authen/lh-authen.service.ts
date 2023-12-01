@@ -13,6 +13,7 @@ import {
   AdminUsersAPIService,
   AuthenticationControllerService,
 } from '@app-api/lib/api';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 
 @Injectable({
   providedIn: 'root',
@@ -30,11 +31,6 @@ export class LhAuthenService {
     username: string,
     password: string
   ): Observable<BaseOutputString> {
-    let login: any = {
-      userName: username,
-      password: password,
-    };
-
     return this.authenticationService
       .login({
         email: username,
@@ -43,9 +39,9 @@ export class LhAuthenService {
       .pipe(
         tap((response) => {
           if (
-            response.message &&
-            response.message != '' &&
-            response.data == null
+            !response ||
+            !response.data ||
+            response.status !== ResponseStatus.Success
           ) {
             this._store.dispatch(SIGN_IN_FAILED({ value: response }));
           } else if (response != null) {

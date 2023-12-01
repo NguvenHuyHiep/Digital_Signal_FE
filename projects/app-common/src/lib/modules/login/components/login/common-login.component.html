@@ -73,7 +73,7 @@
               nz-button
               class="login-form-button login-form-margin"
               [nzType]="'primary'"
-              (click)="submitForm()"
+              type="submit"
             >
               {{ "login.login" | translate }}
             </button>
@@ -96,7 +96,7 @@
       <div class="lang">
         <nz-select
           nzBorderless
-          [ngModel]="selectLanguage"
+          [(ngModel)]="selectLanguage"
           (ngModelChange)="updateLocale($event)"
           [nzCustomTemplate]="displayLanguageTemplate"
         >

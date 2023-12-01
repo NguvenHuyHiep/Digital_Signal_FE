@@ -83,8 +83,8 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
   selectLanguage: string = 'en';
 
   supportLangs = [
-    { label: 'English', value: 'en', img: '' },
-    { label: 'Tieng Viet', value: 'vi', img: '' },
+    { label: 'lang.en', value: 'en', img: '' },
+    { label: 'lang.vi', value: 'vi', img: '' },
   ];
 
   constructor(

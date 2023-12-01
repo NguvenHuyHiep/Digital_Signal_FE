@@ -7,6 +7,7 @@ import {
 import { environment } from '@app-admin/environments/environment';
 import { LhAuthenService } from '@app-api/lib/modules/authen/lh-authen.service';
 import { LhLanguageService } from '@app-api/lib/modules/language/lh-language.service';
+import { LhStorageService } from '@app-api/lib/modules/local-store/lh-storage.service';
 import { WaterMarkService } from '@app-common/public-api';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -16,20 +17,38 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./common-login.component.scss'],
 })
 export class CommonLoginComponent implements OnInit {
-  validateForm!: UntypedFormGroup;
-  selectLanguage: string = 'en';
   @Input() initUsername?: string;
   @Input() initPassword?: string;
+
+  validateForm!: UntypedFormGroup;
+  selectLanguage: string = 'en';
+  supportLangs = [
+    { label: 'lang.en', value: 'en', img: '' },
+    { label: 'lang.vi', value: 'vi', img: '' },
+  ];
 
   constructor(
     private fb: UntypedFormBuilder,
     private authenService: LhAuthenService,
     private languageService: LhLanguageService,
     private waterMarkService: WaterMarkService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private storeService: LhStorageService
   ) {}
 
   ngOnInit(): void {
+    this.storeService.language.subscribe({
+      next: (value) => {
+        if (value) {
+          this.updateLocale(value);
+        }
+      },
+      error: (err) => {
+        console.log(err);
+      },
+      complete: () => {},
+    });
+
     this.validateForm = this.fb.group({
       userName: [this.initUsername, [Validators.required]],
       password: [this.initPassword, [Validators.required]],
@@ -37,15 +56,13 @@ export class CommonLoginComponent implements OnInit {
     });
     this.selectLanguage = this.languageService.currentLang;
     this.supportLangs = this.languageService.supportLangs;
-    setTimeout(() => {
-      this.translateService
-        .get(environment.WATER_MARK)
-        .subscribe((translated: string) => {
-          this.waterMarkService.updateWatermark.next(
-            this.translateService.instant(environment.WATER_MARK)
-          );
-        });
-    }, 100);
+    this.translateService
+      .get(environment.WATER_MARK)
+      .subscribe((translated: string) => {
+        this.waterMarkService.updateWatermark.next(
+          this.translateService.instant(environment.WATER_MARK)
+        );
+      });
   }
 
   submitForm(): void {
@@ -69,14 +86,12 @@ export class CommonLoginComponent implements OnInit {
       });
     }
   }
+
   updateLocale(locale: string) {
     this.selectLanguage = locale;
     this.languageService.updateLocale(locale, true);
   }
-  supportLangs = [
-    { label: 'English', value: 'en', img: '' },
-    { label: 'Tieng Viet', value: 'vi', img: '' },
-  ];
+
   public get getCurrentLangObj(): any {
     return this.supportLangs.find((f) => f.value === this.selectLanguage);
   }
