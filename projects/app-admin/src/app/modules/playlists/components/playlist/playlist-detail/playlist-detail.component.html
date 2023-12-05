@@ -1,0 +1,32 @@
+<ng-container *ngTemplateOutlet="groupDeviceDetail"></ng-container>
+<ng-container *ngTemplateOutlet="fileDetail"></ng-container>
+
+<ng-template #groupDeviceDetail>
+  <div *ngIf="deviceGroups && deviceGroups.length > 0">
+    <nz-form-label [nzSpan]="4" nzFor="listDevice" style="padding-top: 30px">
+      {{ "module.groupDevice.listDeviceGroup" | translate }}
+    </nz-form-label>
+    <lh-common-lh-table
+      #table
+      [data]="deviceGroups"
+      [config]="tableConfigDeviceGroup"
+    >
+    </lh-common-lh-table>
+  </div>
+  <div *ngIf="!deviceGroups || deviceGroups.length == 0">
+    <p>{{ "module.groupDevice.no-deviceGroup" | translate }}</p>
+  </div>
+</ng-template>
+
+<ng-template #fileDetail>
+  <div *ngIf="files && files.length > 0">
+    <nz-form-label [nzSpan]="4" nzFor="listDevice" style="padding-top: 30px">
+      {{ "module.playlist.listFile" | translate }}
+    </nz-form-label>
+    <lh-common-lh-table #table [data]="files" [config]="tableConfigFile">
+    </lh-common-lh-table>
+  </div>
+  <div *ngIf="!files || files.length == 0">
+    <p>{{ "module.playlist.no-file" | translate }}</p>
+  </div>
+</ng-template>

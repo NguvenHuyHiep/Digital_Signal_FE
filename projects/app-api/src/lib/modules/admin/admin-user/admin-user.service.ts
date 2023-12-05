@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { FormGroupUser } from '@app-admin/app/modules/user/components/user-type';
 import { AdminUsersAPIService } from '@app-api/lib/api';
+import { BaseOutputLicense } from '@app-api/lib/api/models/baseOutputLicense';
 import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';
 import { BaseOutputUser } from '@app-api/lib/api/models/baseOutputUser';
 import { User } from '@app-api/lib/api/models/user';
@@ -57,6 +58,13 @@ export class AdminUserService {
   }
 
   public getUserByUserId(userId: number) {
+    return this.adminUsersAPIService.getById(userId);
+  }
+  public getUserByEmail(email: string): Observable<BaseOutputUser> {
+    return this.adminUsersAPIService.getByEmail(email);
+  }
+
+  public getLicenseByUser(userId: number): Observable<BaseOutputLicense> {
     return this.adminUsersAPIService.getById(userId);
   }
 }

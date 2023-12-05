@@ -56,6 +56,7 @@
   },
   "module": {
     "groupDevice": {
+      "no-deviceGroup": "Playlist này chưa có device group  ",
       "modalDeleteGroupDevice": " Bạn muốn xóa nhóm thiết bị:  ",
       "modalRemoveDeviceGroup": "Bạn có muốn xóa Device Group khỏi Playlist: ",
       "title": "Group Device",
@@ -109,6 +110,8 @@
       }
     },
     "playlist": {
+      "no-file": "Không có File nào thuộc PlayList để hiển thị",
+      "listFile": "Danh sách File",
       "modalRemoveFile": "Bạn có muốn xóa file khỏi Playlist: ",
       "modalDeletePlayList": "Bạn muốn xóa PlayList: ",
       "title": "Playlist",
@@ -256,5 +259,19 @@
     "cannot-download-file": "Không thể tải về file",
     "cannot-preivew-file": "Không thể xem trước file",
     "video-not-support": "Trình duyệt không hỗ trợ định dạng video này"
+  },
+  "information": {
+    "user-information": "Thông tin người dùng",
+    "license-information": "Thông tin License",
+    "user-name": "Tên tài khoản",
+    "first-name": "Tên",
+    "last-name": "Họ",
+    "phone": "Số điện thoại",
+    "email": "Email",
+    "license-activation-date": "Ngày kích hoạt",
+    "license-expiration-date": "Ngày hết hạn",
+    "status": "Trạng thái",
+    "active": "Hoạt động",
+    "expired": "Hết hạn"
   }
 }

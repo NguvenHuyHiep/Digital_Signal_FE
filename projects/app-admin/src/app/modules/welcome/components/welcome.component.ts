@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { DOCUMENT, PlatformLocation } from '@angular/common';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzIconService } from 'ng-zorro-antd/icon';
@@ -86,8 +86,10 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
     { label: 'lang.en', value: 'en', img: '' },
     { label: 'lang.vi', value: 'vi', img: '' },
   ];
+  private currentUser?: User;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private platformLocation: PlatformLocation,
     private router: Router,
     private message: NzMessageService,
@@ -143,7 +145,6 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
       this.user = user;
       this.buildMenu();
     });
-    this.buildMenu();
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event) => {
@@ -179,6 +180,12 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
   goUrl(url: string) {
     this.router.navigate([url]);
   }
+
+  navigateToUserInformation = (): void => {
+    this.router.navigate(['./user/information', this.user?.email], {
+      relativeTo: this.activatedRoute,
+    });
+  };
 
   logout() {
     this.store.dispatch(SIGN_OUT());

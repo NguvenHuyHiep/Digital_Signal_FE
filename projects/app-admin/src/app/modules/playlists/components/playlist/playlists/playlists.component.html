@@ -28,5 +28,10 @@
     (onUpdate)="navigateToUpdate($event)"
     (onDelete)="delete($event)"
     (onDetail)="navigateToDetail($event)"
+    [expandTemplate]="playListDetail"
   ></lh-common-lh-table>
+
+  <ng-template #playListDetail let-data="data">
+    <app-admin-playlist-detail [playlist]="data"></app-admin-playlist-detail>
+  </ng-template>
 </lh-common-page>
