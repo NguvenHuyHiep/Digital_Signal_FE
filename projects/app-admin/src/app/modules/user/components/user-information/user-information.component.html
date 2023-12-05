@@ -1,0 +1,64 @@
+<lh-common-page>
+  <nz-card>
+    <nz-descriptions
+      [nzTitle]="'information.user-information' | translate"
+      nzBordered
+    >
+      <!-- User Name -->
+      <nz-descriptions-item [nzTitle]="'information.user-name' | translate">
+        {{ user?.userName }}
+      </nz-descriptions-item>
+      <!-- First Name -->
+      <nz-descriptions-item [nzTitle]="'information.first-name' | translate">
+        {{ user?.firstName }}
+      </nz-descriptions-item>
+      <!-- Last Name -->
+      <nz-descriptions-item [nzTitle]="'information.last-name' | translate">
+        {{ user?.lastName }}
+      </nz-descriptions-item>
+      <!-- Phone -->
+      <nz-descriptions-item [nzTitle]="'information.phone' | translate">
+        {{ user?.phone }}
+      </nz-descriptions-item>
+      <!-- Email -->
+      <nz-descriptions-item [nzTitle]="'information.email' | translate">
+        {{ user?.email }}
+      </nz-descriptions-item>
+    </nz-descriptions>
+  </nz-card>
+  <nz-card>
+    <nz-descriptions
+      [nzTitle]="'information.license-information' | translate"
+      nzBordered
+    >
+      <!-- License Activation Date -->
+      <nz-descriptions-item
+        [nzTitle]="'information.license-activation-date' | translate"
+        [nzSpan]="2"
+      >
+        {{ user?.license?.activationDate | date : "dd/M/yyyy - h:mm:ss a - z" }}
+      </nz-descriptions-item>
+      <!-- License Expiration Date -->
+      <nz-descriptions-item
+        [nzTitle]="'information.license-expiration-date' | translate"
+        [nzSpan]="2"
+      >
+        {{ user?.license?.expirationDate | date : "dd/M/yyyy - h:mm:ss a - z" }}
+      </nz-descriptions-item>
+      <!-- License status -->
+      <nz-descriptions-item [nzTitle]="'information.status' | translate">
+        <ng-container
+          *ngIf="
+            user && user.license && checkLicenseValidity();
+            else expiredStatus
+          "
+        >
+          {{ "information.active" | translate }}
+        </ng-container>
+        <ng-template #expiredStatus>
+          {{ "information.expired" | translate }}
+        </ng-template>
+      </nz-descriptions-item>
+    </nz-descriptions>
+  </nz-card>
+</lh-common-page>

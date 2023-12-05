@@ -82,7 +82,7 @@ export class LhAuthenService {
 
   setApiKeys(token?: BaseOutputString): void {
     console.log(token);
-    if (token && token != null) {
+    if (token) {
       this.authenticationService.configuration.withCredentials = true;
       this.authenticationService.configuration.credentials = {
         Authorization: `${token.data}`,

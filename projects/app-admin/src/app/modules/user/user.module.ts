@@ -18,9 +18,12 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { AdminLicenseModule } from '@app-api/lib/modules/admin/admin-license/admin-license.module';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { UserInformationComponent } from './components/user-information/user-information.component';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 
 @NgModule({
-  declarations: [UsersComponent, UserAddComponent],
+  declarations: [UsersComponent, UserAddComponent, UserInformationComponent],
   imports: [
     CommonModule,
     TranslateModule,
@@ -40,6 +43,8 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
     NzSelectModule,
     AdminLicenseModule,
     NzModalModule,
+    NzCardModule,
+    NzDescriptionsModule,
   ],
   providers: [],
 })

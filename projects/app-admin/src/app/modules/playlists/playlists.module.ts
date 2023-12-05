@@ -28,6 +28,7 @@ import { AdminPlaylistModule } from '@app-api/lib/modules/admin/admin-playlist/a
 import { AdminDeviceGroupModule } from '@app-api/lib/modules/admin/group-device/admin-group-device.module';
 import { UiCommonModule } from '@app-common/lib/modules/ui-common/ui-common.module';
 import { FileModule } from '../file/file.module';
+import { PlaylistDetailComponent } from './components/playlist/playlist-detail/playlist-detail.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { FileModule } from '../file/file.module';
     PlaylistAddComponent,
     ChosenFileComponent,
     ChosenGroupDeviceComponent,
+    PlaylistDetailComponent,
   ],
   imports: [
     CommonModule,

@@ -15,6 +15,8 @@ import {
 } from '@app-common/lib/components/lh-table/lh-table-config.model';
 import { AdminDeviceService } from '@app-api/lib/modules/admin/admin-device/admin-device.service';
 import { AdminDeviceGroupService } from '@app-api/lib/modules/admin/group-device/admin-group-device.service';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-admin-device-list-table',
@@ -22,7 +24,8 @@ import { AdminDeviceGroupService } from '@app-api/lib/modules/admin/group-device
   styleUrls: ['./device-list-table.component.scss'],
 })
 export class DeviceListTableComponent<T extends Object> {
-  @ViewChild('table') table?: LhTableComponent<Device>;
+  @ViewChild('table')
+  table?: LhTableComponent<Device>;
   @Input() deviceGroup?: DeviceGroup;
   @Output() onGroup: EventEmitter<T> = new EventEmitter<T>();
   tableConfig: LhTableConfigModel = {
@@ -65,6 +68,7 @@ export class DeviceListTableComponent<T extends Object> {
   constructor(
     private adminDeviceService: AdminDeviceService,
     private adminDeviceGroupService: AdminDeviceGroupService,
+    private translateService: TranslateService,
     private message: NzMessageService
   ) {}
 
@@ -75,8 +79,13 @@ export class DeviceListTableComponent<T extends Object> {
         .getDeviceGroupByDeviceGroupId(this.deviceGroup.id as number)
         .subscribe({
           next: (response) => {
-            if (response.data) {
-              this.devices = response.data.devices as Array<Device>;
+            if (response && response.status === ResponseStatus.Success) {
+              this.devices = response.data?.devices as Array<Device>;
+            } else {
+              let errorsInStr: string = response.errors
+                ?.map((e) => this.translateService.instant(e))
+                .join(',') as string;
+              this.message.error(errorsInStr);
             }
           },
           error: (err) => {
