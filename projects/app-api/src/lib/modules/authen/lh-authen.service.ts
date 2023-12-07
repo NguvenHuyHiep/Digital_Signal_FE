@@ -43,9 +43,11 @@ export class LhAuthenService {
             !response.data ||
             response.status !== ResponseStatus.Success
           ) {
-            this._store.dispatch(SIGN_IN_FAILED({ value: response }));
+            return this._store.dispatch(SIGN_IN_FAILED({ value: response }));
           } else if (response != null) {
-            this._store.dispatch(SIGN_IN_SUCCESS({ value: response }));
+            return this._store.dispatch(
+              SIGN_IN_SUCCESS({ value: { token: response, email: username } })
+            );
           }
         })
       );

@@ -4,7 +4,9 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { environment } from '@app-admin/environments/environment';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 import { LhAuthenService } from '@app-api/lib/modules/authen/lh-authen.service';
 import { LhLanguageService } from '@app-api/lib/modules/language/lh-language.service';
 import { LhStorageService } from '@app-api/lib/modules/local-store/lh-storage.service';
@@ -28,6 +30,8 @@ export class CommonLoginComponent implements OnInit {
   ];
 
   constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
     private fb: UntypedFormBuilder,
     private authenService: LhAuthenService,
     private languageService: LhLanguageService,
@@ -75,6 +79,11 @@ export class CommonLoginComponent implements OnInit {
           this.validateForm.controls['password'].value
         )
         .subscribe({
+          next: (response) => {
+            if (response && response.status === ResponseStatus.Success) {
+              this.router.navigate(['/dashboard']);
+            }
+          },
           error: (err) => {
             console.log(err);
           },

@@ -21,31 +21,25 @@ export class AuthenEffects {
     () => {
       return this._actions$.pipe(
         ofType(SIGN_IN_SUCCESS),
-        tap((payload: { value?: BaseOutputString }) => {
-          this.authenService.setApiKeys(payload.value);
-
-          // let authenObs =  this.authenService.getUserInfoByEmail(payload.value)
-          let authenObs = of<BaseOutputUser>({
-            data: {
-              id: 1,
-              firstName: 'Test',
-              lastName: 'Test',
-              email: 'dsdadmin@gmail.com',
-              phone: '',
-            },
-          }).pipe(
-            tap((user) => {
-              this._store.dispatch(GET_USER_PROFILE({ value: user }));
-            })
-          );
-          forkJoin([authenObs]).subscribe({
-            next: (result) =>
-              this._store.dispatch(COMPLETE_AUTHEN({ value: true })),
-            error: (err) => {
-              this._store.dispatch(SIGN_OUT());
-            },
-          });
-        })
+        tap(
+          (payload: { value?: { token: BaseOutputString; email: string } }) => {
+            this.authenService.setApiKeys(payload.value?.token);
+            let authenObs = this.authenService
+              .getUserInfoByEmail(payload.value?.email as string)
+              .pipe(
+                tap((user) => {
+                  this._store.dispatch(GET_USER_PROFILE({ value: user }));
+                })
+              );
+            return forkJoin([authenObs]).subscribe({
+              next: (result) =>
+                this._store.dispatch(COMPLETE_AUTHEN({ value: true })),
+              error: (err) => {
+                this._store.dispatch(SIGN_OUT());
+              },
+            });
+          }
+        )
       );
     },
     { dispatch: false }

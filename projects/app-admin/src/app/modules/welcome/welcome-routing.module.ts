@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { WelcomeComponent } from './components/welcome.component';
+import { AuthenGuardService } from '@app-api/lib/modules/authen/authen-guard.service';
 
 const routes: Routes = [
   {
     path: '',
     component: WelcomeComponent,
+    canActivate: [AuthenGuardService],
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'search' },
       {
@@ -21,7 +23,7 @@ const routes: Routes = [
       {
         path: 'playlist',
         data: {
-          label: 'Danh sách phát',
+          label: 'module.playlist.title',
         },
         loadChildren: () =>
           import('../playlists/playlists.module').then(
@@ -39,7 +41,7 @@ const routes: Routes = [
       {
         path: 'device-group',
         data: {
-          label: 'Group Device',
+          label: 'module.groupDevice.title',
         },
         loadChildren: () =>
           import('../device-group/device-group.module').then(
@@ -49,7 +51,7 @@ const routes: Routes = [
       {
         path: 'device',
         data: {
-          label: 'Device',
+          label: 'module.device.title',
         },
         loadChildren: () =>
           import('../device/device.module').then((m) => m.DeviceModule),
@@ -57,7 +59,7 @@ const routes: Routes = [
       {
         path: 'file',
         data: {
-          label: 'Danh sách file',
+          label: 'module.file.title',
         },
         loadChildren: () =>
           import('../file/file.module').then((m) => m.FileModule),
@@ -65,7 +67,7 @@ const routes: Routes = [
       {
         path: 'schedule',
         data: {
-          label: 'Schedule',
+          label: 'module.schedule.title',
         },
         loadChildren: () =>
           import('../schedule/schedule.module').then((m) => m.ScheduleModule),

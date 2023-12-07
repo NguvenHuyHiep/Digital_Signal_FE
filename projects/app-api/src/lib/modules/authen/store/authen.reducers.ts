@@ -14,7 +14,7 @@ export enum AUTHEN_ACTIONS {
 
 export const SIGN_IN_SUCCESS = createAction(
   AUTHEN_ACTIONS.SIGN_IN_SUCCESS,
-  props<{ value?: BaseOutputString }>()
+  props<{ value?: { token: BaseOutputString; email: string } }>()
 );
 export const COMPLETE_AUTHEN = createAction(
   AUTHEN_ACTIONS.COMPLETE_AUTHEN,
@@ -53,7 +53,7 @@ export const authenReducer: ActionReducer<IAuthenState> = createReducer(
   initialState,
   on(SIGN_IN_SUCCESS, (state, { value }) => ({
     ...state,
-    token: value,
+    token: value?.token,
     authenticated: true,
     initAuthen: true,
     error: undefined,

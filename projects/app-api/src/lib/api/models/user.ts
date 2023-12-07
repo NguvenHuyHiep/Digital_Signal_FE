@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 import { License } from './license';
+import { Role } from './role';
 
 export interface User {
   id?: number;
@@ -19,6 +20,6 @@ export interface User {
   phone?: string;
   firstName?: string;
   lastName?: string;
-  roles?: any;
+  roles?: Role[];
   license?: License;
 }

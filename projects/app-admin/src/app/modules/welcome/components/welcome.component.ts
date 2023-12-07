@@ -277,23 +277,39 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
     this.menuList = this.user
       ? [
           {
-            title: 'Dashboard',
+            title: this.translateService.instant('menu.dashboard'),
             icon: 'bar-chart',
             link: '/dashboard',
           },
-          { title: 'User', icon: 'user', link: '/user' },
           {
-            title: 'Playlist',
+            title: this.translateService.instant('menu.user'),
+            icon: 'user',
+            link: '/user',
+          },
+          {
+            title: this.translateService.instant('menu.playlist'),
             icon: 'play-circle',
             link: '/playlist',
           },
-          { title: 'Group Device', icon: 'apartment', link: '/device-group' },
-          { title: 'Device', icon: 'video-camera-add', link: '/device' },
-          { title: 'File', icon: 'file', link: '/file' },
+          {
+            title: this.translateService.instant('menu.device-group'),
+            icon: 'apartment',
+            link: '/device-group',
+          },
+          {
+            title: this.translateService.instant('menu.device'),
+            icon: 'video-camera-add',
+            link: '/device',
+          },
+          {
+            title: this.translateService.instant('menu.file'),
+            icon: 'file',
+            link: '/file',
+          },
         ]
       : [
           {
-            title: 'Search',
+            title: this.translateService.instant('menu.search'),
             icon: 'search',
             link: '/',
           },
