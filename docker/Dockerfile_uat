@@ -1,4 +1,4 @@
-FROM adview.cxview.ai/lpdev/dsd/dsd-fe-cache:latest as build
+FROM adview.cxview.ai/lpdev/dsd/dsd-frontend-cache-uat:latest as build
 
 
 WORKDIR /app
