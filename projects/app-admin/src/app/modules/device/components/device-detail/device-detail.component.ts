@@ -17,6 +17,23 @@ import {
 } from '@angular/core';
 import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.component';
 import { Location } from '@angular/common';
+import {
+  NzTableFilterFn,
+  NzTableFilterList,
+  NzTableSortFn,
+  NzTableSortOrder,
+} from 'ng-zorro-antd/table';
+import { TranslateService } from '@ngx-translate/core';
+
+interface ColumnItem {
+  name: string;
+  sortOrder: NzTableSortOrder | null;
+  sortFn: NzTableSortFn<DeviceLog> | null;
+  listOfFilter: NzTableFilterList;
+  filterFn: NzTableFilterFn<DeviceLog> | null;
+  filterMultiple: boolean;
+  sortDirections: NzTableSortOrder[];
+}
 
 @Component({
   selector: 'app-admin-device-detail',
@@ -40,22 +57,41 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
     searching: false,
   };
 
-  tableConfig: LhTableConfigModel = {
-    key: 'id',
-    disableOption: true,
-    fields: [
-      {
-        label: 'status',
-        field: 'status',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'date',
-        field: 'date',
-        type: LhTableFieldType.DATE_TIME,
-      },
-    ],
-  };
+  tableColumns: ColumnItem[] = [
+    {
+      name: 'ID',
+      sortOrder: 'descend',
+      sortFn: (a: DeviceLog, b: DeviceLog) =>
+        (a.id as number) - (b.id as number),
+      listOfFilter: [],
+      filterFn: null,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: this.translateService.instant('module.device.status'),
+      sortOrder: null,
+      sortFn: (a: DeviceLog, b: DeviceLog) => (a.status === b.status ? 1 : 0),
+      listOfFilter: [
+        { text: 'ONLINE', value: 'ONLINE' },
+        { text: 'OFFLINE', value: 'OFFLINE' },
+      ],
+      filterFn: (address: string, item: DeviceLog) =>
+        item?.status?.indexOf(address) !== -1,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: this.translateService.instant('module.device.update-date'),
+      sortOrder: null,
+      sortFn: (a: DeviceLog, b: DeviceLog) =>
+        Date.parse(a.date as string) - Date.parse(b.date as string),
+      listOfFilter: [],
+      filterFn: null,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+  ];
 
   deviceLogs: DeviceLog[] = [];
 
@@ -63,7 +99,8 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
     private adminDeviceService: AdminDeviceService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private translateService: TranslateService
   ) {
     this.deviceId = this.activatedRoute.snapshot.params['deviceId'];
   }

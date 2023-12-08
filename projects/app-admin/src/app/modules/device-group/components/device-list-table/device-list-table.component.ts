@@ -76,7 +76,7 @@ export class DeviceListTableComponent<T extends Object> {
     console.log('The device groupId is: ', this.deviceGroup);
     if (this.deviceGroup) {
       this.adminDeviceGroupService
-        .getDeviceGroupByDeviceGroupId(this.deviceGroup.id as number)
+        .getDeviceGroupWithDevicesById(this.deviceGroup.id as number)
         .subscribe({
           next: (response) => {
             if (response && response.status === ResponseStatus.Success) {

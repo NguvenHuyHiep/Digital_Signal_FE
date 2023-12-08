@@ -68,6 +68,7 @@
       "location": "Location",
       "device": "Device",
       "deviceAdd": "Add device",
+      "no-devices": "This group don't have any device",
       "deviceGroupAdd": "Add group device",
       "listDevice": "List devices",
       "listDeviceGroup": "List group devices"
@@ -155,7 +156,6 @@
     },
     "device": {
       "modalRemoveDevice": "Do you want remove device from Device Group: ",
-
       "title": "Device",
       "code": "Code",
       "info": "Info",
@@ -166,7 +166,8 @@
       "inactiveTime": "Inactive time",
       "license": "License",
       "add": "Add device",
-      "delete": "Delete device"
+      "delete": "Delete device",
+      "update-date": "Update date"
     },
     "schedule": {
       "title": "Schedule",

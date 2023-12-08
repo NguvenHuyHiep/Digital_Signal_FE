@@ -68,7 +68,7 @@
       "location": "Địa chỉ",
       "device": "Thiết bị",
       "deviceAdd": "Thêm thiết bị",
-      "no-devices": "This group don't have any device",
+      "no-devices": "Nhóm thiết bị không có thiết bị",
       "deviceGroupAdd": "Thêm nhóm thiết bị",
       "listDevice": "Danh sách thiết bị",
       "listDeviceGroup": "Danh sách nhóm thiết bị"
@@ -157,7 +157,6 @@
     },
     "device": {
       "modalRemoveDevice": "Bạn muốn bỏ thiết bị từ nhóm thiết bị:  ",
-
       "title": "Device",
       "code": "Mã Thiết bị",
       "info": "Thông tin",
@@ -168,7 +167,8 @@
       "inactiveTime": "Thời gian dừng",
       "license": "License",
       "add": "Thêm thiết bị",
-      "delete": "Xóa thiết bị"
+      "delete": "Xóa thiết bị",
+      "update-date": "Ngày cập nhật"
     },
     "schedule": {
       "title": "Lịch phát",

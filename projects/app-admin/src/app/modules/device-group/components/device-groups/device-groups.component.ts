@@ -114,7 +114,7 @@ export class DeviceGroupsComponent implements OnInit {
   }
 
   private getAllDeviceGroup() {
-    this.adminDeviceGroupService.getAllDeviceGroup(0, 10).subscribe({
+    this.adminDeviceGroupService.getAllDeviceGroup().subscribe({
       next: (response) => {
         if (response && response.status === ResponseStatus.Success) {
           this.deviceGroups = response.data as DeviceGroup[];

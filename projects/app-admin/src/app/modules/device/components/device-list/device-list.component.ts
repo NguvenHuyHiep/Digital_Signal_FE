@@ -112,14 +112,7 @@ export class DeviceListComponent<T extends Object> implements OnInit {
         });
     } else {
       this.adminDeviceService
-        .getAllDevice(
-          0,
-          100,
-          'id',
-          'DESC',
-          '',
-          this.isOnline ? 'ONLINE' : 'OFFLINE'
-        )
+        .getAllDevice(0, 100, 'id', 'DESC', '', 'UNDEFINED')
         .subscribe({
           next: (response) => {
             if (response && response.data) {

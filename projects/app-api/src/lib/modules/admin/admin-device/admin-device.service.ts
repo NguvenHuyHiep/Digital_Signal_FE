@@ -33,7 +33,7 @@ export class AdminDeviceService {
     sortBy?: string | 'id',
     sortDirection?: string | 'DESC',
     keyword?: string | '',
-    status?: string | 'ONLINE' | 'OFFLINE'
+    status?: string | 'UNDEFINED' | 'ONLINE' | 'OFFLINE'
   ) {
     return this.adminDeviceController
       .getByPaging7(page, size, sortBy, sortDirection, keyword, status)

@@ -264,7 +264,7 @@ export class DeviceGroupAddComponent implements OnInit {
     this.loading.searching = true;
     if (deviceGroupId) {
       this.adminDeviceGroupService
-        .getDeviceGroupByDeviceGroupId(deviceGroupId as number)
+        .getDeviceGroupWithDevicesById(deviceGroupId as number)
         .subscribe({
           next: (response) => {
             if (response && response.status === ResponseStatus.Success) {

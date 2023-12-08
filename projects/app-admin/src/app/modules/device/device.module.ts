@@ -17,6 +17,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { NzTableModule } from 'ng-zorro-antd/table';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
     AdminDeviceModule,
     NzSwitchModule,
     FormsModule,
+    NzTableModule,
   ],
   exports: [DeviceDetailComponent, DeviceListComponent],
 })

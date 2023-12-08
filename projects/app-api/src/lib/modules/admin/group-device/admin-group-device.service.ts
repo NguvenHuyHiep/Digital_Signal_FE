@@ -29,7 +29,7 @@ export class AdminDeviceGroupService {
   public getDeviceGroupWithDevicesById(
     deviceGroupId: number
   ): Observable<BaseOutputDeviceGroup> {
-    return this.adminGroupDeviceController.getById8(deviceGroupId);
+    return this.adminGroupDeviceController.getByIdWithDevices(deviceGroupId);
   }
 
   public buildDeviceGroupForm(deviceGroup?: DeviceGroup): FormDeviceGroup {
@@ -47,32 +47,14 @@ export class AdminDeviceGroupService {
   }
 
   public getAllDeviceGroup(
-    page?: number,
-    size?: number,
-    sortBy?: string,
-    sortDirection?: string,
-    keyword?: string
+    page?: number | 0,
+    size?: number | 100,
+    sortBy?: string | 'id',
+    sortDirection?: string | 'desc',
+    keyword?: string | ''
   ) {
-    let params = new HttpParams();
-
-    // Thêm các tham số vào HttpParams nếu chúng được cung cấp
-    if (page !== undefined && page !== null) {
-      params = params.set('page', page.toString());
-    }
-    if (size !== undefined && size !== null) {
-      params = params.set('size', size.toString());
-    }
-    if (sortBy) {
-      params = params.set('sortBy', sortBy);
-    }
-    if (sortDirection) {
-      params = params.set('sortDirection', sortDirection);
-    }
-    if (keyword) {
-      params = params.set('keyword', keyword);
-    }
     return this.adminGroupDeviceController
-      .getByPaging9(0, 100, 'id', 'DESC')
+      .getByPaging9(page, size, sortBy, sortDirection, keyword)
       .pipe(tap((response) => console.log(response)));
   }
 
