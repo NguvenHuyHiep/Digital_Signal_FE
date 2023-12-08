@@ -26,6 +26,12 @@ export class AdminDeviceGroupService {
     return this.adminGroupDeviceController.getById8(deviceGroupId);
   }
 
+  public getDeviceGroupWithDevicesById(
+    deviceGroupId: number
+  ): Observable<BaseOutputDeviceGroup> {
+    return this.adminGroupDeviceController.getById8(deviceGroupId);
+  }
+
   public buildDeviceGroupForm(deviceGroup?: DeviceGroup): FormDeviceGroup {
     let form = this.formBuilder.group({
       id: [deviceGroup?.id],

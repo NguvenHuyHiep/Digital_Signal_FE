@@ -8,6 +8,9 @@
     "signIn": "Login"
   },
   "common": {
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive",
     "checkAll": "Check all",
     "dataNotFound": "Data not found",
     "search": "Search",
@@ -25,6 +28,8 @@
     "cancel": "Cancel",
     "success": "Successful",
     "selectDevice": "Select device",
+    "selectFile": "Select File",
+    "selectDeviceGroup": "Select device group",
     "option": "Option",
     "preview": "Preview"
   },
@@ -251,9 +256,10 @@
   "error": {
     "cannot-download-file": "Cannot download file",
     "cannot-preivew-file": "Cannot preview file",
-    "video-not-support": "Trình duyệt không hỗ trợ định dạng video này"
+    "video-not-support": "The browser does not support this video"
   },
   "information": {
+    "code": "Code",
     "user-information": "User Information",
     "license-information": "License Information",
     "user-name": "User Name",

@@ -26,23 +26,12 @@ export class AuthenGuardService {
         if (user) {
           return true;
         } else {
+          // TODO check this auth guard, refresh the page cause user to null,
+          // so refresh will auto navigate to dashboard
+          this.router.navigate(['/dashboard']);
           return false;
         }
       })
     );
-    // return combineLatest([this.auth.isAuthenObs(), this.auth.userObs]).pipe(
-    //   tap(([isAuthen, user]) => {
-    //     console.log(isAuthen);
-    //     console.log(user);
-    //   }),
-    //   map(([isAuthen, user]) => {
-    //     if (!isAuthen && !user) {
-    //       this.router.navigate(['/login']);
-    //       return false;
-    //     }
-
-    //     return true;
-    //   })
-    // );
   }
 }

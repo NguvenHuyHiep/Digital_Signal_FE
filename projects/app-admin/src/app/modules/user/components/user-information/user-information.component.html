@@ -4,60 +4,77 @@
       [nzTitle]="'information.user-information' | translate"
       nzBordered
     >
+      <!-- Email -->
+      <nz-descriptions-item
+        [nzTitle]="'information.email' | translate"
+        [nzSpan]="1"
+      >
+        {{ user?.email }}
+      </nz-descriptions-item>
       <!-- User Name -->
-      <nz-descriptions-item [nzTitle]="'information.user-name' | translate">
+      <nz-descriptions-item
+        [nzTitle]="'information.user-name' | translate"
+        [nzSpan]="2"
+      >
         {{ user?.userName }}
       </nz-descriptions-item>
       <!-- First Name -->
-      <nz-descriptions-item [nzTitle]="'information.first-name' | translate">
+      <nz-descriptions-item
+        [nzTitle]="'information.first-name' | translate"
+        [nzSpan]="1"
+      >
         {{ user?.firstName }}
       </nz-descriptions-item>
       <!-- Last Name -->
-      <nz-descriptions-item [nzTitle]="'information.last-name' | translate">
+      <nz-descriptions-item
+        [nzTitle]="'information.last-name' | translate"
+        [nzSpan]="2"
+      >
         {{ user?.lastName }}
       </nz-descriptions-item>
       <!-- Phone -->
-      <nz-descriptions-item [nzTitle]="'information.phone' | translate">
+      <nz-descriptions-item
+        [nzTitle]="'information.phone' | translate"
+        [nzSpan]="1"
+      >
         {{ user?.phone }}
-      </nz-descriptions-item>
-      <!-- Email -->
-      <nz-descriptions-item [nzTitle]="'information.email' | translate">
-        {{ user?.email }}
       </nz-descriptions-item>
     </nz-descriptions>
   </nz-card>
-  <nz-card>
+  <nz-card class="mt-2">
     <nz-descriptions
       [nzTitle]="'information.license-information' | translate"
       nzBordered
     >
+      <!-- License code -->
+      <nz-descriptions-item
+        [nzTitle]="'information.code' | translate"
+        [nzSpan]="1"
+      >
+        {{ user?.license?.code }}
+      </nz-descriptions-item>
+      <!-- License status -->
+      <nz-descriptions-item
+        [nzTitle]="'information.status' | translate"
+        [nzSpan]="2"
+      >
+        {{
+          user && user.license && checkLicenseValidity()
+            ? ("information.active" | translate)
+            : ("information.expired" | translate)
+        }}
+      </nz-descriptions-item>
       <!-- License Activation Date -->
       <nz-descriptions-item
         [nzTitle]="'information.license-activation-date' | translate"
-        [nzSpan]="2"
       >
         {{ user?.license?.activationDate | date : "dd/M/yyyy - h:mm:ss a - z" }}
       </nz-descriptions-item>
       <!-- License Expiration Date -->
       <nz-descriptions-item
         [nzTitle]="'information.license-expiration-date' | translate"
-        [nzSpan]="2"
       >
         {{ user?.license?.expirationDate | date : "dd/M/yyyy - h:mm:ss a - z" }}
-      </nz-descriptions-item>
-      <!-- License status -->
-      <nz-descriptions-item [nzTitle]="'information.status' | translate">
-        <ng-container
-          *ngIf="
-            user && user.license && checkLicenseValidity();
-            else expiredStatus
-          "
-        >
-          {{ "information.active" | translate }}
-        </ng-container>
-        <ng-template #expiredStatus>
-          {{ "information.expired" | translate }}
-        </ng-template>
       </nz-descriptions-item>
     </nz-descriptions>
   </nz-card>

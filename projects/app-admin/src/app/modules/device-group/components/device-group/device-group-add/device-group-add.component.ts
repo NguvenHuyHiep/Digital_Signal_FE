@@ -268,7 +268,7 @@ export class DeviceGroupAddComponent implements OnInit {
         .subscribe({
           next: (response) => {
             if (response && response.status === ResponseStatus.Success) {
-              this.devices = response.data?.devices as Array<Device>;
+              this.devices = (response.data?.devices as Array<Device>) || [];
               console.log(this.devices + 'device');
             }
           },

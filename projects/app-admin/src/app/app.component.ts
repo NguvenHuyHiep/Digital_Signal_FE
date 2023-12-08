@@ -41,15 +41,15 @@ export class AppComponent implements OnInit {
     });
     // TODO startsWith dashboard
     // TODO else courselist
-    // this._authenService.isAuthenObs().subscribe((value) => {
-    //   if (value && this.location.path().startsWith('/login')) {
-    //     let returnUrl = this._activatedRoute.snapshot.queryParams['returnUrl'];
-    //     if (returnUrl != null && returnUrl != '') {
-    //       this._router.navigateByUrl(returnUrl);
-    //     } else {
-    //       this._router.navigateByUrl('/dashboard');
-    //     }
-    //   }
-    // });
+    this._authenService.isAuthenObs().subscribe((value) => {
+      if (value && this.location.path().startsWith('/login')) {
+        let returnUrl = this._activatedRoute.snapshot.queryParams['returnUrl'];
+        if (returnUrl != null && returnUrl != '') {
+          this._router.navigateByUrl(returnUrl);
+        } else {
+          this._router.navigateByUrl('/dashboard');
+        }
+      }
+    });
   }
 }

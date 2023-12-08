@@ -261,6 +261,7 @@
     "video-not-support": "Trình duyệt không hỗ trợ định dạng video này"
   },
   "information": {
+    "code": "Mã License",
     "user-information": "Thông tin người dùng",
     "license-information": "Thông tin License",
     "user-name": "Tên tài khoản",
