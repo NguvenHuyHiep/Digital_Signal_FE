@@ -59,7 +59,7 @@ export class LhTableComponent<T extends Object> implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     // handle input data for clientside pagination
     if (!this.config.pagination) {
-      this.total = changes['data'].currentValue.length | 0;
+      this.total = changes['data'].currentValue.length || 0;
       this.onPageIndexChange(this.pageIndex);
     }
   }

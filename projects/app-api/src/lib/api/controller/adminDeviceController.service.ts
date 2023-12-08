@@ -798,6 +798,8 @@ export class AdminDeviceControllerService {
     size?: number,
     sortBy?: string,
     sortDirection?: string,
+    keyword?: string,
+    status?: string,
     observe?: 'body',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
@@ -807,6 +809,8 @@ export class AdminDeviceControllerService {
     size?: number,
     sortBy?: string,
     sortDirection?: string,
+    keyword?: string,
+    status?: string,
     observe?: 'response',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
@@ -816,6 +820,8 @@ export class AdminDeviceControllerService {
     size?: number,
     sortBy?: string,
     sortDirection?: string,
+    keyword?: string,
+    status?: string,
     observe?: 'events',
     reportProgress?: boolean,
     options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
@@ -825,6 +831,8 @@ export class AdminDeviceControllerService {
     size?: number,
     sortBy?: string,
     sortDirection?: string,
+    keyword?: string,
+    status?: string,
     observe: any = 'body',
     reportProgress: boolean = false,
     options?: { httpHeaderAccept?: '*/*'; context?: HttpContext }
@@ -856,6 +864,20 @@ export class AdminDeviceControllerService {
         localVarQueryParameters,
         <any>sortDirection,
         'sortDirection'
+      );
+    }
+    if (keyword !== undefined && keyword !== null) {
+      localVarQueryParameters = this.addToHttpParams(
+        localVarQueryParameters,
+        <any>keyword,
+        'keyword'
+      );
+    }
+    if (status !== undefined && status !== null) {
+      localVarQueryParameters = this.addToHttpParams(
+        localVarQueryParameters,
+        <any>status,
+        'status'
       );
     }
 

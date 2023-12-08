@@ -29,13 +29,14 @@ export class AdminDeviceService {
 
   getAllDevice(
     page?: number | 0,
-    size?: number | 100,
+    size?: number | 200,
     sortBy?: string | 'id',
     sortDirection?: string | 'DESC',
-    keyword?: string | ''
+    keyword?: string | '',
+    status?: string | 'ONLINE' | 'OFFLINE'
   ) {
     return this.adminDeviceController
-      .getByPaging7(page, 100, sortBy, 'DESC')
+      .getByPaging7(page, size, sortBy, sortDirection, keyword, status)
       .pipe(tap((response) => console.log('devices', response)));
   }
 

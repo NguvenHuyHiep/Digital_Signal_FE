@@ -31,7 +31,9 @@
     "selectFile": "Select File",
     "selectDeviceGroup": "Select device group",
     "option": "Option",
-    "preview": "Preview"
+    "preview": "Preview",
+    "online": "Online",
+    "offline": "Offline"
   },
 
   "footer": "Design & Develop by LPDEV",
@@ -241,7 +243,8 @@
     "ok": "Ok",
     "cancel": "Cancel",
     "download": "Download",
-    "close": "Close"
+    "close": "Close",
+    "search": "Search"
   },
   "menu": {
     "search": "Search",

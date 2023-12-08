@@ -31,7 +31,7 @@ export class DeviceListComponent<T extends Object> implements OnInit {
   @ViewChild('table') table?: LhTableComponent<Device>;
   @Input() deviceGroupAdmin?: DeviceGroup;
   @Output() onGroup: EventEmitter<T> = new EventEmitter<T>();
-
+  isOnline: boolean = true;
   loading: {
     detail: boolean;
     adding: boolean;
@@ -111,19 +111,28 @@ export class DeviceListComponent<T extends Object> implements OnInit {
           },
         });
     } else {
-      this.adminDeviceService.getAllDevice().subscribe({
-        next: (response) => {
-          if (response && response.data) {
-            this.devices = response.data;
-          }
-        },
-        error: (err) => {
-          //TODO Xử lý exception
-        },
-        complete: () => {
-          this.loading.searching = false;
-        },
-      });
+      this.adminDeviceService
+        .getAllDevice(
+          0,
+          100,
+          'id',
+          'DESC',
+          '',
+          this.isOnline ? 'ONLINE' : 'OFFLINE'
+        )
+        .subscribe({
+          next: (response) => {
+            if (response && response.data) {
+              this.devices = response.data;
+            }
+          },
+          error: (err) => {
+            //TODO Xử lý exception
+          },
+          complete: () => {
+            this.loading.searching = false;
+          },
+        });
     }
   }
 
@@ -133,4 +142,9 @@ export class DeviceListComponent<T extends Object> implements OnInit {
       relativeTo: this.activatedRoute,
     });
   };
+
+  onToggle(cur: boolean) {
+    this.isOnline = cur;
+    this.ngOnInit();
+  }
 }

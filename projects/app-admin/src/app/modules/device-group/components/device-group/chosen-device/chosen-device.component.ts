@@ -74,27 +74,29 @@ export class ChosenDeviceComponent implements ControlValueAccessor, OnInit {
 
   getAllDevice() {
     // TODO use search instead of get all records with 10 items, or apply infinitive scroll for this func
-    this.adminDeviceService.getAllDevice(0, 10).subscribe({
-      next: (response) => {
-        if (response && response.status === ResponseStatus.Success) {
-          this.devices = response.data;
-          console.log(this.devices + 'DeviceGroup');
-        } else {
-          let errorsInStr: string = response.errors
-            ?.map((e) => this.translateService.instant(e))
-            .join(', ') as string;
-          this.message.error(errorsInStr);
-        }
-      },
-      error: (err) => {
-        // TODO i18n
-        this.message.error('Error', err);
-        this.loading.searching = false;
-      },
-      complete: () => {
-        this.loading.searching = false;
-      },
-    });
+    this.adminDeviceService
+      .getAllDevice(0, 100, 'id', 'DESC', '', 'ONLINE')
+      .subscribe({
+        next: (response) => {
+          if (response && response.status === ResponseStatus.Success) {
+            this.devices = response.data;
+            console.log(this.devices + 'DeviceGroup');
+          } else {
+            let errorsInStr: string = response.errors
+              ?.map((e) => this.translateService.instant(e))
+              .join(', ') as string;
+            this.message.error(errorsInStr);
+          }
+        },
+        error: (err) => {
+          // TODO i18n
+          this.message.error('Error', err);
+          this.loading.searching = false;
+        },
+        complete: () => {
+          this.loading.searching = false;
+        },
+      });
   }
 
   onChangeData(id: number) {

@@ -31,7 +31,9 @@
     "selectFile": "Chọn File",
     "selectDeviceGroup": "Chọn nhóm thiết bị ",
     "option": "Tùy chỉnh",
-    "preview": "Xem"
+    "preview": "Xem",
+    "online": "Đang hoạt động",
+    "offile": "Không hoạt động"
   },
 
   "footer": "Design & Develop by LPDEV",
@@ -243,7 +245,8 @@
     "ok": "Xác nhận",
     "cancel": "Hủy ",
     "download": "Tải về",
-    "close": "Đóng"
+    "close": "Đóng",
+    "search": "Tìm kiếm"
   },
   "menu": {
     "search": "Tìm kiếm",
