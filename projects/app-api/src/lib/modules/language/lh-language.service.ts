@@ -1,63 +1,57 @@
 import { Injectable } from '@angular/core';
+import { Lang, SupportLang } from '@app-api/lib/api/models/language.model';
 import { TranslateService } from '@ngx-translate/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { LhStorageService } from '../local-store/lh-storage.service';
-import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LhLanguageService {
-  private _currentLang: string = 'en';
+  private _lang: Lang = {
+    locale: 'en',
+    supportlangs: [
+      {
+        label: 'lang.en',
+        value: 'en',
+        img: '/assets/images/multiplelanguage/icons8-great-britain-48.png',
+      },
+      {
+        label: 'lang.vi',
+        value: 'vi',
+        img: '/assets/images/multiplelanguage/icons8-vietnam-48.png',
+      },
+    ],
+  };
+
+  private _langSubject: BehaviorSubject<Lang> = new BehaviorSubject(this._lang);
 
   constructor(
     private translate: TranslateService,
     private store: LhStorageService
   ) {
-    this.store.language.pipe(
-      tap((value) => {
-        if (!value || value == null) {
-          let sysLocale = this.getSystemLocale();
-          this.updateLocale(sysLocale);
-        }
-        this.updateLocale(value as string, false);
-      })
-    );
+    this.store.language.subscribe({
+      next: (value) => {
+        this._lang.locale = value || 'en';
+        this.setLang(this._lang);
+      },
+    });
   }
 
-  private _supportLangs = [
-    {
-      label: 'lang.en',
-      value: 'en',
-      img: '/assets/images/multiplelanguage/icons8-great-britain-48.png',
-    },
-    {
-      label: 'lang.vi',
-      value: 'vi',
-      img: '/assets/images/multiplelanguage/icons8-vietnam-48.png',
-    },
-  ];
-
-  get supportLangs() {
-    return this._supportLangs;
+  public get lang(): Observable<Lang> {
+    return this._langSubject.asObservable();
   }
 
-  get currentLang() {
-    return this._currentLang;
+  public getLang() {
+    return this._langSubject.getValue();
   }
 
-  updateLocale(locale: string, save: boolean = true) {
-    if (this._supportLangs.some((l) => l.value === locale)) {
-      this._currentLang = locale;
-    }
-    this._currentLang = this._currentLang.substring(0, 2);
-    this.translate.setDefaultLang(this._currentLang);
-    this.translate.use(this._currentLang);
-    if (save) {
-      this.store.setLanguage(this._currentLang).subscribe();
-    }
+  public setLang(lang: Lang): void {
+    this.updateInputLocale(lang.locale);
+    this._langSubject.next(lang);
   }
 
-  getSystemLocale(defaultValue?: string): string {
+  private getSystemLocale(defaultValue?: string): string {
     if (
       typeof window === 'undefined' ||
       typeof window.navigator === 'undefined'
@@ -68,5 +62,16 @@ export class LhLanguageService {
     let lang = wn.languages ? wn.languages[0] : defaultValue;
     lang = lang || wn.language || wn.browserLanguage || wn.userLanguage;
     return lang;
+  }
+
+  private updateInputLocale(locale?: string) {
+    let newLocale = locale || this.getSystemLocale();
+    this.translate.setDefaultLang(newLocale);
+    this.translate.use(newLocale);
+    this.store.setLanguage(newLocale).subscribe({
+      next(value) {
+        console.log(value);
+      },
+    });
   }
 }

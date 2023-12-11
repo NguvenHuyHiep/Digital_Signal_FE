@@ -6,6 +6,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { environment } from '@app-admin/environments/environment';
+import { Lang, SupportLang } from '@app-api/lib/api/models/language.model';
 import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 import { LhAuthenService } from '@app-api/lib/modules/authen/lh-authen.service';
 import { LhLanguageService } from '@app-api/lib/modules/language/lh-language.service';
@@ -23,11 +24,10 @@ export class CommonLoginComponent implements OnInit {
   @Input() initPassword?: string;
 
   validateForm!: UntypedFormGroup;
-  selectLanguage: string = 'en';
-  supportLangs = [
-    { label: 'lang.en', value: 'en', img: '' },
-    { label: 'lang.vi', value: 'vi', img: '' },
-  ];
+  lang: Lang = {
+    locale: '',
+    supportlangs: [],
+  };
 
   constructor(
     private router: Router,
@@ -37,18 +37,16 @@ export class CommonLoginComponent implements OnInit {
     private languageService: LhLanguageService,
     private waterMarkService: WaterMarkService,
     private translateService: TranslateService,
-    private storeService: LhStorageService
+    private lhLanguageService: LhLanguageService
   ) {}
 
   ngOnInit(): void {
-    this.storeService.language.subscribe({
-      next: (value) => {
-        if (value) {
-          this.updateLocale(value);
-        }
+    this.lhLanguageService.lang.subscribe({
+      next: (lang: Lang) => {
+        this.lang = lang;
       },
-      error: (err) => {
-        console.log(err);
+      error: (error) => {
+        console.log(error);
       },
       complete: () => {},
     });
@@ -58,8 +56,7 @@ export class CommonLoginComponent implements OnInit {
       password: [this.initPassword, [Validators.required]],
       remember: [true],
     });
-    this.selectLanguage = this.languageService.currentLang;
-    this.supportLangs = this.languageService.supportLangs;
+
     setTimeout(() => {
       this.translateService
         .get(environment.WATER_MARK)
@@ -99,11 +96,11 @@ export class CommonLoginComponent implements OnInit {
   }
 
   updateLocale(locale: string) {
-    this.selectLanguage = locale;
-    this.languageService.updateLocale(locale, true);
+    this.lang.locale = locale;
+    this.languageService.setLang(this.lang);
   }
 
   public get getCurrentLangObj(): any {
-    return this.supportLangs.find((f) => f.value === this.selectLanguage);
+    return this.lang.supportlangs.find((f) => f.value === this.lang.locale);
   }
 }

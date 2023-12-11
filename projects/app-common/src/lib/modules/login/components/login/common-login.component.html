@@ -96,13 +96,13 @@
       <div class="lang">
         <nz-select
           nzBorderless
-          [(ngModel)]="selectLanguage"
+          [(ngModel)]="lang.locale"
           (ngModelChange)="updateLocale($event)"
           [nzCustomTemplate]="displayLanguageTemplate"
         >
           <nz-option
             [nzCustomContent]="true"
-            *ngFor="let l of supportLangs"
+            *ngFor="let l of lang.supportlangs"
             [nzValue]="l.value"
             [nzLabel]="l.label | translate"
           >
