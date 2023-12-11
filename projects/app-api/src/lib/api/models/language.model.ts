@@ -2,6 +2,7 @@ export interface SupportLang {
   label: string;
   value: string;
   img: string;
+  angularLocale: any;
 }
 
 export interface Lang {

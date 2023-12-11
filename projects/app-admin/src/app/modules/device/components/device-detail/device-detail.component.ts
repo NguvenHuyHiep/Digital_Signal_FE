@@ -69,7 +69,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
       sortDirections: ['ascend', 'descend', null],
     },
     {
-      name: this.translateService.instant('module.device.status'),
+      name: 'module.device.status',
       sortOrder: null,
       sortFn: (a: DeviceLog, b: DeviceLog) => (a.status === b.status ? 1 : 0),
       listOfFilter: [
@@ -82,7 +82,7 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
       sortDirections: ['ascend', 'descend', null],
     },
     {
-      name: this.translateService.instant('module.device.update-date'),
+      name: 'module.device.update-date',
       sortOrder: null,
       sortFn: (a: DeviceLog, b: DeviceLog) =>
         Date.parse(a.date as string) - Date.parse(b.date as string),
@@ -127,7 +127,9 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
             }, 0);
           }
         },
-        error: (err) => {},
+        error: (err) => {
+          console.log(err);
+        },
         complete: () => {},
       });
     }

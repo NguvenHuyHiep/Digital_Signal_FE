@@ -64,11 +64,11 @@ export function createTranslateLoader(http: HttpClient) {
         useFactory: createTranslateLoader,
         deps: [HttpClient],
       },
-      defaultLanguage: vi_VN.locale,
+      defaultLanguage: en_US.locale,
     }),
   ],
   providers: [
-    { provide: NZ_I18N, useValue: vi_VN },
+    { provide: NZ_I18N, useValue: en_US },
     { provide: LH_API_VERSION, useValue: '1.0' },
     { provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true },
   ],

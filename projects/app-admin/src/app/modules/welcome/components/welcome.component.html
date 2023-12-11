@@ -326,13 +326,13 @@
         <li *ngIf="!menu.children && menu.link" nz-menu-item nzMatchRouter>
           <a [routerLink]="menu.link">
             <i nz-icon [nzType]="menu.icon" nzTheme="outline"></i>
-            <span>{{ menu.title }}</span>
+            <span>{{ menu.title | translate }}</span>
           </a>
         </li>
         <li
           *ngIf="menu.children"
           nz-submenu
-          [nzTitle]="menu.title"
+          [nzTitle]="menu.title | translate"
           [nzIcon]="menu.icon"
           routerLinkActive
           #rla="routerLinkActive"
@@ -342,13 +342,13 @@
             <ng-container *ngFor="let childMenu of menu.children">
               <li *ngIf="!childMenu.children" nz-menu-item nzMatchRouter>
                 <a [routerLink]="childMenu.link">
-                  <span>{{ childMenu.title }}</span>
+                  <span>{{ childMenu.title | translate }}</span>
                 </a>
               </li>
               <li
                 *ngIf="childMenu.children"
                 nz-submenu
-                [nzTitle]="childMenu.title"
+                [nzTitle]="childMenu.title | translate"
                 routerLinkActive
                 #rlaG="routerLinkActive"
                 [nzOpen]="rlaG.isActive"
