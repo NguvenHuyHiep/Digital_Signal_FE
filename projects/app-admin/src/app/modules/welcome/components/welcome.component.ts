@@ -128,7 +128,7 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
         this.lang = lang;
         if (user) {
           this.user = user;
-          this.buildMenu();
+          this.buildMenu(user);
         } else {
           this.buildMenu();
         }
@@ -273,9 +273,9 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public buildMenu(): void {
-    this.menuList = this.user
-      ? this.user.roles?.some((r) => r.type === RoleType.Admin)
+  public buildMenu(loggedUser?: User): void {
+    this.menuList = loggedUser
+      ? loggedUser.roles?.some((r) => r.type === RoleType.Admin)
         ? [
             {
               title: 'menu.dashboard',
