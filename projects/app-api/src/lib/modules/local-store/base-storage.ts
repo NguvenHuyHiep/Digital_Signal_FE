@@ -5,8 +5,8 @@ import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';
 import { BaseOutputUser } from '@app-api/lib/api/models/baseOutputUser';
 
 export abstract class BaseStorage implements IBaseStorage {
-  public get token(): Observable<BaseOutputString | undefined> {
-    return this.get<BaseOutputString | undefined>(STORAGE_KEY.AUTHEN_TOKEN);
+  public get token(): Observable<string | undefined> {
+    return this.get<string | undefined>(STORAGE_KEY.AUTHEN_TOKEN);
   }
 
   public get currentUser(): Observable<BaseOutputUser | undefined> {
@@ -19,11 +19,8 @@ export abstract class BaseStorage implements IBaseStorage {
     );
   }
 
-  public setToken(token?: BaseOutputString): Observable<any> {
-    return this.set<BaseOutputString | undefined>(
-      STORAGE_KEY.AUTHEN_TOKEN,
-      token
-    );
+  public setToken(token?: string): Observable<any> {
+    return this.set<string | undefined>(STORAGE_KEY.AUTHEN_TOKEN, token);
   }
 
   public setCurrentUser(user?: BaseOutputUser): Observable<any> {
@@ -79,11 +76,11 @@ export abstract class BaseStorage implements IBaseStorage {
 }
 
 export interface IBaseStorage {
-  get token(): Observable<BaseOutputString | undefined>;
+  get token(): Observable<string | undefined>;
+
+  setToken(token?: string): Observable<any>;
 
   get currentUser(): Observable<BaseOutputUser | undefined>;
-
-  setToken(token?: BaseOutputString): Observable<any>;
 
   setCurrentUser(user?: BaseOutputUser): Observable<any>;
 

@@ -24,7 +24,7 @@ export class LhStorageService implements IBaseStorage {
     return this.instance.currentUser;
   }
 
-  public get token(): Observable<BaseOutputString | undefined> {
+  public get token(): Observable<string | undefined> {
     return this.instance.token;
   }
 
@@ -36,7 +36,7 @@ export class LhStorageService implements IBaseStorage {
     this.instance = this.indexDb;
   }
 
-  public setToken(token?: BaseOutputString) {
+  public setToken(token?: string) {
     return this.instance.setToken(token);
   }
 

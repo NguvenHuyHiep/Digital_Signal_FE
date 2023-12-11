@@ -23,8 +23,7 @@ export class LhAuthenService {
     private authenticationService: AuthenticationControllerService,
     private adminUsersAPIService: AdminUsersAPIService,
     private _storageService: LhStorageService,
-    private _store: Store,
-    @Inject(LH_API_VERSION) private apiVersion: string
+    private _store: Store
   ) {}
 
   public login(
@@ -53,10 +52,6 @@ export class LhAuthenService {
       );
   }
 
-  public userInfo(id?: number): Observable<BaseOutputUser> {
-    return this.adminUsersAPIService.getById(id as number);
-  }
-
   public isAuthenObs(): Observable<boolean> {
     return this._store
       .select((state) => _.get(state, 'authentication'))
@@ -78,20 +73,19 @@ export class LhAuthenService {
     });
   }
 
+  public userInfo(id?: number): Observable<BaseOutputUser> {
+    return this.adminUsersAPIService.getById(id as number);
+  }
+
   public getUserInfoByEmail(email: string): Observable<BaseOutputUser> {
     return this.adminUsersAPIService.getByEmail(email);
   }
 
-  setApiKeys(token?: BaseOutputString): void {
+  setApiToken(token?: BaseOutputString): void {
     console.log(token);
     if (token) {
-      this.authenticationService.configuration.withCredentials = true;
-      this.authenticationService.configuration.credentials = {
-        Authorization: `${token.data}`,
-      };
-      this._storageService.setToken(token).subscribe();
+      this._storageService.setToken(token.data).subscribe();
     } else {
-      this.authenticationService.configuration.credentials = {};
       this._storageService.setToken(undefined).subscribe();
       this._storageService.setCurrentUser(undefined).subscribe();
       this._storageService.setCurrentUser(undefined).subscribe();
