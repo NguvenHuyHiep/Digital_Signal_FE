@@ -1,4 +1,3 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
   "compilerOptions": {
@@ -9,16 +8,11 @@
     "strict": true,
     "noImplicitOverride": true,
     "paths": {
-      "hub-api": [
-        "dist/app-api"
-      ],
-      "hub-common": [
-        "dist/app-common"
-      ],
+      "hub-api": ["dist/app-api"],
+      "hub-common": ["dist/app-common"],
       "@app-admin/*": ["projects/app-admin/src/*"],
       "@app-api/*": ["projects/app-api/src/*"],
       "@app-common/*": ["projects/app-common/src/*"]
-
     },
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
@@ -32,10 +26,7 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": [
-      "ES2022",
-      "dom"
-    ]
+    "lib": ["ES2022", "dom"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
