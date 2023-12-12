@@ -19,17 +19,15 @@
         >
           <nz-card class="cardAround">
             <div class="card">
-              <b style="font-size: 20px; font-weight: 600; padding-right: 5px">
-                <span
-                  [nzType]="s.type"
-                  class="icon"
-                  nz-icon
-                  nzTheme="outline"
-                  style="padding-right: 10px"
-                ></span>
-                {{ s.label | translate }} :
-              </b>
-              <h5 style="font-size: 20px">{{ s.value }}</h5>
+              <span
+                [nzType]="s.icon"
+                class="icon"
+                nz-icon
+                style="padding-right: 10px"
+              ></span>
+              <span style="font-size: 16px; font-weight: bold"
+                >{{ s.label | translate }} : {{ s.value }}</span
+              >
             </div>
           </nz-card>
         </div>
@@ -80,26 +78,26 @@
                 nzType="form"
                 style="font-size: 40px !important"
               ></span>
-              <p>3</p>
+              <p>{{ dashBoardStatictist.totalPlaylists || 0 }}</p>
             </div>
-            <div class="infoTest">
+            <!-- <div class="infoTest">
               <p class="txt">
                 {{ "module.dashboard.latestDownloadTime" | translate }}:
               </p>
               <span> 09:10 AM</span>
-            </div>
+            </div> -->
             <div class="infoTest">
               <p class="txt">
                 {{ "module.dashboard.latestPlaylistID" | translate }}:
               </p>
-              <span> Playlist No.3</span>
+              <span>{{ dashBoardStatictist.lastPlaylist?.name }}</span>
             </div>
-            <div class="infoTest">
+            <!-- <div class="infoTest">
               <p class="txt">
                 {{ "module.dashboard.latestPlaylistDuration" | translate }}:
               </p>
               <span> 20 mins</span>
-            </div>
+            </div> -->
           </nz-card>
         </div>
       </div>

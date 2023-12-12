@@ -23,11 +23,10 @@ export class UserAddComponent implements OnInit {
   currentUser?: User;
   license = '';
   isVisible = false;
-  millisecondValue?: number;
-  defaultTimeType: string = 'day';
   timeLicenseForm: FormGroup = this.formBuilder.group({
-    typeTime: [''],
+    timeType: [''],
     timeValue: [''],
+    isLifeTime: [false],
   });
   form: FormGroupUser = this.adminUserService.buildUserForm(this.currentUser);
 
@@ -59,6 +58,17 @@ export class UserAddComponent implements OnInit {
     } else {
       // create
     }
+    this.timeLicenseForm
+      .get('isLifeTime')
+      ?.valueChanges.subscribe((checked: boolean) => {
+        if (checked) {
+          this.timeLicenseForm.get('timeType')?.disable();
+          this.timeLicenseForm.get('timeValue')?.disable();
+        } else {
+          this.timeLicenseForm.get('timeType')?.enable();
+          this.timeLicenseForm.get('timeValue')?.enable();
+        }
+      });
   }
 
   getUserById(userId: number) {
@@ -117,7 +127,7 @@ export class UserAddComponent implements OnInit {
   genLicense(): void {
     this.isVisible = true;
     this.timeLicenseForm.patchValue({
-      typeTime: this.defaultTimeType,
+      timeType: 'day',
     });
   }
 
@@ -162,52 +172,70 @@ export class UserAddComponent implements OnInit {
   };
 
   handleOk(): void {
-    this.isVisible = false;
     if (!this.currentUser?.email) {
       this.message.info(
-        this.translateService.instant(
-          'resgister.error.the-input-is-not-valid-email'
-        )
+        this.translateService.instant('module.user.error.invalid-email')
       );
       return;
     }
+
+    let millisecondValue: number = NaN;
+    if (this.timeLicenseForm.get('isLifeTime')?.value) {
+      millisecondValue = 0;
+    } else {
+      const timeType = this.timeLicenseForm.get('timeType')?.value;
+      const timeValue = this.timeLicenseForm.get('timeValue')?.value;
+      millisecondValue = this.convertToMilliseconds(timeType, timeValue);
+    }
+
+    if (isNaN(millisecondValue)) {
+      this.message.info(
+        this.translateService.instant('module.user.error.invalid-time')
+      );
+      return;
+    }
+
     let licenseGenerateRequest: LicenseGenerateRequest = {
       email: this.currentUser?.email,
-      duration: this.millisecondValue,
+      duration: millisecondValue,
     };
-    this.adminLicenseService
-      .genLicense(licenseGenerateRequest)
-      .subscribe((response) => {
+
+    this.adminLicenseService.genLicense(licenseGenerateRequest).subscribe({
+      next: (response) => {
         if (response && response.data) {
           if (this.currentUser) {
             this.currentUser.license = response.data;
             this.license = response.data.code || '';
           }
         }
-      });
+      },
+      error: (err) => {
+        this.isVisible = false;
+        console.log(err);
+      },
+      complete: () => {
+        this.isVisible = false;
+      },
+    });
   }
 
   handleCancel(): void {
     this.isVisible = false;
   }
 
-  convertToMilliseconds(): void {
-    const typeTime = this.timeLicenseForm.get('typeTime')?.value;
-    const timeValue = this.timeLicenseForm.get('timeValue')?.value;
-
-    if (typeTime && timeValue) {
-      let multiplier = 1;
-      if (typeTime === 'day') {
-        multiplier = 24 * 60 * 60 * 1000;
-      } else if (typeTime === 'hour') {
-        multiplier = 60 * 60 * 1000;
-      } else if (typeTime === 'month') {
-        multiplier = 30 * 24 * 60 * 60 * 1000;
-      }
-
-      const millisecondValue = timeValue * multiplier;
-      this.millisecondValue = millisecondValue;
-      console.log('millisecond Value:', this.millisecondValue);
+  convertToMilliseconds(timeType?: string, timeValue?: number): number {
+    if (!timeType || !timeValue) {
+      return NaN;
     }
+
+    let multiplier = 1;
+    if (timeType === 'day') {
+      multiplier = 24 * 60 * 60 * 1000;
+    } else if (timeType === 'hour') {
+      multiplier = 60 * 60 * 1000;
+    } else if (timeType === 'month') {
+      multiplier = 30 * 24 * 60 * 60 * 1000;
+    }
+    return timeValue * multiplier;
   }
 }
