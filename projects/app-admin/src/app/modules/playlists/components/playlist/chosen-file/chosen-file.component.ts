@@ -64,7 +64,7 @@ export class ChosenFileComponent implements ControlValueAccessor, OnInit {
 
   private getAllFile() {
     this.loading.searching = true;
-    this.adminFileService.getAllFile(1, 10).subscribe({
+    this.adminFileService.getAllFile(1, 1000).subscribe({
       next: (response) => {
         if (response && response.status === ResponseStatus.Success) {
           this.files = response.data;
