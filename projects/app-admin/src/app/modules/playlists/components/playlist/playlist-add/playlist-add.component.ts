@@ -25,7 +25,6 @@ import {
 import { FormDeviceGroup } from '@app-admin/app/modules/device-group/components/form-device-group';
 import { AdminFileService } from '@app-api/lib/modules/admin/admin-file/admin-file.service';
 import { PlaylistStatus } from '@app-api/lib/api/models/playlistStatus';
-import { tr } from 'date-fns/locale';
 
 @Component({
   selector: 'app-admin-playlist-add',
