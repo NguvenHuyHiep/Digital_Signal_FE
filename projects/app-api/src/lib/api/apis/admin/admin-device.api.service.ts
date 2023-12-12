@@ -72,7 +72,7 @@ export class AdminDeviceApiService {
     );
   }
 
-  public assignDeviceGroup(
+  public assignToDeviceGroup(
     deviceId: number,
     groupId: number
   ): Observable<BaseOutputDevice> {
@@ -87,7 +87,7 @@ export class AdminDeviceApiService {
     );
   }
 
-  public removeDevicesFromDeviceGroup(
+  public removeFromDeviceGroup(
     deviceGroupId: number,
     deviceIds: number[]
   ): Observable<BaseOutputDevice> {
