@@ -13,6 +13,7 @@ import { PlaylistStatus } from '@app-api/lib/api/models/playlistStatus';
 import { BaseOutputPlaylist } from '@app-api/lib/api/models/baseOutputPlaylist';
 import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';
 import { AdminPlayListAPIService } from '@app-api/lib/api';
+import { AdminPlaylistApiService } from '@app-api/lib/api/apis/admin/admin-playlist.api.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,7 @@ import { AdminPlayListAPIService } from '@app-api/lib/api';
 export class AdminPlaylistService {
   constructor(
     private formBuilder: FormBuilder,
-    private adminPlayListController: AdminPlayListAPIService
+    private adminPlayListController: AdminPlaylistApiService
   ) {}
 
   public buildPlaylistForm(
@@ -85,32 +86,29 @@ export class AdminPlaylistService {
       params = params.set('keyword', keyword);
     }
     return this.adminPlayListController
-      .getByPaging4(0, 100, 'id', 'DESC')
+      .getByPaging(0, 100, 'id', 'DESC', '')
       .pipe(tap((response) => console.log(response)));
   }
 
   public addPlayList(playList: Playlist): Observable<BaseOutputPlaylist> {
-    return this.adminPlayListController.create3(playList);
+    return this.adminPlayListController.create(playList);
   }
 
   public updatePlayList(playList: Playlist): Observable<BaseOutputPlaylist> {
-    return this.adminPlayListController.update3(
-      playList.id as number,
-      playList
-    );
+    return this.adminPlayListController.update(playList.id as number, playList);
   }
 
   public delete(playList: number): Observable<BaseOutputString> {
-    return this.adminPlayListController.delete3(playList);
+    return this.adminPlayListController.delete(playList);
   }
 
   public getPlaylistWithFile(id: number): Observable<BaseOutputPlaylist> {
-    return this.adminPlayListController.getByIdWithFiles(id);
+    return this.adminPlayListController.getWithFiles(id);
   }
   public getDeviceGroupByPlayListId(
     id: number
   ): Observable<BaseOutputPlaylist> {
-    return this.adminPlayListController.getByIdWithFilesDeviceGroups(id);
+    return this.adminPlayListController.getWithDeviceGroups(id);
   }
 
   public assignFile(playListId: number, fileIds: number[]) {
@@ -118,7 +116,7 @@ export class AdminPlaylistService {
   }
 
   public getPlaylistByPlaylistId(playlistId: number) {
-    return this.adminPlayListController.getById3(playlistId);
+    return this.adminPlayListController.getById(playlistId);
   }
 
   public assignDeviceGroups(playlistId: number, deviceGroupIds: number[]) {
