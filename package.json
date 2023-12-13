@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start:admin": "ng serve --project app-admin --port 8843",
+    "start:admin:local": "ng serve --project app-admin --port 8844  --configuration local",
     "start:admin:staging": "ng serve --project app-admin --port 4302 --configuration lh",
     "start:sample": "ng serve --project app-ui-sample --port 8845",
     "build:admin": "ng build --project app-admin ",
