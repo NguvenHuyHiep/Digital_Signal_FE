@@ -128,7 +128,7 @@
 <ng-template #genLcsButton>
   <button
     (click)="genLicense()"
-    [disabled]="!currentUser?.id"
+    [disabled]="!currentUser?.id || (currentUser?.license?.code && license)"
     id="generateLicense"
     name="generateLicense"
     nz-button
@@ -152,7 +152,7 @@
           <nz-form-control [formGroup]="timeLicenseForm" [nzSpan]="19">
             <nz-select
               [nzPlaceHolder]="'module.user.timeType' | translate"
-              formControlName="typeTime"
+              formControlName="timeType"
             >
               <nz-option
                 [nzLabel]="'module.user.time.day' | translate"
@@ -180,8 +180,14 @@
               nz-input
               type="number"
               formControlName="timeValue"
-              (input)="convertToMilliseconds()"
             />
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control [formGroup]="timeLicenseForm" [nzSpan]="19">
+            <label nz-checkbox formControlName="isLifeTime">
+              <span> {{ "module.user.life-time" | translate }}</span>
+            </label>
           </nz-form-control>
         </nz-form-item>
       </form>

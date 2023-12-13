@@ -147,6 +147,11 @@
         "day": "Ngày",
         "hour": "Giờ",
         "month": "Tháng"
+      },
+      "life-time": "Trọn đời",
+      "error": {
+        "invalid-email" : "Email không tồn tại",
+        "invalid-time" : "Thời gian cho license sai"
       }
     },
     "license": {

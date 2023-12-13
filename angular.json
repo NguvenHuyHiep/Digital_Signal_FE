@@ -104,6 +104,10 @@
             "development": {
               "browserTarget": "app-admin:build:development"
             },
+            "local": {
+              "browserTarget": "app-admin:build:development",
+              "proxyConfig": "proxy/proxy-local.js"
+            },
             "staging": {
               "browserTarget": "app-admin:build:staging",
               "proxyConfig": "proxy/proxy-staging.js"

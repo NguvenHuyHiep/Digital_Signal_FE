@@ -16,6 +16,7 @@ import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NgChartsModule } from 'ng2-charts';
+import { AdminDashBoardModule } from '@app-api/lib/modules/admin/admin-dashboard/admin-dashboard.module';
 
 @NgModule({
   declarations: [DashboardComponent],
@@ -37,6 +38,7 @@ import { NgChartsModule } from 'ng2-charts';
     NzImageModule,
     TranslateModule,
     NgChartsModule,
+    AdminDashBoardModule,
   ],
 })
 export class DashboardModule {}
