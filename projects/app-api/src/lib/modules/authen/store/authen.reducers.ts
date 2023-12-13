@@ -14,7 +14,7 @@ export enum AUTHEN_ACTIONS {
 
 export const SIGN_IN_SUCCESS = createAction(
   AUTHEN_ACTIONS.SIGN_IN_SUCCESS,
-  props<{ value?: { token: BaseOutputString; email: string } }>()
+  props<{ value?: { token: string; email: string } }>()
 );
 export const COMPLETE_AUTHEN = createAction(
   AUTHEN_ACTIONS.COMPLETE_AUTHEN,
@@ -32,7 +32,7 @@ export const SIGN_IN_FAILED = createAction(
 export const SIGN_OUT = createAction(AUTHEN_ACTIONS.SIGN_OUT);
 
 export interface IAuthenState {
-  token: BaseOutputString | undefined;
+  token: string | undefined;
   user: BaseOutputUser | undefined;
   authenticated: boolean;
   error: HttpResponseBase | BaseOutputUser | undefined;

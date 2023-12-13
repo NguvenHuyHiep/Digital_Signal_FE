@@ -1,46 +1,52 @@
 import { Injectable } from '@angular/core';
-import { BaseStorage, IBaseStorage } from './base-storage';
-import { Observable } from 'rxjs';
-import { IndexdbStorageService } from './indexdb-storage.service';
-import { STORAGE_TYPE } from './storage-enum';
-import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';
+import { User } from '@app-api/lib/api/models/user';
 
 @Injectable({
   providedIn: 'root',
 })
-export class LhStorageService implements IBaseStorage {
-  private instance: BaseStorage;
+export class LhStorageService {
+  private LOCAL_STORAGE = 'LOCAL_STORAGE_';
+  private LOCALE: string = this.LOCAL_STORAGE + 'LOCALE';
+  private USER: string = this.LOCAL_STORAGE + 'USER';
+  private TOKEN: string = this.LOCAL_STORAGE + 'TOKEN';
 
-  constructor(private indexDb: IndexdbStorageService) {
-    this.instance = indexDb;
-    this.changeType(STORAGE_TYPE.INDEXDB);
+  constructor() {}
+
+  public getLocale(): string | undefined {
+    return localStorage.getItem(this.LOCALE) || undefined;
   }
 
-  public get language(): Observable<string | undefined> {
-    return this.instance.language;
+  public setLocale(locale?: string): void {
+    if (locale) {
+      localStorage.setItem(this.LOCALE, locale);
+    } else {
+      localStorage.removeItem(this.LOCALE);
+    }
   }
 
-  public get currentUser(): Observable<any | undefined> {
-    return this.instance.currentUser;
+  public getCurrentUser(): User | undefined {
+    const jsonData = localStorage.getItem(this.USER);
+    return jsonData ? JSON.parse(jsonData) : undefined;
   }
 
-  public get token(): Observable<string | undefined> {
-    return this.instance.token;
+  public setCurrentUser(user?: User): void {
+    if (user) {
+      const jsonData = JSON.stringify(user);
+      localStorage.setItem(this.USER, jsonData);
+    } else {
+      localStorage.removeItem(this.USER);
+    }
   }
 
-  public setLanguage(language?: string): Observable<any> {
-    return this.instance.setLanguage(language);
+  public getToken(): string | undefined {
+    return localStorage.getItem(this.TOKEN) || undefined;
   }
 
-  public changeType(type: STORAGE_TYPE) {
-    this.instance = this.indexDb;
-  }
-
-  public setToken(token?: string) {
-    return this.instance.setToken(token);
-  }
-
-  public setCurrentUser(user?: any): Observable<any> {
-    return this.instance.setCurrentUser(user);
+  public setToken(token?: string): void {
+    if (token) {
+      localStorage.setItem(this.TOKEN, token);
+    } else {
+      localStorage.removeItem(this.TOKEN);
+    }
   }
 }

@@ -35,12 +35,8 @@ export class LhLanguageService {
     private translate: TranslateService,
     private store: LhStorageService
   ) {
-    this.store.language.subscribe({
-      next: (value) => {
-        this._lang.locale = value || 'en';
-        this.setLang(this._lang);
-      },
-    });
+    this._lang.locale = this.store.getLocale() || 'en';
+    this.setLang(this._lang);
   }
 
   public get lang(): Observable<Lang> {
@@ -77,10 +73,6 @@ export class LhLanguageService {
     );
     this.translate.setDefaultLang(newLocale);
     this.translate.use(newLocale);
-    this.store.setLanguage(newLocale).subscribe({
-      next(value) {
-        console.log(value);
-      },
-    });
+    this.store.setLocale(newLocale);
   }
 }

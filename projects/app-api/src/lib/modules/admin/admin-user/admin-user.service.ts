@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { FormGroupUser } from '@app-admin/app/modules/user/components/user-type';
 import { AdminUsersAPIService } from '@app-api/lib/api';
+import { AdminUserApiService } from '@app-api/lib/api/apis/admin/admin-user.api.service';
 import { BaseOutputLicense } from '@app-api/lib/api/models/baseOutputLicense';
 import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';
 import { BaseOutputUser } from '@app-api/lib/api/models/baseOutputUser';
@@ -12,7 +13,7 @@ import { tap } from 'rxjs/operators';
 @Injectable()
 export class AdminUserService {
   constructor(
-    private adminUsersAPIService: AdminUsersAPIService,
+    private adminUsersAPIService: AdminUserApiService,
     private formBuilder: FormBuilder
   ) {}
 
@@ -41,7 +42,13 @@ export class AdminUserService {
     keyword?: string
   ) {
     return this.adminUsersAPIService
-      .getAllByPaging(page, size, sortBy, sortDirection, keyword)
+      .getByPaging(
+        page || 0,
+        size || 100,
+        sortBy || 'id',
+        sortDirection || 'desc',
+        keyword || ''
+      )
       .pipe(tap((response) => console.log('response', response)));
   }
 
@@ -54,7 +61,7 @@ export class AdminUserService {
   }
 
   public deleteUser(user: number): Observable<BaseOutputString> {
-    return this.adminUsersAPIService._delete(user);
+    return this.adminUsersAPIService.deleteById(user);
   }
 
   public getUserByUserId(userId: number) {

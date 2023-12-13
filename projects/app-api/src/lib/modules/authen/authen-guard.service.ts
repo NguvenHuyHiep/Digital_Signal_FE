@@ -20,18 +20,6 @@ export class AuthenGuardService {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> {
-    return this.lhStoreService.currentUser.pipe(
-      map((user) => {
-        console.log(user);
-        if (user) {
-          return true;
-        } else {
-          // TODO check this auth guard, refresh the page cause user to null,
-          // so refresh will auto navigate to dashboard
-          this.router.navigate(['/dashboard']);
-          return false;
-        }
-      })
-    );
+    return this.auth.isAuthenObs();
   }
 }

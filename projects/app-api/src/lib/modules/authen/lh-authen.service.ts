@@ -14,42 +14,38 @@ import {
   AuthenticationControllerService,
 } from '@app-api/lib/api';
 import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
+import { AuthApiService } from '@app-api/lib/api/apis/auth.api.service';
+import { AdminUserApiService } from '@app-api/lib/api/apis/admin/admin-user.api.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LhAuthenService {
   constructor(
-    private authenticationService: AuthenticationControllerService,
-    private adminUsersAPIService: AdminUsersAPIService,
+    private authApiService: AuthApiService,
+    private adminUserApiService: AdminUserApiService,
     private _storageService: LhStorageService,
     private _store: Store
   ) {}
 
-  public login(
-    username: string,
-    password: string
-  ): Observable<BaseOutputString> {
-    return this.authenticationService
-      .login({
-        email: username,
-        password: password,
+  public login(email: string, password: string): Observable<BaseOutputString> {
+    return this.authApiService.login(email, password).pipe(
+      tap((response) => {
+        if (
+          !response ||
+          !response.data ||
+          response.status !== ResponseStatus.Success
+        ) {
+          return this._store.dispatch(SIGN_IN_FAILED({ value: response }));
+        } else if (response != null) {
+          return this._store.dispatch(
+            SIGN_IN_SUCCESS({
+              value: { token: response.data, email: email },
+            })
+          );
+        }
       })
-      .pipe(
-        tap((response) => {
-          if (
-            !response ||
-            !response.data ||
-            response.status !== ResponseStatus.Success
-          ) {
-            return this._store.dispatch(SIGN_IN_FAILED({ value: response }));
-          } else if (response != null) {
-            return this._store.dispatch(
-              SIGN_IN_SUCCESS({ value: { token: response, email: username } })
-            );
-          }
-        })
-      );
+    );
   }
 
   public isAuthenObs(): Observable<boolean> {
@@ -74,21 +70,21 @@ export class LhAuthenService {
   }
 
   public userInfo(id?: number): Observable<BaseOutputUser> {
-    return this.adminUsersAPIService.getById(id as number);
+    return this.adminUserApiService.getById(id as number);
   }
 
   public getUserInfoByEmail(email: string): Observable<BaseOutputUser> {
-    return this.adminUsersAPIService.getByEmail(email);
+    return this.adminUserApiService.getByEmail(email);
   }
 
-  setApiToken(token?: BaseOutputString): void {
+  setApiToken(token?: string): void {
     console.log(token);
     if (token) {
-      this._storageService.setToken(token.data).subscribe();
+      this._storageService.setToken(token);
     } else {
-      this._storageService.setToken(undefined).subscribe();
-      this._storageService.setCurrentUser(undefined).subscribe();
-      this._storageService.setCurrentUser(undefined).subscribe();
+      this._storageService.setToken(undefined);
+      this._storageService.setCurrentUser(undefined);
+      this._storageService.setCurrentUser(undefined);
     }
   }
 }

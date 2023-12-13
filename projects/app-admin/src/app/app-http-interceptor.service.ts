@@ -8,36 +8,36 @@ import {
   HttpResponseBase,
 } from '@angular/common/http';
 import { Store } from '@ngrx/store';
-import { from, Observable } from 'rxjs';
-import { catchError, finalize, tap } from 'rxjs/operators';
+import { from, Observable, of } from 'rxjs';
+import { catchError, finalize, switchMap, tap } from 'rxjs/operators';
+import { LhStorageService } from '@app-api/lib/modules/local-store/lh-storage.service';
 
 @Injectable()
 export class AppHttpInterceptor implements HttpInterceptor {
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store,
+    private lhStorageService: LhStorageService
+  ) {}
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return next.handle(req).pipe(
-      catchError((error: any, caught: Observable<any>) => {
-        return from(Promise.reject(error));
-      }),
-      tap(
-        (event: HttpEvent<any>) => {
-          if (event instanceof HttpResponse) {
-            event = event.clone({ body: this.modifyBody(event.body) });
+    if (req.url.startsWith('/api/v1') && !req.url.startsWith('/api/v1/auth')) {
+      return of(this.lhStorageService.getToken()).pipe(
+        switchMap((token) => {
+          if (token) {
+            const cloned = req.clone({
+              headers: req.headers.set('Authorization', `Bearer ${token}`),
+            });
+            return next.handle(cloned);
           }
-          return event;
-        },
-        (error) => {
-          if (error instanceof HttpResponseBase && error.status === 401) {
-            // this.store.dispatch(SIGN_OUT());
-          }
-        }
-      ),
-      finalize(() => {})
-    );
+          return next.handle(req);
+        })
+      );
+    } else {
+      return next.handle(req);
+    }
   }
 
   private modifyBody(body: any) {

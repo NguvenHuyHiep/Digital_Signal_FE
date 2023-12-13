@@ -9,7 +9,7 @@ import {
   SIGN_OUT,
 } from '@app-api/lib/modules/authen/store/authen.reducers';
 import { LhAuthenService } from '@app-api/lib/modules/authen/lh-authen.service';
-import { combineLatest } from 'rxjs';
+import { combineLatest, of } from 'rxjs';
 @Component({
   selector: 'app-admin-root',
   templateUrl: './app.component.html',
@@ -28,10 +28,10 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     combineLatest([
-      this._storageService.token,
-      this._storageService.currentUser,
+      of(this._storageService.getToken()),
+      of(this._storageService.getCurrentUser()),
     ]).subscribe(([token, user]) => {
-      if (token && user) {
+      if (token && user && user.email) {
         this._store.dispatch(
           SIGN_IN_SUCCESS({ value: { token, email: user.email } })
         );

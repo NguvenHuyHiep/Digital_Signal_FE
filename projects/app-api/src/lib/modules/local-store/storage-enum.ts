@@ -8,5 +8,4 @@ export enum STORAGE_KEY {
 
 export enum STORAGE_TYPE {
   INDEXDB = 'INDEXDB',
-  LOCAL_STORAGE = 'AUTHEN_TOKEN',
 }

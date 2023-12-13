@@ -34,10 +34,8 @@ export class AdminUserApiService {
     return this.http.get<BaseOutputUser>(`/api/v1/admin/user/${id}`);
   }
 
-  public getByEmail(email: string): Observable<BaseOutputListUser> {
-    return this.http.get<BaseOutputListUser>(
-      `/api/v1/admin/user/email/${email}`
-    );
+  public getByEmail(email: string): Observable<BaseOutputUser> {
+    return this.http.get<BaseOutputUser>(`/api/v1/admin/user/email/${email}`);
   }
 
   public deleteById(id: number): Observable<BaseOutputString> {
@@ -54,7 +52,7 @@ export class AdminUserApiService {
     return this.http.post<BaseOutputUser>(`/api/v1/admin/user/`, user);
   }
 
-  public update(id: number, user: User): Observable<BaseOutputListUser> {
-    return this.http.put<BaseOutputListUser>(`/api/v1/admin/user/${id}`, user);
+  public update(id: number, user: User): Observable<BaseOutputUser> {
+    return this.http.put<BaseOutputUser>(`/api/v1/admin/user/${id}`, user);
   }
 }

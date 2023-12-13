@@ -21,25 +21,23 @@ export class AuthenEffects {
     () => {
       return this._actions$.pipe(
         ofType(SIGN_IN_SUCCESS),
-        tap(
-          (payload: { value?: { token: BaseOutputString; email: string } }) => {
-            this.authenService.setApiKeys(payload.value?.token);
-            let authenObs = this.authenService
-              .getUserInfoByEmail(payload.value?.email as string)
-              .pipe(
-                tap((user) => {
-                  this._store.dispatch(GET_USER_PROFILE({ value: user }));
-                })
-              );
-            return forkJoin([authenObs]).subscribe({
-              next: (result) =>
-                this._store.dispatch(COMPLETE_AUTHEN({ value: true })),
-              error: (err) => {
-                this._store.dispatch(SIGN_OUT());
-              },
-            });
-          }
-        )
+        tap((payload: { value?: { token: string; email: string } }) => {
+          this.authenService.setApiToken(payload.value?.token);
+          let authenObs = this.authenService
+            .getUserInfoByEmail(payload.value?.email as string)
+            .pipe(
+              tap((user) => {
+                this._store.dispatch(GET_USER_PROFILE({ value: user }));
+              })
+            );
+          return forkJoin([authenObs]).subscribe({
+            next: (result) =>
+              this._store.dispatch(COMPLETE_AUTHEN({ value: true })),
+            error: (err) => {
+              this._store.dispatch(SIGN_OUT());
+            },
+          });
+        })
       );
     },
     { dispatch: false }
@@ -50,7 +48,7 @@ export class AuthenEffects {
       this._actions$.pipe(
         ofType(GET_USER_PROFILE),
         tap((payload: { value?: BaseOutputUser }) => {
-          this._storage.setCurrentUser(payload.value?.data).subscribe();
+          this._storage.setCurrentUser(payload.value?.data);
         })
       ),
     { dispatch: false }
@@ -61,7 +59,7 @@ export class AuthenEffects {
       this._actions$.pipe(
         ofType(SIGN_OUT),
         tap((action) => {
-          this.authenService.setApiKeys(undefined);
+          this.authenService.setApiToken(undefined);
         })
       ),
     { dispatch: false }
