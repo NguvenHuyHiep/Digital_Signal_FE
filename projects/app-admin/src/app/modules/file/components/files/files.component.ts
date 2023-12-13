@@ -155,7 +155,7 @@ export class FilesComponent implements OnInit {
 
   getAllFile(): void {
     this.loading.searching = true;
-    this.adminFileService.getAllFile(0, 100).subscribe({
+    this.adminFileService.getAllFile(0, 1000).subscribe({
       next: (response) => {
         if (response && response.status === ResponseStatus.Success) {
           this.files = response.data as DsdFile[];

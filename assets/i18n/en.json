@@ -140,12 +140,17 @@
       "license": "License",
       "roles": "Vai trò",
       "modalLicense": "License",
-      "timeType": "Kiểu thời gian",
-      "timeValue": "Thời gian",
+      "timeType": "Time type",
+      "timeValue": "Time value",
       "time": {
-        "day": "Ngày",
-        "hour": "Giờ",
-        "month": "Tháng"
+        "day": "Day",
+        "hour": "Hour",
+        "month": "Month"
+      },
+      "life-time": "Life time",
+      "error": {
+        "invalid-email" : "Invalid email",
+        "invalid-time" : "Invalid time values"
       }
     },
     "license": {

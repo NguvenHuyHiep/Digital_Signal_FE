@@ -32,6 +32,7 @@ export class PlaylistDetailComponent<T extends Object> {
   tableConfigDeviceGroup: LhTableConfigModel = {
     disableDetail: true,
     disableUpdate: true,
+    disableDelete: true,
     key: 'id',
     fields: [
       {
@@ -55,6 +56,7 @@ export class PlaylistDetailComponent<T extends Object> {
   tableConfigFile: LhTableConfigModel = {
     disableDetail: true,
     disableUpdate: true,
+    disableDelete: true,
     key: 'id',
     fields: [
       {

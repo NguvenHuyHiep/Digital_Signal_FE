@@ -1,49 +1,53 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { BreadcrumbOption } from 'ng-zorro-antd/breadcrumb';
-import { User } from '@app-api/lib/api/models/user';
-import { LhAuthenService } from '@app-api/lib/modules/authen/lh-authen.service';
-import { BaseChartDirective } from 'ng2-charts';
+import { DashBoardStatictist } from '@app-api/lib/api/models/dashBoardStatictist';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
+import { AdminDashBoardService } from '@app-api/lib/modules/admin/admin-dashboard/admin-dashboard.service';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
-import { SignedDeviceControllerService } from '@app-api/lib/api/controller/signedDeviceController.service';
+import { BreadcrumbOption } from 'ng-zorro-antd/breadcrumb';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
   selector: 'app-admin-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit {
+  @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
+
   bread: BreadcrumbOption[] = [];
-  user?: User;
   loading = true;
   chatTimeout: number | null = null;
 
-  statisics: { type: string; label: string; value: number }[] = [
-    { type: 'stock', label: 'module.dashboard.deviceTotal', value: 100 },
-    { type: 'check', label: 'module.dashboard.deviceOnline', value: 70 },
-    { type: 'stop', label: 'module.dashboard.deviceOffline', value: 30 },
-    { type: 'cluster', label: 'module.dashboard.deviceGroup', value: 10 },
+  dashBoardStatictist: DashBoardStatictist = {};
+  statisics: { icon: string; type: string; label: string; value: number }[] = [
+    {
+      icon: 'stock',
+      type: 'devices',
+      label: 'module.dashboard.deviceTotal',
+      value: 0,
+    },
+    {
+      icon: 'check',
+      type: 'online-devices',
+      label: 'module.dashboard.deviceOnline',
+      value: 0,
+    },
+    {
+      icon: 'stop',
+      type: 'offline-devices',
+      label: 'module.dashboard.deviceOffline',
+      value: 0,
+    },
+    {
+      icon: 'cluster',
+      type: 'device-groups',
+      label: 'module.dashboard.deviceGroup',
+      value: 0,
+    },
   ];
 
-  constructor(private authenService: LhAuthenService) {
-    this.authenService.userObs.subscribe((user) => (this.user = user));
-  }
-
-  ngOnInit() {}
-
-  ngAfterViewInit() {
-    setTimeout(() => {
-      this.loading = false;
-
-      setTimeout(() => {
-        // this.getStores();
-        // this.eventResize();
-      }, 0);
-    }, 600);
-  }
-  @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
-
   // Pie
-  public pieChartOptions: ChartConfiguration['options'] = {
+  pieChartOptions: ChartConfiguration['options'] = {
     responsive: true,
     plugins: {
       legend: {
@@ -52,7 +56,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       },
     },
   };
-  public pieChartData: ChartData<'pie', number[], string | string[]> = {
+  pieChartData: ChartData<'pie', number[], string | string[]> = {
     labels: [['Offline'], ['Online']],
     datasets: [
       {
@@ -60,6 +64,53 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       },
     ],
   };
-  public pieChartType: ChartType = 'pie';
-  public pieChartPlugins = [];
+  pieChartType: ChartType = 'pie';
+
+  constructor(private adminDashBoardService: AdminDashBoardService) {}
+
+  ngOnInit() {
+    this.loading = true;
+    this.adminDashBoardService.getDashBoardStatictist().subscribe({
+      next: (response) => {
+        this.loading = false;
+        console.log(response);
+        if (response && response.status === ResponseStatus.Success) {
+          this.dashBoardStatictist = response.data;
+          this.statisics.map((s) => {
+            if (s.type === 'devices') {
+              s.value =
+                (this.dashBoardStatictist.totalOfflineDevices || 0) +
+                (this.dashBoardStatictist.totalOnlineDevices || 0);
+            } else if (s.type === 'online-devices') {
+              s.value = this.dashBoardStatictist.totalOnlineDevices || 0;
+            } else if (s.type === 'offline-devices') {
+              s.value = this.dashBoardStatictist.totalOfflineDevices || 0;
+            } else if (s.type === 'device-groups') {
+              s.value = this.dashBoardStatictist.totalDeviceGroups || 0;
+            }
+          });
+          let totalDevices =
+            (this.dashBoardStatictist.totalOfflineDevices || 0) +
+            (this.dashBoardStatictist.totalOnlineDevices || 0);
+
+          if (totalDevices === 0) {
+            this.pieChartData.datasets[0].data = [0, 0];
+          } else {
+            this.pieChartData.datasets[0].data = [
+              (this.dashBoardStatictist.totalOfflineDevices || 0) /
+                totalDevices,
+              (this.dashBoardStatictist.totalOnlineDevices || 0) / totalDevices,
+            ];
+          }
+        }
+      },
+      error: (err) => {
+        this.loading = false;
+        console.log(err);
+      },
+      complete: () => {
+        this.loading = false;
+      },
+    });
+  }
 }
