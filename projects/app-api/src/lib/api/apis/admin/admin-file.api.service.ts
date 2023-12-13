@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseOutputDsdFile } from '../../models/baseOutputDsdFile';
 import { BaseOutputListDsdFile } from '../../models/baseOutputListDsdFile';
+import { BaseOutputString } from '../../models/baseOutputString';
 
 @Injectable({
   providedIn: 'root',
@@ -42,25 +43,29 @@ export class AdminFileApiService {
     );
   }
 
-  public deleteByPath(path: string): Observable<BaseOutputDsdFile> {
-    return this.http.delete<BaseOutputDsdFile>(`api/v1/admin/file/${path}`);
+  public deleteByPath(path: string): Observable<BaseOutputString> {
+    return this.http.delete<BaseOutputString>(`api/v1/admin/file/${path}`);
   }
 
-  public deleteFromSource(path: string): Observable<BaseOutputDsdFile> {
-    return this.http.delete<BaseOutputDsdFile>(
+  public deleteFromSource(path: string): Observable<BaseOutputString> {
+    return this.http.delete<BaseOutputString>(
       `api/v1/admin/file/from-source/${path}`
     );
   }
 
-  public deleteFromDatabase(path: string): Observable<BaseOutputDsdFile> {
-    return this.http.delete<BaseOutputDsdFile>(
+  public deleteFromDatabase(path: string): Observable<BaseOutputString> {
+    return this.http.delete<BaseOutputString>(
       `api/v1/admin/file/from-database/${path}`
     );
   }
 
-  // public upload(files: ): Observable<BaseOutputDsdFile> {
-  //   return this.http.post<BaseOutputDsdFile>(``);
-  // }
+  public upload(files: []): Observable<BaseOutputListDsdFile> {
+    return this.http.post<BaseOutputListDsdFile>(`/api/v1/admin/file/upload`, {
+      params: {
+        files,
+      },
+    });
+  }
 
   public assignFileToPlaylist(
     fileId: number,

@@ -8,18 +8,20 @@ import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';
 import { AdminFileControllerService } from '@app-api/lib/api';
+import { AdminFileApiService } from '@app-api/lib/api/apis/admin/admin-file.api.service';
+import { BaseOutputDsdFile } from '@app-api/lib/api/models/baseOutputDsdFile';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminFileService {
   constructor(
-    private adminFileControllerService: AdminFileControllerService,
+    private adminFileControllerService: AdminFileApiService,
     private formBuilder: FormBuilder
   ) {}
 
   public deleteFile(path: string): Observable<any> {
-    return this.adminFileControllerService.delete5(path);
+    return this.adminFileControllerService.deleteByPath(path);
   }
 
   public getAllFile(
@@ -30,19 +32,19 @@ export class AdminFileService {
     keyword?: string
   ) {
     return this.adminFileControllerService
-      .getByPaging6(0, 100, 'id', 'DESC')
+      .getByPaging(0, 100, 'id', 'DESC', '')
       .pipe(tap((response) => console.log(response)));
   }
 
   public upload(files: NzUploadFile[]): Observable<BaseOutputListDsdFile> {
-    return this.adminFileControllerService.uploadMultipleFiles(files as any);
+    return this.adminFileControllerService.upload(files as any);
   }
 
-  public download(dsdFile: DsdFile): Observable<Blob | null> {
+  public download(dsdFile: DsdFile): Observable<BaseOutputDsdFile> {
     if (dsdFile && dsdFile.path) {
-      return this.adminFileControllerService.downloadByPath(dsdFile.path);
+      return this.adminFileControllerService.download(dsdFile.path);
     }
-    return of(null);
+    return of();
   }
 
   public buildFileForm(file?: DsdFile): FormGroupFile {
@@ -52,13 +54,7 @@ export class AdminFileService {
     }) as FormGroupFile;
     return form;
   }
-  public removeFilesFromPlaylist(
-    requestBody: number[],
-    playlistId: number
-  ): Observable<BaseOutputString> {
-    return this.adminFileControllerService.removeFilesFromPlaylist(
-      playlistId,
-      requestBody
-    );
+  public removeFilesFromPlaylist(path: string): Observable<BaseOutputString> {
+    return this.adminFileControllerService.deleteByPath(path);
   }
 }

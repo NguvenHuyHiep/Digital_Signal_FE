@@ -8,12 +8,14 @@ import { License } from '@app-api/lib/api/models/license';
 import { LicenseGenerateRequest } from '@app-api/lib/api/models/licenseGenerateRequest';
 import { BaseOutputLicense } from '@app-api/lib/api/models/baseOutputLicense';
 import { AdminLicenseAPIService } from '@app-api/lib/api';
+import { AdminLicenseApiService } from './../../../api/apis/admin/admin-license.api.service';
 
 @Injectable()
 export class AdminLicenseService {
+  AdminLicenseApiService: any;
   constructor(
     private formBuilder: FormBuilder,
-    private adminLicenseAPIService: AdminLicenseAPIService
+    private adminLicenseAPIService: AdminLicenseApiService
   ) {}
 
   public getAllLicenseByPaging(
@@ -38,7 +40,7 @@ export class AdminLicenseService {
       params = params.set('sortDirection', sortDirection);
     }
     return this.adminLicenseAPIService
-      .getByPaging5()
+      .getByPaging(0, 100, 'id', 'DESC')
       .pipe(tap((response) => console.log(response)));
   }
 
@@ -61,8 +63,8 @@ export class AdminLicenseService {
   }
 
   public genLicense(
-    licenseGenerateRequest: LicenseGenerateRequest
+    email: LicenseGenerateRequest
   ): Observable<BaseOutputLicense> {
-    return this.adminLicenseAPIService.generateByEmail(licenseGenerateRequest);
+    return this.AdminLicenseApiService.generate(email, email.duration);
   }
 }
