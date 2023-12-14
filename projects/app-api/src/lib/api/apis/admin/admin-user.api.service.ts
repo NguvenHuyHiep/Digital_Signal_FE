@@ -31,15 +31,27 @@ export class AdminUserApiService {
   }
 
   public getById(id: number): Observable<BaseOutputUser> {
-    return this.http.get<BaseOutputUser>(`/api/v1/admin/user/${id}`);
+    return this.http.get<BaseOutputUser>(`/api/v1/admin/user/${id}`, {
+      params: {
+        id,
+      },
+    });
   }
 
   public getByEmail(email: string): Observable<BaseOutputUser> {
-    return this.http.get<BaseOutputUser>(`/api/v1/admin/user/email/${email}`);
+    return this.http.get<BaseOutputUser>(`/api/v1/admin/user/email/${email}`, {
+      params: {
+        email,
+      },
+    });
   }
 
   public deleteById(id: number): Observable<BaseOutputString> {
-    return this.http.delete<BaseOutputString>(`/api/v1/admin/user/${id}`);
+    return this.http.delete<BaseOutputString>(`/api/v1/admin/user/${id}`, {
+      params: {
+        id,
+      },
+    });
   }
 
   public deleteByIds(ids: number[]): Observable<BaseOutputString> {

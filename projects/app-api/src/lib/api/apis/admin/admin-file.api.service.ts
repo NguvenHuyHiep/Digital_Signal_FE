@@ -30,32 +30,59 @@ export class AdminFileApiService {
   }
 
   public getById(id: number): Observable<BaseOutputDsdFile> {
-    return this.http.get<BaseOutputDsdFile>(`/api/v1/admin/file/${id}`);
+    return this.http.get<BaseOutputDsdFile>(`/api/v1/admin/file/${id}`, {
+      params: {
+        id,
+      },
+    });
   }
 
   public getByPath(path: string): Observable<BaseOutputDsdFile> {
-    return this.http.get<BaseOutputDsdFile>(`/api/v1/admin/file/path/${path}`);
+    return this.http.get<BaseOutputDsdFile>(`/api/v1/admin/file/path/${path}`, {
+      params: {
+        path,
+      },
+    });
   }
 
   public download(path: string): Observable<BaseOutputDsdFile> {
     return this.http.get<BaseOutputDsdFile>(
-      `/api/v1/admin/file/download/${path}`
+      `/api/v1/admin/file/download/${path}`,
+      {
+        params: {
+          path,
+        },
+      }
     );
   }
 
   public deleteByPath(path: string): Observable<BaseOutputString> {
-    return this.http.delete<BaseOutputString>(`api/v1/admin/file/${path}`);
+    return this.http.delete<BaseOutputString>(`api/v1/admin/file/${path}`, {
+      params: {
+        path,
+      },
+    });
   }
 
   public deleteFromSource(path: string): Observable<BaseOutputString> {
     return this.http.delete<BaseOutputString>(
-      `api/v1/admin/file/from-source/${path}`
+      `api/v1/admin/file/from-source/${path}`,
+      {
+        params: {
+          path,
+        },
+      }
     );
   }
 
   public deleteFromDatabase(path: string): Observable<BaseOutputString> {
     return this.http.delete<BaseOutputString>(
-      `api/v1/admin/file/from-database/${path}`
+      `api/v1/admin/file/from-database/${path}`,
+      {
+        params: {
+          path,
+        },
+      }
     );
   }
 
@@ -99,10 +126,13 @@ export class AdminFileApiService {
 
   public removeFileFromPlaylist(
     playlistIds: number[]
-  ): Observable<BaseOutputListDsdFile> {
-    return this.http.put<BaseOutputListDsdFile>(
+  ): Observable<BaseOutputString> {
+    return this.http.put<BaseOutputString>(
       `/api/v1/admin/file/remove/playlist/{playlistId}`,
       {
+        params: {
+          playlistIds,
+        },
         body: playlistIds,
       }
     );
@@ -115,7 +145,8 @@ export class AdminFileApiService {
   //     `/api/v1/admin/file/remove/category/{categoryId}`,
   //     {
   //       body: categoryIds,
-  //     }
+  //     },
+  //     body: categoryIds
   //   );
   // }
 }

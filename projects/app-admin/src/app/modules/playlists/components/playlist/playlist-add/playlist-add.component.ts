@@ -33,7 +33,7 @@ import { PlaylistStatus } from '@app-api/lib/api/models/playlistStatus';
 })
 export class PlaylistAddComponent implements OnInit {
   @Input('fileIds') fileIds?: number;
-  @Input() currentPlaylist?: Playlist;
+  @Input('playlistId') currentPlaylist?: Playlist;
   playlistId: number | undefined;
 
   files: Array<DsdFile> = [];
@@ -345,8 +345,8 @@ export class PlaylistAddComponent implements OnInit {
           const fileIds = Number(file.id);
           return this.adminFileService
             .removeFilesFromPlaylist(
-              [fileIds],
-              this.currentPlaylist?.id as number
+              [fileIds]
+              // this.currentPlaylist?.id as number
             )
             .subscribe({
               next: (response) => {

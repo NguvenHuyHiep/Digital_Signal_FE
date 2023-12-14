@@ -53,7 +53,6 @@ export class FilesComponent implements OnInit {
     isVisible: boolean;
     dsdFile?: DsdFile;
     src?: any;
-    blob?: Blob;
   } = {
     isVisible: false,
   };
@@ -123,10 +122,11 @@ export class FilesComponent implements OnInit {
       this.adminFileService.download(record).subscribe({
         next: (response) => {
           if (response) {
-            this.previewFile.src = this.sanitizer.bypassSecurityTrustUrl(
-              URL.createObjectURL(response)
-            );
-            this.previewFile.blob = response;
+            this.previewFile.src = response.data?.path;
+            //  this.sanitizer.bypassSecurityTrustUrl(
+            //   URL.createObjectURL(response)
+            // );
+            this.previewFile.dsdFile = response.data;
           } else {
             this.message.error(
               this.translateService.instant('error.cannot-preview-file')
@@ -187,10 +187,9 @@ export class FilesComponent implements OnInit {
     if (
       this.previewFile &&
       this.previewFile.src &&
-      this.previewFile.blob &&
       this.previewFile.dsdFile?.path
     ) {
-      saveAs(this.previewFile.blob, this.previewFile.dsdFile.path);
+      saveAs(this.previewFile.dsdFile.path);
     } else {
       this.message.info(
         this.translateService.instant('error.cannot-download-file')

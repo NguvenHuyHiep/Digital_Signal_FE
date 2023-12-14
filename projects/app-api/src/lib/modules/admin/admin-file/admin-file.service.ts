@@ -20,10 +20,6 @@ export class AdminFileService {
     private formBuilder: FormBuilder
   ) {}
 
-  public deleteFile(path: string): Observable<any> {
-    return this.adminFileControllerService.deleteByPath(path);
-  }
-
   public getAllFile(
     page?: number,
     size?: number,
@@ -32,8 +28,22 @@ export class AdminFileService {
     keyword?: string
   ) {
     return this.adminFileControllerService
-      .getByPaging(0, 100, 'id', 'DESC', '')
+      .getByPaging(
+        page ?? 0,
+        size ?? 100,
+        sortBy ?? 'id',
+        sortDirection ?? 'DESC',
+        keyword ?? ''
+      )
       .pipe(tap((response) => console.log(response)));
+  }
+
+  public getById(id: number): Observable<BaseOutputDsdFile> {
+    return this.adminFileControllerService.getById(id);
+  }
+
+  public getByPath(path: string): Observable<BaseOutputDsdFile> {
+    return this.adminFileControllerService.getByPath(path);
   }
 
   public upload(files: NzUploadFile[]): Observable<BaseOutputListDsdFile> {
@@ -47,6 +57,18 @@ export class AdminFileService {
     return of();
   }
 
+  public deleteFile(path: string): Observable<BaseOutputString> {
+    return this.adminFileControllerService.deleteByPath(path);
+  }
+
+  public deleteFromSource(path: string): Observable<BaseOutputString> {
+    return this.adminFileControllerService.deleteFromSource(path);
+  }
+
+  public deleteFromDatabase(path: string): Observable<BaseOutputString> {
+    return this.adminFileControllerService.deleteFromDatabase(path);
+  }
+
   public buildFileForm(file?: DsdFile): FormGroupFile {
     let form = this.formBuilder.group({
       id: [file?.id],
@@ -54,7 +76,36 @@ export class AdminFileService {
     }) as FormGroupFile;
     return form;
   }
-  public removeFilesFromPlaylist(path: string): Observable<BaseOutputString> {
-    return this.adminFileControllerService.deleteByPath(path);
+
+  public assignFilesToPlaylist(
+    fileId: number,
+    playlistId: number
+  ): Observable<BaseOutputListDsdFile> {
+    return this.adminFileControllerService.assignFileToPlaylist(
+      fileId,
+      playlistId
+    );
   }
+
+  // public assignFilesToCategory(
+  //   fileId: number,
+  //   categoryId: number
+  // ): Observable<BaseOutputListDsdFile> {
+  //   return this.adminFileControllerService.assignFilesToPlaylist(
+  //     fileId,
+  //     categoryId
+  //   );
+  // }
+
+  public removeFilesFromPlaylist(
+    playlistId: number[]
+  ): Observable<BaseOutputString> {
+    return this.adminFileControllerService.removeFileFromPlaylist(playlistId);
+  }
+
+  // public removeFilesFromCategory(
+  //   categoryIds: number[]
+  // ): Observable<BaseOutputString> {
+  //   return this.adminFileControllerService.removeFileFromCategory(categoryIds);
+  // }
 }
