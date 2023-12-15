@@ -39,21 +39,25 @@ export class AdminPlaylistApiService {
   }
 
   public create(playlist: Playlist): Observable<BaseOutputPlaylist> {
-    return this.http.post<BaseOutputPlaylist>(`/api/v1/admin/playlist`, {
-      body: playlist,
-    });
+    return this.http.post<BaseOutputPlaylist>(
+      `/api/v1/admin/playlist`,
+      playlist
+    );
   }
 
   public update(
     id: number,
     playlist: Playlist
   ): Observable<BaseOutputPlaylist> {
-    return this.http.put<BaseOutputPlaylist>(`/api/v1/admin/playlist/${id}`, {
-      params: {
-        id,
-      },
-      body: playlist,
-    });
+    return this.http.put<BaseOutputPlaylist>(
+      `/api/v1/admin/playlist/${id}`,
+      playlist,
+      {
+        params: {
+          id,
+        },
+      }
+    );
   }
 
   public delete(id: number): Observable<BaseOutputString> {
@@ -117,8 +121,8 @@ export class AdminPlaylistApiService {
   public removeFiles(
     playlistId: number,
     fileIds: number[]
-  ): Observable<BaseOutputPlaylist> {
-    return this.http.put<BaseOutputPlaylist>(
+  ): Observable<BaseOutputString> {
+    return this.http.put<BaseOutputString>(
       `/api/v1/admin/playlist/${playlistId}/files`,
       {
         params: {
@@ -158,8 +162,8 @@ export class AdminPlaylistApiService {
   public removeDeviceGroups(
     playlistId: number,
     deviceGroupIds: number[]
-  ): Observable<BaseOutputPlaylist> {
-    return this.http.put<BaseOutputPlaylist>(
+  ): Observable<BaseOutputString> {
+    return this.http.put<BaseOutputString>(
       `/api/v1/admin/playlist/${playlistId}/device-groups`,
       {
         params: {

@@ -61,10 +61,14 @@ export class AdminUserApiService {
   }
 
   public create(user: User): Observable<BaseOutputUser> {
-    return this.http.post<BaseOutputUser>(`/api/v1/admin/user/`, user);
+    return this.http.post<BaseOutputUser>(`/api/v1/admin/user`, user);
   }
 
   public update(id: number, user: User): Observable<BaseOutputUser> {
-    return this.http.put<BaseOutputUser>(`/api/v1/admin/user/${id}`, user);
+    return this.http.put<BaseOutputUser>(`/api/v1/admin/user/${id}`, user, {
+      params: {
+        id,
+      },
+    });
   }
 }

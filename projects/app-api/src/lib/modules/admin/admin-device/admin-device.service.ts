@@ -6,13 +6,14 @@ import { FormDevice } from '@app-admin/app/modules/device-group/components/form-
 import { Device } from '@app-api/lib/api/models/device';
 import { Observable } from 'rxjs';
 import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';
-import { AdminDeviceControllerService } from '@app-api/lib/api';
+import { AdminDeviceApiService } from '@app-api/lib/api/apis/admin/admin-device.api.service';
+import { BaseOutputDevice } from '@app-api/lib/api/models/baseOutputDevice';
 
 @Injectable()
 export class AdminDeviceService {
   constructor(
     private formBuilder: FormBuilder,
-    private adminDeviceController: AdminDeviceControllerService
+    private adminDeviceController: AdminDeviceApiService
   ) {}
 
   public buildDeviceForm(device?: Device): FormDevice {
@@ -27,7 +28,11 @@ export class AdminDeviceService {
     return form;
   }
 
-  getAllDevice(
+  public getDeviceById(id: number): Observable<BaseOutputDevice> {
+    return this.adminDeviceController.getById(id);
+  }
+
+  public getAllDevice(
     page?: number | 0,
     size?: number | 200,
     sortBy?: string | 'id',
@@ -36,23 +41,59 @@ export class AdminDeviceService {
     status?: string | 'UNDEFINED' | 'ONLINE' | 'OFFLINE'
   ) {
     return this.adminDeviceController
-      .getByPaging7(page, size, sortBy, sortDirection, keyword, status)
+      .getByPaging(
+        page ?? 0,
+        size ?? 100,
+        sortBy ?? 'id',
+        sortDirection ?? 'desc',
+        keyword ?? '',
+        status ?? 'UNDEFINED'
+      )
       .pipe(tap((response) => console.log('devices', response)));
   }
 
-  getDeviceByIdWithLogs(id: number) {
-    return this.adminDeviceController
-      .getByIdWithLogs(id)
-      .pipe(tap((response) => console.log('devices with logs', response)));
+  public addDevice(device: Device): Observable<BaseOutputDevice> {
+    return this.adminDeviceController.create(device);
+  }
+
+  public updateDevice(
+    id: number,
+    device: Device
+  ): Observable<BaseOutputDevice> {
+    return this.adminDeviceController.update(id, device);
+  }
+
+  public deleteDevice(id: number): Observable<BaseOutputString> {
+    return this.adminDeviceController.delete(id);
+  }
+
+  public deleteByIds(deviceIds: number[]): Observable<BaseOutputString> {
+    return this.adminDeviceController.deleteByIds(deviceIds);
+  }
+
+  public assignDevicesToDeviceGroup(
+    deviceGroupId: number,
+    deviceId: number
+  ): Observable<BaseOutputDevice> {
+    return this.adminDeviceController.assignToDeviceGroup(
+      deviceGroupId,
+      deviceId
+    );
   }
 
   public removeDevicesFromDeviceGroup(
     deviceGroupId: number,
     deviceIds: number[]
   ): Observable<BaseOutputString> {
-    return this.adminDeviceController.removeDevicesFromDeviceGroup(
+    return this.adminDeviceController.removeFromDeviceGroup(
       deviceGroupId,
       deviceIds
     );
+  }
+
+  public getDeviceByIdWithLogs(id: number) {
+    return this.adminDeviceController
+      .getDeviceLogs(id)
+      .pipe(tap((response) => console.log('devices with logs', response)));
   }
 }

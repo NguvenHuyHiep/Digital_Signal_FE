@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { HttpParams } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { Playlist } from '@app-api/lib/api/models/playlist';
 import { DsdFile } from '@app-api/lib/api/models/dsdFile';
@@ -12,7 +11,6 @@ import {
 import { PlaylistStatus } from '@app-api/lib/api/models/playlistStatus';
 import { BaseOutputPlaylist } from '@app-api/lib/api/models/baseOutputPlaylist';
 import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';
-import { AdminPlayListAPIService } from '@app-api/lib/api';
 import { AdminPlaylistApiService } from '@app-api/lib/api/apis/admin/admin-playlist.api.service';
 
 @Injectable({
@@ -47,8 +45,6 @@ export class AdminPlaylistService {
     return form;
   }
 
-  deleteChapter() {}
-
   public buildFileForm(file?: DsdFile, playlist?: Playlist): FormGroupFile {
     let form = this.formBuilder.group({
       id: [file?.id || ''],
@@ -60,6 +56,10 @@ export class AdminPlaylistService {
     return form;
   }
 
+  public getPlaylistByPlaylistId(playlistId: number) {
+    return this.adminPlayListController.getById(playlistId);
+  }
+
   public getAllPlayList(
     page?: number,
     size?: number,
@@ -67,26 +67,14 @@ export class AdminPlaylistService {
     sortDirection?: string,
     keyword?: string
   ) {
-    let params = new HttpParams();
-
-    // Thêm các tham số vào HttpParams nếu chúng được cung cấp
-    if (page !== undefined && page !== null) {
-      params = params.set('page', page.toString());
-    }
-    if (size !== undefined && size !== null) {
-      params = params.set('size', size.toString());
-    }
-    if (sortBy) {
-      params = params.set('sortBy', sortBy);
-    }
-    if (sortDirection) {
-      params = params.set('sortDirection', sortDirection);
-    }
-    if (keyword) {
-      params = params.set('keyword', keyword);
-    }
     return this.adminPlayListController
-      .getByPaging(0, 100, 'id', 'DESC', '')
+      .getByPaging(
+        page ?? 0,
+        size ?? 100,
+        sortBy ?? 'id',
+        sortDirection ?? 'desc',
+        keyword ?? ''
+      )
       .pipe(tap((response) => console.log(response)));
   }
 
@@ -102,25 +90,50 @@ export class AdminPlaylistService {
     return this.adminPlayListController.delete(playList);
   }
 
+  public deletePlaylistByIds(ids: number[]): Observable<BaseOutputString> {
+    return this.adminPlayListController.deleteByIds(ids);
+  }
+
+  public updatePlaylistStatus(
+    id: number,
+    status: PlaylistStatus
+  ): Observable<BaseOutputPlaylist> {
+    return this.adminPlayListController.updateStatus(id, status);
+  }
+
   public getPlaylistWithFile(id: number): Observable<BaseOutputPlaylist> {
     return this.adminPlayListController.getWithFiles(id);
   }
+
+  public assignFile(
+    playListId: number,
+    fileIds: number[]
+  ): Observable<BaseOutputPlaylist> {
+    return this.adminPlayListController.assignFiles(playListId, fileIds);
+  }
+
+  public removeFiles(playListId: number, fileIds: number[]) {
+    return this.adminPlayListController.removeFiles(playListId, fileIds);
+  }
+
   public getDeviceGroupByPlayListId(
     id: number
   ): Observable<BaseOutputPlaylist> {
     return this.adminPlayListController.getWithDeviceGroups(id);
   }
 
-  public assignFile(playListId: number, fileIds: number[]) {
-    return this.adminPlayListController.assignFiles(playListId, fileIds);
-  }
-
-  public getPlaylistByPlaylistId(playlistId: number) {
-    return this.adminPlayListController.getById(playlistId);
-  }
-
-  public assignDeviceGroups(playlistId: number, deviceGroupIds: number[]) {
+  public assignDeviceGroups(
+    playlistId: number,
+    deviceGroupIds: number[]
+  ): Observable<BaseOutputPlaylist> {
     return this.adminPlayListController.assignDeviceGroups(
+      playlistId,
+      deviceGroupIds
+    );
+  }
+
+  public removeDeviceGroups(playlistId: number, deviceGroupIds: number[]) {
+    return this.adminPlayListController.removeDeviceGroups(
       playlistId,
       deviceGroupIds
     );

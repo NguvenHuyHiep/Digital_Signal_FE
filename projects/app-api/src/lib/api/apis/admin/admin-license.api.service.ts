@@ -48,19 +48,15 @@ export class AdminLicenseApiService {
     duration: number
   ): Observable<BaseOutputLicense> {
     return this.http.post<BaseOutputLicense>(`/api/v1/admin/license/generate`, {
-      body: {
-        email,
-        duration,
-      },
+      email,
+      duration,
     });
   }
 
   public expand(code: number, duration: number): Observable<BaseOutputLicense> {
     return this.http.post<BaseOutputLicense>(`/api/v1/admin/license/expand`, {
-      body: {
-        code,
-        duration,
-      },
+      code,
+      duration,
     });
   }
 
@@ -69,10 +65,8 @@ export class AdminLicenseApiService {
     licenseId: number
   ): Observable<BaseOutputLicense> {
     return this.http.post<BaseOutputLicense>(`/api/v1/admin/license/assign`, {
-      body: {
-        userId,
-        licenseId,
-      },
+      userId,
+      licenseId,
     });
   }
 }

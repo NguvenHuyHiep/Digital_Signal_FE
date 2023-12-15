@@ -228,7 +228,9 @@ export class DeviceGroupAddComponent implements OnInit {
     const deviceIdValue = Number(this.addDeviceForm.controls.deviceId?.value);
     this.loading.addDevice = true;
     this.adminDeviceGroupService
-      .assignDevices(this.currentDeviceGroup?.id as number, [deviceIdValue])
+      .assignDevicesToDeviceGroup(this.currentDeviceGroup?.id as number, [
+        deviceIdValue,
+      ])
       .subscribe({
         next: (response) => {
           if (response && response.status === ResponseStatus.Success) {

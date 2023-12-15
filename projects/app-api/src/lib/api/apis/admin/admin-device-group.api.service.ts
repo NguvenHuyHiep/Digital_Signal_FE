@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { BaseOutputDeviceGroup } from '../../models/baseOutputDeviceGroup';
 import { Observable } from 'rxjs';
 import { BaseOutputString } from '../../models/baseOutputString';
+import { DeviceGroup } from '../../models/deviceGroup';
+import { Device } from '../../models/device';
 
 @Injectable({
   providedIn: 'root',
@@ -41,9 +43,7 @@ export class AdminDeviceGroupApiService {
     });
   }
 
-  public create(
-    deviceGroup: BaseOutputDeviceGroup
-  ): Observable<BaseOutputDeviceGroup> {
+  public create(deviceGroup: DeviceGroup): Observable<BaseOutputDeviceGroup> {
     return this.http.post<BaseOutputDeviceGroup>(
       `/api/v1/admin/device-group`,
       deviceGroup
@@ -52,15 +52,15 @@ export class AdminDeviceGroupApiService {
 
   public update(
     id: number,
-    deviceGroup: BaseOutputDeviceGroup
+    deviceGroup: DeviceGroup
   ): Observable<BaseOutputDeviceGroup> {
     return this.http.put<BaseOutputDeviceGroup>(
       `/api/v1/admin/device-group/${id}`,
+      deviceGroup,
       {
         params: {
           id,
         },
-        body: deviceGroup,
       }
     );
   }
@@ -78,7 +78,7 @@ export class AdminDeviceGroupApiService {
 
   public deleteByIds(ids: number[]): Observable<BaseOutputString> {
     return this.http.delete<BaseOutputString>(`/api/v1/admin/device-groups`, {
-      params: {
+      body: {
         ids,
       },
     });
@@ -101,11 +101,11 @@ export class AdminDeviceGroupApiService {
   ): Observable<BaseOutputDeviceGroup> {
     return this.http.put<BaseOutputDeviceGroup>(
       `/api/v1/admin/device-group/${id}/devices`,
+      deviceIds,
       {
         params: {
           id,
         },
-        body: deviceIds,
       }
     );
   }
@@ -113,14 +113,14 @@ export class AdminDeviceGroupApiService {
   public removeDevices(
     id: number,
     deviceIds: number[]
-  ): Observable<BaseOutputDeviceGroup> {
-    return this.http.put<BaseOutputDeviceGroup>(
+  ): Observable<BaseOutputString> {
+    return this.http.put<BaseOutputString>(
       `/api/v1/admin/device-group/${id}/remove-devices`,
+      deviceIds,
       {
         params: {
           id,
         },
-        body: deviceIds,
       }
     );
   }
@@ -143,14 +143,14 @@ export class AdminDeviceGroupApiService {
   public removeFromPlaylist(
     playlistId: number,
     deviceGroupIds: number[]
-  ): Observable<BaseOutputDeviceGroup> {
-    return this.http.put<BaseOutputDeviceGroup>(
+  ): Observable<BaseOutputString> {
+    return this.http.put<BaseOutputString>(
       `/api/v1/admin/playlist/${playlistId}/device-groups`,
+      deviceGroupIds,
       {
         params: {
           playlistId,
         },
-        body: deviceGroupIds,
       }
     );
   }

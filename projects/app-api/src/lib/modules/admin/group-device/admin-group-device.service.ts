@@ -11,26 +11,15 @@ import {
 } from '@app-admin/app/modules/device-group/components/form-device-group';
 import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';
 import { Device } from '@app-api/lib/api/models/device';
-import { AdminDeviceGroupControllerService } from '@app-api/lib/api';
+import { AdminDeviceGroupApiService } from '@app-api/lib/api/apis/admin/admin-device-group.api.service';
+import { assign } from 'lodash';
 
 @Injectable()
 export class AdminDeviceGroupService {
   constructor(
     private formBuilder: FormBuilder,
-    private adminGroupDeviceController: AdminDeviceGroupControllerService
+    private adminGroupDeviceController: AdminDeviceGroupApiService
   ) {}
-
-  public getDeviceGroupByDeviceGroupId(
-    deviceGroupId: number
-  ): Observable<BaseOutputDeviceGroup> {
-    return this.adminGroupDeviceController.getById8(deviceGroupId);
-  }
-
-  public getDeviceGroupWithDevicesById(
-    deviceGroupId: number
-  ): Observable<BaseOutputDeviceGroup> {
-    return this.adminGroupDeviceController.getByIdWithDevices(deviceGroupId);
-  }
 
   public buildDeviceGroupForm(deviceGroup?: DeviceGroup): FormDeviceGroup {
     let form = this.formBuilder.group({
@@ -46,44 +35,6 @@ export class AdminDeviceGroupService {
     return form;
   }
 
-  public getAllDeviceGroup(
-    page?: number | 0,
-    size?: number | 100,
-    sortBy?: string | 'id',
-    sortDirection?: string | 'desc',
-    keyword?: string | ''
-  ) {
-    return this.adminGroupDeviceController
-      .getByPaging9(page, size, sortBy, sortDirection, keyword)
-      .pipe(tap((response) => console.log(response)));
-  }
-
-  public deleteDeviceGroup(deviceGroup: number): Observable<BaseOutputString> {
-    return this.adminGroupDeviceController.delete9(deviceGroup);
-  }
-
-  public addGroupDevice(
-    groupDevice: DeviceGroup
-  ): Observable<BaseOutputDeviceGroup> {
-    return this.adminGroupDeviceController.create6(groupDevice);
-  }
-
-  updateGroupDevice(
-    groupDevice: DeviceGroup
-  ): Observable<BaseOutputDeviceGroup> {
-    return this.adminGroupDeviceController.update6(
-      groupDevice?.id as number,
-      groupDevice
-    );
-  }
-
-  public assignDevices(deviceGroupId: number, deviceIds: number[]) {
-    return this.adminGroupDeviceController.assignDevices(
-      deviceGroupId,
-      deviceIds
-    );
-  }
-
   private buildDeviceForm(device: Device): FormDevice {
     return this.formBuilder.group({
       id: [device.id],
@@ -95,18 +46,98 @@ export class AdminDeviceGroupService {
     }) as FormDevice;
   }
 
-  public assignDeviceGroup(playListId: number, deviceGroupIds: number[]) {
+  public getDeviceGroupByDeviceGroupId(
+    deviceGroupId: number
+  ): Observable<BaseOutputDeviceGroup> {
+    return this.adminGroupDeviceController.getById(deviceGroupId);
+  }
+
+  public getAllDeviceGroup(
+    page?: number | 0,
+    size?: number | 100,
+    sortBy?: string | 'id',
+    sortDirection?: string | 'desc',
+    keyword?: string | '',
+    status?: string | ''
+  ) {
+    return this.adminGroupDeviceController
+      .getByPaging(
+        page ?? 0,
+        size ?? 100,
+        sortBy ?? 'id',
+        sortDirection ?? 'desc',
+        keyword ?? '',
+        status ?? ''
+      )
+      .pipe(tap((response) => console.log(response)));
+  }
+
+  public addGroupDevice(
+    groupDevice: DeviceGroup
+  ): Observable<BaseOutputDeviceGroup> {
+    return this.adminGroupDeviceController.create(groupDevice);
+  }
+
+  public updateGroupDevice(
+    groupDevice: DeviceGroup
+  ): Observable<BaseOutputDeviceGroup> {
+    return this.adminGroupDeviceController.update(
+      groupDevice?.id as number,
+      groupDevice
+    );
+  }
+
+  public deleteDeviceGroup(deviceGroup: number): Observable<BaseOutputString> {
+    return this.adminGroupDeviceController.delete(deviceGroup);
+  }
+
+  public deleteDeviceGroupByIds(
+    deviceGroupIds: number[]
+  ): Observable<BaseOutputString> {
+    return this.adminGroupDeviceController.deleteByIds(deviceGroupIds);
+  }
+
+  public getDeviceGroupWithDevicesById(
+    deviceGroupId: number
+  ): Observable<BaseOutputDeviceGroup> {
+    return this.adminGroupDeviceController.getWithDevices(deviceGroupId);
+  }
+
+  public assignDevicesToDeviceGroup(
+    deviceGroupId: number,
+    deviceIds: number[]
+  ) {
+    return this.adminGroupDeviceController.assignDevices(
+      deviceGroupId,
+      deviceIds
+    );
+  }
+
+  public removeDevicesFromDeviceGroup(
+    deviceGroupId: number,
+    deviceIds: number[]
+  ): Observable<BaseOutputString> {
+    return this.adminGroupDeviceController.removeDevices(
+      deviceGroupId,
+      deviceIds
+    );
+  }
+
+  public assignDeviceGroupToPlaylist(
+    playListId: number,
+    deviceGroupIds: number[]
+  ) {
     return this.adminGroupDeviceController.assignDevices(
       playListId,
       deviceGroupIds
     );
   }
 
-  removeDeviceGroupFromPlaylist(
+  public removeDeviceGroupFromPlaylist(
     playlistId: number,
     requestBody: number[]
   ): Observable<BaseOutputString> {
-    return this.adminGroupDeviceController.removeDeviceGroupsFromPlaylist(
+    return this.adminGroupDeviceController.removeFromPlaylist(
       playlistId,
       requestBody
     );

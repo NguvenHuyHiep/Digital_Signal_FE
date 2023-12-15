@@ -39,21 +39,25 @@ export class AdminScheduleApiService {
   }
 
   public create(schedule: Schedule): Observable<BaseOutputSchedule> {
-    return this.http.post<BaseOutputSchedule>(`/api/v1/admin/schedule`, {
-      body: schedule,
-    });
+    return this.http.post<BaseOutputSchedule>(
+      `/api/v1/admin/schedule`,
+      schedule
+    );
   }
 
   public update(
     id: number,
     schedule: Schedule
   ): Observable<BaseOutputSchedule> {
-    return this.http.put<BaseOutputSchedule>(`/api/v1/admin/schedule/${id}`, {
-      params: {
-        id,
-      },
-      body: schedule,
-    });
+    return this.http.put<BaseOutputSchedule>(
+      `/api/v1/admin/schedule/${id}`,
+      schedule,
+      {
+        params: {
+          id,
+        },
+      }
+    );
   }
 
   public delete(id: number): Observable<BaseOutputString> {
@@ -90,11 +94,11 @@ export class AdminScheduleApiService {
   ): Observable<BaseOutputSchedule> {
     return this.http.put<BaseOutputSchedule>(
       `/api/v1/admin/schedule/${scheduleId}/assign-playlists`,
+      playlistIds,
       {
         params: {
           scheduleId,
         },
-        body: playlistIds,
       }
     );
   }
