@@ -5,15 +5,13 @@ import { DsdFile } from '@app-api/lib/api/models/dsdFile';
 import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 import { Schedule } from '@app-api/lib/api/models/schedule';
 import { AdminFileService } from '@app-api/lib/modules/admin/admin-file/admin-file.service';
-import {
-  LhTableConfigModel,
-  LhTableFieldType,
-} from '@app-common/lib/components/lh-table/lh-table-config.model';
 import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.component';
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { saveAs } from 'file-saver';
+import { DeviceLog } from '@app-api/lib/api/models/deviceLog';
+import { ColumnItem } from '@app-api/lib/api/models/columnItem';
 
 @Component({
   selector: 'app-admin-files',
@@ -35,19 +33,49 @@ export class FilesComponent implements OnInit {
     uploading: false,
   };
 
-  tableConfig: LhTableConfigModel = {
-    disableUpdate: true,
-    disableDetail: true,
-    enablePreview: true,
-    key: 'id',
-    fields: [
-      {
-        label: 'module.file.name',
-        field: 'name',
-        type: LhTableFieldType.STRING,
-      },
-    ],
-  };
+  tableColumns: ColumnItem<DsdFile>[] = [
+    {
+      name: 'ID',
+      sortOrder: 'descend',
+      sortFn: (a: DsdFile, b: DsdFile) => (a.id as number) - (b.id as number),
+      listOfFilter: [],
+      filterFn: null,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: 'module.file.name',
+      sortOrder: null,
+      sortFn: (a: DsdFile, b: DsdFile) =>
+        a.path?.localeCompare(b.path as string) as number,
+      listOfFilter: [],
+      filterFn: (address: string, item: DsdFile) =>
+        item?.status?.indexOf(address) !== -1,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: 'module.file.contentType',
+      sortOrder: null,
+      sortFn: (a: DsdFile, b: DsdFile) =>
+        a.fileType?.localeCompare(b.fileType as string) as number,
+      listOfFilter: [],
+      filterFn: (address: string, item: DsdFile) =>
+        item?.status?.indexOf(address) !== -1,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: 'module.device.update-date',
+      sortOrder: null,
+      sortFn: (a: DsdFile, b: DsdFile) =>
+        Date.parse(a.createDate as string) - Date.parse(b.createDate as string),
+      listOfFilter: [],
+      filterFn: null,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+  ];
 
   previewFile: {
     isVisible: boolean;

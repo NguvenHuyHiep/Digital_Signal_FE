@@ -1,4 +1,3 @@
-export * from './controller/api';
 export * from './models';
 export * from './variables';
 export * from './configuration';

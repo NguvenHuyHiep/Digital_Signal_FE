@@ -17,6 +17,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 @NgModule({
@@ -43,6 +44,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     NzLayoutModule,
     NzModalModule,
     NzSpinModule,
+    NzTableModule,
   ],
 })
 export class FileModule {}

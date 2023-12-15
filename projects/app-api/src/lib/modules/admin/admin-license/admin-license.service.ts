@@ -1,14 +1,13 @@
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { HttpParams } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { FormGroupLicense } from '@app-admin/app/modules/license/components/license-type';
+import { AdminLicenseApiService } from '@app-api/lib/api/apis/admin/admin-license.api.service';
+import { BaseOutputLicense } from '@app-api/lib/api/models/baseOutputLicense';
 import { License } from '@app-api/lib/api/models/license';
 import { LicenseGenerateRequest } from '@app-api/lib/api/models/licenseGenerateRequest';
-import { BaseOutputLicense } from '@app-api/lib/api/models/baseOutputLicense';
-import { AdminLicenseAPIService } from '@app-api/lib/api';
-import { AdminLicenseApiService } from './../../../api/apis/admin/admin-license.api.service';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class AdminLicenseService {

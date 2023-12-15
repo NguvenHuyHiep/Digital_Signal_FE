@@ -9,15 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { Status } from './status';
 import { Playlist } from './playlist';
 
-export interface Schedule {
-  id?: number;
-  name?: string;
-  description?: string;
-  days?: Set<number>;
-  playlists?: Array<Playlist>;
-  status?: Status;
+export interface DashBoardResponse {
+  totalOfflineDevices?: number;
+  totalOnlineDevices?: number;
+  totalDeviceGroups?: number;
+  totalPlaylists?: number;
+  lastPlaylist?: Playlist;
 }
-export namespace Schedule {}

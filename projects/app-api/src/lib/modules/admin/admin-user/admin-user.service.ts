@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { FormGroupUser } from '@app-admin/app/modules/user/components/user-type';
-import { AdminUsersAPIService } from '@app-api/lib/api';
 import { AdminUserApiService } from '@app-api/lib/api/apis/admin/admin-user.api.service';
 import { BaseOutputLicense } from '@app-api/lib/api/models/baseOutputLicense';
 import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';

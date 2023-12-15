@@ -31,7 +31,14 @@
       <tbody>
         <tr *ngFor="let data of filterTable.data">
           <td>{{ data.id }}</td>
-          <td>{{ data.status }}</td>
+          <td
+            [ngClass]="{
+              online: data.status === 'ONLINE',
+              offline: data.status === 'OFFLINE'
+            }"
+          >
+            {{ data.status }}
+          </td>
           <td>{{ data.date | date : "dd/M/yyyy - h:mm:ss a - z" }}</td>
         </tr>
       </tbody>

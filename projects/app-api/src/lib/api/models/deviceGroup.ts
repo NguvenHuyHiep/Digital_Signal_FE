@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Status } from './status';
 import { Playlist } from './playlist';
 import { User } from './user';
 import { Device } from './device';
@@ -17,7 +18,9 @@ export interface DeviceGroup {
   id?: number;
   name?: string;
   description?: string;
+  status?: Status;
   devices?: Array<Device>;
   user?: User;
   playlist?: Playlist;
 }
+export namespace DeviceGroup {}

@@ -9,7 +9,7 @@
       {{ "common.add" | translate }}
     </button>
   </div>
-
+  <!-- 
   <lh-common-lh-table
     #table
     [data]="files"
@@ -18,7 +18,39 @@
     (onDelete)="delete($event)"
     (onDetail)="navigateToDetail($event)"
     (onPreview)="preview($event)"
-  ></lh-common-lh-table>
+  ></lh-common-lh-table> -->
+  <nz-table #filterTable [nzData]="files" nzTableLayout="fixed" nz-col>
+    <thead>
+      <tr>
+        <th
+          *ngFor="let column of tableColumns"
+          [nzSortOrder]="column.sortOrder"
+          [nzSortFn]="column.sortFn"
+          [nzSortDirections]="column.sortDirections"
+          [nzFilterMultiple]="column.filterMultiple"
+          [nzFilters]="column.listOfFilter"
+          [nzFilterFn]="column.filterFn"
+        >
+          {{ column.name | translate }}
+        </th>
+        <th>{{ "common.option" | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of filterTable.data">
+        <td>{{ data.id }}</td>
+        <td>{{ data.path }}</td>
+        <td>{{ data.fileType }}</td>
+        <td>{{ data.createDate | date : "dd/M/yyyy - h:mm:ss a - z" }}</td>
+        <td>
+          <button nz-button nzType="primary" (click)="preview(data)">
+            {{ "common.preview" | translate }}
+          </button>
+          <button nz-button nzDanger>{{ "common.delete" | translate }}</button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
 
   <nz-modal
     [(nzVisible)]="previewFile.isVisible"

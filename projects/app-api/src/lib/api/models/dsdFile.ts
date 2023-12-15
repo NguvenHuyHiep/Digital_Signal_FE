@@ -9,7 +9,9 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Status } from './status';
 import { Playlist } from './playlist';
+import { Category } from './category';
 import { User } from './user';
 
 export interface DsdFile {
@@ -18,6 +20,9 @@ export interface DsdFile {
   fileType?: string;
   path?: string;
   createDate?: string;
+  status?: Status;
   playlist?: Playlist;
   user?: User;
+  category?: Category;
 }
+export namespace DsdFile {}

@@ -9,8 +9,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { License } from './license';
 import { Role } from './role';
+import { License } from './license';
 
 export interface User {
   id?: number;
@@ -20,6 +20,6 @@ export interface User {
   phone?: string;
   firstName?: string;
   lastName?: string;
-  roles?: Role[];
+  roles?: Array<Role>;
   license?: License;
 }

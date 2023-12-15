@@ -9,15 +9,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { Status } from './status';
-import { Playlist } from './playlist';
 
-export interface Schedule {
-  id?: number;
-  name?: string;
-  description?: string;
-  days?: Set<number>;
-  playlists?: Array<Playlist>;
-  status?: Status;
-}
-export namespace Schedule {}
+export type Status = 'ACTIVE' | 'INACTIVE';
+
+export const Status = {
+  Active: 'ACTIVE' as Status,
+  Inactive: 'INACTIVE' as Status,
+};

@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';
 import { AdminDeviceApiService } from '@app-api/lib/api/apis/admin/admin-device.api.service';
 import { BaseOutputDevice } from '@app-api/lib/api/models/baseOutputDevice';
+import { DeviceStatus } from '@app-api/lib/api/models/deviceStatus';
 
 @Injectable()
 export class AdminDeviceService {
@@ -38,7 +39,7 @@ export class AdminDeviceService {
     sortBy?: string | 'id',
     sortDirection?: string | 'DESC',
     keyword?: string | '',
-    status?: string | 'UNDEFINED' | 'ONLINE' | 'OFFLINE'
+    status?: DeviceStatus // UNDEFINED to get All
   ) {
     return this.adminDeviceController
       .getByPaging(
