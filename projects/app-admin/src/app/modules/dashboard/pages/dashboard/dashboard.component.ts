@@ -1,4 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { BaseOutputDashBoardResponse } from '@app-api/lib/api/models/baseOutputDashBoardResponse';
+import { DashBoardResponse } from '@app-api/lib/api/models/dashBoardResponse';
 import { DashBoardStatictist } from '@app-api/lib/api/models/dashBoardStatictist';
 import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 import { AdminDashBoardService } from '@app-api/lib/modules/admin/admin-dashboard/admin-dashboard.service';
@@ -18,7 +20,7 @@ export class DashboardComponent implements OnInit {
   loading = true;
   chatTimeout: number | null = null;
 
-  dashBoardStatictist: DashBoardStatictist = {};
+  dashBoardStatictist: DashBoardResponse = {};
   statisics: { icon: string; type: string; label: string; value: number }[] = [
     {
       icon: 'stock',
@@ -74,7 +76,11 @@ export class DashboardComponent implements OnInit {
       next: (response) => {
         this.loading = false;
         console.log(response);
-        if (response && response.status === ResponseStatus.Success) {
+        if (
+          response &&
+          response.status === ResponseStatus.Success &&
+          response.data
+        ) {
           this.dashBoardStatictist = response.data;
           this.statisics.map((s) => {
             if (s.type === 'devices') {
