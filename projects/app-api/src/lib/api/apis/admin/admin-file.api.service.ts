@@ -129,11 +129,11 @@ export class AdminFileApiService {
   ): Observable<BaseOutputString> {
     return this.http.put<BaseOutputString>(
       `/api/v1/admin/file/remove/playlist/{playlistId}`,
+      playlistIds,
       {
         params: {
           playlistIds,
         },
-        body: playlistIds,
       }
     );
   }
