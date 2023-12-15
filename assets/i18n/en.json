@@ -33,7 +33,8 @@
     "option": "Option",
     "preview": "Preview",
     "online": "Online",
-    "offline": "Offline"
+    "offline": "Offline",
+    "all": "All"
   },
 
   "footer": "Design & Develop by LPDEV",
@@ -149,8 +150,8 @@
       },
       "life-time": "Life time",
       "error": {
-        "invalid-email" : "Invalid email",
-        "invalid-time" : "Invalid time values"
+        "invalid-email": "Invalid email",
+        "invalid-time": "Invalid time values"
       }
     },
     "license": {

@@ -11,6 +11,7 @@ import { Device } from '@app-api/lib/api/models/device';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { TranslateService } from '@ngx-translate/core';
 import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
+import { DeviceStatus } from '@app-api/lib/api/models/deviceStatus';
 
 @Component({
   selector: 'app-admin-chosen-device',
@@ -75,7 +76,7 @@ export class ChosenDeviceComponent implements ControlValueAccessor, OnInit {
   getAllDevice() {
     // TODO use search instead of get all records with 10 items, or apply infinitive scroll for this func
     this.adminDeviceService
-      .getAllDevice(0, 1000, 'id', 'DESC', '', 'UNDEFINED')
+      .getAllDevice(0, 1000, 'id', 'DESC', '', DeviceStatus.Undefined)
       .subscribe({
         next: (response) => {
           if (response && response.status === ResponseStatus.Success) {

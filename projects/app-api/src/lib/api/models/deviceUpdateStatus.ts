@@ -9,15 +9,9 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { Status } from './status';
-import { Playlist } from './playlist';
+import { Device } from './device';
 
-export interface Schedule {
-  id?: number;
-  name?: string;
-  description?: string;
-  days?: Set<number>;
-  playlists?: Array<Playlist>;
-  status?: Status;
+export interface DeviceUpdateStatus {
+  device?: Device;
+  lastUpdate?: string;
 }
-export namespace Schedule {}

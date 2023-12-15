@@ -15,6 +15,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzWaveModule } from 'ng-zorro-antd/core/wave';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { NzTableModule } from 'ng-zorro-antd/table';
@@ -42,6 +43,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
     NzSwitchModule,
     FormsModule,
     NzTableModule,
+    NzSelectModule,
   ],
   exports: [DeviceDetailComponent, DeviceListComponent],
 })

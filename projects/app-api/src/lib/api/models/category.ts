@@ -10,14 +10,11 @@
  * Do not edit the class manually.
  */
 import { Status } from './status';
-import { Playlist } from './playlist';
 
-export interface Schedule {
+export interface Category {
   id?: number;
   name?: string;
   description?: string;
-  days?: Set<number>;
-  playlists?: Array<Playlist>;
   status?: Status;
 }
-export namespace Schedule {}
+export namespace Category {}

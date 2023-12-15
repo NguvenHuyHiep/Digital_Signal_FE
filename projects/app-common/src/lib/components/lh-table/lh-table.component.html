@@ -34,6 +34,10 @@
         <td
           *ngFor="let field of config.fields"
           [innerHTML]="getDisplayedValue(record, field)"
+          [ngClass]="{
+            online: getDisplayedValue(record, field) === 'ONLINE',
+            offline: getDisplayedValue(record, field) === 'OFFLINE'
+          }"
         ></td>
 
         <td style="width: 200px" *ngIf="!config.disableOption" nzRight>

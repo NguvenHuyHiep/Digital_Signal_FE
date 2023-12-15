@@ -6,20 +6,20 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { AdminDeviceGroupService } from '@app-api/lib/modules/admin/group-device/admin-group-device.service';
-import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.component';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Device } from '@app-api/lib/api/models/device';
 import { DeviceGroup } from '@app-api/lib/api/models/deviceGroup';
+import { DeviceStatus } from '@app-api/lib/api/models/deviceStatus';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
+import { AdminDeviceService } from '@app-api/lib/modules/admin/admin-device/admin-device.service';
+import { AdminDeviceGroupService } from '@app-api/lib/modules/admin/group-device/admin-group-device.service';
 import {
   LhTableConfigModel,
   LhTableFieldType,
 } from '@app-common/lib/components/lh-table/lh-table-config.model';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AdminDeviceService } from '@app-api/lib/modules/admin/admin-device/admin-device.service';
+import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.component';
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
-import { Schedule } from '@app-api/lib/api/models/schedule';
 
 @Component({
   selector: 'app-admin-device-list',
@@ -31,7 +31,14 @@ export class DeviceListComponent<T extends Object> implements OnInit {
   @ViewChild('table') table?: LhTableComponent<Device>;
   @Input() deviceGroupAdmin?: DeviceGroup;
   @Output() onGroup: EventEmitter<T> = new EventEmitter<T>();
-  isOnline: boolean = true;
+
+  statusOptions: { label: string; value: string }[] = [
+    { label: 'common.all', value: DeviceStatus.Undefined },
+    { label: 'common.online', value: DeviceStatus.Online },
+    { label: 'common.offline', value: DeviceStatus.Offline },
+  ];
+  statusSelect: DeviceStatus = DeviceStatus.Undefined;
+
   loading: {
     detail: boolean;
     adding: boolean;
@@ -112,7 +119,7 @@ export class DeviceListComponent<T extends Object> implements OnInit {
         });
     } else {
       this.adminDeviceService
-        .getAllDevice(0, 100, 'id', 'DESC', '', 'UNDEFINED')
+        .getAllDevice(0, 100, 'id', 'DESC', '', this.statusSelect)
         .subscribe({
           next: (response) => {
             if (response && response.data) {
@@ -129,15 +136,16 @@ export class DeviceListComponent<T extends Object> implements OnInit {
     }
   }
 
-  navigateToDetail = (record: Schedule): void => {
+  navigateToDetail = (record: Device): void => {
     console.log(record);
     this.router.navigate(['./detail', record.id], {
       relativeTo: this.activatedRoute,
     });
   };
 
-  onToggle(cur: boolean) {
-    this.isOnline = cur;
-    this.ngOnInit();
+  onStatusChange(selectedValue: string): void {
+    if (this.statusSelect === selectedValue) {
+      this.ngOnInit();
+    }
   }
 }

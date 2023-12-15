@@ -6,12 +6,17 @@
       </button>
     </div>
     <div nz-col nzSpan="2">
-      <!-- <nz-switch
-        [(ngModel)]="isOnline"
-        (ngModelChange)="onToggle($event)"
-        [nzCheckedChildren]="'common.online' | translate"
-        [nzUnCheckedChildren]="'common.offline' | translate"
-      ></nz-switch> -->
+      <nz-select
+        style="width: 100px"
+        [(ngModel)]="statusSelect"
+        (ngModelChange)="onStatusChange($event)"
+      >
+        <nz-option
+          *ngFor="let option of statusOptions"
+          [nzLabel]="option.label | translate"
+          [nzValue]="option.value"
+        ></nz-option>
+      </nz-select>
     </div>
   </div>
 
