@@ -25,6 +25,7 @@ import {
 import { FormDeviceGroup } from '@app-admin/app/modules/device-group/components/form-device-group';
 import { AdminFileService } from '@app-api/lib/modules/admin/admin-file/admin-file.service';
 import { PlaylistStatus } from '@app-api/lib/api/models/playlistStatus';
+import { ColumnItem } from '@app-api/lib/api/models/columnItem';
 
 @Component({
   selector: 'app-admin-playlist-add',
@@ -42,6 +43,20 @@ export class PlaylistAddComponent implements OnInit {
   currentFile: DsdFile = {};
   currentDeviceGroup: DeviceGroup = {};
   isVisible: boolean = false;
+
+  tableColumns: ColumnItem<DsdFile>[] = [
+    {
+      name: '',
+      sortOrder: null,
+      sortFn: (a: DsdFile, b: DsdFile) =>
+        a.name?.localeCompare(b.name as string) as number,
+      listOfFilter: [],
+      filterFn: (address: string, item: DsdFile) =>
+        item?.status?.indexOf(address) !== -1,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+  ];
 
   form: FormGroupPlayList = this.adminPlaylistService.buildPlaylistForm(
     this.currentPlaylist

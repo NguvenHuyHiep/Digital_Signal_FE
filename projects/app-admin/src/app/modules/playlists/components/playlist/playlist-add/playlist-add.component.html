@@ -97,13 +97,44 @@
       {{ "module.groupDevice.listDeviceGroup" | translate }}
     </nz-form-label>
     <nz-skeleton [nzActive]="true" *ngIf="loading.addDeviceGroup"></nz-skeleton>
-    <lh-common-lh-table
+
+    <!-- <lh-common-lh-table
       *ngIf="!loading.addDeviceGroup"
       [config]="tableConfigDeviceGroup"
       [data]="deviceGroups"
       [loading]="loading.addDeviceGroup"
       (onDelete)="removeDeviceGroupFromPlaylist($event)"
-    ></lh-common-lh-table>
+    ></lh-common-lh-table> -->
+
+    <nz-table #filterTable [nzData]="deviceGroups" nzTableLayout="fixed" nz-col>
+      <thead>
+        <tr>
+          <th
+            *ngFor="let column of tableColumns"
+            [nzSortOrder]="column.sortOrder"
+            [nzSortFn]="column.sortFn"
+            [nzSortDirections]="column.sortDirections"
+            [nzFilterMultiple]="column.filterMultiple"
+            [nzFilters]="column.listOfFilter"
+            [nzFilterFn]="column.filterFn"
+          >
+            {{ "module.groupDevice.name" | translate }}
+          </th>
+          <th>{{ "common.option" | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of filterTable.data">
+          <td>{{ data.name }}</td>
+          <td>
+            <button nz-button nzDanger>
+              {{ "common.delete" | translate }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+
     <form nz-form [formGroup]="addFileForm" nzLayout="vertical">
       <div nz-row nzGutter="16">
         <div nz-col [nzLg]="4" [nzSm]="24">
@@ -141,13 +172,44 @@
       {{ "module.file.list-file" | translate }}
     </nz-form-label>
     <nz-skeleton [nzActive]="true" *ngIf="loading.addFile"></nz-skeleton>
-    <lh-common-lh-table
+
+    <!-- <lh-common-lh-table
       *ngIf="!loading.addFile"
       [config]="tableConfig"
       [data]="files"
       [loading]="loading.addFile"
       (onDelete)="removeFileFromPlaylist($event)"
-    ></lh-common-lh-table>
+    ></lh-common-lh-table> -->
+
+    <nz-table #filterTable [nzData]="files" nzTableLayout="fixed" nz-col>
+      <thead>
+        <tr>
+          <th
+            *ngFor="let column of tableColumns"
+            [nzSortOrder]="column.sortOrder"
+            [nzSortFn]="column.sortFn"
+            [nzSortDirections]="column.sortDirections"
+            [nzFilterMultiple]="column.filterMultiple"
+            [nzFilters]="column.listOfFilter"
+            [nzFilterFn]="column.filterFn"
+          >
+            {{ "module.file.name" | translate }}
+          </th>
+          <th>{{ "common.option" | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of filterTable.data">
+          <td>{{ data.name }}</td>
+          <td>
+            <button nz-button nzDanger>
+              {{ "common.delete" | translate }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+
     <form nz-form [formGroup]="addFileForm" nzLayout="vertical">
       <div nz-row nzGutter="16">
         <div nz-col [nzLg]="4" [nzSm]="24">
