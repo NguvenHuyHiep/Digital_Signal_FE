@@ -33,23 +33,11 @@ export class PlaylistsComponent implements OnInit {
   tableColumns: ColumnItem<Playlist>[] = [
     {
       name: 'module.playlist.name',
-      sortOrder: 'descend',
-      sortFn: (a: Playlist, b: Playlist) =>
-        a.name?.localeCompare(b.name as string) as number,
-      listOfFilter: [],
-      filterFn: null,
-      filterMultiple: false,
-      sortDirections: ['ascend', 'descend', null],
+      key: 'name',
     },
     {
       name: 'module.playlist.description',
-      sortOrder: 'descend',
-      sortFn: (a: Playlist, b: Playlist) =>
-        a.description?.localeCompare(b.description as string) as number,
-      listOfFilter: [],
-      filterFn: null,
-      filterMultiple: false,
-      sortDirections: ['ascend', 'descend', null],
+      key: 'description',
     },
   ];
 

@@ -84,7 +84,7 @@ export class FilesByPlaylist<T extends Object> implements OnInit {
           },
         });
     } else {
-      this.adminFileService.getAllFile().subscribe({
+      this.adminFileService.getFileByPaging().subscribe({
         next: (response) => {
           if (response && response.data) {
             this.files = response.data;

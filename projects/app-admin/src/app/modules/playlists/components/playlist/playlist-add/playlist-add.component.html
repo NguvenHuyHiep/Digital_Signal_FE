@@ -109,15 +109,7 @@
     <nz-table #filterTable [nzData]="deviceGroups" nzTableLayout="fixed" nz-col>
       <thead>
         <tr>
-          <th
-            *ngFor="let column of tableColumns"
-            [nzSortOrder]="column.sortOrder"
-            [nzSortFn]="column.sortFn"
-            [nzSortDirections]="column.sortDirections"
-            [nzFilterMultiple]="column.filterMultiple"
-            [nzFilters]="column.listOfFilter"
-            [nzFilterFn]="column.filterFn"
-          >
+          <th *ngFor="let column of tableColumns">
             {{ "module.groupDevice.name" | translate }}
           </th>
           <th>{{ "common.option" | translate }}</th>
@@ -184,15 +176,7 @@
     <nz-table #filterTable [nzData]="files" nzTableLayout="fixed" nz-col>
       <thead>
         <tr>
-          <th
-            *ngFor="let column of tableColumns"
-            [nzSortOrder]="column.sortOrder"
-            [nzSortFn]="column.sortFn"
-            [nzSortDirections]="column.sortDirections"
-            [nzFilterMultiple]="column.filterMultiple"
-            [nzFilters]="column.listOfFilter"
-            [nzFilterFn]="column.filterFn"
-          >
+          <th *ngFor="let column of tableColumns">
             {{ "module.file.name" | translate }}
           </th>
           <th>{{ "common.option" | translate }}</th>

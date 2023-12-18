@@ -42,23 +42,11 @@ export class DeviceGroupsComponent implements OnInit {
   tableColumns: ColumnItem<DeviceGroup>[] = [
     {
       name: 'module.playlist.name',
-      sortOrder: 'descend',
-      sortFn: (a: DeviceGroup, b: DeviceGroup) =>
-        a.name?.localeCompare(b.name as string) as number,
-      listOfFilter: [],
-      filterFn: null,
-      filterMultiple: false,
-      sortDirections: ['ascend', 'descend', null],
+      key: 'name',
     },
     {
       name: 'module.playlist.description',
-      sortOrder: 'descend',
-      sortFn: (a: DeviceGroup, b: DeviceGroup) =>
-        a.description?.localeCompare(b.description as string) as number,
-      listOfFilter: [],
-      filterFn: null,
-      filterMultiple: false,
-      sortDirections: ['ascend', 'descend', null],
+      key: 'description',
     },
   ];
 

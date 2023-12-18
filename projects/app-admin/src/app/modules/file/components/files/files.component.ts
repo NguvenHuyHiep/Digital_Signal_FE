@@ -12,6 +12,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { saveAs } from 'file-saver';
 import { DeviceLog } from '@app-api/lib/api/models/deviceLog';
 import { ColumnItem } from '@app-api/lib/api/models/columnItem';
+import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
 @Component({
   selector: 'app-admin-files',
@@ -36,44 +37,19 @@ export class FilesComponent implements OnInit {
   tableColumns: ColumnItem<DsdFile>[] = [
     {
       name: 'ID',
-      sortOrder: 'descend',
-      sortFn: (a: DsdFile, b: DsdFile) => (a.id as number) - (b.id as number),
-      listOfFilter: [],
-      filterFn: null,
-      filterMultiple: false,
-      sortDirections: ['ascend', 'descend', null],
+      key: 'id',
     },
     {
       name: 'module.file.name',
-      sortOrder: null,
-      sortFn: (a: DsdFile, b: DsdFile) =>
-        a.path?.localeCompare(b.path as string) as number,
-      listOfFilter: [],
-      filterFn: (address: string, item: DsdFile) =>
-        item?.status?.indexOf(address) !== -1,
-      filterMultiple: false,
-      sortDirections: ['ascend', 'descend', null],
+      key: 'path',
     },
     {
       name: 'module.file.contentType',
-      sortOrder: null,
-      sortFn: (a: DsdFile, b: DsdFile) =>
-        a.fileType?.localeCompare(b.fileType as string) as number,
-      listOfFilter: [],
-      filterFn: (address: string, item: DsdFile) =>
-        item?.status?.indexOf(address) !== -1,
-      filterMultiple: false,
-      sortDirections: ['ascend', 'descend', null],
+      key: 'fileType',
     },
     {
       name: 'module.device.update-date',
-      sortOrder: null,
-      sortFn: (a: DsdFile, b: DsdFile) =>
-        Date.parse(a.createDate as string) - Date.parse(b.createDate as string),
-      listOfFilter: [],
-      filterFn: null,
-      filterMultiple: false,
-      sortDirections: ['ascend', 'descend', null],
+      key: 'createDate',
     },
   ];
 
@@ -86,6 +62,11 @@ export class FilesComponent implements OnInit {
     isVisible: false,
   };
 
+  // paging variables
+  total: number = 0;
+  pageIndex: number = 1;
+  pageSize: number = 10;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -97,7 +78,59 @@ export class FilesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getAllFile();
+    this.getFileByPaging(this.pageIndex - 1, this.pageSize);
+  }
+
+  getFileByPaging(
+    pageIndex?: number,
+    pageSize?: number,
+    sortBy?: string,
+    sortDirection?: string,
+    keyword?: string
+  ): void {
+    this.loading.searching = true;
+    this.adminFileService
+      .getFileByPaging(
+        pageIndex || 0,
+        pageSize || 10,
+        sortBy || 'id',
+        sortDirection || 'desc',
+        keyword || ''
+      )
+      .subscribe({
+        next: (response) => {
+          if (response && response.status === ResponseStatus.Success) {
+            this.files = response.data as DsdFile[];
+            this.total = response.total || 0;
+          } else {
+            this.message.error(
+              this.translateService.instant('module.file.error.get')
+            );
+            this.files = [];
+          }
+        },
+        error: (err) => {
+          this.loading.searching = false;
+          // TODO i18n
+          this.message.error('Error', err);
+          this.files = [];
+        },
+        complete: () => {
+          this.loading.searching = false;
+        },
+      });
+  }
+
+  onQueryParamsChange(params: NzTableQueryParams) {
+    console.log('params:', params);
+    const { pageIndex, pageSize, sort, filter } = params;
+    const { key, value } = sort?.find((s) => s.value) || {};
+    this.getFileByPaging(
+      pageIndex - 1,
+      pageSize,
+      key,
+      value?.replace(/end$/, '')
+    );
   }
 
   delete(file: DsdFile) {
@@ -179,30 +212,6 @@ export class FilesComponent implements OnInit {
 
   isFile(fileType: string | any) {
     return fileType && fileType.startsWith('image/');
-  }
-
-  getAllFile(): void {
-    this.loading.searching = true;
-    this.adminFileService.getAllFile(0, 1000).subscribe({
-      next: (response) => {
-        if (response && response.status === ResponseStatus.Success) {
-          this.files = response.data as DsdFile[];
-        } else {
-          this.message.error(
-            this.translateService.instant('module.file.error.get')
-          );
-          this.files = [];
-        }
-      },
-      error: (err) => {
-        // TODO i18n
-        this.message.error('Error', err);
-        this.files = [];
-      },
-      complete: () => {
-        this.loading.searching = false;
-      },
-    });
   }
 
   onCancel() {

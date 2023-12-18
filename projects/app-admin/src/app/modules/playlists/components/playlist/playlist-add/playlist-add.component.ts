@@ -46,15 +46,8 @@ export class PlaylistAddComponent implements OnInit {
 
   tableColumns: ColumnItem<DsdFile>[] = [
     {
-      name: '',
-      sortOrder: null,
-      sortFn: (a: DsdFile, b: DsdFile) =>
-        a.name?.localeCompare(b.name as string) as number,
-      listOfFilter: [],
-      filterFn: (address: string, item: DsdFile) =>
-        item?.status?.indexOf(address) !== -1,
-      filterMultiple: false,
-      sortDirections: ['ascend', 'descend', null],
+      name: 'module.file.name',
+      key: 'path',
     },
   ];
 

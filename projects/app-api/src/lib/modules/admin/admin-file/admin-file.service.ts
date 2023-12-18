@@ -19,7 +19,7 @@ export class AdminFileService {
     private formBuilder: FormBuilder
   ) {}
 
-  public getAllFile(
+  public getFileByPaging(
     page?: number,
     size?: number,
     sortBy?: string,

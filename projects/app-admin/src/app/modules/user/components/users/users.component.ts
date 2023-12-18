@@ -44,45 +44,19 @@ export class UsersComponent implements OnInit {
   tableColumns: ColumnItem<User>[] = [
     {
       name: 'module.user.userName',
-      sortOrder: 'descend',
-      sortFn: (a: User, b: User) =>
-        a.userName?.localeCompare(b.userName as string) as number,
-      listOfFilter: [],
-      filterFn: null,
-      filterMultiple: false,
-      sortDirections: ['ascend', 'descend', null],
+      key: 'userName',
     },
     {
       name: 'module.user.email',
-      sortOrder: 'descend',
-      sortFn: (a: User, b: User) =>
-        a.email?.localeCompare(b.email as string) as number,
-      listOfFilter: [],
-      filterFn: null,
-      filterMultiple: false,
-      sortDirections: ['ascend', 'descend', null],
+      key: 'email',
     },
     {
       name: 'module.user.phone',
-      sortOrder: null,
-      sortFn: (a: User, b: User) =>
-        a.phone?.localeCompare(b.phone as string) as number,
-      listOfFilter: [],
-      filterFn: (address: string, item: User) =>
-        item?.phone?.indexOf(address) !== -1,
-      filterMultiple: false,
-      sortDirections: ['ascend', 'descend', null],
+      key: 'phone',
     },
     {
       name: 'module.user.license',
-      sortOrder: null,
-      sortFn: (a: User, b: User) =>
-        a.license?.code?.localeCompare(b.license?.code as string) as number,
-      listOfFilter: [],
-      filterFn: (address: string, item: User) =>
-        item?.license?.code?.indexOf(address) !== -1,
-      filterMultiple: false,
-      sortDirections: ['ascend', 'descend', null],
+      key: 'license',
     },
   ];
 

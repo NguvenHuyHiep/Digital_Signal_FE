@@ -12,6 +12,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzWaveModule } from 'ng-zorro-antd/core/wave';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzModalModule } from 'ng-zorro-antd/modal';
@@ -45,6 +46,7 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     NzModalModule,
     NzSpinModule,
     NzTableModule,
+    NzDividerModule,
   ],
 })
 export class FileModule {}

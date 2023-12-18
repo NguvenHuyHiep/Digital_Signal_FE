@@ -30,15 +30,7 @@
     <nz-table #filterTable [nzData]="devices" nzTableLayout="fixed" nz-col>
       <thead>
         <tr>
-          <th
-            *ngFor="let column of tableColumns"
-            [nzSortOrder]="column.sortOrder"
-            [nzSortFn]="column.sortFn"
-            [nzSortDirections]="column.sortDirections"
-            [nzFilterMultiple]="column.filterMultiple"
-            [nzFilters]="column.listOfFilter"
-            [nzFilterFn]="column.filterFn"
-          >
+          <th *ngFor="let column of tableColumns">
             {{ column.name | translate }}
           </th>
           <th>{{ "common.option" | translate }}</th>

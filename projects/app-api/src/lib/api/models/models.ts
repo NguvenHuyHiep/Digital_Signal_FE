@@ -43,3 +43,4 @@ export * from './schedule';
 export * from './status';
 export * from './user';
 export * from './columnItem';
+export * from './sortType';
