@@ -70,7 +70,7 @@ export class DeviceGroupAddComponent implements OnInit {
       name: 'module.device.info',
       sortOrder: 'descend',
       sortFn: (a: Device, b: Device) =>
-        a.description?.localeCompare(b.description as string) as number,
+        a.information?.localeCompare(b.information as string) as number,
       listOfFilter: [],
       filterFn: null,
       filterMultiple: false,
@@ -80,7 +80,7 @@ export class DeviceGroupAddComponent implements OnInit {
       name: 'module.device.status',
       sortOrder: 'descend',
       sortFn: (a: Device, b: Device) =>
-        a.description?.localeCompare(b.description as string) as number,
+        a.status?.localeCompare(b.status as string) as number,
       listOfFilter: [],
       filterFn: null,
       filterMultiple: false,
