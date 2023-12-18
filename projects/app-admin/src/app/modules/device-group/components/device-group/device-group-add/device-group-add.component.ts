@@ -48,9 +48,10 @@ export class DeviceGroupAddComponent implements OnInit {
 
   tableColumns: ColumnItem<Device>[] = [
     {
-      name: 'ID',
+      name: 'module.device.code',
       sortOrder: 'descend',
-      sortFn: (a: Device, b: Device) => (a.id as number) - (b.id as number),
+      sortFn: (a: Device, b: Device) =>
+        a.code?.localeCompare(b.code as string) as number,
       listOfFilter: [],
       filterFn: null,
       filterMultiple: false,
