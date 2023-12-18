@@ -5,14 +5,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Playlist } from '@app-api/lib/api/models/playlist';
 import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.component';
-import {
-  LhTableConfigModel,
-  LhTableFieldType,
-} from '@app-common/lib/components/lh-table/lh-table-config.model';
 import { AdminPlaylistService } from '@app-api/lib/modules/admin/admin-playlist/admin-playlist.service';
 import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 import { Schedule } from '@app-api/lib/api/models/schedule';
 import { PlaylistAddComponent } from '@app-admin/app/modules/playlists/components/playlist/playlist-add/playlist-add.component';
+import { ColumnItem } from '@app-api/lib/api/models/columnItem';
 
 @Component({
   selector: 'app-admin-playlist',
@@ -32,22 +29,29 @@ export class PlaylistsComponent implements OnInit {
     adding: false,
     searching: false,
   };
-  tableConfig: LhTableConfigModel = {
-    disableDetail: true,
-    key: 'id',
-    fields: [
-      {
-        label: 'module.playlist.name',
-        field: 'name',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'module.playlist.description',
-        field: 'description',
-        type: LhTableFieldType.STRING,
-      },
-    ],
-  };
+
+  tableColumns: ColumnItem<Playlist>[] = [
+    {
+      name: 'module.playlist.name',
+      sortOrder: 'descend',
+      sortFn: (a: Playlist, b: Playlist) =>
+        a.name?.localeCompare(b.name as string) as number,
+      listOfFilter: [],
+      filterFn: null,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: 'module.playlist.description',
+      sortOrder: 'descend',
+      sortFn: (a: Playlist, b: Playlist) =>
+        a.description?.localeCompare(b.description as string) as number,
+      listOfFilter: [],
+      filterFn: null,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+  ];
 
   constructor(
     private activatedRoute: ActivatedRoute,

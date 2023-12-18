@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
+import { ColumnItem } from '@app-api/lib/api/models/columnItem';
 
 @Component({
   selector: 'app-admin-users',
@@ -40,32 +41,51 @@ export class UsersComponent implements OnInit {
     searching: false,
   };
 
-  tableConfig: LhTableConfigModel = {
-    key: 'id',
-    disableDetail: true,
-    fields: [
-      {
-        label: 'module.user.userName',
-        field: 'userName',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'module.user.email',
-        field: 'email',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'module.user.phone',
-        field: 'phone',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'module.user.license',
-        field: 'license.code',
-        type: LhTableFieldType.STRING,
-      },
-    ],
-  };
+  tableColumns: ColumnItem<User>[] = [
+    {
+      name: 'module.user.userName',
+      sortOrder: 'descend',
+      sortFn: (a: User, b: User) =>
+        a.userName?.localeCompare(b.userName as string) as number,
+      listOfFilter: [],
+      filterFn: null,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: 'module.user.email',
+      sortOrder: 'descend',
+      sortFn: (a: User, b: User) =>
+        a.email?.localeCompare(b.email as string) as number,
+      listOfFilter: [],
+      filterFn: null,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: 'module.user.phone',
+      sortOrder: null,
+      sortFn: (a: User, b: User) =>
+        a.phone?.localeCompare(b.phone as string) as number,
+      listOfFilter: [],
+      filterFn: (address: string, item: User) =>
+        item?.phone?.indexOf(address) !== -1,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: 'module.user.license',
+      sortOrder: null,
+      sortFn: (a: User, b: User) =>
+        a.license?.code?.localeCompare(b.license?.code as string) as number,
+      listOfFilter: [],
+      filterFn: (address: string, item: User) =>
+        item?.license?.code?.indexOf(address) !== -1,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+  ];
+
   currentUser?: User;
 
   constructor(

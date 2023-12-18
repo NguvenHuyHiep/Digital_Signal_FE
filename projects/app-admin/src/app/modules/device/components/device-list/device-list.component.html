@@ -21,7 +21,7 @@
   </div>
 
   <div [nzGutter]="[16, 16]" nz-row>
-    <lh-common-lh-table
+    <!-- <lh-common-lh-table
       nz-col
       nzSpan="24"
       #table
@@ -31,7 +31,39 @@
       (onDetail)="navigateToDetail($event)"
       [expandTemplate]="deviceDetail"
     >
-    </lh-common-lh-table>
+    </lh-common-lh-table> -->
+    <nz-table #filterTable [nzData]="devices" nzTableLayout="fixed" nz-col>
+      <thead>
+        <tr>
+          <th
+            *ngFor="let column of tableColumns"
+            [nzSortOrder]="column.sortOrder"
+            [nzSortFn]="column.sortFn"
+            [nzSortDirections]="column.sortDirections"
+            [nzFilterMultiple]="column.filterMultiple"
+            [nzFilters]="column.listOfFilter"
+            [nzFilterFn]="column.filterFn"
+          >
+            {{ column.name | translate }}
+          </th>
+          <th>{{ "common.option" | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of filterTable.data">
+          <td>{{ data.id }}</td>
+          <td>{{ data.code }}</td>
+          <td>{{ data.name }}</td>
+          <td>{{ data.information }}</td>
+          <td>{{ data.status }}</td>
+          <td>
+            <button nz-button nzType="primary" (click)="navigateToDetail(data)">
+              {{ "common.preview" | translate }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
   </div>
 </lh-common-page>
 

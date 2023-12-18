@@ -20,12 +20,47 @@
     </button>
   </div>
 
-  <lh-common-lh-table
+  <!-- <lh-common-lh-table
     #table
     [data]="users"
     [config]="tableConfig"
     (onUpdate)="navigateToUpdate($event)"
     (onDelete)="delete($event)"
     [loading]="loading.searching"
-  ></lh-common-lh-table>
+  ></lh-common-lh-table> -->
+
+  <nz-table #filterTable [nzData]="users" nzTableLayout="fixed" nz-col>
+    <thead>
+      <tr>
+        <th
+          *ngFor="let column of tableColumns"
+          [nzSortOrder]="column.sortOrder"
+          [nzSortFn]="column.sortFn"
+          [nzSortDirections]="column.sortDirections"
+          [nzFilterMultiple]="column.filterMultiple"
+          [nzFilters]="column.listOfFilter"
+          [nzFilterFn]="column.filterFn"
+        >
+          {{ column.name | translate }}
+        </th>
+        <th>{{ "common.option" | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of filterTable.data">
+        <td>{{ data.userName }}</td>
+        <td>{{ data.email }}</td>
+        <td>{{ data.phone }}</td>
+        <td>{{ data.license?.code }}</td>
+        <td>
+          <button nz-button nzType="primary" (click)="navigateToUpdate(data)">
+            {{ "common.preview" | translate }}
+          </button>
+          <button nz-button nzType="primary" nzDanger (click)="delete(data)">
+            {{ "common.delete" | translate }}
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
 </lh-common-page>

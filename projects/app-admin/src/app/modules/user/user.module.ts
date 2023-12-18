@@ -22,6 +22,7 @@ import { UserInformationComponent } from './components/user-information/user-inf
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzTableModule } from 'ng-zorro-antd/table';
 
 @NgModule({
   declarations: [UsersComponent, UserAddComponent, UserInformationComponent],
@@ -47,6 +48,7 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
     NzCardModule,
     NzDescriptionsModule,
     NzCheckboxModule,
+    NzTableModule,
   ],
   providers: [],
 })

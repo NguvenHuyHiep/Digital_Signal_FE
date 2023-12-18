@@ -26,6 +26,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzTableModule } from 'ng-zorro-antd/table';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
     DeviceModule,
     FormsModule,
     NzModalModule,
+    NzTableModule,
   ],
 })
 export class DeviceGroupModule {}
