@@ -7,6 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ColumnItem } from '@app-api/lib/api/models/columnItem';
 import { Device } from '@app-api/lib/api/models/device';
 import { DeviceGroup } from '@app-api/lib/api/models/deviceGroup';
 import { DeviceStatus } from '@app-api/lib/api/models/deviceStatus';
@@ -49,38 +50,58 @@ export class DeviceListComponent<T extends Object> implements OnInit {
     searching: false,
   };
 
-  tableConfig: LhTableConfigModel = {
-    key: 'id',
-    disableUpdate: true,
-    disableDelete: true,
-    fields: [
-      {
-        label: 'ID',
-        field: 'id',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'module.device.code',
-        field: 'code',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'module.device.name',
-        field: 'name',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'module.device.info',
-        field: 'information',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'module.device.status',
-        field: 'status',
-        type: LhTableFieldType.STRING,
-      },
-    ],
-  };
+  tableColumns: ColumnItem<Device>[] = [
+    {
+      name: 'ID',
+      sortOrder: 'descend',
+      sortFn: (a: Device, b: Device) => (a.id as number) - (b.id as number),
+      listOfFilter: [],
+      filterFn: null,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: 'module.device.code',
+      sortOrder: 'descend',
+      sortFn: (a: Device, b: Device) =>
+        a.code?.localeCompare(b.code as string) as number,
+      listOfFilter: [],
+      filterFn: null,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: 'module.device.name',
+      sortOrder: null,
+      sortFn: (a: Device, b: Device) =>
+        a.name?.localeCompare(b.name as string) as number,
+      listOfFilter: [],
+      filterFn: (address: string, item: Device) =>
+        item?.name?.indexOf(address) !== -1,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: 'module.device.info',
+      sortOrder: null,
+      sortFn: (a: Device, b: Device) =>
+        a.information?.localeCompare(b.information as string) as number,
+      listOfFilter: [],
+      filterFn: null,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: 'module.device.status',
+      sortOrder: null,
+      sortFn: (a: Device, b: Device) =>
+        a.status?.localeCompare(b.status as string) as number,
+      listOfFilter: [],
+      filterFn: null,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+  ];
 
   devices: Device[] = [];
   currentDevice: Device = {};

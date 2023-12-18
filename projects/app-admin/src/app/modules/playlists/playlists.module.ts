@@ -29,6 +29,7 @@ import { AdminDeviceGroupModule } from '@app-api/lib/modules/admin/group-device/
 import { UiCommonModule } from '@app-common/lib/modules/ui-common/ui-common.module';
 import { FileModule } from '../file/file.module';
 import { PlaylistDetailComponent } from './components/playlist/playlist-detail/playlist-detail.component';
+import { NzTableModule } from 'ng-zorro-antd/table';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { PlaylistDetailComponent } from './components/playlist/playlist-detail/p
     FileModule,
     AdminPlaylistModule,
     AdminDeviceGroupModule,
+    NzTableModule,
   ],
 })
 export class PlaylistsModule {}

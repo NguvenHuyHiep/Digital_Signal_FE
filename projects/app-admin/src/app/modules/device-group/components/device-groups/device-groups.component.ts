@@ -14,6 +14,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from '@app-api/lib/api/models/user';
 import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
+import { ColumnItem } from '@app-api/lib/api/models/columnItem';
 
 @Component({
   selector: 'app-admin-device-groups',
@@ -38,22 +39,28 @@ export class DeviceGroupsComponent implements OnInit {
     device: false,
   };
 
-  tableConfig: LhTableConfigModel = {
-    disableDetail: true,
-    key: 'id',
-    fields: [
-      {
-        label: 'module.groupDevice.name',
-        field: 'name',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'module.groupDevice.description',
-        field: 'description',
-        type: LhTableFieldType.STRING,
-      },
-    ],
-  };
+  tableColumns: ColumnItem<DeviceGroup>[] = [
+    {
+      name: 'module.playlist.name',
+      sortOrder: 'descend',
+      sortFn: (a: DeviceGroup, b: DeviceGroup) =>
+        a.name?.localeCompare(b.name as string) as number,
+      listOfFilter: [],
+      filterFn: null,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: 'module.playlist.description',
+      sortOrder: 'descend',
+      sortFn: (a: DeviceGroup, b: DeviceGroup) =>
+        a.description?.localeCompare(b.description as string) as number,
+      listOfFilter: [],
+      filterFn: null,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+  ];
 
   constructor(
     private modalService: NzModalService,
