@@ -21,6 +21,7 @@ import { BaseOutputDeviceGroup } from '@app-api/lib/api/models/baseOutputDeviceG
 import { User } from '@app-api/lib/api/models/user';
 import { Location } from '@angular/common';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { ColumnItem } from '@app-api/lib/api/models/columnItem';
 
 @Component({
   selector: 'app-admin-device-group-add',
@@ -44,6 +45,48 @@ export class DeviceGroupAddComponent implements OnInit {
     deleteDevices: false,
     addDevice: false,
   };
+
+  tableColumns: ColumnItem<Device>[] = [
+    {
+      name: 'ID',
+      sortOrder: 'descend',
+      sortFn: (a: Device, b: Device) => (a.id as number) - (b.id as number),
+      listOfFilter: [],
+      filterFn: null,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: 'module.device.name',
+      sortOrder: 'descend',
+      sortFn: (a: Device, b: Device) =>
+        a.name?.localeCompare(b.name as string) as number,
+      listOfFilter: [],
+      filterFn: null,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: 'module.device.info',
+      sortOrder: 'descend',
+      sortFn: (a: Device, b: Device) =>
+        a.description?.localeCompare(b.description as string) as number,
+      listOfFilter: [],
+      filterFn: null,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+    {
+      name: 'module.device.status',
+      sortOrder: 'descend',
+      sortFn: (a: Device, b: Device) =>
+        a.description?.localeCompare(b.description as string) as number,
+      listOfFilter: [],
+      filterFn: null,
+      filterMultiple: false,
+      sortDirections: ['ascend', 'descend', null],
+    },
+  ];
 
   tableConfig: LhTableConfigModel = {
     key: 'id',

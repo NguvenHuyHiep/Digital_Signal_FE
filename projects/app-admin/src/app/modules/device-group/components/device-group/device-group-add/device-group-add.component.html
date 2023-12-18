@@ -43,14 +43,42 @@
         {{ "module.groupDevice.listDevice" | translate }}
       </nz-form-label>
       <nz-skeleton [nzActive]="true" *ngIf="loading.addDevice"></nz-skeleton>
-      <lh-common-lh-table
+      <!-- <lh-common-lh-table
         *ngIf="!loading.addDevice"
         [config]="tableConfig"
         [data]="devices"
         (onDelete)="removeDeviceFromDeviceGroup($event)"
         [loading]="loading.addDevice"
         (onUpdate)="detailDevice($event)"
-      ></lh-common-lh-table>
+      ></lh-common-lh-table> -->
+
+      <nz-table #filterTable [nzData]="devices" nzTableLayout="fixed" nz-col>
+        <thead>
+          <tr>
+            <th
+              *ngFor="let column of tableColumns"
+              [nzSortOrder]="column.sortOrder"
+              [nzSortFn]="column.sortFn"
+              [nzSortDirections]="column.sortDirections"
+              [nzFilterMultiple]="column.filterMultiple"
+              [nzFilters]="column.listOfFilter"
+              [nzFilterFn]="column.filterFn"
+            >
+              {{ column.name | translate }}
+            </th>
+            <th>{{ "common.option" | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of filterTable.data">
+            <td>{{ data.id }}</td>
+            <td>{{ data.name }}</td>
+            <td>{{ data.information }}</td>
+            <td>{{ data.status }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+
       <form nz-form [formGroup]="addDeviceForm" nzLayout="vertical">
         <!--      <div nz-col [nzLg]="4" [nzSm]="24" style="float: right">-->
         <!--        <div nz-row nzAlign="middle" class="h-100" style="padding-top: 15px; padding-bottom: 15px;">-->
