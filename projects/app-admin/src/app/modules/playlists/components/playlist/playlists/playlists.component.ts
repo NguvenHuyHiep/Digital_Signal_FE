@@ -10,6 +10,7 @@ import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 import { Schedule } from '@app-api/lib/api/models/schedule';
 import { PlaylistAddComponent } from '@app-admin/app/modules/playlists/components/playlist/playlist-add/playlist-add.component';
 import { ColumnItem } from '@app-api/lib/api/models/columnItem';
+import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
 @Component({
   selector: 'app-admin-playlist',
@@ -30,6 +31,11 @@ export class PlaylistsComponent implements OnInit {
     searching: false,
   };
 
+  // paging variables
+  total: number = 0;
+  pageIndex: number = 1;
+  pageSize: number = 10;
+
   tableColumns: ColumnItem<Playlist>[] = [
     {
       name: 'module.playlist.name',
@@ -49,41 +55,67 @@ export class PlaylistsComponent implements OnInit {
     private translateService: TranslateService,
     private modalService: NzModalService
   ) {}
+
   ngOnInit(): void {
-    this.getAllPlaylist();
+    this.getPlaylistByPaging(this.pageIndex - 1, this.pageSize);
   }
 
+  getPlaylistByPaging(
+    pageIndex?: number,
+    pageSize?: number,
+    sortBy?: string,
+    sortDirection?: string,
+    keyword?: string
+  ): void {
+    this.loading.searching = true;
+    this.playlistService
+      .getPlaylistByPaging(
+        pageIndex || 0,
+        pageSize || 10,
+        sortBy || 'id',
+        sortDirection || 'desc',
+        keyword || ''
+      )
+      .subscribe({
+        next: (response) => {
+          if (response && response.status === ResponseStatus.Success) {
+            this.playlists = response.data as Playlist[];
+          } else {
+            let errorsInStr: string = response.errors
+              ?.map((e) => this.translateService.instant(e))
+              .join(',') as string;
+            this.message.error(errorsInStr);
+            this.playlists = [];
+          }
+        },
+        error: (err) => {
+          this.message.create(
+            'error',
+            err.message
+              ? err.message
+              : this.translateService.instant('common.error')
+          );
+          console.log(err);
+        },
+        complete: () => {
+          this.loading.searching = false;
+        },
+      });
+  }
+
+  onQueryParamsChange(params: NzTableQueryParams) {
+    console.log('params:', params);
+    const { pageIndex, pageSize, sort, filter } = params;
+    const { key, value } = sort?.find((s) => s.value) || {};
+    this.getPlaylistByPaging(
+      pageIndex - 1,
+      pageSize,
+      key,
+      value?.replace(/end$/, '')
+    );
+  }
   get isSelectedRow(): boolean {
     return (this.table?.setOfCheckedId?.size || 0) > 0;
-  }
-
-  getAllPlaylist(): void {
-    this.loading.searching = true;
-    this.playlistService.getAllPlayList(0, 100).subscribe({
-      next: (response) => {
-        if (response && response.status === ResponseStatus.Success) {
-          this.playlists = response.data as Playlist[];
-        } else {
-          let errorsInStr: string = response.errors
-            ?.map((e) => this.translateService.instant(e))
-            .join(',') as string;
-          this.message.error(errorsInStr);
-          this.playlists = [];
-        }
-      },
-      error: (err) => {
-        this.message.create(
-          'error',
-          err.message
-            ? err.message
-            : this.translateService.instant('common.error')
-        );
-        console.log(err);
-      },
-      complete: () => {
-        this.loading.searching = false;
-      },
-    });
   }
 
   deleteSelected() {}
@@ -106,7 +138,7 @@ export class PlaylistsComponent implements OnInit {
         new Promise((resolve, reject) => {
           return this.playlistService.delete(playList?.id as number).subscribe({
             next: (response) => {
-              this.getAllPlaylist();
+              this.getPlaylistByPaging();
             },
             error: (err) => {
               //TODO Xử lý exception

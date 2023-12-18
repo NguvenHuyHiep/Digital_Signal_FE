@@ -13,6 +13,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 import { ColumnItem } from '@app-api/lib/api/models/columnItem';
+import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-users',
@@ -62,6 +64,11 @@ export class UsersComponent implements OnInit {
 
   currentUser?: User;
 
+  // paging variables
+  total: number = 0;
+  pageIndex: number = 1;
+  pageSize: number = 10;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -71,16 +78,29 @@ export class UsersComponent implements OnInit {
     private modalService: NzModalService
   ) {}
   ngOnInit(): void {
-    this.getAllUser();
+    this.getUserByPaging(this.pageIndex - 1, this.pageSize);
   }
+
   get isSelectedRow(): boolean {
     return (this.table?.setOfCheckedId?.size || 0) > 0;
   }
 
-  getAllUser(): void {
+  getUserByPaging(
+    pageIndex?: number,
+    pageSize?: number,
+    sortBy?: string,
+    sortDirection?: string,
+    keyword?: string
+  ): void {
     this.loading.searching = true;
     this.adminUserService
-      .getAllUserByPaging(0, 100, 'id', 'DESC', '')
+      .getAllUserByPaging(
+        pageIndex || 0,
+        pageSize || 10,
+        sortBy || 'id',
+        sortDirection || 'desc',
+        keyword || ''
+      )
       .subscribe({
         next: (response) => {
           if (response && response.status === ResponseStatus.Success) {
@@ -107,6 +127,19 @@ export class UsersComponent implements OnInit {
         },
       });
   }
+
+  onQueryParamsChange(params: NzTableQueryParams) {
+    console.log('params:', params);
+    const { pageIndex, pageSize, sort, filter } = params;
+    const { key, value } = sort?.find((s) => s.value) || {};
+    this.getUserByPaging(
+      pageIndex - 1,
+      pageSize,
+      key,
+      value?.replace(/end$/, '')
+    );
+  }
+
   deleteSelected() {}
 
   delete(user: User) {
