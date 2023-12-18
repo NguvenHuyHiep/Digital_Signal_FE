@@ -49,11 +49,11 @@ export class AdminFileService {
     return this.adminFileControllerService.upload(files as any);
   }
 
-  public download(dsdFile: DsdFile): Observable<BaseOutputDsdFile> {
+  public download(dsdFile: DsdFile): Observable<Blob | undefined> {
     if (dsdFile && dsdFile.path) {
       return this.adminFileControllerService.download(dsdFile.path);
     }
-    return of();
+    return of(undefined);
   }
 
   public deleteFile(path: string): Observable<BaseOutputString> {

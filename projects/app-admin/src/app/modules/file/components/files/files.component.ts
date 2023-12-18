@@ -81,6 +81,7 @@ export class FilesComponent implements OnInit {
     isVisible: boolean;
     dsdFile?: DsdFile;
     src?: any;
+    blob?: Blob;
   } = {
     isVisible: false,
   };
@@ -150,11 +151,10 @@ export class FilesComponent implements OnInit {
       this.adminFileService.download(record).subscribe({
         next: (response) => {
           if (response) {
-            this.previewFile.src = response.data?.path;
-            //  this.sanitizer.bypassSecurityTrustUrl(
-            //   URL.createObjectURL(response)
-            // );
-            this.previewFile.dsdFile = response.data;
+            this.previewFile.src = this.sanitizer.bypassSecurityTrustUrl(
+              URL.createObjectURL(response)
+            );
+            this.previewFile.blob = response;
           } else {
             this.message.error(
               this.translateService.instant('error.cannot-preview-file')

@@ -45,15 +45,13 @@ export class AdminFileApiService {
     });
   }
 
-  public download(path: string): Observable<BaseOutputDsdFile> {
-    return this.http.get<BaseOutputDsdFile>(
-      `/api/v1/admin/file/download/${path}`,
-      {
-        params: {
-          path,
-        },
-      }
-    );
+  public download(path: string): Observable<Blob> {
+    return this.http.get<Blob>(`/api/v1/admin/file/download`, {
+      responseType: 'blob' as 'json',
+      params: {
+        path,
+      },
+    });
   }
 
   public deleteByPath(path: string): Observable<BaseOutputString> {
