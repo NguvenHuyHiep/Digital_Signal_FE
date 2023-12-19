@@ -104,7 +104,7 @@ export class UsersComponent implements OnInit {
         next: (response) => {
           if (response && response.status === ResponseStatus.Success) {
             this.users = response.data as User[];
-            this.total = response.total as number;
+            this.total = response.total || 0;
           } else {
             let errorsInStr: string = response.errors
               ?.map((e) => this.translateService.instant(e))

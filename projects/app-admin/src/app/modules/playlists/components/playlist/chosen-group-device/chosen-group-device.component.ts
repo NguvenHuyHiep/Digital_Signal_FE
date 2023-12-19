@@ -69,7 +69,7 @@ export class ChosenGroupDeviceComponent
   }
 
   private getAllDeviceGroup() {
-    this.adminDeviceGroupService.getAllDeviceGroup(0, 1000).subscribe({
+    this.adminDeviceGroupService.getDeviceGroupByPaging(0, 1000).subscribe({
       next: (response) => {
         if (response && response.status === ResponseStatus.Success) {
           this.deviceGroups = response.data as DeviceGroup[];

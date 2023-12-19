@@ -21,6 +21,7 @@ import {
 import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.component';
 import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
 @Component({
   selector: 'app-admin-device-list',
@@ -75,56 +76,19 @@ export class DeviceListComponent<T extends Object> implements OnInit {
 
   devices: Device[] = [];
   currentDevice: Device = {};
+  total: number = 0;
+  pageIndex: number = 1;
+  pageSize: number = 10;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private adminDeviceService: AdminDeviceService,
-    private adminDeviceGroupService: AdminDeviceGroupService,
-    private translateService: TranslateService,
     private message: NzMessageService
   ) {}
 
   ngOnInit(): void {
-    this.loading.searching = true;
-    if (this.deviceGroupAdmin) {
-      this.adminDeviceGroupService
-        .getDeviceGroupByDeviceGroupId(this.deviceGroupAdmin.id as number)
-        .subscribe({
-          next: (response) => {
-            if (response && response.status === ResponseStatus.Success) {
-              this.devices = response.data?.devices as Array<Device>;
-            } else {
-              let errorsInStr: string = response.errors
-                ?.map((e) => this.translateService.instant(e))
-                .join(', ') as string;
-              this.message.error(errorsInStr);
-            }
-          },
-          error: (err) => {
-            //TODO Xử lý exception
-          },
-          complete: () => {
-            this.loading.searching = false;
-          },
-        });
-    } else {
-      this.adminDeviceService
-        .getAllDevice(0, 100, 'id', 'DESC', '', this.statusSelect)
-        .subscribe({
-          next: (response) => {
-            if (response && response.data) {
-              this.devices = response.data;
-            }
-          },
-          error: (err) => {
-            //TODO Xử lý exception
-          },
-          complete: () => {
-            this.loading.searching = false;
-          },
-        });
-    }
+    this.getDeviceByPaging(this.pageIndex - 1, this.pageSize);
   }
 
   navigateToDetail = (record: Device): void => {
@@ -138,5 +102,54 @@ export class DeviceListComponent<T extends Object> implements OnInit {
     if (this.statusSelect === selectedValue) {
       this.ngOnInit();
     }
+  }
+
+  getDeviceByPaging(
+    pageIndex?: number,
+    pageSize?: number,
+    sortBy?: string,
+    sortDirection?: string,
+    keyword?: string,
+    status?: DeviceStatus
+  ): void {
+    this.loading.searching = true;
+    this.adminDeviceService
+      .getDeviceByPaging(
+        pageIndex || 0,
+        pageSize || 10,
+        sortBy || 'id',
+        sortDirection || 'desc',
+        keyword || '',
+        status
+      )
+      .subscribe({
+        next: (response) => {
+          if (response && response.data) {
+            this.devices = response.data;
+            this.total = response.total || 0;
+          }
+        },
+        error: (err) => {
+          this.loading.searching = false;
+          // TODO i18n
+          this.message.error('Error', err);
+          this.devices = [];
+        },
+        complete: () => {
+          this.loading.searching = false;
+        },
+      });
+  }
+
+  onQueryParamsChange(params: NzTableQueryParams) {
+    console.log('params:', params);
+    const { pageIndex, pageSize, sort, filter } = params;
+    const { key, value } = sort?.find((s) => s.value) || {};
+    this.getDeviceByPaging(
+      pageIndex - 1,
+      pageSize,
+      key,
+      value?.replace(/end$/, '')
+    );
   }
 }
