@@ -31,6 +31,11 @@ export class PlaylistsComponent implements OnInit {
     searching: false,
   };
 
+  // paging variables
+  total: number = 0;
+  pageIndex: number = 1;
+  pageSize: number = 10;
+
   tableColumns: ColumnItem<Playlist>[] = [
     {
       name: 'module.playlist.name',
@@ -42,11 +47,6 @@ export class PlaylistsComponent implements OnInit {
     },
   ];
 
-  // paging variables
-  total: number = 0;
-  pageIndex: number = 1;
-  pageSize: number = 10;
-
   constructor(
     private activatedRoute: ActivatedRoute,
     private playlistService: AdminPlaylistService,
@@ -55,12 +55,9 @@ export class PlaylistsComponent implements OnInit {
     private translateService: TranslateService,
     private modalService: NzModalService
   ) {}
+
   ngOnInit(): void {
     this.getPlaylistByPaging(this.pageIndex - 1, this.pageSize);
-  }
-
-  get isSelectedRow(): boolean {
-    return (this.table?.setOfCheckedId?.size || 0) > 0;
   }
 
   getPlaylistByPaging(
@@ -72,7 +69,7 @@ export class PlaylistsComponent implements OnInit {
   ): void {
     this.loading.searching = true;
     this.playlistService
-      .getAllPlayList(
+      .getPlaylistByPaging(
         pageIndex || 0,
         pageSize || 10,
         sortBy || 'id',
@@ -83,7 +80,6 @@ export class PlaylistsComponent implements OnInit {
         next: (response) => {
           if (response && response.status === ResponseStatus.Success) {
             this.playlists = response.data as Playlist[];
-            this.total = response.total || 0;
           } else {
             let errorsInStr: string = response.errors
               ?.map((e) => this.translateService.instant(e))
@@ -117,6 +113,9 @@ export class PlaylistsComponent implements OnInit {
       key,
       value?.replace(/end$/, '')
     );
+  }
+  get isSelectedRow(): boolean {
+    return (this.table?.setOfCheckedId?.size || 0) > 0;
   }
 
   deleteSelected() {}

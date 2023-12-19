@@ -22,6 +22,24 @@ export class AdminPlaylistService {
     private adminPlayListController: AdminPlaylistApiService
   ) {}
 
+  public getPlaylistByPaging(
+    page?: number,
+    size?: number,
+    sortBy?: string,
+    sortDirection?: string,
+    keyword?: string
+  ) {
+    return this.adminPlayListController
+      .getByPaging(
+        page ?? 0,
+        size ?? 100,
+        sortBy ?? 'id',
+        sortDirection ?? 'DESC',
+        keyword ?? ''
+      )
+      .pipe(tap((response) => console.log(response)));
+  }
+
   public buildPlaylistForm(
     playlist?: Playlist,
     file?: DsdFile
