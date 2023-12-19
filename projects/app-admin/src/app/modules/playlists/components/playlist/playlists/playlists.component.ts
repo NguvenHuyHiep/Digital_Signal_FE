@@ -80,6 +80,7 @@ export class PlaylistsComponent implements OnInit {
         next: (response) => {
           if (response && response.status === ResponseStatus.Success) {
             this.playlists = response.data as Playlist[];
+            this.total = response.total as number;
           } else {
             let errorsInStr: string = response.errors
               ?.map((e) => this.translateService.instant(e))

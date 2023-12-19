@@ -14,7 +14,6 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 import { ColumnItem } from '@app-api/lib/api/models/columnItem';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
-import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-users',
@@ -105,6 +104,7 @@ export class UsersComponent implements OnInit {
         next: (response) => {
           if (response && response.status === ResponseStatus.Success) {
             this.users = response.data as User[];
+            this.total = response.total as number;
           } else {
             let errorsInStr: string = response.errors
               ?.map((e) => this.translateService.instant(e))
