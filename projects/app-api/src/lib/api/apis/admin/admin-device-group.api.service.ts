@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { BaseOutputString } from '../../models/baseOutputString';
 import { DeviceGroup } from '../../models/deviceGroup';
 import { Device } from '../../models/device';
+import { BaseOutputListDeviceGroup } from '../../models/baseOutputListDeviceGroup';
 
 @Injectable({
   providedIn: 'root',
@@ -30,17 +31,20 @@ export class AdminDeviceGroupApiService {
     sortDirection: string,
     keyword: string,
     status: string
-  ): Observable<BaseOutputDeviceGroup> {
-    return this.http.get<BaseOutputDeviceGroup>(`/api/v1/admin/device-group`, {
-      params: {
-        page,
-        size,
-        sortBy,
-        sortDirection,
-        keyword,
-        status,
-      },
-    });
+  ): Observable<BaseOutputListDeviceGroup> {
+    return this.http.get<BaseOutputListDeviceGroup>(
+      `/api/v1/admin/device-group`,
+      {
+        params: {
+          page,
+          size,
+          sortBy,
+          sortDirection,
+          keyword,
+          status,
+        },
+      }
+    );
   }
 
   public create(deviceGroup: DeviceGroup): Observable<BaseOutputDeviceGroup> {

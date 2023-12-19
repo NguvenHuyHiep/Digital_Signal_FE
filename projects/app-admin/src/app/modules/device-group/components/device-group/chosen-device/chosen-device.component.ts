@@ -76,7 +76,7 @@ export class ChosenDeviceComponent implements ControlValueAccessor, OnInit {
   getAllDevice() {
     // TODO use search instead of get all records with 10 items, or apply infinitive scroll for this func
     this.adminDeviceService
-      .getAllDevice(0, 1000, 'id', 'DESC', '', DeviceStatus.Undefined)
+      .getDeviceByPaging(0, 1000, 'id', 'DESC', '', DeviceStatus.Undefined)
       .subscribe({
         next: (response) => {
           if (response && response.status === ResponseStatus.Success) {

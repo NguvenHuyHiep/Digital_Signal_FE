@@ -4,10 +4,6 @@ import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.c
 import { DeviceGroup } from '@app-api/lib/api/models/deviceGroup';
 import { DeviceGroupAddComponent } from '@app-admin/app/modules/device-group/components/device-group/device-group-add/device-group-add.component';
 import { Device } from '@app-api/lib/api/models/device';
-import {
-  LhTableConfigModel,
-  LhTableFieldType,
-} from '@app-common/lib/components/lh-table/lh-table-config.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminDeviceGroupService } from '@app-api/lib/modules/admin/group-device/admin-group-device.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -15,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { User } from '@app-api/lib/api/models/user';
 import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 import { ColumnItem } from '@app-api/lib/api/models/columnItem';
+import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
 @Component({
   selector: 'app-admin-device-groups',
@@ -50,6 +47,10 @@ export class DeviceGroupsComponent implements OnInit {
     },
   ];
 
+  total: number = 0;
+  pageIndex: number = 1;
+  pageSize: number = 10;
+
   constructor(
     private modalService: NzModalService,
     private activatedRoute: ActivatedRoute,
@@ -59,7 +60,7 @@ export class DeviceGroupsComponent implements OnInit {
     private translateService: TranslateService
   ) {}
   ngOnInit(): void {
-    this.getAllDeviceGroup();
+    this.getDeviceGroupByPaging(this.pageIndex - 1, this.pageSize);
   }
   get isSelectedRow(): boolean {
     return (this.table?.setOfCheckedId?.size || 0) > 0;
@@ -94,7 +95,7 @@ export class DeviceGroupsComponent implements OnInit {
             .deleteDeviceGroup(deviceGroup?.id as number)
             .subscribe({
               next: (response) => {
-                this.getAllDeviceGroup();
+                this.getDeviceGroupByPaging();
               },
               error: (err) => {
                 //TODO Xử lý exception
@@ -108,28 +109,56 @@ export class DeviceGroupsComponent implements OnInit {
     });
   }
 
-  private getAllDeviceGroup() {
-    this.adminDeviceGroupService.getAllDeviceGroup(0, 1000).subscribe({
-      next: (response) => {
-        if (response && response.status === ResponseStatus.Success) {
-          this.deviceGroups = response.data as DeviceGroup[];
-          console.log(this.deviceGroups + 'DeviceGroup');
-        } else {
-          let errorsInStr: string = response.errors
-            ?.map((e) => this.translateService.instant(e))
-            .join(',') as string;
-          this.message.error(errorsInStr);
-          this.deviceGroups = [];
-        }
-      },
-      error: (err) => {
-        // TODO i18n
-        this.message.error('Error', err);
-        this.loading.searching = false;
-      },
-      complete: () => {
-        this.loading.searching = false;
-      },
-    });
+  getDeviceGroupByPaging(
+    pageIndex?: number,
+    pageSize?: number,
+    sortBy?: string,
+    sortDirection?: string,
+    keyword?: string
+  ) {
+    this.loading.searching = true;
+    this.adminDeviceGroupService
+      .getDeviceGroupByPaging(
+        pageIndex || 0,
+        pageSize || 10,
+        sortBy || 'id',
+        sortDirection || 'desc',
+        keyword || ''
+      )
+      .subscribe({
+        next: (response) => {
+          if (response && response.status === ResponseStatus.Success) {
+            this.deviceGroups = response.data as DeviceGroup[];
+            console.log(this.deviceGroups + 'DeviceGroup');
+            this.total = response.total as number;
+          } else {
+            let errorsInStr: string = response.errors
+              ?.map((e) => this.translateService.instant(e))
+              .join(',') as string;
+            this.message.error(errorsInStr);
+            this.deviceGroups = [];
+          }
+        },
+        error: (err) => {
+          // TODO i18n
+          this.message.error('Error', err);
+          this.loading.searching = false;
+        },
+        complete: () => {
+          this.loading.searching = false;
+        },
+      });
+  }
+
+  onQueryParamsChange(params: NzTableQueryParams) {
+    console.log('params:', params);
+    const { pageIndex, pageSize, sort, filter } = params;
+    const { key, value } = sort?.find((s) => s.value) || {};
+    this.getDeviceGroupByPaging(
+      pageIndex - 1,
+      pageSize,
+      key,
+      value?.replace(/end$/, '')
+    );
   }
 }

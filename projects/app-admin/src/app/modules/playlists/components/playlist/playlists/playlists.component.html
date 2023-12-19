@@ -31,10 +31,26 @@
     [expandTemplate]="playListDetail"
   ></lh-common-lh-table> -->
 
-  <nz-table #filterTable [nzData]="playlists" nzTableLayout="fixed" nz-col>
+  <nz-table
+    #filterTable
+    nzShowSizeChanger
+    nzTableLayout="fixed"
+    [nzData]="playlists"
+    [nzFrontPagination]="false"
+    [nzLoading]="loading.searching"
+    [nzTotal]="total"
+    [nzPageIndex]="pageIndex"
+    [nzPageSize]="pageSize"
+    (nzQueryParams)="onQueryParamsChange($event)"
+    nz-col
+  >
     <thead>
       <tr>
-        <th *ngFor="let column of tableColumns">
+        <th
+          *ngFor="let column of tableColumns"
+          [nzColumnKey]="column.key"
+          [nzSortFn]="true"
+        >
           {{ column.name | translate }}
         </th>
         <th>{{ "common.option" | translate }}</th>

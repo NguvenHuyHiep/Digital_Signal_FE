@@ -52,13 +52,13 @@ export class AdminDeviceGroupService {
     return this.adminGroupDeviceController.getById(deviceGroupId);
   }
 
-  public getAllDeviceGroup(
-    page?: number | 0,
-    size?: number | 100,
-    sortBy?: string | 'id',
-    sortDirection?: string | 'desc',
-    keyword?: string | '',
-    status?: string | ''
+  public getDeviceGroupByPaging(
+    page?: number,
+    size?: number,
+    sortBy?: string,
+    sortDirection?: string,
+    keyword?: string,
+    status?: string
   ) {
     return this.adminGroupDeviceController
       .getByPaging(

@@ -33,7 +33,7 @@ export class AdminDeviceService {
     return this.adminDeviceController.getById(id);
   }
 
-  public getAllDevice(
+  public getDeviceByPaging(
     page?: number | 0,
     size?: number | 200,
     sortBy?: string | 'id',
