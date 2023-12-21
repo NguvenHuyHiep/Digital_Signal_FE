@@ -76,9 +76,7 @@ export class DeviceListTableComponent<T extends Object> {
     private message: NzMessageService
   ) {}
 
-  ngOnInit(): void {
-    this.getDeviceListsByPaging(this.pageIndex - 1, this.pageSize);
-  }
+  ngOnInit(): void {}
 
   getDeviceListsByPaging(
     pageIndex?: number,
