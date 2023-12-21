@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, SimpleChanges } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.component';
 import { DeviceGroup } from '@app-api/lib/api/models/deviceGroup';
@@ -12,6 +12,10 @@ import { User } from '@app-api/lib/api/models/user';
 import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 import { ColumnItem } from '@app-api/lib/api/models/columnItem';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import {
+  LhTableConfigModel,
+  LhTableFieldType,
+} from '@app-common/lib/components/lh-table/lh-table-config.model';
 
 @Component({
   selector: 'app-admin-device-groups',
@@ -22,8 +26,7 @@ export class DeviceGroupsComponent implements OnInit {
   @ViewChild('table') table?: LhTableComponent<DeviceGroup>;
   @ViewChild('addComponent', { static: false })
   addComponent?: DeviceGroupAddComponent;
-  devices: Array<Device> = [];
-
+  devices: Device[] = [];
   currentDeviceGroup: DeviceGroup = {};
   deviceGroups: Array<DeviceGroup> = [];
   loading: {
@@ -47,6 +50,29 @@ export class DeviceGroupsComponent implements OnInit {
     },
   ];
 
+  tableDeviceColumns: ColumnItem<Device>[] = [
+    {
+      name: 'ID',
+      key: 'id',
+    },
+    {
+      name: 'module.device.code',
+      key: 'code',
+    },
+    {
+      name: 'module.device.name',
+      key: 'name',
+    },
+    {
+      name: 'module.device.info',
+      key: 'information',
+    },
+    {
+      name: 'module.device.status',
+      key: 'status',
+    },
+  ];
+
   total: number = 0;
   pageIndex: number = 1;
   pageSize: number = 10;
@@ -62,6 +88,16 @@ export class DeviceGroupsComponent implements OnInit {
   ngOnInit(): void {
     this.getDeviceGroupByPaging(this.pageIndex - 1, this.pageSize);
   }
+
+  expandSet = new Set<number>();
+  onExpandChange(id: number, checked: boolean): void {
+    if (checked) {
+      this.expandSet.add(id);
+    } else {
+      this.expandSet.delete(id);
+    }
+  }
+
   get isSelectedRow(): boolean {
     return (this.table?.setOfCheckedId?.size || 0) > 0;
   }

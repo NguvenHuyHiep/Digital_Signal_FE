@@ -45,6 +45,7 @@
   >
     <thead>
       <tr>
+        <th nzWidth="40px"></th>
         <th
           *ngFor="let column of tableColumns"
           [nzColumnKey]="column.key"
@@ -56,19 +57,68 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let data of filterTable.data">
-        <td>{{ data.name }}</td>
-        <td>{{ data.description }}</td>
-        <td>
-          <button nz-button nzType="primary" (click)="navigateToUpdate(data)">
-            {{ "common.preview" | translate }}
-          </button>
-          <nz-divider nzType="vertical"></nz-divider>
-          <button nz-button nzType="primary" nzDanger (click)="delete(data)">
-            {{ "common.delete" | translate }}
-          </button>
-        </td>
-      </tr>
+      <ng-container *ngFor="let data of filterTable.data">
+        <tr>
+          <td
+            [nzExpand]="expandSet.has(data.id || 0)"
+            (nzExpandChange)="onExpandChange(data.id || 0, $event)"
+          ></td>
+          <td>{{ data.name }}</td>
+          <td>{{ data.description }}</td>
+          <td>
+            <button nz-button nzType="primary" (click)="navigateToUpdate(data)">
+              {{ "common.update" | translate }}
+            </button>
+            <nz-divider nzType="vertical"></nz-divider>
+            <button nz-button nzType="primary" nzDanger (click)="delete(data)">
+              {{ "common.delete" | translate }}
+            </button>
+          </td>
+        </tr>
+        <tr [nzExpand]="expandSet.has(data.id || 0)">
+          <div *ngIf="devices && devices.length > 0; else noDevices">
+            <nz-table
+              #filterTable
+              nzShowSizeChanger
+              nzTableLayout="fixed"
+              [nzData]="devices"
+              [nzFrontPagination]="false"
+              [nzLoading]="loading.searching"
+              [nzTotal]="total"
+              [nzPageIndex]="pageIndex"
+              [nzPageSize]="pageSize"
+              (nzQueryParams)="onQueryParamsChange($event)"
+              nz-col
+            >
+              <thead>
+                <tr>
+                  <th
+                    *ngFor="let column of tableDeviceColumns"
+                    [nzColumnKey]="column.key"
+                    [nzSortFn]="true"
+                  >
+                    {{ column.name | translate }}
+                  </th>
+                  <th>{{ "common.option" | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of filterTable.data">
+                  <td>{{ data.id }}</td>
+                  <td>{{ data.code }}</td>
+                  <td>{{ data.name }}</td>
+                  <td>{{ data.information }}</td>
+                  <td>{{ data.status }}</td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+          <ng-template #noDevices>
+            <p>This group don't have any device</p>
+          </ng-template>
+        </tr>
+      </ng-container>
     </tbody>
   </nz-table>
 </lh-common-page>
