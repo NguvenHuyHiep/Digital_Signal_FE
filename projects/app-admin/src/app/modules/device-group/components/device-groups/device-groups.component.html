@@ -76,37 +76,11 @@
           </td>
         </tr>
         <tr [nzExpand]="expandSet.has(data.id || 0)">
-          <nz-table
-            #filterTable
-            [nzData]="devices"
-            nzTableLayout="fixed"
-            nz-col
-          >
-            <thead>
-              <tr>
-                <th *ngFor="let column of tableDeviceColumns" [nzSortFn]="true">
-                  {{ column.name | translate }}
-                </th>
-                <th>{{ "common.option" | translate }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let data of filterTable.data">
-                <td>{{ data.id }}</td>
-                <td>{{ data.code }}</td>
-                <td>{{ data.name }}</td>
-                <td>{{ data.information }}</td>
-                <td>{{ data.status }}</td>
-              </tr>
-            </tbody>
-          </nz-table>
+          <app-admin-device-list-table
+            [deviceGroup]="data"
+          ></app-admin-device-list-table>
         </tr>
       </ng-container>
     </tbody>
   </nz-table>
 </lh-common-page>
-<ng-template #playlistDetail let-data="data">
-  <app-admin-device-list-table
-    [deviceGroup]="data"
-  ></app-admin-device-list-table>
-</ng-template>
