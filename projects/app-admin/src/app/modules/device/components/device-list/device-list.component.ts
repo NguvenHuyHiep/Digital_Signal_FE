@@ -104,6 +104,16 @@ export class DeviceListComponent<T extends Object> implements OnInit {
     }
   }
 
+  expandSet = new Set<number>();
+
+  onExpandChange(id: number, checked: boolean): void {
+    if (checked) {
+      this.expandSet.add(id);
+    } else {
+      this.expandSet.delete(id);
+    }
+  }
+
   getDeviceByPaging(
     pageIndex?: number,
     pageSize?: number,
@@ -136,6 +146,7 @@ export class DeviceListComponent<T extends Object> implements OnInit {
           this.devices = [];
         },
         complete: () => {
+          console.log(this.devices);
           this.loading.searching = false;
         },
       });

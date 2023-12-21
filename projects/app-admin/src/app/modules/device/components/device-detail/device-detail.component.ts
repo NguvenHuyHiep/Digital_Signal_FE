@@ -20,20 +20,12 @@ import { Location } from '@angular/common';
 import {
   NzTableFilterFn,
   NzTableFilterList,
+  NzTableQueryParams,
   NzTableSortFn,
   NzTableSortOrder,
 } from 'ng-zorro-antd/table';
 import { TranslateService } from '@ngx-translate/core';
-
-interface ColumnItem {
-  name: string;
-  sortOrder: NzTableSortOrder | null;
-  sortFn: NzTableSortFn<DeviceLog> | null;
-  listOfFilter: NzTableFilterList;
-  filterFn: NzTableFilterFn<DeviceLog> | null;
-  filterMultiple: boolean;
-  sortDirections: NzTableSortOrder[];
-}
+import { ColumnItem } from '@app-api/lib/api/models/columnItem';
 
 @Component({
   selector: 'app-admin-device-detail',
@@ -45,51 +37,80 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   @Input('currentDevice') currentDevice?: DeviceStatus;
   @ViewChild('table') table?: LhTableComponent<DeviceLog>;
 
-  showFrame: {
-    search: boolean;
-  } = {
-    search: true,
-  };
+  // showFrame: {
+  //   search: boolean;
+  // } = {
+  //   search: true,
+  // };
+
+  // loading: {
+  //   searching: boolean;
+  // } = {
+  //   searching: false,
+  // };
+
+  // tableColumns: ColumnItem[] = [
+  //   {
+  //     name: 'ID',
+  //     sortOrder: 'descend',
+  //     sortFn: (a: DeviceLog, b: DeviceLog) =>
+  //       (a.id as number) - (b.id as number),
+  //     listOfFilter: [],
+  //     filterFn: null,
+  //     filterMultiple: false,
+  //     sortDirections: ['ascend', 'descend', null],
+  //   },
+  //   {
+  //     name: 'module.device.status',
+  //     sortOrder: null,
+  //     sortFn: (a: DeviceLog, b: DeviceLog) => (a.status === b.status ? 1 : 0),
+  //     listOfFilter: [
+  //       { text: 'ONLINE', value: 'ONLINE' },
+  //       { text: 'OFFLINE', value: 'OFFLINE' },
+  //     ],
+  //     filterFn: (address: string, item: DeviceLog) =>
+  //       item?.status?.indexOf(address) !== -1,
+  //     filterMultiple: false,
+  //     sortDirections: ['ascend', 'descend', null],
+  //   },
+  //   {
+  //     name: 'module.device.update-date',
+  //     sortOrder: null,
+  //     sortFn: (a: DeviceLog, b: DeviceLog) =>
+  //       Date.parse(a.date as string) - Date.parse(b.date as string),
+  //     listOfFilter: [],
+  //     filterFn: null,
+  //     filterMultiple: false,
+  //     sortDirections: ['ascend', 'descend', null],
+  //   },
+  // ];
 
   loading: {
+    adding: boolean;
     searching: boolean;
+    device: boolean;
   } = {
+    adding: false,
     searching: false,
+    device: false,
   };
 
-  tableColumns: ColumnItem[] = [
+  totalDeviceLogs: number = 0;
+  pageIndexDeviceLogs: number = 1;
+  pageSizeDeviceLogs: number = 10;
+
+  tableColumns: ColumnItem<DeviceLog>[] = [
     {
       name: 'ID',
-      sortOrder: 'descend',
-      sortFn: (a: DeviceLog, b: DeviceLog) =>
-        (a.id as number) - (b.id as number),
-      listOfFilter: [],
-      filterFn: null,
-      filterMultiple: false,
-      sortDirections: ['ascend', 'descend', null],
+      key: 'id',
     },
     {
       name: 'module.device.status',
-      sortOrder: null,
-      sortFn: (a: DeviceLog, b: DeviceLog) => (a.status === b.status ? 1 : 0),
-      listOfFilter: [
-        { text: 'ONLINE', value: 'ONLINE' },
-        { text: 'OFFLINE', value: 'OFFLINE' },
-      ],
-      filterFn: (address: string, item: DeviceLog) =>
-        item?.status?.indexOf(address) !== -1,
-      filterMultiple: false,
-      sortDirections: ['ascend', 'descend', null],
+      key: 'status',
     },
     {
       name: 'module.device.update-date',
-      sortOrder: null,
-      sortFn: (a: DeviceLog, b: DeviceLog) =>
-        Date.parse(a.date as string) - Date.parse(b.date as string),
-      listOfFilter: [],
-      filterFn: null,
-      filterMultiple: false,
-      sortDirections: ['ascend', 'descend', null],
+      key: 'updateDate',
     },
   ];
 
@@ -250,5 +271,11 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
 
   navigateToPrevious() {
     this.location.back();
+  }
+
+  onQueryParamsChangeDeviceLogs(params: NzTableQueryParams) {
+    console.log('params:', params);
+    const { pageIndex, pageSize, sort, filter } = params;
+    const { key, value } = sort?.find((s) => s.value) || {};
   }
 }

@@ -12,17 +12,25 @@
     </div>
   </div>
   <div [nzGutter]="[16, 16]" nz-row>
-    <nz-table #filterTable [nzData]="deviceLogs" nzTableLayout="fixed" nz-col>
+    <nz-table
+      #filterTable
+      nzShowSizeChanger
+      nzTableLayout="fixed"
+      [nzData]="deviceLogs"
+      [nzFrontPagination]="false"
+      [nzLoading]="loading.searching"
+      [nzTotal]="totalDeviceLogs"
+      [nzPageIndex]="pageIndexDeviceLogs"
+      [nzPageSize]="pageSizeDeviceLogs"
+      (nzQueryParams)="onQueryParamsChangeDeviceLogs($event)"
+      nz-col
+    >
       <thead>
         <tr>
           <th
             *ngFor="let column of tableColumns"
-            [nzSortOrder]="column.sortOrder"
-            [nzSortFn]="column.sortFn"
-            [nzSortDirections]="column.sortDirections"
-            [nzFilterMultiple]="column.filterMultiple"
-            [nzFilters]="column.listOfFilter"
-            [nzFilterFn]="column.filterFn"
+            [nzColumnKey]="column.key"
+            [nzSortFn]="true"
           >
             {{ column.name | translate }}
           </th>

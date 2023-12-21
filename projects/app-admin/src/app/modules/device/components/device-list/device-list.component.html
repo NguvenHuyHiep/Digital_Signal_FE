@@ -42,6 +42,7 @@
     >
       <thead>
         <tr>
+          <th></th>
           <th
             *ngFor="let column of tableColumns"
             [nzColumnKey]="column.key"
@@ -53,29 +54,42 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of filterTable.data">
-          <td>{{ data.id }}</td>
-          <td>{{ data.code }}</td>
-          <td>{{ data.name }}</td>
-          <td>{{ data.information }}</td>
-          <td>{{ data.status }}</td>
-          <td>
-            <button nz-button nzType="primary" (click)="navigateToDetail(data)">
-              {{ "common.preview" | translate }}
-            </button>
-          </td>
-        </tr>
+        <ng-container *ngFor="let data of filterTable.data">
+          <tr>
+            <td
+              [nzExpand]="expandSet.has(data.id || 0)"
+              (nzExpandChange)="onExpandChange(data.id || 0, $event)"
+            ></td>
+            <td>{{ data.id }}</td>
+            <td>{{ data.code }}</td>
+            <td>{{ data.name }}</td>
+            <td>{{ data.information }}</td>
+            <td>{{ data.status }}</td>
+            <td>
+              <button
+                nz-button
+                nzType="primary"
+                (click)="navigateToDetail(data)"
+              >
+                {{ "common.preview" | translate }}
+              </button>
+            </td>
+          </tr>
+          <tr [nzExpand]="expandSet.has(data.id || 0)">
+            <app-admin-device-chart [device]="data"></app-admin-device-chart>
+          </tr>
+        </ng-container>
       </tbody>
     </nz-table>
   </div>
 </lh-common-page>
 
-<lh-common-lh-dialog *ngIf="currentDevice?.id">
+<!-- <lh-common-lh-dialog *ngIf="currentDevice?.id">
   <app-admin-device-detail
     [deviceId]="currentDevice.id"
   ></app-admin-device-detail>
-</lh-common-lh-dialog>
+</lh-common-lh-dialog> -->
 
-<ng-template #deviceDetail let-data="data">
+<!-- <ng-template #deviceDetail let-data="data">
   <app-admin-device-chart [device]="data"></app-admin-device-chart>
-</ng-template>
+</ng-template> -->

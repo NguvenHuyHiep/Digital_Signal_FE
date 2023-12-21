@@ -5,6 +5,7 @@ import { AdminDeviceService } from '@app-api/lib/modules/admin/admin-device/admi
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { DeviceStatus } from '@app-api/lib/api/models/deviceStatus';
 import { Chart } from '@antv/g2';
+import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
 @Component({
   selector: 'app-admin-device-chart',
@@ -157,5 +158,11 @@ export class DeviceChartComponent<T extends Object> {
     // Format as HH:mm string
     const time = hourStr + ':' + minStr;
     return time;
+  }
+
+  onQueryParamsChangeDeviceLogs(params: NzTableQueryParams) {
+    console.log('params:', params);
+    const { pageIndex, pageSize, sort, filter } = params;
+    const { key, value } = sort?.find((s) => s.value) || {};
   }
 }
