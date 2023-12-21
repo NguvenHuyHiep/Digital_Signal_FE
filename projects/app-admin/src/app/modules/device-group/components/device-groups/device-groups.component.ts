@@ -92,6 +92,7 @@ export class DeviceGroupsComponent implements OnInit {
   expandSet = new Set<number>();
   onExpandChange(id: number, checked: boolean): void {
     if (checked) {
+      this.getDeviceListsByDeviceGroupId(id);
       this.expandSet.add(id);
     } else {
       this.expandSet.delete(id);
@@ -184,6 +185,30 @@ export class DeviceGroupsComponent implements OnInit {
           this.loading.searching = false;
         },
       });
+  }
+
+  getDeviceListsByDeviceGroupId(deviceGroupId: number): void {
+    this.loading.searching = true;
+    if (deviceGroupId) {
+      this.adminDeviceGroupService
+        .getDeviceGroupWithDevicesById(deviceGroupId)
+        .subscribe({
+          next: (response) => {
+            if (response && response.status === ResponseStatus.Success) {
+              this.devices = (response.data?.devices as Array<Device>) || [];
+              console.log('Device list: ', this.devices);
+            }
+          },
+          error: (err) => {
+            // TODO i18n
+            this.message.error('Error', err);
+            this.loading.searching = false;
+          },
+          complete: () => {
+            this.loading.searching = false;
+          },
+        });
+    }
   }
 
   onQueryParamsChange(params: NzTableQueryParams) {

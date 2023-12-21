@@ -147,6 +147,7 @@ export class DeviceGroupAddComponent implements OnInit {
         },
       });
   }
+
   add() {
     if (!this.form) {
       return;
@@ -282,7 +283,7 @@ export class DeviceGroupAddComponent implements OnInit {
     this.location.back();
   }
 
-  private getDeviceListsByDeviceGroupId(deviceGroupId: number): void {
+  getDeviceListsByDeviceGroupId(deviceGroupId: number): void {
     this.loading.searching = true;
     if (deviceGroupId) {
       this.adminDeviceGroupService
