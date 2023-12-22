@@ -78,6 +78,7 @@
         </tr>
         <tr [nzExpand]="expandSet.has(data.id || 0)">
           <app-admin-playlist-detail
+            *ngIf="expandSet.has(data.id || 0)"
             [playlist]="data"
           ></app-admin-playlist-detail>
         </tr>

@@ -76,7 +76,10 @@
             </td>
           </tr>
           <tr [nzExpand]="expandSet.has(data.id || 0)">
-            <app-admin-device-chart [device]="data"></app-admin-device-chart>
+            <app-admin-device-chart
+              *ngIf="expandSet.has(data.id || 0)"
+              [device]="data"
+            ></app-admin-device-chart>
           </tr>
         </ng-container>
       </tbody>
