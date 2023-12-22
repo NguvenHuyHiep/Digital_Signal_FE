@@ -1,3 +1,4 @@
+import { HttpEvent } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { FormGroupFile } from '@app-admin/app/modules/playlists/components/playlist';
@@ -45,7 +46,9 @@ export class AdminFileService {
     return this.adminFileControllerService.getByPath(path);
   }
 
-  public upload(files: NzUploadFile[]): Observable<BaseOutputListDsdFile> {
+  public upload(
+    files: NzUploadFile[]
+  ): Observable<HttpEvent<BaseOutputListDsdFile>> {
     return this.adminFileControllerService.upload(files as any);
   }
 

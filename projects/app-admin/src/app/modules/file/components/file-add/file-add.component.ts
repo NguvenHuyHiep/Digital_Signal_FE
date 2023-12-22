@@ -12,6 +12,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { AdminFileService } from '@app-api/lib/modules/admin/admin-file/admin-file.service';
 import { Location } from '@angular/common';
 import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
+import { BaseOutputListDsdFile } from '@app-api/lib/api/models/baseOutputListDsdFile';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin-file-add',
@@ -74,23 +76,45 @@ export class FileAddComponent {
 
     this.isLoading = true;
     this.adminFileService.upload(this.fileList).subscribe({
-      next: (response) => {
-        console.log(response);
-        if (response && response.status === ResponseStatus.Success) {
-          this.msg.info(
-            `${this.translateService.instant('module.file.upload.success')} ${
-              response.data?.length ? response.data.length : 0
-            }`
-          );
-          this.fileList = this.filterDuplicatedItem(
-            this.fileList,
-            response.data as DsdFile[]
-          );
-        } else {
-          let errorsInStr: string = response.errors
-            ?.map((e) => this.translateService.instant(e))
-            .join(', ') as string;
-          this.msg.error(errorsInStr);
+      next: (event) => {
+        console.log(event);
+        switch (event.type) {
+          case HttpEventType.UploadProgress:
+            // Handle upload progress
+            if (event.total) {
+              const percentDone = Math.round(
+                (100 * event.loaded) / event.total
+              );
+              console.log(`File is ${percentDone}% uploaded.`);
+            } else {
+              console.log('File is uploading...');
+            }
+            break;
+          case HttpEventType.Response:
+            // Here you get the final response
+            console.log('File is completely uploaded!', event.body);
+            const response: BaseOutputListDsdFile =
+              event.body as BaseOutputListDsdFile;
+            if (response && response.status === ResponseStatus.Success) {
+              this.msg.info(
+                `${this.translateService.instant(
+                  'module.file.upload.success'
+                )} ${response.data?.length ? response.data.length : 0}`
+              );
+              this.fileList = this.filterDuplicatedItem(
+                this.fileList,
+                response.data as DsdFile[]
+              );
+            } else {
+              let errorsInStr: string = response.errors
+                ?.map((e) => this.translateService.instant(e))
+                .join(', ') as string;
+              this.msg.error(errorsInStr);
+            }
+            break;
+          default:
+            // Handle other events if needed
+            break;
         }
       },
       error: (err) => {

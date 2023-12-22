@@ -1,9 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseOutputDsdFile } from '../../models/baseOutputDsdFile';
 import { BaseOutputListDsdFile } from '../../models/baseOutputListDsdFile';
 import { BaseOutputString } from '../../models/baseOutputString';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { forEach } from 'lodash';
 
 @Injectable({
   providedIn: 'root',
@@ -84,12 +86,20 @@ export class AdminFileApiService {
     );
   }
 
-  public upload(files: []): Observable<BaseOutputListDsdFile> {
-    return this.http.post<BaseOutputListDsdFile>(`/api/v1/admin/file/upload`, {
-      params: {
-        files,
-      },
+  public upload(files: File[]): Observable<HttpEvent<BaseOutputListDsdFile>> {
+    const formData = new FormData();
+    forEach(files, (file) => {
+      formData.append('files', file, file.name);
     });
+
+    return this.http.post<BaseOutputListDsdFile>(
+      `/api/v1/admin/file/upload`,
+      formData,
+      {
+        reportProgress: true,
+        observe: 'events',
+      }
+    );
   }
 
   public assignFileToPlaylist(
@@ -97,13 +107,8 @@ export class AdminFileApiService {
     playlistId: number
   ): Observable<BaseOutputListDsdFile> {
     return this.http.put<BaseOutputListDsdFile>(
-      `/api/v1/admin/file/{fileId}/playlist/{playlistId}`,
-      {
-        params: {
-          fileId,
-          playlistId,
-        },
-      }
+      `/api/v1/admin/file/${fileId}/playlist/${playlistId}`,
+      null
     );
   }
 
