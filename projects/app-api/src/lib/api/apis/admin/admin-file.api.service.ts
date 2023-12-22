@@ -57,7 +57,7 @@ export class AdminFileApiService {
   }
 
   public deleteByPath(path: string): Observable<BaseOutputString> {
-    return this.http.delete<BaseOutputString>(`api/v1/admin/file/${path}`, {
+    return this.http.delete<BaseOutputString>(`/api/v1/admin/file`, {
       params: {
         path,
       },
@@ -66,7 +66,7 @@ export class AdminFileApiService {
 
   public deleteFromSource(path: string): Observable<BaseOutputString> {
     return this.http.delete<BaseOutputString>(
-      `api/v1/admin/file/from-source/${path}`,
+      `/api/v1/admin/file/from-source/${path}`,
       {
         params: {
           path,
@@ -77,7 +77,7 @@ export class AdminFileApiService {
 
   public deleteFromDatabase(path: string): Observable<BaseOutputString> {
     return this.http.delete<BaseOutputString>(
-      `api/v1/admin/file/from-database/${path}`,
+      `/api/v1/admin/file/from-database/${path}`,
       {
         params: {
           path,

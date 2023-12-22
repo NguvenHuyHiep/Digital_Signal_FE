@@ -98,6 +98,7 @@
       "name": "Filename",
       "size": "Size",
       "upload": {
+        "title": "Tải lên",
         "file-empty": "Không có file để tải lên",
         "text": "Click or drag file to this area to upload",
         "hint": "Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files",
