@@ -33,12 +33,8 @@ export class DeviceChartComponent<T extends Object> {
       this.adminDeviceService.getDeviceByIdWithLogs(currentDeviceId).subscribe({
         next: (response) => {
           if (response && response.data && response.data.deviceLogs) {
-            console.log(this.getMinutesInDay());
-
             this.deviceLogs = response.data.deviceLogs;
-            setTimeout(() => {
-              this.drawChart(this.deviceLogs);
-            }, 0);
+            this.drawChart(this.deviceLogs);
           }
         },
         error: (err) => {
@@ -71,12 +67,8 @@ export class DeviceChartComponent<T extends Object> {
       return obj;
     });
 
-    let chartName = this.device.id;
-    if (!chartName) {
-      chartName = -1;
-    }
     const chart = new Chart({
-      container: chartName.toString(),
+      container: this.device.id?.toString() ?? new HTMLElement(),
       autoFit: true,
     });
 

@@ -11,15 +11,9 @@ import { ColumnItem } from '@app-api/lib/api/models/columnItem';
 import { Device } from '@app-api/lib/api/models/device';
 import { DeviceGroup } from '@app-api/lib/api/models/deviceGroup';
 import { DeviceStatus } from '@app-api/lib/api/models/deviceStatus';
-import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 import { AdminDeviceService } from '@app-api/lib/modules/admin/admin-device/admin-device.service';
 import { AdminDeviceGroupService } from '@app-api/lib/modules/admin/group-device/admin-group-device.service';
-import {
-  LhTableConfigModel,
-  LhTableFieldType,
-} from '@app-common/lib/components/lh-table/lh-table-config.model';
 import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.component';
-import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
@@ -41,15 +35,7 @@ export class DeviceListComponent<T extends Object> implements OnInit {
   ];
   statusSelect: DeviceStatus = DeviceStatus.Undefined;
 
-  loading: {
-    detail: boolean;
-    adding: boolean;
-    searching: boolean;
-  } = {
-    detail: false,
-    adding: false,
-    searching: false,
-  };
+  loading: boolean = false;
 
   tableColumns: ColumnItem<Device>[] = [
     {
@@ -120,7 +106,7 @@ export class DeviceListComponent<T extends Object> implements OnInit {
     keyword?: string,
     status?: DeviceStatus
   ): void {
-    this.loading.searching = true;
+    this.loading = true;
     this.adminDeviceService
       .getDeviceByPaging(
         pageIndex || 0,
@@ -138,20 +124,18 @@ export class DeviceListComponent<T extends Object> implements OnInit {
           }
         },
         error: (err) => {
-          this.loading.searching = false;
+          this.loading = false;
           // TODO i18n
           this.message.error('Error', err);
           this.devices = [];
         },
         complete: () => {
-          console.log(this.devices);
-          this.loading.searching = false;
+          this.loading = false;
         },
       });
   }
 
   onQueryParamsChange(params: NzTableQueryParams) {
-    console.log('params:', params);
     const { pageIndex, pageSize, sort, filter } = params;
     const { key, value } = sort?.find((s) => s.value) || {};
     this.getDeviceByPaging(
