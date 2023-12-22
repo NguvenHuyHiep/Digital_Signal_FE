@@ -22,8 +22,7 @@ export class DeviceGroupsComponent implements OnInit {
   @ViewChild('table') table?: LhTableComponent<DeviceGroup>;
   @ViewChild('addComponent', { static: false })
   addComponent?: DeviceGroupAddComponent;
-  devices: Array<Device> = [];
-
+  devices: Device[] = [];
   currentDeviceGroup: DeviceGroup = {};
   deviceGroups: Array<DeviceGroup> = [];
   loading: {
@@ -47,6 +46,29 @@ export class DeviceGroupsComponent implements OnInit {
     },
   ];
 
+  tableDeviceColumns: ColumnItem<Device>[] = [
+    {
+      name: 'ID',
+      key: 'id',
+    },
+    {
+      name: 'module.device.code',
+      key: 'code',
+    },
+    {
+      name: 'module.device.name',
+      key: 'name',
+    },
+    {
+      name: 'module.device.info',
+      key: 'information',
+    },
+    {
+      name: 'module.device.status',
+      key: 'status',
+    },
+  ];
+
   total: number = 0;
   pageIndex: number = 1;
   pageSize: number = 10;
@@ -62,6 +84,17 @@ export class DeviceGroupsComponent implements OnInit {
   ngOnInit(): void {
     this.getDeviceGroupByPaging(this.pageIndex - 1, this.pageSize);
   }
+
+  expandSet = new Set<number>();
+  onExpandChange(id: number, checked: boolean): void {
+    if (checked) {
+      this.getDeviceListsByDeviceGroupId(id);
+      this.expandSet.add(id);
+    } else {
+      this.expandSet.delete(id);
+    }
+  }
+
   get isSelectedRow(): boolean {
     return (this.table?.setOfCheckedId?.size || 0) > 0;
   }
@@ -148,6 +181,30 @@ export class DeviceGroupsComponent implements OnInit {
           this.loading.searching = false;
         },
       });
+  }
+
+  getDeviceListsByDeviceGroupId(deviceGroupId: number): void {
+    this.loading.searching = true;
+    if (deviceGroupId) {
+      this.adminDeviceGroupService
+        .getDeviceGroupWithDevicesById(deviceGroupId)
+        .subscribe({
+          next: (response) => {
+            if (response && response.status === ResponseStatus.Success) {
+              this.devices = (response.data?.devices as Array<Device>) || [];
+              console.log('Device list: ', this.devices);
+            }
+          },
+          error: (err) => {
+            // TODO i18n
+            this.message.error('Error', err);
+            this.loading.searching = false;
+          },
+          complete: () => {
+            this.loading.searching = false;
+          },
+        });
+    }
   }
 
   onQueryParamsChange(params: NzTableQueryParams) {

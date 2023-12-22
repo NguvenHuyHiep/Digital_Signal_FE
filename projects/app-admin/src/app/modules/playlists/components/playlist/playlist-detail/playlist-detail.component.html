@@ -6,12 +6,45 @@
     <nz-form-label [nzSpan]="4" nzFor="listDevice" style="padding-top: 30px">
       {{ "module.groupDevice.listDeviceGroup" | translate }}
     </nz-form-label>
-    <lh-common-lh-table
+    <!-- <lh-common-lh-table
       #table
       [data]="deviceGroups"
       [config]="tableConfigDeviceGroup"
     >
-    </lh-common-lh-table>
+    </lh-common-lh-table> -->
+    <nz-table
+      #filterTable
+      nzShowSizeChanger
+      nzTableLayout="fixed"
+      [nzData]="deviceGroups"
+      [nzFrontPagination]="false"
+      [nzLoading]="loading.searching"
+      [nzTotal]="totalDeviceGroup"
+      [nzPageIndex]="pageIndexDeviceGroup"
+      [nzPageSize]="pageSizeDeviceGroup"
+      (nzQueryParams)="onQueryParamsChangeDeviceGroups($event)"
+      nz-col
+    >
+      <thead>
+        <tr>
+          <th
+            *ngFor="let column of tableDeviceGroupsColumns"
+            [nzColumnKey]="column.key"
+            [nzSortFn]="true"
+          >
+            {{ column.name | translate }}
+          </th>
+          <th>{{ "common.option" | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of filterTable.data">
+          <td>{{ data.name }}</td>
+          <td>{{ data.description }}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </nz-table>
   </div>
   <div *ngIf="!deviceGroups || deviceGroups.length == 0">
     <p>{{ "module.groupDevice.no-deviceGroup" | translate }}</p>
@@ -23,8 +56,40 @@
     <nz-form-label [nzSpan]="4" nzFor="listDevice" style="padding-top: 30px">
       {{ "module.playlist.listFile" | translate }}
     </nz-form-label>
-    <lh-common-lh-table #table [data]="files" [config]="tableConfigFile">
-    </lh-common-lh-table>
+    <!-- <lh-common-lh-table #table [data]="files" [config]="tableConfigFile">
+    </lh-common-lh-table> -->
+    <nz-table
+      #filterTable
+      nzShowSizeChanger
+      nzTableLayout="fixed"
+      [nzData]="files"
+      [nzFrontPagination]="false"
+      [nzLoading]="loading.searching"
+      [nzTotal]="totalDeviceGroup"
+      [nzPageIndex]="pageIndexDeviceGroup"
+      [nzPageSize]="pageSizeDeviceGroup"
+      (nzQueryParams)="onQueryParamsChangeFiles($event)"
+      nz-col
+    >
+      <thead>
+        <tr>
+          <th
+            *ngFor="let column of tableDeviceGroupsColumns"
+            [nzColumnKey]="column.key"
+            [nzSortFn]="true"
+          >
+            {{ column.name | translate }}
+          </th>
+          <th>{{ "common.option" | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of filterTable.data">
+          <td>{{ data.name }}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </nz-table>
   </div>
   <div *ngIf="!files || files.length == 0">
     <p>{{ "module.playlist.no-file" | translate }}</p>

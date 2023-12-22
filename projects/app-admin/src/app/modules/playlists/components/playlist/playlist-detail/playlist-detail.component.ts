@@ -18,6 +18,8 @@ import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.c
 import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 import { TranslateService } from '@ngx-translate/core';
 import { DsdFile } from '@app-api/lib/api/models/dsdFile';
+import { ColumnItem } from '@app-api/lib/api/models/columnItem';
+import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
 @Component({
   selector: 'app-admin-playlist-detail',
@@ -28,44 +30,42 @@ export class PlaylistDetailComponent<T extends Object> {
   @ViewChild('table') table?: LhTableComponent<DeviceGroup>;
   @Input('playlist') playlist: Playlist = {};
   @Output() onGroup: EventEmitter<T> = new EventEmitter<T>();
-  deviceGroups: DeviceGroup[] = [];
-  tableConfigDeviceGroup: LhTableConfigModel = {
-    disableDetail: true,
-    disableUpdate: true,
-    disableDelete: true,
-    key: 'id',
-    fields: [
-      {
-        label: 'module.groupDevice.name',
-        field: 'name',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'module.groupDevice.description',
-        field: 'description',
-        type: LhTableFieldType.STRING,
-      },
-    ],
-  };
   loading: {
+    adding: boolean;
     searching: boolean;
+    device: boolean;
   } = {
+    adding: false,
     searching: false,
+    device: false,
   };
+  deviceGroups: DeviceGroup[] = [];
   files: Array<DsdFile> = [];
-  tableConfigFile: LhTableConfigModel = {
-    disableDetail: true,
-    disableUpdate: true,
-    disableDelete: true,
-    key: 'id',
-    fields: [
-      {
-        label: 'module.file.name',
-        field: 'name',
-        type: LhTableFieldType.STRING,
-      },
-    ],
-  };
+
+  totalDeviceGroup: number = 0;
+  pageIndexDeviceGroup: number = 1;
+  pageSizeDeviceGroup: number = 10;
+  totalFile: number = 0;
+  pageIndexFile: number = 1;
+  pageSizeFile: number = 10;
+
+  tableDeviceGroupsColumns: ColumnItem<DeviceGroup>[] = [
+    {
+      name: 'module.groupDevice.name',
+      key: 'name',
+    },
+    {
+      name: 'module.groupDevice.description',
+      key: 'description',
+    },
+  ];
+
+  tableConfigFile: ColumnItem<DsdFile>[] = [
+    {
+      name: 'module.file.name',
+      key: 'name',
+    },
+  ];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -126,5 +126,17 @@ export class PlaylistDetailComponent<T extends Object> {
           complete: () => {},
         });
     }
+  }
+
+  onQueryParamsChangeDeviceGroups(params: NzTableQueryParams) {
+    console.log('params:', params);
+    const { pageIndex, pageSize, sort, filter } = params;
+    const { key, value } = sort?.find((s) => s.value) || {};
+  }
+
+  onQueryParamsChangeFiles(params: NzTableQueryParams) {
+    console.log('params:', params);
+    const { pageIndex, pageSize, sort, filter } = params;
+    const { key, value } = sort?.find((s) => s.value) || {};
   }
 }

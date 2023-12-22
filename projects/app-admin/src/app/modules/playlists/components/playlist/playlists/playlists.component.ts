@@ -60,6 +60,15 @@ export class PlaylistsComponent implements OnInit {
     this.getPlaylistByPaging(this.pageIndex - 1, this.pageSize);
   }
 
+  expandSet = new Set<number>();
+  onExpandChange(id: number, checked: boolean): void {
+    if (checked) {
+      this.expandSet.add(id);
+    } else {
+      this.expandSet.delete(id);
+    }
+  }
+
   getPlaylistByPaging(
     pageIndex?: number,
     pageSize?: number,
@@ -99,6 +108,8 @@ export class PlaylistsComponent implements OnInit {
           console.log(err);
         },
         complete: () => {
+          console.log(this.playlists);
+
           this.loading.searching = false;
         },
       });

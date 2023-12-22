@@ -17,6 +17,8 @@ import { AdminDeviceService } from '@app-api/lib/modules/admin/admin-device/admi
 import { AdminDeviceGroupService } from '@app-api/lib/modules/admin/group-device/admin-group-device.service';
 import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 import { TranslateService } from '@ngx-translate/core';
+import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import { ColumnItem } from '@app-api/lib/api/models/columnItem';
 
 @Component({
   selector: 'app-admin-device-list-table',
@@ -28,40 +30,42 @@ export class DeviceListTableComponent<T extends Object> {
   table?: LhTableComponent<Device>;
   @Input() deviceGroup?: DeviceGroup;
   @Output() onGroup: EventEmitter<T> = new EventEmitter<T>();
-  tableConfig: LhTableConfigModel = {
-    key: 'id',
-    disableDetail: true,
-    disableUpdate: true,
-    disableDelete: true,
-    fields: [
-      {
-        label: 'ID',
-        field: 'id',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'module.device.code',
-        field: 'code',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'module.device.name',
-        field: 'name',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'module.device.info',
-        field: 'information',
-        type: LhTableFieldType.STRING,
-      },
-      {
-        label: 'module.device.status',
-        field: 'status',
-        type: LhTableFieldType.STRING,
-      },
-    ],
+  loading: {
+    adding: boolean;
+    searching: boolean;
+    device: boolean;
+  } = {
+    adding: false,
+    searching: false,
+    device: false,
   };
 
+  tableColumns: ColumnItem<Device>[] = [
+    {
+      name: 'ID',
+      key: 'id',
+    },
+    {
+      name: 'module.device.code',
+      key: 'code',
+    },
+    {
+      name: 'module.device.name',
+      key: 'name',
+    },
+    {
+      name: 'module.device.info',
+      key: 'information',
+    },
+    {
+      name: 'module.device.status',
+      key: 'status',
+    },
+  ];
+
+  total: number = 0;
+  pageIndex: number = 1;
+  pageSize: number = 10;
   devices: Device[] = [];
   currentDevice: Device = {};
 
@@ -72,8 +76,16 @@ export class DeviceListTableComponent<T extends Object> {
     private message: NzMessageService
   ) {}
 
-  ngOnInit(): void {
-    console.log('The device groupId is: ', this.deviceGroup);
+  ngOnInit(): void {}
+
+  getDeviceListsByPaging(
+    pageIndex?: number,
+    pageSize?: number,
+    sortBy?: string,
+    sortDirection?: string,
+    keyword?: string
+  ) {
+    this.loading.searching = true;
     if (this.deviceGroup) {
       this.adminDeviceGroupService
         .getDeviceGroupWithDevicesById(this.deviceGroup.id as number)
@@ -81,6 +93,7 @@ export class DeviceListTableComponent<T extends Object> {
           next: (response) => {
             if (response && response.status === ResponseStatus.Success) {
               this.devices = response.data?.devices as Array<Device>;
+              this.total = response.total as number;
             } else {
               let errorsInStr: string = response.errors
                 ?.map((e) => this.translateService.instant(e))
@@ -91,9 +104,24 @@ export class DeviceListTableComponent<T extends Object> {
           error: (err) => {
             //TODO Xử lý exception
             this.message.error('Error', err);
+            this.loading.searching = false;
           },
-          complete: () => {},
+          complete: () => {
+            this.loading.searching = false;
+          },
         });
     }
+  }
+
+  onQueryParamsChange(params: NzTableQueryParams) {
+    console.log('params:', params);
+    const { pageIndex, pageSize, sort, filter } = params;
+    const { key, value } = sort?.find((s) => s.value) || {};
+    this.getDeviceListsByPaging(
+      pageIndex - 1,
+      pageSize,
+      key,
+      value?.replace(/end$/, '')
+    );
   }
 }

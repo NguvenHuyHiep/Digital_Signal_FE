@@ -1,6 +1,40 @@
 <div *ngIf="devices && devices.length > 0">
-  <lh-common-lh-table #table [data]="devices" [config]="tableConfig">
-  </lh-common-lh-table>
+  <nz-table
+    #filterTable
+    nzShowSizeChanger
+    nzTableLayout="fixed"
+    [nzData]="devices"
+    [nzFrontPagination]="false"
+    [nzLoading]="loading.searching"
+    [nzTotal]="total"
+    [nzPageIndex]="pageIndex"
+    [nzPageSize]="pageSize"
+    (nzQueryParams)="onQueryParamsChange($event)"
+    nz-col
+  >
+    <thead>
+      <tr>
+        <th
+          *ngFor="let column of tableColumns"
+          [nzColumnKey]="column.key"
+          [nzSortFn]="true"
+        >
+          {{ column.name | translate }}
+        </th>
+        <th>{{ "common.option" | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of filterTable.data">
+        <td>{{ data.id }}</td>
+        <td>{{ data.code }}</td>
+        <td>{{ data.name }}</td>
+        <td>{{ data.information }}</td>
+        <td>{{ data.status }}</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </nz-table>
 </div>
 <div *ngIf="!devices || devices.length == 0">
   <p>{{ "module.groupDevice.no-devices" | translate }}</p>

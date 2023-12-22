@@ -46,6 +46,7 @@
   >
     <thead>
       <tr>
+        <th nzWidth="40px"></th>
         <th
           *ngFor="let column of tableColumns"
           [nzColumnKey]="column.key"
@@ -57,23 +58,30 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let data of filterTable.data">
-        <td>{{ data.name }}</td>
-        <td>{{ data.description }}</td>
-        <td>
-          <button nz-button nzType="primary" (click)="navigateToUpdate(data)">
-            {{ "common.preview" | translate }}
-          </button>
-          <nz-divider nzType="vertical"></nz-divider>
-          <button nz-button nzType="primary" nzDanger (click)="delete(data)">
-            {{ "common.delete" | translate }}
-          </button>
-        </td>
-      </tr>
+      <ng-container *ngFor="let data of filterTable.data">
+        <tr>
+          <td
+            [nzExpand]="expandSet.has(data.id || 0)"
+            (nzExpandChange)="onExpandChange(data.id || 0, $event)"
+          ></td>
+          <td>{{ data.name }}</td>
+          <td>{{ data.description }}</td>
+          <td>
+            <button nz-button nzType="primary" (click)="navigateToUpdate(data)">
+              {{ "common.preview" | translate }}
+            </button>
+            <nz-divider nzType="vertical"></nz-divider>
+            <button nz-button nzType="primary" nzDanger (click)="delete(data)">
+              {{ "common.delete" | translate }}
+            </button>
+          </td>
+        </tr>
+        <tr [nzExpand]="expandSet.has(data.id || 0)">
+          <app-admin-playlist-detail
+            [playlist]="data"
+          ></app-admin-playlist-detail>
+        </tr>
+      </ng-container>
     </tbody>
   </nz-table>
-
-  <ng-template #playListDetail let-data="data">
-    <app-admin-playlist-detail [playlist]="data"></app-admin-playlist-detail>
-  </ng-template>
 </lh-common-page>
