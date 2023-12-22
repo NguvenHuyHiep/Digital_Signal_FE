@@ -16,24 +16,13 @@
   </div>
 
   <div [nzGutter]="[16, 16]" nz-row>
-    <!-- <lh-common-lh-table
-      nz-col
-      nzSpan="24"
-      #table
-      [data]="devices"
-      [config]="tableConfig"
-      [loading]="loading.searching"
-      (onDetail)="navigateToDetail($event)"
-      [expandTemplate]="deviceDetail"
-    >
-    </lh-common-lh-table> -->
     <nz-table
       #filterTable
       nzShowSizeChanger
       nzTableLayout="fixed"
       [nzData]="devices"
       [nzFrontPagination]="false"
-      [nzLoading]="loading.searching"
+      [nzLoading]="loading"
       [nzTotal]="total"
       [nzPageIndex]="pageIndex"
       [nzPageSize]="pageSize"
@@ -86,13 +75,3 @@
     </nz-table>
   </div>
 </lh-common-page>
-
-<!-- <lh-common-lh-dialog *ngIf="currentDevice?.id">
-  <app-admin-device-detail
-    [deviceId]="currentDevice.id"
-  ></app-admin-device-detail>
-</lh-common-lh-dialog> -->
-
-<!-- <ng-template #deviceDetail let-data="data">
-  <app-admin-device-chart [device]="data"></app-admin-device-chart>
-</ng-template> -->
