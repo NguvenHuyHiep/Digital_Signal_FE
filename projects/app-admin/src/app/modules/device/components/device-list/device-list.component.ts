@@ -87,9 +87,7 @@ export class DeviceListComponent<T extends Object> implements OnInit {
     private message: NzMessageService
   ) {}
 
-  ngOnInit(): void {
-    this.getDeviceByPaging(this.pageIndex - 1, this.pageSize);
-  }
+  ngOnInit(): void {}
 
   navigateToDetail = (record: Device): void => {
     console.log(record);

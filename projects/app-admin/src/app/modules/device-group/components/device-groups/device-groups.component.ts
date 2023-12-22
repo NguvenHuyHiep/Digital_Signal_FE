@@ -81,9 +81,7 @@ export class DeviceGroupsComponent implements OnInit {
     private message: NzMessageService,
     private translateService: TranslateService
   ) {}
-  ngOnInit(): void {
-    this.getDeviceGroupByPaging(this.pageIndex - 1, this.pageSize);
-  }
+  ngOnInit(): void {}
 
   expandSet = new Set<number>();
   onExpandChange(id: number, checked: boolean): void {

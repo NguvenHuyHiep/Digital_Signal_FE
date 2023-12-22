@@ -37,54 +37,6 @@ export class DeviceDetailComponent implements OnInit, AfterViewInit {
   @Input('currentDevice') currentDevice?: DeviceStatus;
   @ViewChild('table') table?: LhTableComponent<DeviceLog>;
 
-  // showFrame: {
-  //   search: boolean;
-  // } = {
-  //   search: true,
-  // };
-
-  // loading: {
-  //   searching: boolean;
-  // } = {
-  //   searching: false,
-  // };
-
-  // tableColumns: ColumnItem[] = [
-  //   {
-  //     name: 'ID',
-  //     sortOrder: 'descend',
-  //     sortFn: (a: DeviceLog, b: DeviceLog) =>
-  //       (a.id as number) - (b.id as number),
-  //     listOfFilter: [],
-  //     filterFn: null,
-  //     filterMultiple: false,
-  //     sortDirections: ['ascend', 'descend', null],
-  //   },
-  //   {
-  //     name: 'module.device.status',
-  //     sortOrder: null,
-  //     sortFn: (a: DeviceLog, b: DeviceLog) => (a.status === b.status ? 1 : 0),
-  //     listOfFilter: [
-  //       { text: 'ONLINE', value: 'ONLINE' },
-  //       { text: 'OFFLINE', value: 'OFFLINE' },
-  //     ],
-  //     filterFn: (address: string, item: DeviceLog) =>
-  //       item?.status?.indexOf(address) !== -1,
-  //     filterMultiple: false,
-  //     sortDirections: ['ascend', 'descend', null],
-  //   },
-  //   {
-  //     name: 'module.device.update-date',
-  //     sortOrder: null,
-  //     sortFn: (a: DeviceLog, b: DeviceLog) =>
-  //       Date.parse(a.date as string) - Date.parse(b.date as string),
-  //     listOfFilter: [],
-  //     filterFn: null,
-  //     filterMultiple: false,
-  //     sortDirections: ['ascend', 'descend', null],
-  //   },
-  // ];
-
   loading: {
     adding: boolean;
     searching: boolean;

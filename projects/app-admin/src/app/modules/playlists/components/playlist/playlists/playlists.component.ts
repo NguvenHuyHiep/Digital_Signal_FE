@@ -31,7 +31,6 @@ export class PlaylistsComponent implements OnInit {
     searching: false,
   };
 
-  // paging variables
   total: number = 0;
   pageIndex: number = 1;
   pageSize: number = 10;
@@ -56,9 +55,7 @@ export class PlaylistsComponent implements OnInit {
     private modalService: NzModalService
   ) {}
 
-  ngOnInit(): void {
-    this.getPlaylistByPaging(this.pageIndex - 1, this.pageSize);
-  }
+  ngOnInit(): void {}
 
   expandSet = new Set<number>();
   onExpandChange(id: number, checked: boolean): void {
