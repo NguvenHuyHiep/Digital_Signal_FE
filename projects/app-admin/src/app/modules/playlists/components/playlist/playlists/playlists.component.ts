@@ -37,6 +37,10 @@ export class PlaylistsComponent implements OnInit {
 
   tableColumns: ColumnItem<Playlist>[] = [
     {
+      name: 'module.playlist.id',
+      key: 'id',
+    },
+    {
       name: 'module.playlist.name',
       key: 'name',
     },

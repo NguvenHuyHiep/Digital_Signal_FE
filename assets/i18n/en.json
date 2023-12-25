@@ -114,6 +114,7 @@
       }
     },
     "playlist": {
+      "id": "ID",
       "no-file": "No file in Playlist",
       "listFile": "File List",
       "modalDeletePlayList": "Do you want delete PlayList : ",
@@ -131,6 +132,7 @@
     },
     "user": {
       "modalDeleteUser": "Do you want delete user : ",
+      "id": "ID",
       "title": "User",
       "info": "Information",
       "email": "Email",

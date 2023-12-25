@@ -114,6 +114,7 @@
       }
     },
     "playlist": {
+      "id": "ID",
       "no-file": "Không có File nào thuộc PlayList để hiển thị",
       "listFile": "Danh sách File",
       "modalRemoveFile": "Bạn có muốn xóa file khỏi Playlist: ",
@@ -131,6 +132,7 @@
       "true": "Có"
     },
     "user": {
+      "id": "ID",
       "modalDeleteUser": "Bạn muốn xóa người dùng: ",
       "title": "Tài khoản",
       "info": "Thông tin",

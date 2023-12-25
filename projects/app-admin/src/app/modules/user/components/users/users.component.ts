@@ -44,6 +44,10 @@ export class UsersComponent implements OnInit {
 
   tableColumns: ColumnItem<User>[] = [
     {
+      name: 'module.user.id',
+      key: 'id',
+    },
+    {
       name: 'module.user.userName',
       key: 'userName',
     },

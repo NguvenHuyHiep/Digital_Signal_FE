@@ -56,13 +56,14 @@
     </thead>
     <tbody>
       <tr *ngFor="let data of filterTable.data">
+        <td>{{ data.id }}</td>
         <td>{{ data.userName }}</td>
         <td>{{ data.email }}</td>
         <td>{{ data.phone }}</td>
         <td>{{ data.license?.code }}</td>
         <td>
           <button nz-button nzType="primary" (click)="navigateToUpdate(data)">
-            {{ "common.preview" | translate }}
+            {{ "common.update" | translate }}
           </button>
           <nz-divider nzType="vertical"></nz-divider>
           <button nz-button nzType="primary" nzDanger (click)="delete(data)">
