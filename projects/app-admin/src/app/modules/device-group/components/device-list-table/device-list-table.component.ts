@@ -68,6 +68,7 @@ export class DeviceListTableComponent<T extends Object> {
   pageSize: number = 10;
   devices: Device[] = [];
   currentDevice: Device = {};
+  data: any;
 
   constructor(
     private adminDeviceService: AdminDeviceService,
@@ -123,5 +124,14 @@ export class DeviceListTableComponent<T extends Object> {
       key,
       value?.replace(/end$/, '')
     );
+  }
+
+  expandSet = new Set<number>();
+  onExpandChange(id: number, checked: boolean): void {
+    if (checked) {
+      this.expandSet.add(id);
+    } else {
+      this.expandSet.delete(id);
+    }
   }
 }

@@ -160,7 +160,7 @@ export class DeviceGroupsComponent implements OnInit {
         next: (response) => {
           if (response && response.status === ResponseStatus.Success) {
             this.deviceGroups = response.data as DeviceGroup[];
-            console.log(this.deviceGroups + 'DeviceGroup');
+            console.log(this.deviceGroups);
             this.total = response.total as number;
           } else {
             let errorsInStr: string = response.errors

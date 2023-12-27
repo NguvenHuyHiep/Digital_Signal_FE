@@ -38,10 +38,10 @@
           <td></td>
         </tr>
       </tbody>
+      <div *ngIf="!deviceGroups || deviceGroups.length == 0">
+        <p>{{ "module.groupDevice.no-deviceGroup" | translate }}</p>
+      </div>
     </nz-table>
-  </div>
-  <div *ngIf="!deviceGroups || deviceGroups.length == 0">
-    <p>{{ "module.groupDevice.no-deviceGroup" | translate }}</p>
   </div>
 </ng-template>
 
@@ -80,10 +80,10 @@
           <td>{{ data.name }}</td>
           <td></td>
         </tr>
+        <div *ngIf="!files || files.length == 0">
+          <p>{{ "module.playlist.no-file" | translate }}</p>
+        </div>
       </tbody>
     </nz-table>
-  </div>
-  <div *ngIf="!files || files.length == 0">
-    <p>{{ "module.playlist.no-file" | translate }}</p>
   </div>
 </ng-template>

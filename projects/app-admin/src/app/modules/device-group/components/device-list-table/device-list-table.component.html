@@ -33,9 +33,9 @@
         <td>{{ data.status }}</td>
         <td></td>
       </tr>
+      <div *ngIf="!devices || devices.length == 0">
+        <p>{{ "module.groupDevice.no-devices" | translate }}</p>
+      </div>
     </tbody>
   </nz-table>
-</div>
-<div *ngIf="!devices || devices.length == 0">
-  <p>{{ "module.groupDevice.no-devices" | translate }}</p>
 </div>
