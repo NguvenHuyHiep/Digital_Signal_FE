@@ -73,7 +73,7 @@ export class ChosenGroupDeviceComponent
       next: (response) => {
         if (response && response.status === ResponseStatus.Success) {
           this.deviceGroups = response.data as DeviceGroup[];
-          console.log(this.deviceGroups + 'DeviceGroup');
+          console.log('DeviceGroup', this.deviceGroups);
         } else {
           let errorsInStr: string = response.errors
             ?.map((e) => this.translateService.instant(e))
