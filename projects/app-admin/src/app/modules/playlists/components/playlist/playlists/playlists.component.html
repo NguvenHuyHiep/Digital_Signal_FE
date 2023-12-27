@@ -71,9 +71,6 @@
             *ngIf="expandSet.has(data.id || 0)"
             [playlist]="data"
           ></app-admin-playlist-detail>
-          <div *ngIf="!playlists || playlists.length == 0">
-            <p>{{ "module.playlist.no-file" | translate }}</p>
-          </div>
         </tr>
       </ng-container>
     </tbody>

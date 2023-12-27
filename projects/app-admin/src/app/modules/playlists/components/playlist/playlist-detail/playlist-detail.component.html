@@ -43,6 +43,9 @@
       </div>
     </nz-table>
   </div>
+  <div *ngIf="!deviceGroups || deviceGroups.length == 0">
+    <p>{{ "module.groupDevice.no-deviceGroup" | translate }}</p>
+  </div>
 </ng-template>
 
 <ng-template #fileDetail>
@@ -85,5 +88,8 @@
         </div>
       </tbody>
     </nz-table>
+  </div>
+  <div *ngIf="!files || files.length == 0">
+    <p>{{ "module.playlist.no-file" | translate }}</p>
   </div>
 </ng-template>
