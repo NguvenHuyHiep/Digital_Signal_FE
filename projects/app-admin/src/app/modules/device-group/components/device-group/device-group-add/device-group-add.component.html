@@ -43,14 +43,6 @@
         {{ "module.groupDevice.listDevice" | translate }}
       </nz-form-label>
       <nz-skeleton [nzActive]="true" *ngIf="loading.addDevice"></nz-skeleton>
-      <!-- <lh-common-lh-table
-        *ngIf="!loading.addDevice"
-        [config]="tableConfig"
-        [data]="devices"
-        (onDelete)="removeDeviceFromDeviceGroup($event)"
-        [loading]="loading.addDevice"
-        (onUpdate)="detailDevice($event)"
-      ></lh-common-lh-table> -->
 
       <nz-table #filterTable [nzData]="devices" nzTableLayout="fixed" nz-col>
         <thead>
