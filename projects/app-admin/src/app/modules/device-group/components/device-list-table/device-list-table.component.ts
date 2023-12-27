@@ -81,13 +81,7 @@ export class DeviceListTableComponent<T extends Object> {
     this.getDeviceListsById();
   }
 
-  getDeviceListsById(): // pageIndex?: number,
-  // pageSize?: number,
-  // sortBy?: string,
-  // sortDirection?: string,
-  // keyword?: string
-  void {
-    // this.loading.searching = true;
+  getDeviceListsById(): void {
     console.log('The Device List is: ', this.deviceGroup);
     if (this.deviceGroup) {
       this.adminDeviceGroupService
@@ -96,8 +90,6 @@ export class DeviceListTableComponent<T extends Object> {
           next: (response) => {
             if (response && response.status === ResponseStatus.Success) {
               this.devices = response.data?.devices as Device[];
-              // this.devices = response.data?.devices as Array<Device>;
-              // this.total = response.total as number;
             } else {
               let errorsInStr: string = response.errors
                 ?.map((e) => this.translateService.instant(e))
@@ -116,18 +108,6 @@ export class DeviceListTableComponent<T extends Object> {
         });
     }
   }
-
-  // onQueryParamsChange(params: NzTableQueryParams) {
-  //   console.log('params:', params);
-  //   const { pageIndex, pageSize, sort, filter } = params;
-  //   const { key, value } = sort?.find((s) => s.value) || {};
-  //   this.getDeviceListsByPaging(
-  //     pageIndex - 1,
-  //     pageSize,
-  //     key,
-  //     value?.replace(/end$/, '')
-  //   );
-  // }
 
   expandSet = new Set<number>();
   onExpandChange(id: number, checked: boolean): void {

@@ -151,10 +151,4 @@ export class DeviceChartComponent<T extends Object> {
     const time = hourStr + ':' + minStr;
     return time;
   }
-
-  onQueryParamsChangeDeviceLogs(params: NzTableQueryParams) {
-    console.log('params:', params);
-    const { pageIndex, pageSize, sort, filter } = params;
-    const { key, value } = sort?.find((s) => s.value) || {};
-  }
 }
