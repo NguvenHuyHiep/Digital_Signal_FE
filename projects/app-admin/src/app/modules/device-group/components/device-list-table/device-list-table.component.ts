@@ -77,24 +77,27 @@ export class DeviceListTableComponent<T extends Object> {
     private message: NzMessageService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getDeviceListsById();
+  }
 
-  getDeviceListsByPaging(
-    pageIndex?: number,
-    pageSize?: number,
-    sortBy?: string,
-    sortDirection?: string,
-    keyword?: string
-  ) {
-    this.loading.searching = true;
+  getDeviceListsById(): // pageIndex?: number,
+  // pageSize?: number,
+  // sortBy?: string,
+  // sortDirection?: string,
+  // keyword?: string
+  void {
+    // this.loading.searching = true;
+    console.log('The Device List is: ', this.deviceGroup);
     if (this.deviceGroup) {
       this.adminDeviceGroupService
         .getDeviceGroupWithDevicesById(this.deviceGroup.id as number)
         .subscribe({
           next: (response) => {
             if (response && response.status === ResponseStatus.Success) {
-              this.devices = response.data?.devices as Array<Device>;
-              this.total = response.total as number;
+              this.devices = response.data?.devices as Device[];
+              // this.devices = response.data?.devices as Array<Device>;
+              // this.total = response.total as number;
             } else {
               let errorsInStr: string = response.errors
                 ?.map((e) => this.translateService.instant(e))
@@ -114,17 +117,17 @@ export class DeviceListTableComponent<T extends Object> {
     }
   }
 
-  onQueryParamsChange(params: NzTableQueryParams) {
-    console.log('params:', params);
-    const { pageIndex, pageSize, sort, filter } = params;
-    const { key, value } = sort?.find((s) => s.value) || {};
-    this.getDeviceListsByPaging(
-      pageIndex - 1,
-      pageSize,
-      key,
-      value?.replace(/end$/, '')
-    );
-  }
+  // onQueryParamsChange(params: NzTableQueryParams) {
+  //   console.log('params:', params);
+  //   const { pageIndex, pageSize, sort, filter } = params;
+  //   const { key, value } = sort?.find((s) => s.value) || {};
+  //   this.getDeviceListsByPaging(
+  //     pageIndex - 1,
+  //     pageSize,
+  //     key,
+  //     value?.replace(/end$/, '')
+  //   );
+  // }
 
   expandSet = new Set<number>();
   onExpandChange(id: number, checked: boolean): void {
@@ -133,5 +136,11 @@ export class DeviceListTableComponent<T extends Object> {
     } else {
       this.expandSet.delete(id);
     }
+  }
+
+  onQueryParamsChangeDeviceLists(params: NzTableQueryParams) {
+    console.log('params:', params);
+    const { pageIndex, pageSize, sort, filter } = params;
+    const { key, value } = sort?.find((s) => s.value) || {};
   }
 }

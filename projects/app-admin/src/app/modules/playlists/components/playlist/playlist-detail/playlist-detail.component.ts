@@ -112,7 +112,7 @@ export class PlaylistDetailComponent<T extends Object> {
           next: (response) => {
             if (response && response.status === ResponseStatus.Success) {
               this.files = response.data?.files as DsdFile[];
-              console.log(this.files + 'files');
+              console.log('Files: ', this.files);
             } else {
               let errorsInStr: string = response.errors
                 ?.map((e) => this.translateService.instant(e))

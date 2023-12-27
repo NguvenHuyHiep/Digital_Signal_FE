@@ -81,7 +81,7 @@ export class ChosenDeviceComponent implements ControlValueAccessor, OnInit {
         next: (response) => {
           if (response && response.status === ResponseStatus.Success) {
             this.devices = response.data;
-            console.log(this.devices);
+            console.log('Device: ', this.devices);
           } else {
             let errorsInStr: string = response.errors
               ?.map((e) => this.translateService.instant(e))

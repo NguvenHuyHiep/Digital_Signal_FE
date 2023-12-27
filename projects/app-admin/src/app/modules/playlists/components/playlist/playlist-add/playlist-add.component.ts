@@ -255,7 +255,7 @@ export class PlaylistAddComponent implements OnInit {
 
   setCurrentDeviceGroup($event: DeviceGroup) {
     this.currentDeviceGroup = $event;
-    console.log('this.currentFile', this.currentFile);
+    console.log('this.currentDeviceGroup', this.currentDeviceGroup);
   }
 
   addDeviceGroup() {
