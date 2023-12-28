@@ -77,9 +77,7 @@ export class FilesComponent implements OnInit {
     private modalService: NzModalService
   ) {}
 
-  ngOnInit(): void {
-    this.getFileByPaging(this.pageIndex - 1, this.pageSize);
-  }
+  ngOnInit(): void {}
 
   getFileByPaging(
     pageIndex?: number,

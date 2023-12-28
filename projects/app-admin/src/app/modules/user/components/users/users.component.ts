@@ -80,9 +80,7 @@ export class UsersComponent implements OnInit {
     private message: NzMessageService,
     private modalService: NzModalService
   ) {}
-  ngOnInit(): void {
-    this.getUserByPaging(this.pageIndex - 1, this.pageSize);
-  }
+  ngOnInit(): void {}
 
   get isSelectedRow(): boolean {
     return (this.table?.setOfCheckedId?.size || 0) > 0;
