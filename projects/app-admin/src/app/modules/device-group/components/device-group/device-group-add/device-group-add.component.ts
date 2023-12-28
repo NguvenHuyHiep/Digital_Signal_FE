@@ -65,34 +65,6 @@ export class DeviceGroupAddComponent implements OnInit {
     },
   ];
 
-  // tableConfig: LhTableConfigModel = {
-  //   key: 'id',
-  //   disableDetail: true,
-  //   disableUpdate: true,
-  //   fields: [
-  //     {
-  //       label: 'module.device.code',
-  //       field: 'code',
-  //       type: LhTableFieldType.STRING,
-  //     },
-  //     {
-  //       label: 'module.device.name',
-  //       field: 'name',
-  //       type: LhTableFieldType.STRING,
-  //     },
-  //     {
-  //       label: 'module.device.info',
-  //       field: 'information',
-  //       type: LhTableFieldType.STRING,
-  //     },
-  //     {
-  //       label: 'module.device.status',
-  //       field: 'status',
-  //       type: LhTableFieldType.STRING,
-  //     },
-  //   ],
-  // };
-
   form: FormDeviceGroup = this.adminDeviceGroupService.buildDeviceGroupForm(
     this.currentDeviceGroup
   );

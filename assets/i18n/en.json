@@ -59,6 +59,7 @@
   },
   "module": {
     "groupDevice": {
+      "id":"ID",
       "no-deviceGroup": "This playlist don't have any device group",
       "modalDeleteGroupDevice": " Do you want delete device group :  ",
       "modalRemoveDeviceGroup": "Do you want remove Device Group from PlayList: ",
@@ -122,7 +123,7 @@
       "file": "File",
       "update": "Update file",
       "add": "Add file",
-      "name": "Playlist",
+      "name": "Name",
       "description": "Description",
       "startTime": "Start time",
       "endTime": "End time",
@@ -164,6 +165,7 @@
       "expireTime": "Expire time"
     },
     "device": {
+      "no-log": "This device don't have any log",
       "modalRemoveDevice": "Do you want remove device from Device Group: ",
       "title": "Device",
       "code": "Code",

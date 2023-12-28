@@ -41,8 +41,8 @@
           <td>{{ data.id }}</td>
           <td
             [ngClass]="{
-              online: data.status === 'ONLINE',
-              offline: data.status === 'OFFLINE'
+              online: data.status == 'ONLINE',
+              offline: data.status == 'OFFLINE'
             }"
           >
             {{ data.status }}

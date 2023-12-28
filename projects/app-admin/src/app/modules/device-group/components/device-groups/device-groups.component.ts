@@ -37,11 +37,15 @@ export class DeviceGroupsComponent implements OnInit {
 
   tableColumns: ColumnItem<DeviceGroup>[] = [
     {
-      name: 'module.playlist.name',
+      name: 'module.groupDevice.id',
+      key: 'id',
+    },
+    {
+      name: 'module.groupDevice.name',
       key: 'name',
     },
     {
-      name: 'module.playlist.description',
+      name: 'module.groupDevice.description',
       key: 'description',
     },
   ];

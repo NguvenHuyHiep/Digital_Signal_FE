@@ -1,7 +1,3 @@
-import {
-  LhTableConfigModel,
-  LhTableFieldType,
-} from '@app-common/lib/components/lh-table/lh-table-config.model';
 import { DeviceLog } from '@app-api/lib/api/models/deviceLog';
 import { AdminDeviceService } from '@app-api/lib/modules/admin/admin-device/admin-device.service';
 import { ActivatedRoute, Router } from '@angular/router';

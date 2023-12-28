@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ColumnItem } from '@app-api/lib/api/models/columnItem';
 import { Device } from '@app-api/lib/api/models/device';
 import { DeviceGroup } from '@app-api/lib/api/models/deviceGroup';
+import { DeviceLog } from '@app-api/lib/api/models/deviceLog';
 import { DeviceStatus } from '@app-api/lib/api/models/deviceStatus';
 import { AdminDeviceService } from '@app-api/lib/modules/admin/admin-device/admin-device.service';
 import { AdminDeviceGroupService } from '@app-api/lib/modules/admin/group-device/admin-group-device.service';
@@ -65,6 +66,7 @@ export class DeviceListComponent<T extends Object> implements OnInit {
   total: number = 0;
   pageIndex: number = 1;
   pageSize: number = 10;
+  deviceLogs: DeviceLog[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -82,9 +84,9 @@ export class DeviceListComponent<T extends Object> implements OnInit {
     });
   };
 
-  onStatusChange(selectedValue: string): void {
+  onStatusChange(selectedValue: DeviceStatus): void {
     if (this.statusSelect === selectedValue) {
-      this.ngOnInit();
+      this.getDeviceByPaging();
     }
   }
 

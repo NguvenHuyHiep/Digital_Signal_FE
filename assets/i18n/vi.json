@@ -59,6 +59,7 @@
   },
   "module": {
     "groupDevice": {
+      "id":"ID",
       "no-deviceGroup": "Playlist này chưa có device group  ",
       "modalDeleteGroupDevice": " Bạn muốn xóa nhóm thiết bị:  ",
       "modalRemoveDeviceGroup": "Bạn có muốn xóa Device Group khỏi Playlist: ",
@@ -165,6 +166,7 @@
       "expireTime": "Thời hạn"
     },
     "device": {
+      "no-log": "Không có Log nào thuộc Thiết bị này để hiển thị",
       "modalRemoveDevice": "Bạn muốn bỏ thiết bị từ nhóm thiết bị:  ",
       "title": "Device",
       "code": "Mã Thiết bị",
