@@ -44,10 +44,37 @@ export class PlaylistAddComponent implements OnInit {
   currentDeviceGroup: DeviceGroup = {};
   isVisible: boolean = false;
 
-  tableColumns: ColumnItem<DsdFile>[] = [
+  deviceGroupTableColumns: ColumnItem<DeviceGroup>[] = [
+    {
+      name: 'ID',
+      key: 'id',
+    },
+    {
+      name: 'module.groupDevice.name',
+      key: 'path',
+    },
+    {
+      name: 'module.groupDevice.description',
+      key: 'createDate',
+    },
+  ];
+
+  fileTableColumns: ColumnItem<DsdFile>[] = [
+    {
+      name: 'ID',
+      key: 'id',
+    },
     {
       name: 'module.file.name',
       key: 'path',
+    },
+    {
+      name: 'module.file.contentType',
+      key: 'fileType',
+    },
+    {
+      name: 'module.device.update-date',
+      key: 'createDate',
     },
   ];
 
@@ -350,16 +377,15 @@ export class PlaylistAddComponent implements OnInit {
         ' ?',
       nzOnOk: () => {
         new Promise((resolve, reject) => {
-          const fileIds = Number(file.id);
+          const fileId: number = file.id as number;
           return this.adminFileService
-            .removeFilesFromPlaylist(
-              [fileIds]
-              // this.currentPlaylist?.id as number
-            )
+            .removeFilesFromPlaylist(this.currentPlaylist?.id as number, [
+              fileId,
+            ])
             .subscribe({
               next: (response) => {
                 if (response && response.status === ResponseStatus.Success) {
-                  this.files = this.files.filter((f) => f.id !== fileIds);
+                  this.files = this.files.filter((f) => f.id !== fileId);
                 }
               },
               error: (err) => {
@@ -390,8 +416,8 @@ export class PlaylistAddComponent implements OnInit {
       nzOnOk: () => {
         new Promise((resolve, reject) => {
           const deviceGroupId = Number(deviceGroup.id);
-          return this.adminDeviceGroupService
-            .removeDeviceGroupFromPlaylist(this.currentPlaylist?.id as number, [
+          return this.adminPlaylistService
+            .removeDeviceGroups(this.currentPlaylist?.id as number, [
               deviceGroupId,
             ])
             .subscribe({
@@ -416,5 +442,15 @@ export class PlaylistAddComponent implements OnInit {
         });
       },
     });
+  }
+
+  getMimeTypeName(fileType: string | any) {
+    if (fileType.startsWith('video')) {
+      return 'Video';
+    } else if (fileType.startsWith('image')) {
+      return 'Image';
+    } else {
+      return 'Other';
+    }
   }
 }

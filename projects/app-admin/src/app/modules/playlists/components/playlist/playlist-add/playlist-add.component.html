@@ -101,17 +101,23 @@
     <nz-table #filterTable [nzData]="deviceGroups" nzTableLayout="fixed" nz-col>
       <thead>
         <tr>
-          <th *ngFor="let column of tableColumns">
-            {{ "module.groupDevice.name" | translate }}
+          <th *ngFor="let column of deviceGroupTableColumns">
+            {{ column.name | translate }}
           </th>
           <th>{{ "common.option" | translate }}</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of filterTable.data">
+          <td>{{ data.id }}</td>
           <td>{{ data.name }}</td>
+          <td>{{ data.description }}</td>
           <td>
-            <button nz-button nzDanger>
+            <button
+              nz-button
+              nzDanger
+              (click)="removeDeviceGroupFromPlaylist(data)"
+            >
               {{ "common.delete" | translate }}
             </button>
           </td>
@@ -160,17 +166,20 @@
     <nz-table #filterTable [nzData]="files" nzTableLayout="fixed" nz-col>
       <thead>
         <tr>
-          <th *ngFor="let column of tableColumns">
-            {{ "module.file.name" | translate }}
+          <th *ngFor="let column of fileTableColumns">
+            {{ column.name | translate }}
           </th>
           <th>{{ "common.option" | translate }}</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of filterTable.data">
-          <td>{{ data.name }}</td>
+          <td>{{ data.id }}</td>
+          <td>{{ data.path }}</td>
+          <td>{{ getMimeTypeName(data.fileType) }}</td>
+          <td>{{ data.createDate | date : "dd/M/yyyy - h:mm:ss a" }}</td>
           <td>
-            <button nz-button nzDanger>
+            <button nz-button nzDanger (click)="removeFileFromPlaylist(data)">
               {{ "common.delete" | translate }}
             </button>
           </td>

@@ -234,6 +234,16 @@ export class FilesComponent implements OnInit {
     }
   }
 
+  getMimeTypeName(fileType: string | any) {
+    if (fileType.startsWith('video')) {
+      return 'Video';
+    } else if (fileType.startsWith('image')) {
+      return 'Image';
+    } else {
+      return 'Other';
+    }
+  }
+
   navigateToDetail = (record: Schedule): void => {
     console.log(record);
     this.router.navigate(['./detail', record.id], {

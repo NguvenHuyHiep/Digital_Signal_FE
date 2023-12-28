@@ -11,7 +11,6 @@ import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class AdminLicenseService {
-  AdminLicenseApiService: any;
   constructor(
     private formBuilder: FormBuilder,
     private adminLicenseAPIService: AdminLicenseApiService
@@ -62,8 +61,11 @@ export class AdminLicenseService {
   }
 
   public genLicense(
-    email: LicenseGenerateRequest
+    request: LicenseGenerateRequest
   ): Observable<BaseOutputLicense> {
-    return this.AdminLicenseApiService.generate(email, email.duration);
+    return this.adminLicenseAPIService.generate(
+      request.email as string,
+      request.duration as number
+    );
   }
 }

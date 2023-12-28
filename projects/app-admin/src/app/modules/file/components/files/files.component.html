@@ -39,8 +39,8 @@
       <tr *ngFor="let data of filterTable.data">
         <td>{{ data.id }}</td>
         <td>{{ data.path }}</td>
-        <td>{{ data.fileType }}</td>
-        <td>{{ data.createDate | date : "dd/M/yyyy - h:mm:ss a - z" }}</td>
+        <td>{{ getMimeTypeName(data.fileType) }}</td>
+        <td>{{ data.createDate | date : "dd/M/yyyy - h:mm:ss a" }}</td>
         <td>
           <button nz-button nzType="primary" (click)="preview(data)">
             {{ "common.preview" | translate }}

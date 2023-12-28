@@ -11,12 +11,7 @@
       nzShowSizeChanger
       nzTableLayout="fixed"
       [nzData]="deviceGroups"
-      [nzFrontPagination]="false"
-      [nzLoading]="loading.searching"
-      [nzTotal]="totalDeviceGroup"
-      [nzPageIndex]="pageIndexDeviceGroup"
-      [nzPageSize]="pageSizeDeviceGroup"
-      (nzQueryParams)="onQueryParamsChangeDeviceGroups($event)"
+      [nzLoading]="loading.deviceGroups"
       nz-col
     >
       <thead>
@@ -28,14 +23,12 @@
           >
             {{ column.name | translate }}
           </th>
-          <th>{{ "common.option" | translate }}</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of filterTable.data">
           <td>{{ data.name }}</td>
           <td>{{ data.description }}</td>
-          <td></td>
         </tr>
       </tbody>
     </nz-table>
@@ -55,30 +48,26 @@
       nzShowSizeChanger
       nzTableLayout="fixed"
       [nzData]="files"
-      [nzFrontPagination]="false"
-      [nzLoading]="loading.searching"
-      [nzTotal]="totalDeviceGroup"
-      [nzPageIndex]="pageIndexDeviceGroup"
-      [nzPageSize]="pageSizeDeviceGroup"
-      (nzQueryParams)="onQueryParamsChangeFiles($event)"
+      [nzLoading]="loading.files"
       nz-col
     >
       <thead>
         <tr>
           <th
-            *ngFor="let column of tableDeviceGroupsColumns"
+            *ngFor="let column of tableConfigFile"
             [nzColumnKey]="column.key"
             [nzSortFn]="true"
           >
             {{ column.name | translate }}
           </th>
-          <th>{{ "common.option" | translate }}</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of filterTable.data">
-          <td>{{ data.name }}</td>
-          <td></td>
+          <td>{{ data.id }}</td>
+          <td>{{ data.path }}</td>
+          <td>{{ getMimeTypeName(data.fileType) }}</td>
+          <td>{{ data.createDate | date : "dd/M/yyyy - h:mm:ss a" }}</td>
         </tr>
       </tbody>
     </nz-table>

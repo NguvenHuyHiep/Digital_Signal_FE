@@ -27,15 +27,13 @@ export class AdminFileService {
     sortDirection?: string,
     keyword?: string
   ) {
-    return this.adminFileControllerService
-      .getByPaging(
-        page ?? 0,
-        size ?? 100,
-        sortBy ?? 'id',
-        sortDirection ?? 'DESC',
-        keyword ?? ''
-      )
-      .pipe(tap((response) => console.log(response)));
+    return this.adminFileControllerService.getByPaging(
+      page ?? 0,
+      size ?? 100,
+      sortBy ?? 'id',
+      sortDirection ?? 'DESC',
+      keyword ?? ''
+    );
   }
 
   public getById(id: number): Observable<BaseOutputDsdFile> {
@@ -63,14 +61,6 @@ export class AdminFileService {
     return this.adminFileControllerService.deleteByPath(path);
   }
 
-  public deleteFromSource(path: string): Observable<BaseOutputString> {
-    return this.adminFileControllerService.deleteFromSource(path);
-  }
-
-  public deleteFromDatabase(path: string): Observable<BaseOutputString> {
-    return this.adminFileControllerService.deleteFromDatabase(path);
-  }
-
   public buildFileForm(file?: DsdFile): FormGroupFile {
     let form = this.formBuilder.group({
       id: [file?.id],
@@ -79,13 +69,23 @@ export class AdminFileService {
     return form;
   }
 
-  public assignFilesToPlaylist(
+  public assignFileToPlaylists(
     fileId: number,
-    playlistId: number
+    playlistIds: number[]
   ): Observable<BaseOutputListDsdFile> {
-    return this.adminFileControllerService.assignFileToPlaylist(
+    return this.adminFileControllerService.assignFileToPlaylists(
       fileId,
-      playlistId
+      playlistIds
+    );
+  }
+
+  public removeFilesFromPlaylist(
+    playlistId: number,
+    fileIds: number[]
+  ): Observable<BaseOutputString> {
+    return this.adminFileControllerService.removeFilesFromPlaylist(
+      playlistId,
+      fileIds
     );
   }
 
@@ -98,12 +98,6 @@ export class AdminFileService {
   //     categoryId
   //   );
   // }
-
-  public removeFilesFromPlaylist(
-    playlistId: number[]
-  ): Observable<BaseOutputString> {
-    return this.adminFileControllerService.removeFileFromPlaylist(playlistId);
-  }
 
   // public removeFilesFromCategory(
   //   categoryIds: number[]

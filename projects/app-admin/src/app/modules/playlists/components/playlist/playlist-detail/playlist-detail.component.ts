@@ -30,24 +30,17 @@ export class PlaylistDetailComponent<T extends Object> {
   @ViewChild('table') table?: LhTableComponent<DeviceGroup>;
   @Input('playlist') playlist: Playlist = {};
   @Output() onGroup: EventEmitter<T> = new EventEmitter<T>();
-  loading: {
-    adding: boolean;
-    searching: boolean;
-    device: boolean;
-  } = {
-    adding: false,
-    searching: false,
-    device: false,
-  };
-  deviceGroups: DeviceGroup[] = [];
-  files: Array<DsdFile> = [];
 
-  totalDeviceGroup: number = 0;
-  pageIndexDeviceGroup: number = 1;
-  pageSizeDeviceGroup: number = 10;
-  totalFile: number = 0;
-  pageIndexFile: number = 1;
-  pageSizeFile: number = 10;
+  loading: {
+    deviceGroups: boolean;
+    files: boolean;
+  } = {
+    deviceGroups: false,
+    files: false,
+  };
+
+  deviceGroups: DeviceGroup[] = [];
+  files: DsdFile[] = [];
 
   tableDeviceGroupsColumns: ColumnItem<DeviceGroup>[] = [
     {
@@ -62,15 +55,24 @@ export class PlaylistDetailComponent<T extends Object> {
 
   tableConfigFile: ColumnItem<DsdFile>[] = [
     {
+      name: 'ID',
+      key: 'id',
+    },
+    {
       name: 'module.file.name',
-      key: 'name',
+      key: 'path',
+    },
+    {
+      name: 'module.file.contentType',
+      key: 'fileType',
+    },
+    {
+      name: 'module.device.update-date',
+      key: 'createDate',
     },
   ];
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private adminPlayListService: AdminPlaylistService,
     private message: NzMessageService,
     private adminPlaylistService: AdminPlaylistService,
     private translateService: TranslateService
@@ -83,6 +85,7 @@ export class PlaylistDetailComponent<T extends Object> {
   getDeviceGroupByPlayListId(): void {
     console.log('The device groupId is: ', this.deviceGroups);
     if (this.playlist) {
+      this.loading.deviceGroups = true;
       this.adminPlaylistService
         .getDeviceGroupByPlayListId(this.playlist.id as number)
         .subscribe({
@@ -95,17 +98,22 @@ export class PlaylistDetailComponent<T extends Object> {
                 .join(', ') as string;
               this.message.error(errorsInStr);
             }
+            this.loading.deviceGroups = false;
           },
           error: (err) => {
             this.message.error('Error', err);
+            this.loading.deviceGroups = false;
           },
-          complete: () => {},
+          complete: () => {
+            this.loading.deviceGroups = false;
+          },
         });
     }
   }
 
   getFileByPlayListId(): void {
     if (this.playlist) {
+      this.loading.files = true;
       this.adminPlaylistService
         .getPlaylistWithFile(this.playlist.id as number)
         .subscribe({
@@ -119,24 +127,26 @@ export class PlaylistDetailComponent<T extends Object> {
                 .join(', ') as string;
               this.message.error(errorsInStr);
             }
+            this.loading.files = false;
           },
           error: (err) => {
             this.message.error('Error', err);
+            this.loading.files = false;
           },
-          complete: () => {},
+          complete: () => {
+            this.loading.files = false;
+          },
         });
     }
   }
 
-  onQueryParamsChangeDeviceGroups(params: NzTableQueryParams) {
-    console.log('params:', params);
-    const { pageIndex, pageSize, sort, filter } = params;
-    const { key, value } = sort?.find((s) => s.value) || {};
-  }
-
-  onQueryParamsChangeFiles(params: NzTableQueryParams) {
-    console.log('params:', params);
-    const { pageIndex, pageSize, sort, filter } = params;
-    const { key, value } = sort?.find((s) => s.value) || {};
+  getMimeTypeName(fileType: string | any) {
+    if (fileType.startsWith('video')) {
+      return 'Video';
+    } else if (fileType.startsWith('image')) {
+      return 'Image';
+    } else {
+      return 'Other';
+    }
   }
 }
