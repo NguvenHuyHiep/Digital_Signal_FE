@@ -165,7 +165,7 @@
       "expireTime": "Expire time"
     },
     "device": {
-      "no-log": "This device don't have any log",
+      "no-log": "This device doesn't have any log",
       "modalRemoveDevice": "Do you want remove device from Device Group: ",
       "title": "Device",
       "code": "Code",

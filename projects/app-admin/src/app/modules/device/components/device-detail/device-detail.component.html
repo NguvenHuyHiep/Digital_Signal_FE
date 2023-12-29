@@ -4,16 +4,23 @@
       {{ "common.back" | translate }}
     </button>
   </div>
-  <div [nzGutter]="[16, 16]" nz-row>
+  <!-- <div [nzGutter]="[16, 16]" nz-row>
     <div nz-col nzSpan="24">
       <nz-card>
         <div id="device-log-chart1"></div>
       </nz-card>
     </div>
-  </div>
-  <div [nzGutter]="[16, 16]" nz-row>
+  </div> -->
+
+  <app-admin-device-chart
+    [deviceId]="deviceId"
+    (deviceLogsEventEmitter)="handleDeviceLogsEventEmitter($event)"
+  ></app-admin-device-chart>
+
+  <div *ngIf="deviceLogs" [nzGutter]="[16, 16]" nz-row>
     <nz-table
       #filterTable
+      nz-col
       nzShowSizeChanger
       nzTableLayout="fixed"
       [nzData]="deviceLogs"
@@ -23,7 +30,6 @@
       [nzPageIndex]="pageIndexDeviceLogs"
       [nzPageSize]="pageSizeDeviceLogs"
       (nzQueryParams)="onQueryParamsChangeDeviceLogs($event)"
-      nz-col
     >
       <thead>
         <tr>

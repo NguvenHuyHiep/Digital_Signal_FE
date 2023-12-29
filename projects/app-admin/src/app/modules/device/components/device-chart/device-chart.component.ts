@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { Device } from '@app-api/lib/api/models/device';
 import { DeviceLog } from '@app-api/lib/api/models/deviceLog';
 import { AdminDeviceService } from '@app-api/lib/modules/admin/admin-device/admin-device.service';
@@ -12,29 +19,30 @@ import { NzTableQueryParams } from 'ng-zorro-antd/table';
   templateUrl: './device-chart.component.html',
   styleUrls: ['./device-chart.component.scss'],
 })
-export class DeviceChartComponent<T extends Object> {
-  @Input('device') device: Device = {};
-  @Output() deviceChart: EventEmitter<T> = new EventEmitter<T>();
-
+export class DeviceChartComponent implements OnChanges {
+  @Input('deviceId') deviceId?: number = NaN;
+  @Output() deviceLogsEventEmitter: EventEmitter<DeviceLog[]> =
+    new EventEmitter<DeviceLog[]>();
   deviceLogs: DeviceLog[] = [];
   constructor(
     private adminDeviceService: AdminDeviceService,
     private message: NzMessageService
   ) {}
 
-  ngOnInit() {
-    this.getAllDeviceLogs(this.device.id as number);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['deviceId'] && changes['deviceId'].currentValue) {
+      this.getAllDeviceLogs(changes['deviceId'].currentValue);
+    }
   }
 
-  ngAfterViewInit() {}
-
   getAllDeviceLogs(currentDeviceId: number) {
-    if (currentDeviceId) {
+    if (currentDeviceId && !isNaN(currentDeviceId)) {
       this.adminDeviceService.getDeviceByIdWithLogs(currentDeviceId).subscribe({
         next: (response) => {
           if (response && response.data && response.data.deviceLogs) {
             this.deviceLogs = response.data.deviceLogs;
-            this.drawChart(this.deviceLogs);
+            this.deviceLogsEventEmitter.emit(this.deviceLogs);
+            setTimeout(() => this.drawChart(this.deviceLogs), 0);
           }
         },
         error: (err) => {
@@ -46,7 +54,7 @@ export class DeviceChartComponent<T extends Object> {
   }
 
   drawChart(logs: DeviceLog[]) {
-    if (!logs) {
+    if (!logs || logs.length === 0) {
       return;
     }
 
@@ -68,8 +76,9 @@ export class DeviceChartComponent<T extends Object> {
     });
 
     const chart = new Chart({
-      container: this.device.id?.toString() ?? new HTMLElement(),
+      container: this.deviceId?.toString() ?? new HTMLElement(),
       autoFit: true,
+      height: 300,
     });
 
     chart.data(data);

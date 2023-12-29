@@ -74,11 +74,8 @@
           <tr [nzExpand]="expandSet.has(data.id || 0)">
             <app-admin-device-chart
               *ngIf="expandSet.has(data.id || 0)"
-              [device]="data"
+              [deviceId]="data.id"
             ></app-admin-device-chart>
-            <div *ngIf="!deviceLogs || deviceLogs.length == 0">
-              <p>{{ "module.device.no-log" | translate }}</p>
-            </div>
           </tr>
         </ng-container>
       </tbody>
