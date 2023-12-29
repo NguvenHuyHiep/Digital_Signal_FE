@@ -86,7 +86,14 @@ export class DeviceListComponent<T extends Object> implements OnInit {
 
   onStatusChange(selectedValue: DeviceStatus): void {
     if (this.statusSelect === selectedValue) {
-      this.getDeviceByPaging();
+      this.getDeviceByPaging(
+        this.pageIndex - 1,
+        this.pageSize,
+        undefined,
+        undefined,
+        undefined,
+        this.statusSelect
+      );
     }
   }
 
@@ -111,18 +118,18 @@ export class DeviceListComponent<T extends Object> implements OnInit {
     this.loading = true;
     this.adminDeviceService
       .getDeviceByPaging(
-        pageIndex || 0,
-        pageSize || 10,
-        sortBy || 'id',
-        sortDirection || 'desc',
-        keyword || '',
+        pageIndex ?? 0,
+        pageSize ?? 10,
+        sortBy ?? 'id',
+        sortDirection ?? 'desc',
+        keyword ?? '',
         status
       )
       .subscribe({
         next: (response) => {
           if (response && response.data) {
             this.devices = response.data;
-            this.total = response.total || 0;
+            this.total = response.total ?? 0;
           }
         },
         error: (err) => {
