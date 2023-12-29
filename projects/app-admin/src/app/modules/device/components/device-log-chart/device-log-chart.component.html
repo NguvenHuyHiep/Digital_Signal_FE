@@ -1,4 +1,7 @@
-<nz-card *ngIf="deviceId && deviceLogs && deviceLogs.length !== 0">
+<nz-card
+  *ngIf="deviceId && deviceLogs && deviceLogs.length !== 0"
+  style="width: 100%"
+>
   <div [id]="deviceId"></div>
 </nz-card>
 <div *ngIf="!deviceLogs || deviceLogs.length === 0">

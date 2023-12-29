@@ -1,84 +1,20 @@
 <lh-common-page pageTitle="{{ 'module.device.title' | translate }}">
-  <div [nzGutter]="[16, 16]" nz-row nzAlign="middle">
-    <div nz-col nzSpan="2">
-      <nz-select
-        style="width: 100px"
-        [(ngModel)]="statusSelect"
-        (ngModelChange)="onStatusChange($event)"
-      >
-        <nz-option
-          *ngFor="let option of statusOptions"
-          [nzLabel]="option.label | translate"
-          [nzValue]="option.value"
-        ></nz-option>
-      </nz-select>
-    </div>
+  <div [nzGutter]="[16, 16]" nz-row>
+    <nz-select nz-col style="width: 120px" [(ngModel)]="statusSelect">
+      <nz-option
+        *ngFor="let option of statusOptions"
+        [nzLabel]="option.label | translate"
+        [nzValue]="option.value"
+      ></nz-option>
+    </nz-select>
   </div>
 
   <div [nzGutter]="[16, 16]" nz-row>
-    <nz-table
-      #filterTable
-      nzShowSizeChanger
-      nzTableLayout="fixed"
-      [nzData]="devices"
-      [nzFrontPagination]="false"
-      [nzLoading]="loading"
-      [nzTotal]="total"
-      [nzPageIndex]="pageIndex"
-      [nzPageSize]="pageSize"
-      (nzQueryParams)="onQueryParamsChange($event)"
+    <app-admin-device-table
       nz-col
-    >
-      <thead>
-        <tr>
-          <th nzWidth="40px"></th>
-          <th
-            *ngFor="let column of tableColumns"
-            [nzColumnKey]="column.key"
-            [nzSortFn]="true"
-          >
-            {{ column.name | translate }}
-          </th>
-          <th>{{ "common.option" | translate }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngFor="let data of filterTable.data">
-          <tr>
-            <td
-              [nzExpand]="expandSet.has(data.id || 0)"
-              (nzExpandChange)="onExpandChange(data.id || 0, $event)"
-            ></td>
-            <td>{{ data.id }}</td>
-            <td>{{ data.code }}</td>
-            <td>{{ data.name }}</td>
-            <td>{{ data.information }}</td>
-            <td
-              [ngClass]="{
-                online: data.status == 'ONLINE',
-                offline: data.status == 'OFFLINE'
-              }"
-            >
-              {{ data.status }}
-            </td>
-            <td>
-              <button
-                nz-button
-                nzType="primary"
-                (click)="navigateToDetail(data)"
-              >
-                {{ "common.detail" | translate }}
-              </button>
-            </td>
-          </tr>
-          <tr [nzExpand]="expandSet.has(data.id || 0)">
-            <app-admin-device-chart
-              *ngIf="expandSet.has(data.id || 0)"
-              [deviceId]="data.id"
-            ></app-admin-device-chart>
-          </tr>
-        </ng-container>
-      </tbody>
-    </nz-table>
+      [isShowOption]="true"
+      [status]="statusSelect"
+      (onHandleToDetail)="navigateToDetail($event)"
+    ></app-admin-device-table>
   </div>
 </lh-common-page>

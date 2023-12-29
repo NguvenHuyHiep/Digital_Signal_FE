@@ -1,61 +1,27 @@
-<lh-common-page>
-  <div class="mb-2" nz-space>
-    <button (click)="navigateToPrevious()" nz-button>
-      {{ "common.back" | translate }}
-    </button>
-  </div>
-  <!-- <div [nzGutter]="[16, 16]" nz-row>
-    <div nz-col nzSpan="24">
-      <nz-card>
-        <div id="device-log-chart1"></div>
-      </nz-card>
+<lh-common-page pageTitle="{{ 'module.device.title-log' | translate }}">
+  <div [nzGutter]="[16, 16]" nz-row>
+    <div nz-col>
+      <button (click)="navigateToPrevious()" nz-button>
+        {{ "common.back" | translate }}
+      </button>
     </div>
-  </div> -->
+  </div>
 
-  <app-admin-device-chart
-    [deviceId]="deviceId"
-    (deviceLogsEventEmitter)="handleDeviceLogsEventEmitter($event)"
-  ></app-admin-device-chart>
-
-  <div *ngIf="deviceLogs" [nzGutter]="[16, 16]" nz-row>
-    <nz-table
-      #filterTable
+  <div [nzGutter]="[16, 16]" nz-row>
+    <app-admin-device-log-chart
       nz-col
-      nzShowSizeChanger
-      nzTableLayout="fixed"
-      [nzData]="deviceLogs"
-      [nzFrontPagination]="false"
-      [nzLoading]="loading.searching"
-      [nzTotal]="totalDeviceLogs"
-      [nzPageIndex]="pageIndexDeviceLogs"
-      [nzPageSize]="pageSizeDeviceLogs"
-      (nzQueryParams)="onQueryParamsChangeDeviceLogs($event)"
-    >
-      <thead>
-        <tr>
-          <th
-            *ngFor="let column of tableColumns"
-            [nzColumnKey]="column.key"
-            [nzSortFn]="true"
-          >
-            {{ column.name | translate }}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of filterTable.data">
-          <td>{{ data.id }}</td>
-          <td
-            [ngClass]="{
-              online: data.status == 'ONLINE',
-              offline: data.status == 'OFFLINE'
-            }"
-          >
-            {{ data.status }}
-          </td>
-          <td>{{ data.date | date : "dd/M/yyyy - h:mm:ss a - z" }}</td>
-        </tr>
-      </tbody>
-    </nz-table>
+      nzSpan="24"
+      [deviceId]="deviceId"
+      [deviceLogs]="deviceLogs"
+    ></app-admin-device-log-chart>
+  </div>
+
+  <div [nzGutter]="[16, 16]" nz-row>
+    <app-admin-device-log-table
+      nz-col
+      [isShowOption]="false"
+      [deviceId]="deviceId"
+      [deviceLogs]="deviceLogs"
+    ></app-admin-device-log-table>
   </div>
 </lh-common-page>

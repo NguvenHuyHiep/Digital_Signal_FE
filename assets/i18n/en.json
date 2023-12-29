@@ -168,6 +168,7 @@
       "no-log": "This device doesn't have any log",
       "modalRemoveDevice": "Do you want remove device from Device Group: ",
       "title": "Device",
+      "title-log": "Device logs",
       "code": "Code",
       "info": "Info",
       "content": "Content",

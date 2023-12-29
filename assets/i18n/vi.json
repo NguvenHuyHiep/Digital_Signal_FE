@@ -168,7 +168,8 @@
     "device": {
       "no-log": "Không có Log nào thuộc Thiết bị này để hiển thị",
       "modalRemoveDevice": "Bạn muốn bỏ thiết bị từ nhóm thiết bị:  ",
-      "title": "Device",
+      "title": "Thiết bị",
+      "title-log": "Thiết bị logs",
       "code": "Mã Thiết bị",
       "info": "Thông tin",
       "content": "Nội dung",

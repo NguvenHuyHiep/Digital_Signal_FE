@@ -1,55 +1,22 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
-import { Device } from '@app-api/lib/api/models/device';
-import { DeviceLog } from '@app-api/lib/api/models/deviceLog';
-import { AdminDeviceService } from '@app-api/lib/modules/admin/admin-device/admin-device.service';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { DeviceStatus } from '@app-api/lib/api/models/deviceStatus';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Chart } from '@antv/g2';
-import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import { DeviceLog } from '@app-api/lib/api/models/deviceLog';
+import { DeviceStatus } from '@app-api/lib/api/models/deviceStatus';
 
 @Component({
-  selector: 'app-admin-device-chart',
-  templateUrl: './device-chart.component.html',
-  styleUrls: ['./device-chart.component.scss'],
+  selector: 'app-admin-device-log-chart',
+  templateUrl: './device-log-chart.component.html',
+  styleUrls: ['./device-log-chart.component.scss'],
 })
-export class DeviceChartComponent implements OnChanges {
+export class DeviceLogChartComponent implements OnChanges {
   @Input('deviceId') deviceId?: number = NaN;
-  @Output() deviceLogsEventEmitter: EventEmitter<DeviceLog[]> =
-    new EventEmitter<DeviceLog[]>();
-  deviceLogs: DeviceLog[] = [];
-  constructor(
-    private adminDeviceService: AdminDeviceService,
-    private message: NzMessageService
-  ) {}
+  @Input('deviceLogs') deviceLogs?: DeviceLog[] = [];
+
+  constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['deviceId'] && changes['deviceId'].currentValue) {
-      this.getAllDeviceLogs(changes['deviceId'].currentValue);
-    }
-  }
-
-  getAllDeviceLogs(currentDeviceId: number) {
-    if (currentDeviceId && !isNaN(currentDeviceId)) {
-      this.adminDeviceService.getDeviceByIdWithLogs(currentDeviceId).subscribe({
-        next: (response) => {
-          if (response && response.data && response.data.deviceLogs) {
-            this.deviceLogs = response.data.deviceLogs;
-            this.deviceLogsEventEmitter.emit(this.deviceLogs);
-            setTimeout(() => this.drawChart(this.deviceLogs), 0);
-          }
-        },
-        error: (err) => {
-          this.message.error('Error', err);
-        },
-        complete: () => {},
-      });
+    if (changes['deviceLogs'] && changes['deviceLogs'].currentValue) {
+      setTimeout(() => this.drawChart(this.deviceLogs as Array<DeviceLog>), 0);
     }
   }
 

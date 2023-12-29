@@ -1,0 +1,38 @@
+<nz-table
+  *ngIf="deviceLogs"
+  #filterTable
+  nzShowSizeChanger
+  nzTableLayout="fixed"
+  [nzData]="deviceLogs"
+  [nzLoading]="isLoading"
+>
+  <thead>
+    <tr>
+      <th
+        *ngFor="let column of tableColumns"
+        [nzColumnKey]="column.key"
+        [nzSortFn]="true"
+      >
+        {{ column.name | translate }}
+      </th>
+      <th *ngIf="isShowOption">{{ "common.option" | translate }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of filterTable.data">
+      <td>{{ data.id }}</td>
+      <td
+        [ngClass]="{
+          online: data.status == 'ONLINE',
+          offline: data.status == 'OFFLINE'
+        }"
+      >
+        {{ data.status }}
+      </td>
+      <td>{{ data.date | date : "dd/M/yyyy - h:mm:ss" }}</td>
+      <td *ngIf="isShowOption">
+        <!-- Option Buttons -->
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

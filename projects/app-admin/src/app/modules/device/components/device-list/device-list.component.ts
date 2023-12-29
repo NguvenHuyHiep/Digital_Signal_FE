@@ -1,22 +1,9 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ColumnItem } from '@app-api/lib/api/models/columnItem';
 import { Device } from '@app-api/lib/api/models/device';
-import { DeviceGroup } from '@app-api/lib/api/models/deviceGroup';
 import { DeviceLog } from '@app-api/lib/api/models/deviceLog';
 import { DeviceStatus } from '@app-api/lib/api/models/deviceStatus';
-import { AdminDeviceService } from '@app-api/lib/modules/admin/admin-device/admin-device.service';
 import { AdminDeviceGroupService } from '@app-api/lib/modules/admin/group-device/admin-group-device.service';
-import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.component';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
 @Component({
   selector: 'app-admin-device-list',
@@ -24,11 +11,7 @@ import { NzTableQueryParams } from 'ng-zorro-antd/table';
   styleUrls: ['./device-list.component.scss'],
   providers: [AdminDeviceGroupService],
 })
-export class DeviceListComponent<T extends Object> implements OnInit {
-  @ViewChild('table') table?: LhTableComponent<Device>;
-  @Input() deviceGroupAdmin?: DeviceGroup;
-  @Output() onGroup: EventEmitter<T> = new EventEmitter<T>();
-
+export class DeviceListComponent implements OnInit {
   statusOptions: { label: string; value: string }[] = [
     { label: 'common.all', value: DeviceStatus.Undefined },
     { label: 'common.online', value: DeviceStatus.Online },
@@ -36,122 +19,17 @@ export class DeviceListComponent<T extends Object> implements OnInit {
   ];
   statusSelect: DeviceStatus = DeviceStatus.Undefined;
 
-  loading: boolean = false;
-
-  tableColumns: ColumnItem<Device>[] = [
-    {
-      name: 'ID',
-      key: 'id',
-    },
-    {
-      name: 'module.device.code',
-      key: 'code',
-    },
-    {
-      name: 'module.device.name',
-      key: 'name',
-    },
-    {
-      name: 'module.device.info',
-      key: 'information',
-    },
-    {
-      name: 'module.device.status',
-      key: 'status',
-    },
-  ];
-
-  devices: Device[] = [];
-  currentDevice: Device = {};
-  total: number = 0;
-  pageIndex: number = 1;
-  pageSize: number = 10;
+  device: Device = {};
   deviceLogs: DeviceLog[] = [];
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private adminDeviceService: AdminDeviceService,
-    private message: NzMessageService
-  ) {}
+  constructor(private activatedRoute: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {}
 
-  navigateToDetail = (record: Device): void => {
+  navigateToDetail(record: Device): void {
     console.log(record);
     this.router.navigate(['./detail', record.id], {
       relativeTo: this.activatedRoute,
     });
-  };
-
-  onStatusChange(selectedValue: DeviceStatus): void {
-    if (this.statusSelect === selectedValue) {
-      this.getDeviceByPaging(
-        this.pageIndex - 1,
-        this.pageSize,
-        undefined,
-        undefined,
-        undefined,
-        this.statusSelect
-      );
-    }
-  }
-
-  expandSet = new Set<number>();
-
-  onExpandChange(id: number, checked: boolean): void {
-    if (checked) {
-      this.expandSet.add(id);
-    } else {
-      this.expandSet.delete(id);
-    }
-  }
-
-  getDeviceByPaging(
-    pageIndex?: number,
-    pageSize?: number,
-    sortBy?: string,
-    sortDirection?: string,
-    keyword?: string,
-    status?: DeviceStatus
-  ): void {
-    this.loading = true;
-    this.adminDeviceService
-      .getDeviceByPaging(
-        pageIndex ?? 0,
-        pageSize ?? 10,
-        sortBy ?? 'id',
-        sortDirection ?? 'desc',
-        keyword ?? '',
-        status
-      )
-      .subscribe({
-        next: (response) => {
-          if (response && response.data) {
-            this.devices = response.data;
-            this.total = response.total ?? 0;
-          }
-        },
-        error: (err) => {
-          this.loading = false;
-          // TODO i18n
-          this.message.error('Error', err);
-          this.devices = [];
-        },
-        complete: () => {
-          this.loading = false;
-        },
-      });
-  }
-
-  onQueryParamsChange(params: NzTableQueryParams) {
-    const { pageIndex, pageSize, sort, filter } = params;
-    const { key, value } = sort?.find((s) => s.value) || {};
-    this.getDeviceByPaging(
-      pageIndex - 1,
-      pageSize,
-      key,
-      value?.replace(/end$/, '')
-    );
   }
 }
