@@ -1,4 +1,10 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  Renderer2,
+  SimpleChanges,
+} from '@angular/core';
 import { Chart } from '@antv/g2';
 import { DeviceLog } from '@app-api/lib/api/models/deviceLog';
 import { DeviceStatus } from '@app-api/lib/api/models/deviceStatus';
@@ -12,11 +18,11 @@ export class DeviceLogChartComponent implements OnChanges {
   @Input('deviceId') deviceId?: number = NaN;
   @Input('deviceLogs') deviceLogs?: DeviceLog[] = [];
 
-  constructor() {}
+  constructor(private renderer2: Renderer2) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['deviceLogs'] && changes['deviceLogs'].currentValue) {
-      setTimeout(() => this.drawChart(this.deviceLogs as Array<DeviceLog>), 0);
+    if (this.deviceId && this.deviceLogs && this.deviceLogs.length !== 0) {
+      setTimeout(() => this.drawChart(this.deviceLogs as DeviceLog[]), 0);
     }
   }
 
@@ -25,30 +31,20 @@ export class DeviceLogChartComponent implements OnChanges {
       return;
     }
 
-    const data = this.getMinutesInDay().map((minute) => {
-      let currentLog = logs.find(
-        (l) => this.getHourAndMiniteFromDate(l?.date) === minute
-      );
-
-      let obj: {
-        time?: string;
-        type?: string;
-        value?: string;
-      } = {
-        time: minute,
-        type: 'Status',
-        value: currentLog?.status || DeviceStatus.Offline,
-      };
-      return obj;
-    });
+    // somehow fix the dupplicated chart rendering DO NOT REMOVE
+    const elementById = this.renderer2.selectRootElement(
+      `#chart-${this.deviceId}`
+    );
+    console.log(elementById);
 
     const chart = new Chart({
-      container: this.deviceId?.toString() ?? new HTMLElement(),
+      container: 'chart-' + this.deviceId,
       autoFit: true,
       height: 300,
     });
 
-    chart.data(data);
+    chart.data(this.generateChartData(logs));
+
     chart.scale({
       value: {
         ticks: [DeviceStatus.Offline, DeviceStatus.Online],
@@ -86,7 +82,26 @@ export class DeviceLogChartComponent implements OnChanges {
     chart.forceFit();
   }
 
-  getMinutesInDay(): string[] {
+  private generateChartData(logs: DeviceLog[]) {
+    return this.getMinutesInDay().map((minute) => {
+      let currentLog = logs.find(
+        (l) => this.getHourAndMiniteFromDate(l?.date) === minute
+      );
+
+      let obj: {
+        time?: string;
+        type?: string;
+        value?: string;
+      } = {
+        time: minute,
+        type: 'Status',
+        value: currentLog?.status || DeviceStatus.Offline,
+      };
+      return obj;
+    });
+  }
+
+  private getMinutesInDay(): string[] {
     const minutes: string[] = [];
     for (let hour = 0; hour < 24; hour++) {
       for (let minute = 0; minute < 60; minute++) {
@@ -104,7 +119,7 @@ export class DeviceLogChartComponent implements OnChanges {
     return minutes;
   }
 
-  getHourAndMiniteFromDate(dateInStr?: string) {
+  private getHourAndMiniteFromDate(dateInStr?: string) {
     if (!dateInStr) return '';
     let date = new Date(dateInStr);
     // Get hour and minute values

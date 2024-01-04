@@ -2,7 +2,7 @@
   *ngIf="deviceId && deviceLogs && deviceLogs.length !== 0"
   style="width: 100%"
 >
-  <div [id]="deviceId"></div>
+  <div [id]="'chart-' + deviceId"></div>
 </nz-card>
 <div *ngIf="!deviceLogs || deviceLogs.length === 0">
   <p>{{ "module.device.no-log" | translate }}</p>
