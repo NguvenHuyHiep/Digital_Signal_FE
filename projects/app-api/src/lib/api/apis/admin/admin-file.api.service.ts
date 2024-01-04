@@ -31,6 +31,28 @@ export class AdminFileApiService {
     });
   }
 
+  public getByPlaylistIdAndPaging(
+    playlistId: number,
+    page: number,
+    size: number,
+    sortBy: string,
+    sortDirection: string,
+    keyword: string
+  ): Observable<BaseOutputDsdFile[]> {
+    return this.http.get<BaseOutputDsdFile[]>(
+      `/api/v1/admin/file/playlist/${playlistId}`,
+      {
+        params: {
+          page,
+          size,
+          sortBy,
+          sortDirection,
+          keyword,
+        },
+      }
+    );
+  }
+
   public getById(id: number): Observable<BaseOutputDsdFile> {
     return this.http.get<BaseOutputDsdFile>(`/api/v1/admin/file/${id}`);
   }

@@ -36,6 +36,24 @@ export class AdminFileService {
     );
   }
 
+  public getFileByPlaylistIdAndPaging(
+    playlistId?: number,
+    page?: number,
+    size?: number,
+    sortBy?: string,
+    sortDirection?: string,
+    keyword?: string
+  ) {
+    return this.adminFileControllerService.getByPlaylistIdAndPaging(
+      playlistId ?? 0,
+      page ?? 0,
+      size ?? 100,
+      sortBy ?? 'id',
+      sortDirection ?? 'DESC',
+      keyword ?? ''
+    );
+  }
+
   public getById(id: number): Observable<BaseOutputDsdFile> {
     return this.adminFileControllerService.getById(id);
   }
