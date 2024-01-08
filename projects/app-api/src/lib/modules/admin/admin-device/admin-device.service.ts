@@ -33,6 +33,28 @@ export class AdminDeviceService {
     return this.adminDeviceController.getById(id);
   }
 
+  public getDeviceByDeviceGroupIdAndByPaging(
+    deviceGroupId: number,
+    page?: number | 0,
+    size?: number | 200,
+    sortBy?: string | 'id',
+    sortDirection?: string | 'DESC',
+    keyword?: string | '',
+    status?: DeviceStatus // UNDEFINED to get All
+  ) {
+    return this.adminDeviceController
+      .getByDevigroupIdAndPaging(
+        deviceGroupId ?? 0,
+        page ?? 0,
+        size ?? 100,
+        sortBy ?? 'id',
+        sortDirection ?? 'desc',
+        keyword ?? '',
+        status ?? 'UNDEFINED'
+      )
+      .pipe(tap((response) => console.log('devices', response)));
+  }
+
   public getDeviceByPaging(
     page?: number | 0,
     size?: number | 200,

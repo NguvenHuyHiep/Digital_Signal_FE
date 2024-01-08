@@ -32,6 +32,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { PlaylistGroupDeviceTableComponent } from './components/playlist/playlist-group-device-table/playlist-group-device-table.component';
 import { PlaylistFileTableComponent } from './components/playlist/playlist-file-table/playlist-file-table.component';
+import { ChosenCategoryComponent } from './components/playlist/chosen-category/chosen-category.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { PlaylistFileTableComponent } from './components/playlist/playlist-file-
     ChosenGroupDeviceComponent,
     PlaylistGroupDeviceTableComponent,
     PlaylistFileTableComponent,
+    ChosenCategoryComponent,
   ],
   imports: [
     CommonModule,

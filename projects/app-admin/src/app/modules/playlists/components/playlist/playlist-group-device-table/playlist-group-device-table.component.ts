@@ -94,6 +94,8 @@ export class PlaylistGroupDeviceTableComponent implements OnChanges {
   onQueryParamsChange(params: NzTableQueryParams) {
     const { pageIndex, pageSize, sort, filter } = params;
     const { key, value } = sort?.find((s) => s.value) || {};
+    this.pageIndex = pageIndex;
+    this.pageSize = pageSize;
     this.getDeviceGroupByPlaylistIdAndPaging(
       this.playlistId as number,
       pageIndex - 1,
@@ -126,8 +128,12 @@ export class PlaylistGroupDeviceTableComponent implements OnChanges {
             .subscribe({
               next: (response) => {
                 if (response && response.status === ResponseStatus.Success) {
-                  this.deviceGroups = this.deviceGroups?.filter(
-                    (dg) => dg.id !== deviceGroupId
+                  this.getDeviceGroupByPlaylistIdAndPaging(
+                    this.playlistId as number,
+                    this.deviceGroups?.length === 1 && this.pageIndex > 1
+                      ? this.pageIndex - 2
+                      : this.pageIndex - 1,
+                    this.pageSize
                   );
                 }
               },

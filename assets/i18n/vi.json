@@ -34,7 +34,8 @@
     "preview": "Xem",
     "online": "Đang hoạt động",
     "offline": "Không hoạt động",
-    "all": "Tất cả"
+    "all": "Tất cả",
+    "selectCategory": "Chọn danh mục"
   },
 
   "footer": "Design & Develop by LPDEV",
@@ -59,7 +60,7 @@
   },
   "module": {
     "groupDevice": {
-      "id":"ID",
+      "id": "ID",
       "no-deviceGroup": "Playlist này chưa có device group  ",
       "modalDeleteGroupDevice": " Bạn muốn xóa nhóm thiết bị:  ",
       "modalRemoveDeviceGroup": "Bạn có muốn xóa Device Group khỏi Playlist: ",
@@ -98,8 +99,9 @@
       "name": "Tên File",
       "title": "File",
       "size": "Dung lượng",
+      "remove-category": "Xóa khỏi danh mục",
       "upload": {
-        "title": "Tải lên",
+        "title": "Tải file",
         "file-empty": "Không có file để tải lên",
         "text": "Ấn hoặc kéo file vào đây để tải lên",
         "hint": "Hỗ trợ tải lên một hoặc nhiều file, Cấm đưa lên các file có thông tin nhạy cảm",
@@ -124,7 +126,10 @@
       "title": "Playlist",
       "file": "File",
       "update": "Cập nhập File",
-      "add": "Thêm mới File",
+      "add-file": "Thêm mới File",
+      "select-file": "Chọn File",
+      "add-category": "Thêm mới danh mục",
+      "select-category": "Chọn danh mục",
       "name": "Tên Playlist",
       "description": "Mô tả play list",
       "startTime": "Thời gian bắt đầu",
@@ -156,8 +161,8 @@
       },
       "life-time": "Trọn đời",
       "error": {
-        "invalid-email" : "Email không tồn tại",
-        "invalid-time" : "Thời gian cho license sai"
+        "invalid-email": "Email không tồn tại",
+        "invalid-time": "Thời gian cho license sai"
       }
     },
     "license": {
@@ -189,6 +194,21 @@
       "description": "Mô tả",
       "detail": {
         "title": "Chi tiết lịch phát"
+      }
+    },
+    "category": {
+      "add": "Thêm danh mục",
+      "search": "Tìm kiếm danh mục",
+      "name": "Tên danh mục",
+      "description": "Mô tả danh mục",
+      "add-modal": {
+        "title": "Thêm mới danh mục"
+      },
+      "error": {
+        "add": "Lỗi khi thực hiện thêm danh mục",
+        "assign": "Lỗi khi thực hiện gán file cho danh mục",
+        "remove": "Lỗi khi thực hiện xóa file cho danh mục",
+        "required-name": "Tên danh mục không được trống"
       }
     }
   },
@@ -259,7 +279,8 @@
     "cancel": "Hủy ",
     "download": "Tải về",
     "close": "Đóng",
-    "search": "Tìm kiếm"
+    "search": "Tìm kiếm",
+    "add": "Thêm"
   },
   "menu": {
     "search": "Tìm kiếm",

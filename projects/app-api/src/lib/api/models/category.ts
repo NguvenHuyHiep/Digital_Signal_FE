@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { DsdFile } from './dsdFile';
 import { Status } from './status';
 
 export interface Category {
@@ -16,5 +17,6 @@ export interface Category {
   name?: string;
   description?: string;
   status?: Status;
+  files?: DsdFile[];
 }
 export namespace Category {}

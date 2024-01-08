@@ -1,103 +1,156 @@
 <lh-common-page pageTitle="{{ 'module.file.title' | translate }}">
-  <div nz-space>
+  <div [nzGutter]="[16, 16]" nz-row>
     <button
       (click)="navigateToCreate()"
       nz-button
       nzType="primary"
       class="mb-2 btnFunction"
     >
-      {{ "common.add" | translate }}
+      {{ "module.file.upload.title" | translate }}
+    </button>
+    <button
+      (click)="isShowAddCategoryModal = !isShowAddCategoryModal"
+      nz-button
+      nzType="primary"
+      class="mb-2 btnFunction"
+    >
+      {{ "module.category.add" | translate }}
     </button>
   </div>
 
-  <nz-table
-    #filterTable
-    nzShowSizeChanger
-    nzTableLayout="fixed"
-    [nzData]="files"
-    [nzFrontPagination]="false"
-    [nzLoading]="loading.searching"
-    [nzTotal]="total"
-    [nzPageIndex]="pageIndex"
-    [nzPageSize]="pageSize"
-    (nzQueryParams)="onQueryParamsChange($event)"
-    nz-col
-  >
-    <thead>
-      <tr>
-        <th
-          *ngFor="let column of tableColumns"
-          [nzColumnKey]="column.key"
-          [nzSortFn]="true"
-        >
-          {{ column.name | translate }}
-        </th>
-        <th>{{ "common.option" | translate }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let data of filterTable.data">
-        <td>{{ data.id }}</td>
-        <td>{{ data.path }}</td>
-        <td>{{ getMimeTypeName(data.fileType) }}</td>
-        <td>{{ data.createDate | date : "dd/M/yyyy - h:mm:ss a" }}</td>
-        <td>
-          <button nz-button nzType="primary" (click)="preview(data)">
-            {{ "common.preview" | translate }}
-          </button>
-          <nz-divider nzType="vertical"></nz-divider>
-          <button nz-button nzType="primary" nzDanger (click)="delete(data)">
-            {{ "common.delete" | translate }}
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </nz-table>
-
-  <nz-modal
-    [(nzVisible)]="previewFile.isVisible"
-    [nzTitle]="modalTitle"
-    [nzContent]="modalContent"
-    [nzFooter]="modalFooter"
-    (nzOnOk)="onDownload()"
-    (nzOnCancel)="onCancel()"
-  >
-    <ng-template #modalTitle> {{ previewFile.dsdFile?.path }} </ng-template>
-    <ng-template #modalContent>
-      <div *ngIf="!previewFile.src" class="preview-loading">
-        <nz-spin nzSimple></nz-spin>
-      </div>
-      <img
-        *ngIf="previewFile.src && isFile(previewFile.dsdFile?.fileType)"
-        width="100%"
-        height="auto"
-        [src]="previewFile.src"
-        alt="{{ previewFile.dsdFile?.path }}"
+  <div [nzGutter]="[16, 16]" nz-row>
+    <nz-input-group [nzSuffix]="suffixIcon">
+      <input
+        type="text"
+        nz-input
+        [placeholder]="'module.category.search' | translate"
+        [(ngModel)]="searchValue"
       />
-      <video
-        *ngIf="previewFile.src && !isFile(previewFile.dsdFile?.fileType)"
-        width="100%"
-        height="auto"
-        controls
-      >
-        <source
-          [src]="previewFile.src"
-          type="{{ previewFile.dsdFile?.fileType }}"
-        />
-        {{ "error.video-not-support" | translate }}
-      </video>
-    </ng-template>
-    <ng-template #modalFooter>
-      <button
-        nz-button
-        nzType="default"
-        (click)="previewFile.isVisible = false"
-      >
-        {{ "button.close" | translate }}
-      </button>
-      <button nz-button nzType="primary" (click)="onDownload()">
-        {{ "button.download" | translate }}
-      </button>
-    </ng-template>
-  </nz-modal>
+      <ng-template #suffixIcon>
+        <span nz-icon nzType="search"></span>
+      </ng-template>
+    </nz-input-group>
+  </div>
+
+  <nz-divider></nz-divider>
+
+  <div [nzGutter]="[16, 16]" nz-row>
+    <nz-tree
+      nz-col
+      nzSpan="24"
+      nzShowLine
+      nzDraggable
+      nzBlockNode
+      [nzData]="nodes"
+      [nzSearchValue]="searchValue"
+      [nzBeforeDrop]="onBeforeDrop"
+      (nzDblClick)="onDoubleClick($event)"
+      (nzOnDrop)="onDrop($event)"
+    ></nz-tree>
+  </div>
 </lh-common-page>
+
+<nz-modal
+  [(nzVisible)]="isShowAddCategoryModal"
+  [nzTitle]="addCategoryModalTitle"
+  [nzContent]="addCategoryModalContent"
+  [nzFooter]="addCategoryModalFooter"
+  (nzOnCancel)="onCancelAddCategory()"
+  (nzOnOk)="onOkCategory()"
+>
+  <ng-template #addCategoryModalTitle>
+    {{ "module.category.add-modal.title" | translate }}
+  </ng-template>
+  <ng-template #addCategoryModalContent>
+    <form nz-form [formGroup]="categoryForm" (ngSubmit)="onSubmitAddCategory()">
+      <nz-form-item>
+        <nz-form-label nzSpan="4" nzRequired>{{
+          "module.category.name" | translate
+        }}</nz-form-label>
+        <nz-form-control
+          nzSpan="20"
+          [nzErrorTip]="'module.category.error.required-name' | translate"
+        >
+          <input nz-input formControlName="name" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzSpan="4">{{
+          "module.category.description" | translate
+        }}</nz-form-label>
+        <nz-form-control nzSpan="20">
+          <input nz-input formControlName="description" />
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </ng-template>
+  <ng-template #addCategoryModalFooter>
+    <button nz-button nzType="default" (click)="isShowAddCategoryModal = false">
+      {{ "button.close" | translate }}
+    </button>
+    <button nz-button nzType="primary" (click)="onSubmitAddCategory()">
+      {{ "button.add" | translate }}
+    </button>
+  </ng-template>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="previewFile.isVisible"
+  [nzTitle]="modalTitle"
+  [nzContent]="modalContent"
+  [nzFooter]="modalFooter"
+  (nzOnOk)="onDownloadPreview()"
+  (nzOnCancel)="onCancelPreview()"
+>
+  <ng-template #modalTitle> {{ previewFile.dsdFile?.path }} </ng-template>
+  <ng-template #modalContent>
+    <div *ngIf="!previewFile.src" class="preview-loading">
+      <nz-spin nzSimple></nz-spin>
+    </div>
+    <img
+      *ngIf="previewFile.src && isFile(previewFile.dsdFile?.fileType)"
+      width="100%"
+      height="auto"
+      [src]="previewFile.src"
+      alt="{{ previewFile.dsdFile?.path }}"
+    />
+    <video
+      *ngIf="previewFile.src && !isFile(previewFile.dsdFile?.fileType)"
+      width="100%"
+      height="auto"
+      controls
+    >
+      <source
+        [src]="previewFile.src"
+        type="{{ previewFile.dsdFile?.fileType }}"
+      />
+      {{ "error.video-not-support" | translate }}
+    </video>
+  </ng-template>
+  <ng-template #modalFooter>
+    <button
+      *ngIf="previewFile.categoryId"
+      nz-button
+      nzDanger
+      style="float: left"
+      (click)="
+        onRemoveFileFromCategory(
+          previewFile.categoryId,
+          previewFile.dsdFile?.id
+        )
+      "
+    >
+      {{ "module.file.remove-category" | translate }}
+    </button>
+    <button nz-button nzType="default" (click)="previewFile.isVisible = false">
+      {{ "button.close" | translate }}
+    </button>
+    <button nz-button nzType="primary" (click)="onDownloadPreview()">
+      {{ "button.download" | translate }}
+    </button>
+  </ng-template>
+</nz-modal>
+
+<div class="page-loading" *ngIf="isPageLoading">
+  <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+</div>

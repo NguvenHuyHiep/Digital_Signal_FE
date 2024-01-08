@@ -10,7 +10,7 @@
     </button>
   </div>
 
-  <div [nzGutter]="[16, 16]" nz-row>
+  <div nzGutter="16" nz-row>
     <form [formGroup]="form" nz-col nz-form nzSpan="24">
       <nz-form-item>
         <nz-form-label [nzSpan]="4">{{
@@ -44,19 +44,22 @@
 </lh-common-page>
 
 <ng-template #elseBlock></ng-template>
+
 <ng-template #addGroupDevice>
-  <nz-form-label [nzSpan]="4" nzFor="listDevice" style="padding-top: 30px">
-    {{ "module.groupDevice.listDeviceGroup" | translate }}
-  </nz-form-label>
+  <nz-divider
+    [nzText]="'module.playlist.listDeviceGroup' | translate"
+    nzOrientation="left"
+  ></nz-divider>
   <nz-skeleton [nzActive]="true" *ngIf="loading.addDeviceGroup"></nz-skeleton>
 
   <app-admin-playlist-group-device-table
+    [isShowOption]="true"
     [playlistId]="playlistId"
   ></app-admin-playlist-group-device-table>
 
   <form nz-form [formGroup]="addFileForm" nzLayout="vertical">
     <div nz-row nzGutter="16">
-      <div nz-col [nzLg]="4" [nzSm]="24">
+      <div nz-col [nzLg]="8" [nzSm]="18">
         <nz-form-item>
           <nz-form-label>{{
             "module.groupDevice.deviceGroupAdd" | translate
@@ -70,7 +73,7 @@
           </nz-form-control>
         </nz-form-item>
       </div>
-      <div nz-col [nzLg]="4" [nzSm]="24">
+      <div nz-col [nzLg]="4" [nzSm]="6">
         <div nz-row nzAlign="middle" class="h-100" style="padding-top: 30px">
           <button
             nz-button
@@ -86,20 +89,27 @@
     </div>
   </form>
 </ng-template>
+
 <ng-template #addFiles>
-  <nz-form-label [nzSpan]="4" nzFor="listDevice">
-    {{ "module.file.list-file" | translate }}
-  </nz-form-label>
+  <nz-divider
+    [nzText]="'module.playlist.listFile' | translate"
+    nzOrientation="left"
+  ></nz-divider>
   <nz-skeleton [nzActive]="true" *ngIf="loading.addFile"></nz-skeleton>
 
-  <app-admin-playlist-file-table [playlistId]="playlistId">
+  <app-admin-playlist-file-table
+    [isShowOption]="true"
+    [playlistId]="playlistId"
+  >
   </app-admin-playlist-file-table>
 
   <form nz-form [formGroup]="addFileForm" nzLayout="vertical">
     <div nz-row nzGutter="16">
-      <div nz-col [nzLg]="4" [nzSm]="24">
+      <div nz-col [nzLg]="8" [nzSm]="18">
         <nz-form-item>
-          <nz-form-label>{{ "module.file.add" | translate }}</nz-form-label>
+          <nz-form-label>{{
+            "module.playlist.add-file" | translate
+          }}</nz-form-label>
           <nz-form-control [formGroup]="addFileForm">
             <app-admin-chosen-file
               class="w-100"
@@ -109,7 +119,7 @@
           </nz-form-control>
         </nz-form-item>
       </div>
-      <div nz-col [nzLg]="4" [nzSm]="24">
+      <div nz-col [nzLg]="4" [nzSm]="6">
         <div nz-row nzAlign="middle" class="h-100" style="padding-top: 30px">
           <button
             nz-button
@@ -118,7 +128,34 @@
             class="w-100"
             (click)="addFile()"
           >
-            {{ "module.file.add" | translate }}
+            {{ "module.playlist.add-file" | translate }}
+          </button>
+        </div>
+      </div>
+      <div nz-col [nzLg]="8" [nzSm]="18">
+        <nz-form-item>
+          <nz-form-label>{{
+            "module.playlist.add-category" | translate
+          }}</nz-form-label>
+          <nz-form-control [formGroup]="addFileForm">
+            <app-admin-chosen-category
+              class="w-100"
+              formControlName="categoryId"
+              (onDataCategoryChange)="setCurrentCategory($event)"
+            ></app-admin-chosen-category>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzLg]="4" [nzSm]="6">
+        <div nz-row nzAlign="middle" class="h-100" style="padding-top: 30px">
+          <button
+            nz-button
+            nzType="primary"
+            [nzLoading]="loading.addFile"
+            class="w-100"
+            (click)="addCategory()"
+          >
+            {{ "module.playlist.add-category" | translate }}
           </button>
         </div>
       </div>

@@ -7,7 +7,11 @@
 >
   <nz-option
     *ngFor="let groupDevice of deviceGroups"
-    nzLabel="{{ groupDevice.name?.toUpperCase() + ' - ' }}"
+    nzLabel="{{
+      groupDevice.name?.toUpperCase() +
+        ' - ' +
+        groupDevice.description?.toUpperCase()
+    }}"
     [nzValue]="groupDevice.id"
   ></nz-option>
 </nz-select>

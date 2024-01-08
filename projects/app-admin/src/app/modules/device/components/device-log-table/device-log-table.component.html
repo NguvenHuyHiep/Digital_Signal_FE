@@ -11,7 +11,7 @@
       <th
         *ngFor="let column of tableColumns"
         [nzColumnKey]="column.key"
-        [nzSortFn]="true"
+        [nzSortFn]="column.sortFn ?? true"
       >
         {{ column.name | translate }}
       </th>

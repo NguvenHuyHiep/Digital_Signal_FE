@@ -68,9 +68,9 @@ export class AdminFileService {
     return this.adminFileControllerService.upload(files as any);
   }
 
-  public download(dsdFile: DsdFile): Observable<Blob | undefined> {
-    if (dsdFile && dsdFile.path) {
-      return this.adminFileControllerService.download(dsdFile.path);
+  public download(filePath: string): Observable<Blob | undefined> {
+    if (filePath) {
+      return this.adminFileControllerService.download(filePath);
     }
     return of(undefined);
   }

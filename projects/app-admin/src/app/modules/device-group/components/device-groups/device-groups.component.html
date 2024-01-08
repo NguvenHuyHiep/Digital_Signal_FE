@@ -67,10 +67,11 @@
           </td>
         </tr>
         <tr [nzExpand]="expandSet.has(data.id || 0)">
-          <app-admin-device-list-table
+          <app-admin-device-by-group-table
             *ngIf="expandSet.has(data.id || 0)"
-            [deviceGroup]="data"
-          ></app-admin-device-list-table>
+            [isShowOption]="false"
+            [deviceGroupId]="data.id"
+          ></app-admin-device-by-group-table>
         </tr>
       </ng-container>
     </tbody>

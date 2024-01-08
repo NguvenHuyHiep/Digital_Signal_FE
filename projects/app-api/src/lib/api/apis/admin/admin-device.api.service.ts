@@ -20,6 +20,30 @@ export class AdminDeviceApiService {
     });
   }
 
+  getByDevigroupIdAndPaging(
+    deviceGroupId: number,
+    page: number,
+    size: number,
+    sortBy: string,
+    sortDirection: string,
+    keyword: string,
+    status: string
+  ): Observable<BaseOutputListDevice> {
+    return this.http.get<BaseOutputListDevice>(
+      `/api/v1/admin/device/device-group/${deviceGroupId}`,
+      {
+        params: {
+          page,
+          size,
+          sortBy,
+          sortDirection,
+          keyword,
+          status,
+        },
+      }
+    );
+  }
+
   getByPaging(
     page: number,
     size: number,

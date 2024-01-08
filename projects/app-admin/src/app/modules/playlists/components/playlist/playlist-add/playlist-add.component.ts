@@ -26,6 +26,7 @@ import { FormDeviceGroup } from '@app-admin/app/modules/device-group/components/
 import { AdminFileService } from '@app-api/lib/modules/admin/admin-file/admin-file.service';
 import { PlaylistStatus } from '@app-api/lib/api/models/playlistStatus';
 import { ColumnItem } from '@app-api/lib/api/models/columnItem';
+import { Category } from '@app-api/lib/api/models/category';
 
 @Component({
   selector: 'app-admin-playlist-add',
@@ -37,13 +38,14 @@ export class PlaylistAddComponent implements OnInit {
   @Input('playlistId') currentPlaylist?: Playlist;
   playlistId: number | undefined;
 
-  files: Array<DsdFile> = [];
+  files: DsdFile[] = [];
   deviceGroups: DeviceGroup[] = [];
 
   currentFile: DsdFile = {};
   currentDeviceGroup: DeviceGroup = {};
-  isVisible: boolean = false;
+  currentCategory: Category = {};
 
+  isVisible: boolean = false;
   isLoading: boolean = false;
 
   deviceGroupTableColumns: ColumnItem<DeviceGroup>[] = [
@@ -133,23 +135,18 @@ export class PlaylistAddComponent implements OnInit {
   constructor(
     private location: Location,
     private activatedRoute: ActivatedRoute,
-    private router: Router,
     private translateService: TranslateService,
     private formBuilder: FormBuilder,
     private adminPlaylistService: AdminPlaylistService,
-    private adminFileService: AdminFileService,
     private message: NzMessageService,
-    private modalService: NzModalService,
-    private adminDeviceGroupService: AdminDeviceGroupService
+    private modalService: NzModalService
   ) {
     this.playlistId = this.activatedRoute.snapshot.params['playlistId'];
   }
 
   ngOnInit(): void {
     if (this.playlistId) {
-      this.loadDeviceGroupByPlayListId(this.playlistId);
       this.getPlaylistById(this.playlistId);
-      this.loadFileByPlayListId(this.playlistId);
     }
   }
 
@@ -185,16 +182,7 @@ export class PlaylistAddComponent implements OnInit {
       let addObj: Playlist = {
         name: this.form.controls.name?.value,
         description: this.form.controls.description?.value,
-        startTime:
-          this.form.controls.startTime?.value instanceof Date
-            ? this.form.controls.startTime?.value?.toISOString()
-            : this.form.controls.startTime?.value,
-        endTime:
-          this.form.controls.endTime?.value instanceof Date
-            ? this.form.controls.endTime?.value?.toISOString()
-            : this.form.controls.endTime?.value,
-        isLoop: this.form.controls.isLoop?.value,
-        status: this.form.controls.status?.value || PlaylistStatus.Inactive,
+        status: PlaylistStatus.Active,
         files: this.form.controls.files?.value as Array<DsdFile>,
       };
       return this.adminPlaylistService.addPlayList(addObj);
@@ -203,16 +191,7 @@ export class PlaylistAddComponent implements OnInit {
       id: Number(this.form.controls.id?.value),
       name: this.form.controls.name?.value,
       description: this.form.controls.description?.value,
-      startTime:
-        this.form.controls.startTime?.value instanceof Date
-          ? this.form.controls.startTime?.value?.toISOString()
-          : this.form.controls.startTime?.value,
-      endTime:
-        this.form.controls.endTime?.value instanceof Date
-          ? this.form.controls.endTime?.value?.toISOString()
-          : this.form.controls.endTime?.value,
-      isLoop: this.form.controls.isLoop?.value,
-      status: this.form.controls.status?.value || PlaylistStatus.Inactive,
+      status: PlaylistStatus.Active,
       files: this.form.controls.files?.value as Array<DsdFile>,
     };
     return this.adminPlaylistService.updatePlayList(addObj);
@@ -234,8 +213,9 @@ export class PlaylistAddComponent implements OnInit {
       .subscribe({
         next: (response) => {
           if (response && response.status === ResponseStatus.Success) {
-            this.loadFileByPlayListId(this.playlistId as number);
-            return;
+            const oldPlaylistId = this.playlistId;
+            this.playlistId = 0;
+            setTimeout(() => (this.playlistId = oldPlaylistId));
           } else {
             let errorsInStr: string = response.errors
               ?.map((e) => this.translateService.instant(e))
@@ -284,7 +264,6 @@ export class PlaylistAddComponent implements OnInit {
 
   setCurrentDeviceGroup($event: DeviceGroup) {
     this.currentDeviceGroup = $event;
-    console.log('this.currentDeviceGroup', this.currentDeviceGroup);
   }
 
   addDeviceGroup() {
@@ -298,7 +277,9 @@ export class PlaylistAddComponent implements OnInit {
       .subscribe({
         next: (response) => {
           if (response && response.status === ResponseStatus.Success) {
-            this.deviceGroups = response.data?.deviceGroups as DeviceGroup[];
+            const oldPlaylistId = this.playlistId;
+            this.playlistId = 0;
+            setTimeout(() => (this.playlistId = oldPlaylistId));
           } else {
             let errorsInStr: string = response.errors
               ?.map((e) => this.translateService.instant(e))
@@ -314,60 +295,6 @@ export class PlaylistAddComponent implements OnInit {
           this.loading.addDeviceGroup = false;
         },
       });
-  }
-
-  private loadFileByPlayListId(playlistId: number) {
-    this.loading.addFile = true;
-    console.log('playlistAdmin', this.currentPlaylist);
-    if (this.playlistId) {
-      this.adminPlaylistService.getPlaylistWithFile(playlistId).subscribe({
-        next: (response) => {
-          if (response && response.status === ResponseStatus.Success) {
-            this.files = response.data?.files as DsdFile[];
-            console.log(this.files + 'files');
-          } else {
-            let errorsInStr: string = response.errors
-              ?.map((e) => this.translateService.instant(e))
-              .join(', ') as string;
-            this.message.error(errorsInStr);
-          }
-        },
-        error: (err) => {
-          this.message.error('Error', err);
-          this.loading.addFile = false;
-        },
-        complete: () => {
-          this.loading.addFile = false;
-        },
-      });
-    }
-  }
-
-  private loadDeviceGroupByPlayListId(playlistId: number) {
-    this.loading.addDeviceGroup = true;
-    if (this.playlistId) {
-      this.adminPlaylistService
-        .getDeviceGroupByPlayListId(playlistId)
-        .subscribe({
-          next: (response) => {
-            if (response && response.status === ResponseStatus.Success) {
-              this.deviceGroups = response.data?.deviceGroups as DeviceGroup[];
-            } else {
-              let errorsInStr: string = response.errors
-                ?.map((e) => this.translateService.instant(e))
-                .join(', ') as string;
-              this.message.error(errorsInStr);
-            }
-          },
-          error: (err) => {
-            this.message.error('Error', err);
-            this.loading.addDeviceGroup = false;
-          },
-          complete: () => {
-            this.loading.addDeviceGroup = false;
-          },
-        });
-    }
   }
 
   removeFileFromPlaylist(file: DsdFile) {
@@ -380,14 +307,14 @@ export class PlaylistAddComponent implements OnInit {
       nzOnOk: () => {
         new Promise((resolve, reject) => {
           const fileId: number = file.id as number;
-          return this.adminFileService
-            .removeFilesFromPlaylist(this.currentPlaylist?.id as number, [
-              fileId,
-            ])
+          return this.adminPlaylistService
+            .removeFiles(this.currentPlaylist?.id as number, [fileId])
             .subscribe({
               next: (response) => {
                 if (response && response.status === ResponseStatus.Success) {
-                  this.files = this.files.filter((f) => f.id !== fileId);
+                  const oldPlaylistId = this.playlistId;
+                  this.playlistId = 0;
+                  setTimeout(() => (this.playlistId = oldPlaylistId));
                 }
               },
               error: (err) => {
@@ -425,9 +352,9 @@ export class PlaylistAddComponent implements OnInit {
             .subscribe({
               next: (response) => {
                 if (response && response.status === ResponseStatus.Success) {
-                  this.deviceGroups = this.deviceGroups.filter(
-                    (dg) => dg.id !== deviceGroupId
-                  );
+                  const oldPlaylistId = this.playlistId;
+                  this.playlistId = 0;
+                  setTimeout(() => (this.playlistId = oldPlaylistId));
                 }
               },
               error: (err) => {
@@ -446,13 +373,29 @@ export class PlaylistAddComponent implements OnInit {
     });
   }
 
-  getMimeTypeName(fileType: string | any) {
-    if (fileType.startsWith('video')) {
-      return 'Video';
-    } else if (fileType.startsWith('image')) {
-      return 'Image';
-    } else {
-      return 'Other';
+  setCurrentCategory($event: Category) {
+    this.currentCategory = $event;
+  }
+
+  addCategory() {
+    if (this.currentCategory) {
+      this.adminPlaylistService
+        .assignFileByCategoryIds(this.playlistId as number, [
+          this.currentCategory.id as number,
+        ])
+        .subscribe({
+          next: (response) => {
+            if (response && response.status === ResponseStatus.Success) {
+              const oldPlaylistId = this.playlistId;
+              this.playlistId = 0;
+              setTimeout(() => (this.playlistId = oldPlaylistId));
+            }
+          },
+          error: (err) => {
+            console.log(err);
+          },
+          complete: () => {},
+        });
     }
   }
 }

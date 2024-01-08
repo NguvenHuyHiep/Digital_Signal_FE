@@ -28,7 +28,7 @@ import { DeviceStatus } from '@app-api/lib/api/models/deviceStatus';
 })
 export class ChosenDeviceComponent implements ControlValueAccessor, OnInit {
   @Output() onDataChange: EventEmitter<Device> = new EventEmitter<Device>();
-  devices?: Array<Device> = [];
+  devices?: Device[] = [];
   loading: {
     adding: boolean;
     searching: boolean;

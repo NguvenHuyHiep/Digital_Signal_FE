@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ChosenDeviceComponent } from '@app-admin/app/modules/device-group/components/device-group/chosen-device/chosen-device.component';
-import { DeviceGroupAddComponent } from '@app-admin/app/modules/device-group/components/device-group/device-group-add/device-group-add.component';
+import { ChosenDeviceComponent } from '@app-admin/app/modules/device-group/components/chosen-device/chosen-device.component';
+import { DeviceGroupAddComponent } from '@app-admin/app/modules/device-group/components/device-group-add/device-group-add.component';
 import { DeviceGroupsComponent } from '@app-admin/app/modules/device-group/components/device-groups/device-groups.component';
-import { DeviceListTableComponent } from '@app-admin/app/modules/device-group/components/device-list-table/device-list-table.component';
 import { DeviceGroupRoutingModule } from '@app-admin/app/modules/device-group/device-group-routing.module';
 import { DeviceModule } from '@app-admin/app/modules/device/device.module';
 import { AdminDeviceGroupModule } from '@app-api/lib/modules/admin/group-device/admin-group-device.module';
@@ -16,6 +15,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -25,16 +25,16 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
-import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzTableModule } from 'ng-zorro-antd/table';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { DeviceByGroupTableComponent } from './components/device-by-group-table/device-by-group-table.component';
 
 @NgModule({
   declarations: [
     DeviceGroupsComponent,
     DeviceGroupAddComponent,
     ChosenDeviceComponent,
-    DeviceListTableComponent,
+    DeviceByGroupTableComponent,
   ],
   imports: [
     CommonModule,
