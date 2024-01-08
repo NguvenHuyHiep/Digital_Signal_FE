@@ -42,6 +42,30 @@ export class AdminDeviceGroupApiService {
     );
   }
 
+  public getByPlaylistIdAndByPaging(
+    playlistId: number,
+    page: number,
+    size: number,
+    sortBy: string,
+    sortDirection: string,
+    keyword: string,
+    status: string
+  ): Observable<BaseOutputListDeviceGroup> {
+    return this.http.get<BaseOutputListDeviceGroup>(
+      `/api/v1/admin/device-group/playlist/${playlistId}`,
+      {
+        params: {
+          page,
+          size,
+          sortBy,
+          sortDirection,
+          keyword,
+          status,
+        },
+      }
+    );
+  }
+
   public create(deviceGroup: DeviceGroup): Observable<BaseOutputDeviceGroup> {
     return this.http.post<BaseOutputDeviceGroup>(
       `/api/v1/admin/device-group`,
@@ -114,7 +138,7 @@ export class AdminDeviceGroupApiService {
     deviceGroupIds: number[]
   ): Observable<BaseOutputString> {
     return this.http.put<BaseOutputString>(
-      `/api/v1/admin/playlist/${playlistId}/device-groups`,
+      `/api/v1/admin/device-group/remove/playlist/${playlistId}`,
       deviceGroupIds
     );
   }

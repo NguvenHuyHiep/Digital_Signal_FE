@@ -11,6 +11,7 @@ import { Schedule } from '@app-api/lib/api/models/schedule';
 import { PlaylistAddComponent } from '@app-admin/app/modules/playlists/components/playlist/playlist-add/playlist-add.component';
 import { ColumnItem } from '@app-api/lib/api/models/columnItem';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import { DeviceGroup } from '@app-api/lib/api/models/deviceGroup';
 
 @Component({
   selector: 'app-admin-playlist',
@@ -19,7 +20,7 @@ import { NzTableQueryParams } from 'ng-zorro-antd/table';
 })
 export class PlaylistsComponent implements OnInit {
   currentPlaylist?: Playlist;
-  playlists: Array<Playlist> = [];
+  playlists: Playlist[] = [];
   @ViewChild('table') table?: LhTableComponent<Playlist>;
   @ViewChild('addComponent', { static: false })
   addComponent?: PlaylistAddComponent;
@@ -61,12 +62,12 @@ export class PlaylistsComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  expandSet = new Set<number>();
+  tableRowExpandSet = new Set<number>();
   onExpandChange(id: number, checked: boolean): void {
     if (checked) {
-      this.expandSet.add(id);
+      this.tableRowExpandSet.add(id);
     } else {
-      this.expandSet.delete(id);
+      this.tableRowExpandSet.delete(id);
     }
   }
 
@@ -80,17 +81,17 @@ export class PlaylistsComponent implements OnInit {
     this.loading.searching = true;
     this.playlistService
       .getPlaylistByPaging(
-        pageIndex || 0,
-        pageSize || 10,
-        sortBy || 'id',
-        sortDirection || 'desc',
-        keyword || ''
+        pageIndex ?? 0,
+        pageSize ?? 10,
+        sortBy ?? 'id',
+        sortDirection ?? 'desc',
+        keyword ?? ''
       )
       .subscribe({
         next: (response) => {
           if (response && response.status === ResponseStatus.Success) {
             this.playlists = response.data as Playlist[];
-            this.total = response.total || 0;
+            this.total = response.total as number;
           } else {
             let errorsInStr: string = response.errors
               ?.map((e) => this.translateService.instant(e))
@@ -131,8 +132,6 @@ export class PlaylistsComponent implements OnInit {
     return (this.table?.setOfCheckedId?.size || 0) > 0;
   }
 
-  deleteSelected() {}
-
   navigateToUpdate = (record: Playlist): void => {
     console.log(record);
     this.currentPlaylist = record;
@@ -151,7 +150,7 @@ export class PlaylistsComponent implements OnInit {
         new Promise((resolve, reject) => {
           return this.playlistService.delete(playList?.id as number).subscribe({
             next: (response) => {
-              this.getPlaylistByPaging();
+              window.location.reload();
             },
             error: (err) => {
               //TODO Xử lý exception

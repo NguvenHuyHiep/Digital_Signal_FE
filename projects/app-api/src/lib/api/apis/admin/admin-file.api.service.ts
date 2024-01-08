@@ -38,8 +38,8 @@ export class AdminFileApiService {
     sortBy: string,
     sortDirection: string,
     keyword: string
-  ): Observable<BaseOutputDsdFile[]> {
-    return this.http.get<BaseOutputDsdFile[]>(
+  ): Observable<BaseOutputListDsdFile> {
+    return this.http.get<BaseOutputListDsdFile>(
       `/api/v1/admin/file/playlist/${playlistId}`,
       {
         params: {

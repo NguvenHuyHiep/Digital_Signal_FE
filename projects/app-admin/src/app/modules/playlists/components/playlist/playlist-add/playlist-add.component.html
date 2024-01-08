@@ -35,186 +35,93 @@
         </nz-form-control>
       </nz-form-item>
 
-      <nz-form-item>
-        <nz-form-label [nzSpan]="4" nzFor="startTime">{{
-          "module.playlist.startTime" | translate
-        }}</nz-form-label>
-        <nz-form-control [formGroup]="form" [nzSpan]="14">
-          <input formControlName="startTime" id="startTime" />
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-label [nzSpan]="4" nzFor="endTime">{{
-          "module.playlist.endTime" | translate
-        }}</nz-form-label>
-        <nz-form-control [formGroup]="form" [nzSpan]="14">
-          <input formControlName="endTime" id="endTime" />
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-label [nzSpan]="4">
-          {{ "module.playlist.isLoop" | translate }}
-        </nz-form-label>
-        <nz-form-control [formGroup]="form" [nzSpan]="14">
-          <label [nzChecked]="isChecked" formControlName="isLoop" nz-checkbox>
-            {{ "module.playlist.true" | translate }}</label
-          >
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-label [nzSpan]="4">
-          {{ "module.playlist.status" | translate }}
-        </nz-form-label>
-        <nz-form-control [formGroup]="form" [nzSpan]="14">
-          <nz-select
-            [nzPlaceHolder]="'common.status' | translate"
-            formControlName="status"
-          >
-            <nz-option
-              [nzLabel]="'common.active' | translate"
-              nzValue="ACTIVE"
-            ></nz-option>
-            <nz-option
-              [nzLabel]="'common.inactive' | translate"
-              nzValue="INACTIVE"
-            ></nz-option>
-          </nz-select>
-        </nz-form-control>
-      </nz-form-item>
-
       <ng-container *ngIf="playlistId; else elseBlock">
         <ng-container *ngTemplateOutlet="addFiles"></ng-container>
         <ng-container *ngTemplateOutlet="addGroupDevice"></ng-container>
       </ng-container>
     </form>
   </div>
-  <ng-template #elseBlock></ng-template>
-  <ng-template #addGroupDevice>
-    <nz-form-label [nzSpan]="4" nzFor="listDevice" style="padding-top: 30px">
-      {{ "module.groupDevice.listDeviceGroup" | translate }}
-    </nz-form-label>
-    <nz-skeleton [nzActive]="true" *ngIf="loading.addDeviceGroup"></nz-skeleton>
-
-    <nz-table #filterTable [nzData]="deviceGroups" nzTableLayout="fixed" nz-col>
-      <thead>
-        <tr>
-          <th *ngFor="let column of deviceGroupTableColumns">
-            {{ column.name | translate }}
-          </th>
-          <th>{{ "common.option" | translate }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of filterTable.data">
-          <td>{{ data.id }}</td>
-          <td>{{ data.name }}</td>
-          <td>{{ data.description }}</td>
-          <td>
-            <button
-              nz-button
-              nzDanger
-              (click)="removeDeviceGroupFromPlaylist(data)"
-            >
-              {{ "common.delete" | translate }}
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </nz-table>
-
-    <form nz-form [formGroup]="addFileForm" nzLayout="vertical">
-      <div nz-row nzGutter="16">
-        <div nz-col [nzLg]="4" [nzSm]="24">
-          <nz-form-item>
-            <nz-form-label>{{
-              "module.groupDevice.deviceGroupAdd" | translate
-            }}</nz-form-label>
-            <nz-form-control [formGroup]="addFileForm">
-              <app-admin-chosen-group-device
-                class="w-100"
-                formControlName="fileId"
-                (onDataDeviceGroupChange)="setCurrentDeviceGroup($event)"
-              ></app-admin-chosen-group-device>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-        <div nz-col [nzLg]="4" [nzSm]="24">
-          <div nz-row nzAlign="middle" class="h-100" style="padding-top: 30px">
-            <button
-              nz-button
-              nzType="primary"
-              [nzLoading]="loading.addDeviceGroup"
-              class="w-100"
-              (click)="addDeviceGroup()"
-            >
-              {{ "module.groupDevice.deviceGroupAdd" | translate }}
-            </button>
-          </div>
-        </div>
-      </div>
-    </form>
-  </ng-template>
-  <ng-template #addFiles>
-    <nz-form-label [nzSpan]="4" nzFor="listDevice">
-      {{ "module.file.list-file" | translate }}
-    </nz-form-label>
-    <nz-skeleton [nzActive]="true" *ngIf="loading.addFile"></nz-skeleton>
-
-    <nz-table #filterTable [nzData]="files" nzTableLayout="fixed" nz-col>
-      <thead>
-        <tr>
-          <th *ngFor="let column of fileTableColumns">
-            {{ column.name | translate }}
-          </th>
-          <th>{{ "common.option" | translate }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of filterTable.data">
-          <td>{{ data.id }}</td>
-          <td>{{ data.path }}</td>
-          <td>{{ getMimeTypeName(data.fileType) }}</td>
-          <td>{{ data.createDate | date : "dd/M/yyyy - h:mm:ss a" }}</td>
-          <td>
-            <button nz-button nzDanger (click)="removeFileFromPlaylist(data)">
-              {{ "common.delete" | translate }}
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </nz-table>
-
-    <form nz-form [formGroup]="addFileForm" nzLayout="vertical">
-      <div nz-row nzGutter="16">
-        <div nz-col [nzLg]="4" [nzSm]="24">
-          <nz-form-item>
-            <nz-form-label>{{ "module.file.add" | translate }}</nz-form-label>
-            <nz-form-control [formGroup]="addFileForm">
-              <app-admin-chosen-file
-                class="w-100"
-                formControlName="fileId"
-                (onDataFileChange)="setCurrentFile($event)"
-              ></app-admin-chosen-file>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-        <div nz-col [nzLg]="4" [nzSm]="24">
-          <div nz-row nzAlign="middle" class="h-100" style="padding-top: 30px">
-            <button
-              nz-button
-              nzType="primary"
-              [nzLoading]="loading.addFile"
-              class="w-100"
-              (click)="addFile()"
-            >
-              {{ "module.file.add" | translate }}
-            </button>
-          </div>
-        </div>
-      </div>
-    </form>
-  </ng-template>
 </lh-common-page>
+
+<ng-template #elseBlock></ng-template>
+<ng-template #addGroupDevice>
+  <nz-form-label [nzSpan]="4" nzFor="listDevice" style="padding-top: 30px">
+    {{ "module.groupDevice.listDeviceGroup" | translate }}
+  </nz-form-label>
+  <nz-skeleton [nzActive]="true" *ngIf="loading.addDeviceGroup"></nz-skeleton>
+
+  <app-admin-playlist-group-device-table
+    [playlistId]="playlistId"
+  ></app-admin-playlist-group-device-table>
+
+  <form nz-form [formGroup]="addFileForm" nzLayout="vertical">
+    <div nz-row nzGutter="16">
+      <div nz-col [nzLg]="4" [nzSm]="24">
+        <nz-form-item>
+          <nz-form-label>{{
+            "module.groupDevice.deviceGroupAdd" | translate
+          }}</nz-form-label>
+          <nz-form-control [formGroup]="addFileForm">
+            <app-admin-chosen-group-device
+              class="w-100"
+              formControlName="fileId"
+              (onDataDeviceGroupChange)="setCurrentDeviceGroup($event)"
+            ></app-admin-chosen-group-device>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzLg]="4" [nzSm]="24">
+        <div nz-row nzAlign="middle" class="h-100" style="padding-top: 30px">
+          <button
+            nz-button
+            nzType="primary"
+            [nzLoading]="loading.addDeviceGroup"
+            class="w-100"
+            (click)="addDeviceGroup()"
+          >
+            {{ "module.groupDevice.deviceGroupAdd" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+<ng-template #addFiles>
+  <nz-form-label [nzSpan]="4" nzFor="listDevice">
+    {{ "module.file.list-file" | translate }}
+  </nz-form-label>
+  <nz-skeleton [nzActive]="true" *ngIf="loading.addFile"></nz-skeleton>
+
+  <app-admin-playlist-file-table [playlistId]="playlistId">
+  </app-admin-playlist-file-table>
+
+  <form nz-form [formGroup]="addFileForm" nzLayout="vertical">
+    <div nz-row nzGutter="16">
+      <div nz-col [nzLg]="4" [nzSm]="24">
+        <nz-form-item>
+          <nz-form-label>{{ "module.file.add" | translate }}</nz-form-label>
+          <nz-form-control [formGroup]="addFileForm">
+            <app-admin-chosen-file
+              class="w-100"
+              formControlName="fileId"
+              (onDataFileChange)="setCurrentFile($event)"
+            ></app-admin-chosen-file>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzLg]="4" [nzSm]="24">
+        <div nz-row nzAlign="middle" class="h-100" style="padding-top: 30px">
+          <button
+            nz-button
+            nzType="primary"
+            [nzLoading]="loading.addFile"
+            class="w-100"
+            (click)="addFile()"
+          >
+            {{ "module.file.add" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

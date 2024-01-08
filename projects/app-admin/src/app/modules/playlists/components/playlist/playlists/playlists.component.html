@@ -8,16 +8,6 @@
     >
       {{ "common.add" | translate }}
     </button>
-    <button
-      nz-button
-      nzType="primary"
-      class="mb-2"
-      [disabled]="!isSelectedRow"
-      (click)="deleteSelected()"
-      nzDanger
-    >
-      {{ "common.delete" | translate }}
-    </button>
   </div>
 
   <nz-table
@@ -50,8 +40,8 @@
       <ng-container *ngFor="let data of filterTable.data">
         <tr>
           <td
-            [nzExpand]="expandSet.has(data.id || 0)"
-            (nzExpandChange)="onExpandChange(data.id || 0, $event)"
+            [nzExpand]="tableRowExpandSet.has(data.id ?? 0)"
+            (nzExpandChange)="onExpandChange(data.id ?? 0, $event)"
           ></td>
           <td>{{ data.id }}</td>
           <td>{{ data.name }}</td>
@@ -66,11 +56,26 @@
             </button>
           </td>
         </tr>
-        <tr [nzExpand]="expandSet.has(data.id || 0)">
-          <app-admin-playlist-detail
-            *ngIf="expandSet.has(data.id || 0)"
-            [playlist]="data"
-          ></app-admin-playlist-detail>
+        <tr [nzExpand]="tableRowExpandSet.has(data.id || 0)">
+          <nz-divider
+            [nzText]="'module.playlist.listDeviceGroup' | translate"
+            nzOrientation="left"
+          ></nz-divider>
+          <app-admin-playlist-group-device-table
+            *ngIf="tableRowExpandSet.has(data.id || 0)"
+            [isShowOption]="false"
+            [playlistId]="data.id"
+          ></app-admin-playlist-group-device-table>
+          <nz-divider
+            [nzText]="'module.playlist.listFile' | translate"
+            nzOrientation="left"
+          ></nz-divider>
+          <app-admin-playlist-file-table
+            *ngIf="tableRowExpandSet.has(data.id || 0)"
+            [isShowOption]="false"
+            [playlistId]="data.id"
+          >
+          </app-admin-playlist-file-table>
         </tr>
       </ng-container>
     </tbody>

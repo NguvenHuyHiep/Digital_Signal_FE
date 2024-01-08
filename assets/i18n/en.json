@@ -117,7 +117,8 @@
     "playlist": {
       "id": "ID",
       "no-file": "No file in Playlist",
-      "listFile": "File List",
+      "listFile": "List of files",
+      "listDeviceGroup": "List of device groups",
       "modalDeletePlayList": "Do you want delete PlayList : ",
       "title": "Playlist",
       "file": "File",

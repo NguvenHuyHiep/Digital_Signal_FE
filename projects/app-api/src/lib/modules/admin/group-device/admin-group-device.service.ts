@@ -72,6 +72,28 @@ export class AdminDeviceGroupService {
       .pipe(tap((response) => console.log(response)));
   }
 
+  public getDeviceGroupByPlaylistIdAndPaging(
+    playlistId?: number,
+    page?: number,
+    size?: number,
+    sortBy?: string,
+    sortDirection?: string,
+    keyword?: string,
+    status?: string
+  ) {
+    return this.adminGroupDeviceController
+      .getByPlaylistIdAndByPaging(
+        playlistId ?? 0,
+        page ?? 0,
+        size ?? 100,
+        sortBy ?? 'id',
+        sortDirection ?? 'desc',
+        keyword ?? '',
+        status ?? ''
+      )
+      .pipe(tap((response) => console.log(response)));
+  }
+
   public addGroupDevice(
     groupDevice: DeviceGroup
   ): Observable<BaseOutputDeviceGroup> {
@@ -135,11 +157,11 @@ export class AdminDeviceGroupService {
 
   public removeDeviceGroupFromPlaylist(
     playlistId: number,
-    requestBody: number[]
+    deviceGroupIds: number[]
   ): Observable<BaseOutputString> {
     return this.adminGroupDeviceController.removeFromPlaylist(
       playlistId,
-      requestBody
+      deviceGroupIds
     );
   }
 }

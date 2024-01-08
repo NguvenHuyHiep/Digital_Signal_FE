@@ -1,0 +1,43 @@
+<nz-table
+  *ngIf="deviceGroups"
+  #filterTable
+  nzShowSizeChanger
+  nzTableLayout="fixed"
+  [nzData]="deviceGroups"
+  [nzFrontPagination]="false"
+  [nzLoading]="isLoading"
+  [nzTotal]="total"
+  [nzPageIndex]="pageIndex"
+  [nzPageSize]="pageSize"
+  (nzQueryParams)="onQueryParamsChange($event)"
+>
+  <thead>
+    <tr>
+      <th
+        *ngFor="let column of tableDeviceGroupsColumns"
+        [nzColumnKey]="column.key"
+        [nzSortFn]="true"
+      >
+        {{ column.name | translate }}
+      </th>
+      <th *ngIf="isShowOption">{{ "common.option" | translate }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of filterTable.data">
+      <td>{{ data.id }}</td>
+      <td>{{ data.name }}</td>
+      <td>{{ data.description }}</td>
+      <td *ngIf="isShowOption">
+        <button
+          nz-button
+          nzType="primary"
+          nzDanger
+          (click)="handleRemoveFromPlaylist(data)"
+        >
+          {{ "common.delete" | translate }}
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
