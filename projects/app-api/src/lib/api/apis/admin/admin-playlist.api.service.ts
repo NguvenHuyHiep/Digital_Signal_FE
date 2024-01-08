@@ -125,4 +125,14 @@ export class AdminPlaylistApiService {
       deviceGroupIds
     );
   }
+
+  public assignFileByCategoryIds(
+    playlistId: number,
+    categoryIds: number[]
+  ): Observable<BaseOutputPlaylist> {
+    return this.http.put<BaseOutputPlaylist>(
+      `/api/v1/admin/playlist/${playlistId}/categories`,
+      categoryIds
+    );
+  }
 }

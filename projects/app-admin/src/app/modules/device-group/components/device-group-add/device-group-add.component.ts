@@ -1,27 +1,23 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { AdminDeviceService } from '@app-api/lib/modules/admin/admin-device/admin-device.service';
-import { Device } from '@app-api/lib/api/models/device';
-import { DeviceGroup } from '@app-api/lib/api/models/deviceGroup';
-import {
-  LhTableConfigModel,
-  LhTableFieldType,
-} from '@app-common/lib/components/lh-table/lh-table-config.model';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import {
   FormDevice,
   FormDeviceGroup,
 } from '@app-admin/app/modules/device-group/components/form-device-group';
-import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { AdminDeviceGroupService } from '@app-api/lib/modules/admin/group-device/admin-group-device.service';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { TranslateService } from '@ngx-translate/core';
-import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
-import { Observable } from 'rxjs';
 import { BaseOutputDeviceGroup } from '@app-api/lib/api/models/baseOutputDeviceGroup';
-import { User } from '@app-api/lib/api/models/user';
-import { Location } from '@angular/common';
-import { NzModalService } from 'ng-zorro-antd/modal';
 import { ColumnItem } from '@app-api/lib/api/models/columnItem';
+import { Device } from '@app-api/lib/api/models/device';
+import { DeviceGroup } from '@app-api/lib/api/models/deviceGroup';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
+import { User } from '@app-api/lib/api/models/user';
+import { AdminDeviceService } from '@app-api/lib/modules/admin/admin-device/admin-device.service';
+import { AdminDeviceGroupService } from '@app-api/lib/modules/admin/group-device/admin-group-device.service';
+import { TranslateService } from '@ngx-translate/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-admin-device-group-add',
@@ -88,11 +84,7 @@ export class DeviceGroupAddComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.deviceGroupId) {
-      // update
       this.getDeviceGroupById(this.deviceGroupId);
-      this.getDeviceListsByDeviceGroupId(this.deviceGroupId);
-    } else {
-      // create
     }
   }
 
@@ -105,7 +97,6 @@ export class DeviceGroupAddComponent implements OnInit {
           if (response && response.status === ResponseStatus.Success) {
             this.currentDeviceGroup = response.data;
             this.form.patchValue(this.currentDeviceGroup as any);
-            console.log('ngOnInit', this.form.value);
           } else {
             let errorsInStr: string = response.errors
               ?.map((e) => this.translateService.instant(e))
@@ -174,44 +165,6 @@ export class DeviceGroupAddComponent implements OnInit {
     return this.adminDeviceGroupService.updateGroupDevice(updateObj);
   }
 
-  removeDeviceFromDeviceGroup(device: Device) {
-    this.modalService.confirm({
-      nzTitle:
-        this.translateService.instant('module.device.modalRemoveDevice') +
-        `${device.name}` +
-        ' ?',
-      nzOnOk: () => {
-        new Promise((resolve, reject) => {
-          const deviceIds = Number(device.id);
-          return this.adminDeviceService
-            .removeDevicesFromDeviceGroup(
-              this.currentDeviceGroup?.id as number,
-              [deviceIds]
-            )
-            .subscribe({
-              next: (response) => {
-                if (response && response.status === ResponseStatus.Success) {
-                  this.devices = this.devices.filter((d) => d.id != deviceIds);
-                } else {
-                  console.log(response.errors);
-                }
-              },
-              error: (err) => {
-                console.log(err);
-                this.loading.searching = false;
-              },
-              complete: () => {
-                this.loading.searching = false;
-              },
-            });
-        }).catch((err) => {
-          console.log(err);
-          this.loading.searching = false;
-        });
-      },
-    });
-  }
-
   setCurrentDevice($event: Device) {
     this.currentDevice = $event;
     console.log('this.currentDevice', this.currentDevice);
@@ -230,8 +183,9 @@ export class DeviceGroupAddComponent implements OnInit {
       .subscribe({
         next: (response) => {
           if (response && response.status === ResponseStatus.Success) {
-            this.getDeviceListsByDeviceGroupId(this.deviceGroupId as number);
-            return;
+            const oldDeviceGroupId = this.deviceGroupId;
+            this.deviceGroupId = 0;
+            setTimeout(() => (this.deviceGroupId = oldDeviceGroupId));
           } else {
             let errorsInStr: string = response.errors
               ?.map((e) => this.translateService.instant(e))

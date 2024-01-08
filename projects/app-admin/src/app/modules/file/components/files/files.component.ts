@@ -1,18 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { FormGroup } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DsdFile } from '@app-api/lib/api/models/dsdFile';
 import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
-import { Schedule } from '@app-api/lib/api/models/schedule';
+import { Tree } from '@app-api/lib/api/models/tree';
+import { AdminCategoryService } from '@app-api/lib/modules/admin/admin-category/admin-category.service';
 import { AdminFileService } from '@app-api/lib/modules/admin/admin-file/admin-file.service';
 import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.component';
 import { TranslateService } from '@ngx-translate/core';
+import { saveAs } from 'file-saver';
+import { forEach } from 'lodash';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { saveAs } from 'file-saver';
-import { DeviceLog } from '@app-api/lib/api/models/deviceLog';
-import { ColumnItem } from '@app-api/lib/api/models/columnItem';
-import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import {
+  NzFormatBeforeDropEvent,
+  NzFormatEmitEvent,
+  NzTreeNode,
+  NzTreeNodeOptions,
+} from 'ng-zorro-antd/tree';
+import { Observable, forkJoin, of } from 'rxjs';
 
 @Component({
   selector: 'app-admin-files',
@@ -20,42 +27,14 @@ import { NzTableQueryParams } from 'ng-zorro-antd/table';
   styleUrls: ['./files.component.scss'],
 })
 export class FilesComponent implements OnInit {
-  table?: LhTableComponent<DsdFile>;
-  currentFile?: DsdFile;
-  files: DsdFile[] = [];
-
-  loading: {
-    adding: boolean;
-    searching: boolean;
-    uploading: boolean;
-  } = {
-    adding: false,
-    searching: false,
-    uploading: false,
-  };
-
-  tableColumns: ColumnItem<DsdFile>[] = [
-    {
-      name: 'ID',
-      key: 'id',
-    },
-    {
-      name: 'module.file.name',
-      key: 'path',
-    },
-    {
-      name: 'module.file.contentType',
-      key: 'fileType',
-    },
-    {
-      name: 'module.device.update-date',
-      key: 'createDate',
-    },
-  ];
+  isPageLoading: boolean = false;
+  searchValue = '';
+  nodes: NzTreeNodeOptions[] = [];
 
   previewFile: {
     isVisible: boolean;
     dsdFile?: DsdFile;
+    categoryId?: number;
     src?: any;
     blob?: Blob;
   } = {
@@ -67,68 +46,78 @@ export class FilesComponent implements OnInit {
   pageIndex: number = 1;
   pageSize: number = 10;
 
+  isShowAddCategoryModal: boolean = false;
+
+  categoryForm: FormGroup;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private sanitizer: DomSanitizer,
     private translateService: TranslateService,
     private adminFileService: AdminFileService,
+    private adminCategoryService: AdminCategoryService,
     private message: NzMessageService,
     private modalService: NzModalService
-  ) {}
-
-  ngOnInit(): void {}
-
-  getFileByPaging(
-    pageIndex?: number,
-    pageSize?: number,
-    sortBy?: string,
-    sortDirection?: string,
-    keyword?: string
-  ): void {
-    this.loading.searching = true;
-    this.adminFileService
-      .getFileByPaging(
-        pageIndex || 0,
-        pageSize || 10,
-        sortBy || 'id',
-        sortDirection || 'desc',
-        keyword || ''
-      )
-      .subscribe({
-        next: (response) => {
-          if (response && response.status === ResponseStatus.Success) {
-            this.files = response.data as DsdFile[];
-            this.total = response.total || 0;
-          } else {
-            this.message.error(
-              this.translateService.instant('module.file.error.get')
-            );
-            this.files = [];
-          }
-        },
-        error: (err) => {
-          this.loading.searching = false;
-          // TODO i18n
-          this.message.error('Error', err);
-          this.files = [];
-        },
-        complete: () => {
-          this.loading.searching = false;
-        },
-      });
+  ) {
+    this.categoryForm = this.adminCategoryService.buildForm();
   }
 
-  onQueryParamsChange(params: NzTableQueryParams) {
-    console.log('params:', params);
-    const { pageIndex, pageSize, sort, filter } = params;
-    const { key, value } = sort?.find((s) => s.value) || {};
-    this.getFileByPaging(
-      pageIndex - 1,
-      pageSize,
-      key,
-      value?.replace(/end$/, '')
-    );
+  ngOnInit(): void {
+    this.getCategoryTree();
+  }
+
+  navigateToCreate = (): void => {
+    this.router.navigate(['./create'], {
+      relativeTo: this.activatedRoute,
+    });
+  };
+
+  getCategoryTree(): void {
+    this.isPageLoading = true;
+    this.adminCategoryService.getCategoryTree().subscribe({
+      next: (response) => {
+        if (response && response.status === ResponseStatus.Success) {
+          this.nodes = [];
+          const listCategoryTree: Tree[] = response?.data ?? [];
+          forEach(listCategoryTree, (categoryTree: Tree) => {
+            const children: NzTreeNodeOptions[] = [];
+            if (categoryTree.children?.length) {
+              forEach(categoryTree.children, (child: Tree) => {
+                children.push({
+                  title: child.title ?? '',
+                  key: child.key ?? '',
+                  isLeaf: child.isLeaf ?? true,
+                });
+              });
+            }
+
+            const node: NzTreeNodeOptions = {
+              title: categoryTree.title ?? '',
+              key: categoryTree.key ?? '',
+              isLeaf: categoryTree.isLeaf ?? false,
+              expanded: !(categoryTree.isLeaf ?? false),
+              children:
+                children && children.length !== 0 ? children : undefined,
+            };
+
+            this.nodes.push(node);
+          });
+        } else {
+          this.message.error(
+            this.translateService.instant('module.file.error.get')
+          );
+        }
+      },
+      error: (err) => {
+        // TODO i18n
+        this.message.error('Error', err);
+        this.isPageLoading = false;
+      },
+      complete: () => {
+        this.isPageLoading = false;
+      },
+    });
   }
 
   delete(file: DsdFile) {
@@ -144,7 +133,7 @@ export class FilesComponent implements OnInit {
             .subscribe({
               next: (response) => {
                 if (response && response?.status === ResponseStatus.Success) {
-                  this.files = this.files.filter((f) => f.path !== file.path);
+                  // this.files = this.files.filter((f) => f.path !== file.path);
                 } else {
                   this.message.error(
                     this.translateService.instant('module.file.error.delete')
@@ -154,7 +143,6 @@ export class FilesComponent implements OnInit {
               },
               error: (err) => {
                 this.message.error(err);
-                // TODO handle error
                 resolve;
               },
               complete: () => {
@@ -166,26 +154,33 @@ export class FilesComponent implements OnInit {
     });
   }
 
-  preview(record: DsdFile) {
-    console.log('preview: ', record);
+  preview(filePath: string, categoryId?: number) {
+    if (filePath) {
+      if (filePath === this.previewFile.dsdFile?.path) {
+        this.previewFile.isVisible = true;
+        return;
+      }
 
-    if (record && record.path === this.previewFile.dsdFile?.path) {
-      this.previewFile.isVisible = true;
-      return;
-    }
+      this.previewFile = {
+        isVisible: true,
+      };
 
-    this.previewFile = {
-      isVisible: true,
-    };
-    this.previewFile.dsdFile = record;
-    if (record && record.id && record.path) {
-      this.adminFileService.download(record).subscribe({
-        next: (response) => {
-          if (response) {
+      forkJoin([
+        this.adminFileService.getByPath(filePath),
+        this.adminFileService.download(filePath),
+      ]).subscribe({
+        next: ([baseOutputDsdFile, blob]) => {
+          if (
+            baseOutputDsdFile &&
+            baseOutputDsdFile.status === ResponseStatus.Success &&
+            blob
+          ) {
+            this.previewFile.dsdFile = baseOutputDsdFile.data;
+            this.previewFile.categoryId = categoryId;
             this.previewFile.src = this.sanitizer.bypassSecurityTrustUrl(
-              URL.createObjectURL(response)
+              URL.createObjectURL(blob)
             );
-            this.previewFile.blob = response;
+            this.previewFile.blob = blob;
           } else {
             this.message.error(
               this.translateService.instant('error.cannot-preview-file')
@@ -212,19 +207,17 @@ export class FilesComponent implements OnInit {
     return fileType && fileType.startsWith('image/');
   }
 
-  onCancel() {
-    console.log('closing');
+  onCancelPreview() {
     this.previewFile.isVisible = false;
   }
 
-  onDownload() {
-    console.log('downloading');
+  onDownloadPreview() {
     if (
       this.previewFile &&
-      this.previewFile.src &&
+      this.previewFile.blob &&
       this.previewFile.dsdFile?.path
     ) {
-      saveAs(this.previewFile.dsdFile.path);
+      saveAs(this.previewFile.blob, this.previewFile.dsdFile.path);
     } else {
       this.message.info(
         this.translateService.instant('error.cannot-download-file')
@@ -232,26 +225,212 @@ export class FilesComponent implements OnInit {
     }
   }
 
-  getMimeTypeName(fileType: string | any) {
-    if (fileType.startsWith('video')) {
-      return 'Video';
-    } else if (fileType.startsWith('image')) {
-      return 'Image';
-    } else {
-      return 'Other';
+  onRemoveFileFromCategory(
+    categoryId?: number | undefined,
+    fileId?: number | undefined
+  ) {
+    console.log(categoryId, fileId);
+
+    if (categoryId && fileId && !isNaN(categoryId) && !isNaN(fileId)) {
+      this.adminCategoryService
+        .removeFilesFromCategoryByIds(categoryId, [fileId])
+        .subscribe({
+          next: (response) => {
+            if (response && response?.status === ResponseStatus.Success) {
+              this.previewFile.categoryId = undefined;
+              this.getCategoryTree();
+            } else {
+              this.message.error(
+                this.translateService.instant('module.category.error.remove')
+              );
+            }
+          },
+          error: (err) => {
+            console.log(err);
+            this.message.error(
+              this.translateService.instant('module.category.error.remove')
+            );
+            this.isPageLoading = false;
+          },
+          complete: () => {
+            this.isPageLoading = false;
+            this.onCancelPreview();
+          },
+        });
     }
   }
 
-  navigateToDetail = (record: Schedule): void => {
-    console.log(record);
-    this.router.navigate(['./detail', record.id], {
-      relativeTo: this.activatedRoute,
-    });
+  onDoubleClick(event: NzFormatEmitEvent): void {
+    if ((event.eventName = 'dbclick')) {
+      const selectedNode: NzTreeNode = event.node as NzTreeNode;
+      if (selectedNode && selectedNode.isLeaf) {
+        const filePath = this.getKeyPath(selectedNode.key);
+        const categoryKey = this.getKeyId(selectedNode.parentNode?.key);
+        if (filePath) {
+          this.preview(filePath, categoryKey);
+        }
+      }
+    }
+  }
+
+  onCancelAddCategory(): void {
+    this.isShowAddCategoryModal = false;
+  }
+
+  onOkCategory(): void {}
+
+  onSubmitAddCategory(): void {
+    if (this.categoryForm.valid) {
+      console.log('submit', this.categoryForm.value);
+      this.isPageLoading = true;
+      this.adminCategoryService.create(this.categoryForm.value).subscribe({
+        next: (response) => {
+          if (response && response.status === ResponseStatus.Success) {
+            this.getCategoryTree();
+          } else {
+            this.message.error(
+              this.translateService.instant('module.category.error.add')
+            );
+          }
+        },
+        error: (err) => {
+          console.log(err);
+          this.message.error(
+            this.translateService.instant('module.category.error.add')
+          );
+          this.isShowAddCategoryModal = false;
+          this.isPageLoading = false;
+        },
+        complete: () => {
+          this.isShowAddCategoryModal = false;
+          this.isPageLoading = false;
+        },
+      });
+    } else {
+      Object.values(this.categoryForm.controls).forEach((control) => {
+        if (control.invalid) {
+          control.markAsDirty();
+          control.updateValueAndValidity({ onlySelf: true });
+        }
+      });
+    }
+  }
+
+  // arrow func to fix getKeyId
+  onBeforeDrop = (event: NzFormatBeforeDropEvent): Observable<boolean> => {
+    console.log('onBeforeDrop', event);
+    if (event.pos === 0) {
+      const categoryId: number = this.getKeyId(event.node?.key) ?? NaN;
+      console.log('categoryId: ', categoryId);
+
+      const fileId: number = this.getKeyId(event.dragNode?.key) ?? NaN;
+      console.log('fileId: ', fileId);
+
+      if (
+        event.dragNode.isLeaf &&
+        categoryId &&
+        fileId &&
+        !isNaN(categoryId) &&
+        !isNaN(fileId)
+      ) {
+        this.isPageLoading = true;
+        return new Observable<boolean>((observer) => {
+          this.adminCategoryService
+            .assignFilesToCategoryByIds(categoryId, [fileId])
+            .subscribe({
+              next: (response) => {
+                if (response && response?.status === ResponseStatus.Success) {
+                  observer.next(true);
+                } else {
+                  this.message.error(
+                    this.translateService.instant(
+                      'module.category.error.assign'
+                    )
+                  );
+                  observer.next(false);
+                }
+              },
+              error: (err) => {
+                console.log(err);
+                this.message.error(
+                  this.translateService.instant('module.category.error.assign')
+                );
+                this.isPageLoading = false;
+                observer.next(false);
+              },
+              complete: () => {
+                this.isPageLoading = false;
+                observer.complete();
+              },
+            });
+        });
+      }
+      return of(false);
+    } else if (event.pos === -1) {
+      const categoryId: number =
+        this.getKeyId(event.dragNode?.parentNode?.key) ?? NaN;
+      console.log('categoryId: ', categoryId);
+
+      const fileId: number = this.getKeyId(event.dragNode?.key) ?? NaN;
+      console.log('fileId: ', fileId);
+
+      if (categoryId && fileId && !isNaN(categoryId) && !isNaN(fileId)) {
+        this.isPageLoading = true;
+        return new Observable<boolean>((observer) => {
+          this.adminCategoryService
+            .removeFilesFromCategoryByIds(categoryId, [fileId])
+            .subscribe({
+              next: (response) => {
+                if (response && response?.status === ResponseStatus.Success) {
+                  observer.next(true);
+                } else {
+                  this.message.error(
+                    this.translateService.instant(
+                      'module.category.error.remove'
+                    )
+                  );
+                  observer.next(false);
+                }
+              },
+              error: (err) => {
+                console.log(err);
+                this.message.error(
+                  this.translateService.instant('module.category.error.remove')
+                );
+                this.isPageLoading = false;
+                observer.next(false);
+              },
+              complete: () => {
+                this.isPageLoading = false;
+                observer.complete();
+              },
+            });
+        });
+      }
+      return of(false);
+    }
+    return of(false);
   };
 
-  navigateToCreate = (): void => {
-    this.router.navigate(['./create'], {
-      relativeTo: this.activatedRoute,
-    });
-  };
+  onDrop(event: NzFormatEmitEvent): void {
+    if (event.eventName === 'drop') {
+      console.log('dropEvent', event);
+    }
+  }
+
+  private getKeyPath(nodeKey?: string): string | undefined {
+    if (!nodeKey) {
+      return undefined;
+    }
+    const indexOfDash = nodeKey.indexOf('-');
+    return nodeKey.substring(indexOfDash + 1);
+  }
+
+  private getKeyId(nodeKey?: string): number | undefined {
+    if (!nodeKey) {
+      return undefined;
+    }
+    const indexOfDash = nodeKey.indexOf('-');
+    return nodeKey.substring(0, indexOfDash) as unknown as number;
+  }
 }

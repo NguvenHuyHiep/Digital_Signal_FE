@@ -49,6 +49,10 @@ import { DeviceTableComponent } from './components/device-table/device-table.com
     NzTableModule,
     NzSelectModule,
   ],
-  exports: [DeviceLogChartComponent, DeviceLogTableComponent],
+  exports: [
+    DeviceLogChartComponent,
+    DeviceLogTableComponent,
+    DeviceTableComponent,
+  ],
 })
 export class DeviceModule {}

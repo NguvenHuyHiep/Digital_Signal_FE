@@ -10,16 +10,19 @@ import { ColumnItem } from '@app-api/lib/api/models/columnItem';
 import { Device } from '@app-api/lib/api/models/device';
 import { DeviceLog } from '@app-api/lib/api/models/deviceLog';
 import { DeviceStatus } from '@app-api/lib/api/models/deviceStatus';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 import { AdminDeviceService } from '@app-api/lib/modules/admin/admin-device/admin-device.service';
+import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 
 @Component({
-  selector: 'app-admin-device-table',
-  templateUrl: './device-table.component.html',
-  styleUrls: ['./device-table.component.scss'],
+  selector: 'app-admin-device-by-group-table',
+  templateUrl: './device-by-group-table.component.html',
+  styleUrls: ['./device-by-group-table.component.scss'],
 })
-export class DeviceTableComponent implements OnChanges {
+export class DeviceByGroupTableComponent implements OnChanges {
   @Input('isShowOption') isShowOption?: boolean = false;
   @Input('deviceGroupId') deviceGroupId?: number;
   @Input('status') status?: DeviceStatus = DeviceStatus.Undefined;
@@ -29,7 +32,6 @@ export class DeviceTableComponent implements OnChanges {
   devices: Device[] = [];
 
   isLoading: boolean = false;
-  tableRowExpandSet = new Set<number>();
   tableColumns: ColumnItem<Device>[] = [
     {
       name: 'ID',
@@ -52,6 +54,7 @@ export class DeviceTableComponent implements OnChanges {
       key: 'status',
     },
   ];
+
   total: number = 0;
   pageIndex: number = 1;
   pageSize: number = 10;
@@ -61,12 +64,14 @@ export class DeviceTableComponent implements OnChanges {
 
   constructor(
     private adminDeviceService: AdminDeviceService,
-    private message: NzMessageService
+    private modalService: NzModalService,
+    private message: NzMessageService,
+    private translateService: TranslateService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
-    this.getDeviceByPaging(
+    this.getDeviceByDeviceGroupIdAndByPaging(
       this.pageIndex - 1,
       this.pageSize,
       this.sortBy,
@@ -76,7 +81,7 @@ export class DeviceTableComponent implements OnChanges {
     );
   }
 
-  getDeviceByPaging(
+  getDeviceByDeviceGroupIdAndByPaging(
     pageIndex?: number,
     pageSize?: number,
     sortBy?: string,
@@ -114,33 +119,6 @@ export class DeviceTableComponent implements OnChanges {
             this.isLoading = false;
           },
         });
-    } else {
-      this.adminDeviceService
-        .getDeviceByPaging(
-          pageIndex ?? 0,
-          pageSize ?? 10,
-          sortBy ?? 'id',
-          sortDirection ?? 'desc',
-          keyword ?? '',
-          status ?? DeviceStatus.Undefined
-        )
-        .subscribe({
-          next: (response) => {
-            if (response && response.data) {
-              this.devices = response.data;
-              this.total = response.total ?? 0;
-            }
-          },
-          error: (err) => {
-            this.isLoading = false;
-            // TODO i18n
-            this.message.error('Error', err);
-            this.devices = [];
-          },
-          complete: () => {
-            this.isLoading = false;
-          },
-        });
     }
   }
 
@@ -151,7 +129,7 @@ export class DeviceTableComponent implements OnChanges {
     this.pageSize = pageSize;
     this.sortBy = key ?? 'id';
     this.sortDirection = value?.replace(/end$/, '') ?? 'desc';
-    this.getDeviceByPaging(
+    this.getDeviceByDeviceGroupIdAndByPaging(
       this.pageIndex - 1,
       this.pageSize,
       this.sortBy,
@@ -161,38 +139,46 @@ export class DeviceTableComponent implements OnChanges {
     );
   }
 
-  onExpandChange(id: number, checked: boolean): void {
-    if (checked) {
-      this.tableRowExpandSet.add(id);
-      this.getAllDeviceLogs(id);
-    } else {
-      this.tableRowExpandSet.delete(id);
-    }
-  }
-
-  getAllDeviceLogs(currentDeviceId: number) {
-    if (currentDeviceId && !isNaN(currentDeviceId)) {
-      this.adminDeviceService.getDeviceByIdWithLogs(currentDeviceId).subscribe({
-        next: (response) => {
-          if (response && response.data && response.data.deviceLogs) {
-            const currentDeviceLogs: DeviceLog[] = response.data.deviceLogs;
-            this.devices.map((d) => {
-              if (d.id === currentDeviceId) {
-                d.deviceLogs = currentDeviceLogs;
-              }
-              return d;
+  onRemoveDeviceFromDeviceGroup(device: Device) {
+    this.modalService.confirm({
+      nzTitle:
+        this.translateService.instant('module.device.modalRemoveDevice') +
+        `${device.name}` +
+        ' ?',
+      nzOnOk: () => {
+        this.isLoading = true;
+        new Promise((resolve, reject) => {
+          const deviceIds = Number(device.id);
+          return this.adminDeviceService
+            .removeDevicesFromDeviceGroup(this.deviceGroupId as number, [
+              deviceIds,
+            ])
+            .subscribe({
+              next: (response) => {
+                if (response && response.status === ResponseStatus.Success) {
+                  this.getDeviceByDeviceGroupIdAndByPaging(
+                    this.devices?.length === 1 && this.pageIndex > 1
+                      ? this.pageIndex - 2
+                      : this.pageIndex - 1,
+                    this.pageSize
+                  );
+                } else {
+                  console.log(response.errors);
+                }
+              },
+              error: (err) => {
+                console.log(err);
+                this.isLoading = false;
+              },
+              complete: () => {
+                this.isLoading = false;
+              },
             });
-          }
-        },
-        error: (err) => {
-          this.message.error('Error', err);
-        },
-        complete: () => {},
-      });
-    }
-  }
-
-  handleToDetail(selectedDevice: Device): void {
-    this.onHandleToDetail?.emit(selectedDevice);
+        }).catch((err) => {
+          console.log(err);
+          this.isLoading = false;
+        });
+      },
+    });
   }
 }

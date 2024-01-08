@@ -10,4 +10,5 @@ export interface ColumnItem<T> {
   key?: string;
   listOfFilter?: NzTableFilterList;
   filterMultiple?: boolean;
+  sortFn?: boolean | NzTableSortFn<T> | null;
 }

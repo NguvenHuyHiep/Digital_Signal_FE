@@ -1,0 +1,20 @@
+<nz-select
+  nzAllowClear
+  nzShowSearch
+  [nzPlaceHolder]="'common.selectCategory' | translate"
+  [(ngModel)]="categoryId"
+  (ngModelChange)="onChangeData($event)"
+>
+  <nz-option
+    *ngFor="let category of categories"
+    nzLabel="{{
+      category.name?.toUpperCase() +
+        ' - ' +
+        category.description?.toUpperCase() +
+        ' - ' +
+        'files: ' +
+        (category.files?.length ?? 0)
+    }}"
+    [nzValue]="category.id"
+  ></nz-option>
+</nz-select>

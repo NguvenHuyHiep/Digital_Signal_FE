@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FileAddComponent } from '@app-admin/app/modules/file/components/file-add/file-add.component';
 import { FilesByPlaylist } from '@app-admin/app/modules/file/components/files-by-playlist/files-by-playlist.component';
 import { FilesComponent } from '@app-admin/app/modules/file/components/files/files.component';
@@ -13,12 +14,15 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzWaveModule } from 'ng-zorro-antd/core/wave';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
-import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTreeModule } from 'ng-zorro-antd/tree';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 @NgModule({
@@ -31,6 +35,8 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
   exports: [FilesComponent, FileAddComponent, FilesByPlaylist],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     FileRoutingModule,
     LhDialogModule,
     LhTableModule,
@@ -45,8 +51,11 @@ import { NzUploadModule } from 'ng-zorro-antd/upload';
     NzLayoutModule,
     NzModalModule,
     NzSpinModule,
-    NzTableModule,
+    NzTreeModule,
+    NzInputModule,
+    NzIconModule,
     NzDividerModule,
+    NzFormModule,
   ],
 })
 export class FileModule {}

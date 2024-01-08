@@ -34,7 +34,8 @@
     "preview": "Preview",
     "online": "Online",
     "offline": "Offline",
-    "all": "All"
+    "all": "All",
+    "selectCategory": "Select Category"
   },
 
   "footer": "Design & Develop by LPDEV",
@@ -59,7 +60,7 @@
   },
   "module": {
     "groupDevice": {
-      "id":"ID",
+      "id": "ID",
       "no-deviceGroup": "This playlist don't have any device group",
       "modalDeleteGroupDevice": " Do you want delete device group :  ",
       "modalRemoveDeviceGroup": "Do you want remove Device Group from PlayList: ",
@@ -98,8 +99,9 @@
       "list-file": "List files",
       "name": "Filename",
       "size": "Size",
+      "remove-category": "Remove from category",
       "upload": {
-        "title": "Tải lên",
+        "title": "Upload file",
         "file-empty": "Không có file để tải lên",
         "text": "Click or drag file to this area to upload",
         "hint": "Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files",
@@ -123,7 +125,10 @@
       "title": "Playlist",
       "file": "File",
       "update": "Update file",
-      "add": "Add file",
+      "add-file": "Add file",
+      "select-file": "Select file",
+      "add-category": "Add category",
+      "select-category": "Select category",
       "name": "Name",
       "description": "Description",
       "startTime": "Start time",
@@ -188,6 +193,21 @@
       "description": "Description",
       "detail": {
         "title": "Schedule detail"
+      }
+    },
+    "category": {
+      "add": "Add category",
+      "search": "Search category",
+      "name": "Name",
+      "description": "Description",
+      "add-modal": {
+        "title": "Add new category"
+      },
+      "error": {
+        "add": "Error when adding category",
+        "assign": "Error when assigning file to category",
+        "remove": "Error when removing file to category",
+        "required-name": "Name is required"
       }
     }
   },
@@ -258,7 +278,8 @@
     "cancel": "Cancel",
     "download": "Download",
     "close": "Close",
-    "search": "Search"
+    "search": "Search",
+    "add": "Add"
   },
   "menu": {
     "search": "Search",

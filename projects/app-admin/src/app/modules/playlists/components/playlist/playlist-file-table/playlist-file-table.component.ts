@@ -89,12 +89,16 @@ export class PlaylistFileTableComponent implements OnChanges {
   }
 
   onQueryParamsChange(params: NzTableQueryParams) {
+    console.log(params);
+
     const { pageIndex, pageSize, sort, filter } = params;
     const { key, value } = sort?.find((s) => s.value) || {};
+    this.pageIndex = pageIndex;
+    this.pageSize = pageSize;
     this.getFileByPlaylistIdAndPaging(
       this.playlistId as number,
-      pageIndex - 1,
-      pageSize,
+      this.pageIndex - 1,
+      this.pageSize,
       key,
       value?.replace(/end$/, '')
     );
@@ -119,7 +123,14 @@ export class PlaylistFileTableComponent implements OnChanges {
             .subscribe({
               next: (response) => {
                 if (response && response.status === ResponseStatus.Success) {
-                  this.files = this.files?.filter((dg) => dg.id !== fileId);
+                  this.getFileByPlaylistIdAndPaging(
+                    this.playlistId as number,
+                    this.files?.length === 1 && this.pageIndex > 1
+                      ? this.pageIndex - 2
+                      : this.pageIndex - 1,
+                    this.pageSize,
+                    'createDate'
+                  );
                 }
               },
               error: (err) => {

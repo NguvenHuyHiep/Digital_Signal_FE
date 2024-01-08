@@ -48,12 +48,6 @@ export class AdminPlaylistService {
       id: [playlist?.id],
       name: [playlist?.name || ''],
       description: [playlist?.description || ''],
-      startTime: [
-        playlist?.startTime ? new Date(playlist.startTime) : new Date(),
-      ],
-      endTime: [playlist?.endTime ? new Date(playlist.endTime) : new Date()],
-      isLoop: [playlist?.isLoop || ''],
-      status: [playlist?.status || PlaylistStatus.Active],
     }) as unknown as FormGroupPlayList;
     form.addControl('files', this.formBuilder.array([]) as FormArray);
     playlist?.files?.forEach((file) => {
@@ -154,6 +148,16 @@ export class AdminPlaylistService {
     return this.adminPlayListController.removeDeviceGroups(
       playlistId,
       deviceGroupIds
+    );
+  }
+
+  public assignFileByCategoryIds(
+    playListId: number,
+    categoryIds: number[]
+  ): Observable<BaseOutputPlaylist> {
+    return this.adminPlayListController.assignFileByCategoryIds(
+      playListId,
+      categoryIds
     );
   }
 }

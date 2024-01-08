@@ -12,7 +12,6 @@
 >
   <thead>
     <tr>
-      <th nzWidth="40px"></th>
       <th
         *ngFor="let column of tableColumns"
         [nzColumnKey]="column.key"
@@ -26,10 +25,6 @@
   <tbody>
     <ng-container *ngFor="let data of filterTable.data">
       <tr>
-        <td
-          [nzExpand]="tableRowExpandSet.has(data.id ?? 0)"
-          (nzExpandChange)="onExpandChange(data.id ?? 0, $event)"
-        ></td>
         <td>{{ data.id }}</td>
         <td>{{ data.code }}</td>
         <td>{{ data.name }}</td>
@@ -43,17 +38,14 @@
           {{ data.status }}
         </td>
         <td *ngIf="isShowOption">
-          <button nz-button nzType="primary" (click)="handleToDetail(data)">
-            {{ "common.detail" | translate }}
+          <button
+            nz-button
+            nzDanger
+            (click)="onRemoveDeviceFromDeviceGroup(data)"
+          >
+            {{ "common.delete" | translate }}
           </button>
         </td>
-      </tr>
-      <tr [nzExpand]="tableRowExpandSet.has(data.id || 0)">
-        <app-admin-device-log-chart
-          *ngIf="tableRowExpandSet.has(data.id || 0)"
-          [deviceId]="data.id"
-          [deviceLogs]="data.deviceLogs"
-        ></app-admin-device-log-chart>
       </tr>
     </ng-container>
   </tbody>

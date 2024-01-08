@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.component';
 import { DeviceGroup } from '@app-api/lib/api/models/deviceGroup';
-import { DeviceGroupAddComponent } from '@app-admin/app/modules/device-group/components/device-group/device-group-add/device-group-add.component';
+import { DeviceGroupAddComponent } from '@app-admin/app/modules/device-group/components/device-group-add/device-group-add.component';
 import { Device } from '@app-api/lib/api/models/device';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminDeviceGroupService } from '@app-api/lib/modules/admin/group-device/admin-group-device.service';

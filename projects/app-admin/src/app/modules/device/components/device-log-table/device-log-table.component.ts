@@ -17,14 +17,19 @@ export class DeviceLogTableComponent implements OnChanges {
     {
       name: 'ID',
       key: 'id',
+      sortFn: (a: DeviceLog, b: DeviceLog) => (a?.id ?? 0) - (b?.id ?? 0),
     },
     {
       name: 'module.device.status',
       key: 'status',
+      sortFn: (a: DeviceLog, b: DeviceLog) =>
+        (a?.status ?? '').localeCompare(b?.status ?? ''),
     },
     {
       name: 'module.device.update-date',
       key: 'updateDate',
+      sortFn: (a: DeviceLog, b: DeviceLog) =>
+        new Date(a.date ?? '').getTime() - new Date(b.date ?? '').getTime(),
     },
   ];
 
