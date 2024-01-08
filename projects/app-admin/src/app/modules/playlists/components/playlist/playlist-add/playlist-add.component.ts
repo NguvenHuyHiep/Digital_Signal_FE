@@ -44,6 +44,8 @@ export class PlaylistAddComponent implements OnInit {
   currentDeviceGroup: DeviceGroup = {};
   isVisible: boolean = false;
 
+  isLoading: boolean = false;
+
   deviceGroupTableColumns: ColumnItem<DeviceGroup>[] = [
     {
       name: 'ID',

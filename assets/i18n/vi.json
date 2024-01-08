@@ -117,7 +117,8 @@
     "playlist": {
       "id": "ID",
       "no-file": "Không có File nào thuộc PlayList để hiển thị",
-      "listFile": "Danh sách File",
+      "listFile": "Danh sách file",
+      "listDeviceGroup": "Danh sách nhóm thiết bị",
       "modalRemoveFile": "Bạn có muốn xóa file khỏi Playlist: ",
       "modalDeletePlayList": "Bạn muốn xóa PlayList: ",
       "title": "Playlist",

@@ -1,0 +1,44 @@
+<nz-table
+  *ngIf="files"
+  #filterTable
+  nzShowSizeChanger
+  nzTableLayout="fixed"
+  [nzData]="files"
+  [nzFrontPagination]="false"
+  [nzLoading]="isLoading"
+  [nzTotal]="total"
+  [nzPageIndex]="pageIndex"
+  [nzPageSize]="pageSize"
+  (nzQueryParams)="onQueryParamsChange($event)"
+>
+  <thead>
+    <tr>
+      <th
+        *ngFor="let column of tableFileColumns"
+        [nzColumnKey]="column.key"
+        [nzSortFn]="true"
+      >
+        {{ column.name | translate }}
+      </th>
+      <th *ngIf="isShowOption">{{ "common.option" | translate }}</th>
+    </tr>
+  </thead>
+  <tbody *ngFor="let data of filterTable.data">
+    <tr>
+      <td>{{ data.id }}</td>
+      <td>{{ data.path }}</td>
+      <td>{{ getMimeTypeName(data.fileType) }}</td>
+      <td>{{ data.createDate | date : "dd/M/yyyy - h:mm:ss a" }}</td>
+      <td *ngIf="isShowOption">
+        <button
+          nz-button
+          nzType="primary"
+          nzDanger
+          (click)="handleRemoveFromPlaylist(data)"
+        >
+          {{ "common.delete" | translate }}
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

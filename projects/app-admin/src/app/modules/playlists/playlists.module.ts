@@ -28,9 +28,10 @@ import { AdminPlaylistModule } from '@app-api/lib/modules/admin/admin-playlist/a
 import { AdminDeviceGroupModule } from '@app-api/lib/modules/admin/group-device/admin-group-device.module';
 import { UiCommonModule } from '@app-common/lib/modules/ui-common/ui-common.module';
 import { FileModule } from '../file/file.module';
-import { PlaylistDetailComponent } from './components/playlist/playlist-detail/playlist-detail.component';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { PlaylistGroupDeviceTableComponent } from './components/playlist/playlist-group-device-table/playlist-group-device-table.component';
+import { PlaylistFileTableComponent } from './components/playlist/playlist-file-table/playlist-file-table.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
     PlaylistAddComponent,
     ChosenFileComponent,
     ChosenGroupDeviceComponent,
-    PlaylistDetailComponent,
+    PlaylistGroupDeviceTableComponent,
+    PlaylistFileTableComponent,
   ],
   imports: [
     CommonModule,
