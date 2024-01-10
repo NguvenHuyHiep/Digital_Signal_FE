@@ -1,7 +1,8 @@
 <nz-table
   #filterTable
   nzShowSizeChanger
-  nzTableLayout="fixed"
+  nzBordered
+  [nzTitle]="'module.groupDevice.listDevice' | translate"
   [nzData]="devices"
   [nzFrontPagination]="false"
   [nzLoading]="isLoading"
@@ -43,7 +44,7 @@
             nzDanger
             (click)="onRemoveDeviceFromDeviceGroup(data)"
           >
-            {{ "common.delete" | translate }}
+            {{ "button.remove" | translate }}
           </button>
         </td>
       </tr>

@@ -1,42 +1,59 @@
+<button
+  *ngIf="isShowOption"
+  nz-button
+  nzType="primary"
+  class="mb-1"
+  (click)="handleRefreshOrder()"
+  [disabled]="isLoading"
+>
+  {{ "button.refresh-order" | translate }}
+</button>
 <nz-table
-  *ngIf="files"
   #filterTable
+  nzBordered
+  nzShowPagination
   nzShowSizeChanger
-  nzTableLayout="fixed"
-  [nzData]="files"
-  [nzFrontPagination]="false"
+  [nzTitle]="'module.playlist.listFile' | translate"
+  [nzData]="files ?? []"
   [nzLoading]="isLoading"
-  [nzTotal]="total"
-  [nzPageIndex]="pageIndex"
-  [nzPageSize]="pageSize"
-  (nzQueryParams)="onQueryParamsChange($event)"
 >
   <thead>
     <tr>
-      <th
-        *ngFor="let column of tableFileColumns"
-        [nzColumnKey]="column.key"
-        [nzSortFn]="true"
-      >
+      <th *ngFor="let column of tableFileColumns" [nzColumnKey]="column.key">
         {{ column.name | translate }}
       </th>
       <th *ngIf="isShowOption">{{ "common.option" | translate }}</th>
     </tr>
   </thead>
-  <tbody *ngFor="let data of filterTable.data">
+  <tbody
+    *ngFor="let data of filterTable.data; let i = index; trackBy: trackByFn"
+  >
     <tr>
       <td>{{ data.id }}</td>
       <td>{{ data.path }}</td>
       <td>{{ getMimeTypeName(data.fileType) }}</td>
       <td>{{ data.createDate | date : "dd/M/yyyy - h:mm:ss a" }}</td>
       <td *ngIf="isShowOption">
+        <button nz-button nzDanger (click)="handleRemoveFromPlaylist(data)">
+          {{ "button.remove" | translate }}
+        </button>
+        <nz-divider nzType="vertical"></nz-divider>
         <button
           nz-button
           nzType="primary"
-          nzDanger
-          (click)="handleRemoveFromPlaylist(data)"
+          (click)="moveRow(data, true)"
+          [disabled]="i === 0"
         >
-          {{ "common.delete" | translate }}
+          <span nz-icon nzType="up" nzTheme="outline"></span>
+        </button>
+        <nz-divider nzType="vertical"></nz-divider>
+        <button
+          nz-button
+          nzType="primary"
+          (click)="moveRow(data, false)"
+          [disabled]="i === filterTable.data.length - 1"
+        >
+          <span nz-icon nzType="down" nzTheme="outline"></span>
         </button>
       </td>
     </tr>

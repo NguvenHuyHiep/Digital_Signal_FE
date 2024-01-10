@@ -22,6 +22,7 @@ export interface Playlist {
   endTime?: string;
   isLoop?: boolean;
   status?: Status;
+  fileOrder?: number[];
   files?: Array<DsdFile>;
   deviceGroups?: Array<DeviceGroup>;
   user?: User;

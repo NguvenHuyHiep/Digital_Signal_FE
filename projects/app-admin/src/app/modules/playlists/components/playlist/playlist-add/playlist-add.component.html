@@ -46,10 +46,7 @@
 <ng-template #elseBlock></ng-template>
 
 <ng-template #addGroupDevice>
-  <nz-divider
-    [nzText]="'module.playlist.listDeviceGroup' | translate"
-    nzOrientation="left"
-  ></nz-divider>
+  <nz-divider></nz-divider>
   <nz-skeleton [nzActive]="true" *ngIf="loading.addDeviceGroup"></nz-skeleton>
 
   <app-admin-playlist-group-device-table
@@ -91,15 +88,13 @@
 </ng-template>
 
 <ng-template #addFiles>
-  <nz-divider
-    [nzText]="'module.playlist.listFile' | translate"
-    nzOrientation="left"
-  ></nz-divider>
+  <nz-divider></nz-divider>
   <nz-skeleton [nzActive]="true" *ngIf="loading.addFile"></nz-skeleton>
 
   <app-admin-playlist-file-table
     [isShowOption]="true"
     [playlistId]="playlistId"
+    [files]="currentPlaylist?.files"
   >
   </app-admin-playlist-file-table>
 

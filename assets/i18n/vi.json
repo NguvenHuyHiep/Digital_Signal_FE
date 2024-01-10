@@ -136,7 +136,8 @@
       "endTime": "Thời gian kết thúc",
       "isLoop": "Vòng lặp",
       "status": "Trạng thái",
-      "true": "Có"
+      "true": "Có",
+      "refresh-file-order-warning": "Bạn có chắc chắn tải lại thứ tự file? sau khi tải lại sẽ mất thứ tự file cũ"
     },
     "user": {
       "id": "ID",
@@ -280,7 +281,10 @@
     "download": "Tải về",
     "close": "Đóng",
     "search": "Tìm kiếm",
-    "add": "Thêm"
+    "add": "Thêm",
+    "delete": "Xóa",
+    "remove": "Loại bỏ",
+    "refresh-order": "Cập nhật lại thứ tự"
   },
   "menu": {
     "search": "Tìm kiếm",
@@ -295,7 +299,9 @@
   "error": {
     "cannot-download-file": "Không thể tải về file",
     "cannot-preivew-file": "Không thể xem trước file",
-    "video-not-support": "Trình duyệt không hỗ trợ định dạng video này"
+    "video-not-support": "Trình duyệt không hỗ trợ định dạng video này",
+    "file-by-playlist": "Không thể lấy file theo lịch phát",
+    "invalid-file-or-playlist": "File hoặc lịch phát không đúng định dạng" 
   },
   "information": {
     "code": "Mã License",

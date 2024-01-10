@@ -135,7 +135,8 @@
       "endTime": "End time",
       "isLoop": "Is loop",
       "status": "Status",
-      "true": "Yes"
+      "true": "Yes",
+      "refresh-file-order-warning": "Are you sure to refresh the file order? after refresh, the old file order will be lost"
     },
     "user": {
       "modalDeleteUser": "Do you want delete user : ",
@@ -279,7 +280,10 @@
     "download": "Download",
     "close": "Close",
     "search": "Search",
-    "add": "Add"
+    "add": "Add",
+    "delete": "Delete",
+    "remove": "Remove",
+    "refresh-order": "Refresh order"
   },
   "menu": {
     "search": "Search",
@@ -294,7 +298,9 @@
   "error": {
     "cannot-download-file": "Cannot download file",
     "cannot-preivew-file": "Cannot preview file",
-    "video-not-support": "The browser does not support this video"
+    "video-not-support": "The browser does not support this video",
+    "file-by-playlist": "Cannot get files by playlist",
+    "invalid-file-or-playlist": "Invalid file or playlist"
   },
   "information": {
     "code": "Code",

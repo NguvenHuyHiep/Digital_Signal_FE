@@ -13,7 +13,6 @@
   <nz-table
     #filterTable
     nzShowSizeChanger
-    nzTableLayout="fixed"
     [nzData]="playlists"
     [nzFrontPagination]="false"
     [nzLoading]="loading.searching"
@@ -57,19 +56,11 @@
           </td>
         </tr>
         <tr [nzExpand]="tableRowExpandSet.has(data.id || 0)">
-          <nz-divider
-            [nzText]="'module.playlist.listDeviceGroup' | translate"
-            nzOrientation="left"
-          ></nz-divider>
           <app-admin-playlist-group-device-table
             *ngIf="tableRowExpandSet.has(data.id || 0)"
             [isShowOption]="false"
             [playlistId]="data.id"
           ></app-admin-playlist-group-device-table>
-          <nz-divider
-            [nzText]="'module.playlist.listFile' | translate"
-            nzOrientation="left"
-          ></nz-divider>
           <app-admin-playlist-file-table
             *ngIf="tableRowExpandSet.has(data.id || 0)"
             [isShowOption]="false"

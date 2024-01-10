@@ -135,4 +135,25 @@ export class AdminPlaylistApiService {
       categoryIds
     );
   }
+
+  public moveFileByFileId(
+    id: number,
+    fileId: number,
+    idUp: boolean
+  ): Observable<BaseOutputPlaylist> {
+    return this.http.put<BaseOutputPlaylist>(
+      `/api/v1/admin/playlist/move-file/${id}/${fileId}`,
+      {},
+      { params: { idUp } }
+    );
+  }
+
+  public refreshFileOrderById(
+    playlistId: number
+  ): Observable<BaseOutputPlaylist> {
+    return this.http.put<BaseOutputPlaylist>(
+      `/api/v1/admin/playlist/file-order/${playlistId}`,
+      {}
+    );
+  }
 }
