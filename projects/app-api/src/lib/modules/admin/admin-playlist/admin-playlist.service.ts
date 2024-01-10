@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Playlist } from '@app-api/lib/api/models/playlist';
 import { DsdFile } from '@app-api/lib/api/models/dsdFile';
@@ -159,5 +159,22 @@ export class AdminPlaylistService {
       playListId,
       categoryIds
     );
+  }
+
+  public moveFileByPlaylistIdAndFileIdAndIsUp(
+    id: number,
+    fileId: number,
+    idUp: boolean
+  ): Observable<BaseOutputPlaylist> {
+    return this.adminPlayListController.moveFileByFileId(id, fileId, idUp);
+  }
+
+  public refreshFileOrderByPlaylistId(
+    playListId: number
+  ): Observable<BaseOutputPlaylist | undefined> {
+    if (playListId && !isNaN(playListId)) {
+      return this.adminPlayListController.refreshFileOrderById(playListId);
+    }
+    return of(undefined);
   }
 }

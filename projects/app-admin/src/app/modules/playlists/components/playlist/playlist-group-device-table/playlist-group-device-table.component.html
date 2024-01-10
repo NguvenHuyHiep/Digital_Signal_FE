@@ -2,7 +2,8 @@
   *ngIf="deviceGroups"
   #filterTable
   nzShowSizeChanger
-  nzTableLayout="fixed"
+  nzBordered
+  [nzTitle]="'module.playlist.listDeviceGroup' | translate"
   [nzData]="deviceGroups"
   [nzFrontPagination]="false"
   [nzLoading]="isLoading"
@@ -29,13 +30,8 @@
       <td>{{ data.name }}</td>
       <td>{{ data.description }}</td>
       <td *ngIf="isShowOption">
-        <button
-          nz-button
-          nzType="primary"
-          nzDanger
-          (click)="handleRemoveFromPlaylist(data)"
-        >
-          {{ "common.delete" | translate }}
+        <button nz-button nzDanger (click)="handleRemoveFromPlaylist(data)">
+          {{ "button.remove" | translate }}
         </button>
       </td>
     </tr>

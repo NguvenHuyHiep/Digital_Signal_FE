@@ -110,7 +110,6 @@ export class PlaylistGroupDeviceTableComponent implements OnChanges {
   }
 
   removeDeviceGroupFromPlaylist(deviceGroup: DeviceGroup) {
-    this.isLoading = true;
     this.modalService.confirm({
       nzTitle:
         this.translateService.instant(
@@ -119,6 +118,7 @@ export class PlaylistGroupDeviceTableComponent implements OnChanges {
         `${deviceGroup.name}` +
         ' ?',
       nzOnOk: () => {
+        this.isLoading = true;
         new Promise((resolve, reject) => {
           const deviceGroupId = Number(deviceGroup.id);
           return this.deviceGroupService
