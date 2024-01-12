@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DsdFile } from '@app-api/lib/api/models/dsdFile';
@@ -7,7 +7,6 @@ import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 import { Tree } from '@app-api/lib/api/models/tree';
 import { AdminCategoryService } from '@app-api/lib/modules/admin/admin-category/admin-category.service';
 import { AdminFileService } from '@app-api/lib/modules/admin/admin-file/admin-file.service';
-import { LhTableComponent } from '@app-common/lib/components/lh-table/lh-table.component';
 import { TranslateService } from '@ngx-translate/core';
 import { saveAs } from 'file-saver';
 import { forEach } from 'lodash';
@@ -19,7 +18,14 @@ import {
   NzTreeNode,
   NzTreeNodeOptions,
 } from 'ng-zorro-antd/tree';
-import { Observable, forkJoin, of } from 'rxjs';
+import {
+  Observable,
+  debounceTime,
+  distinctUntilChanged,
+  forkJoin,
+  map,
+  of,
+} from 'rxjs';
 
 @Component({
   selector: 'app-admin-files',
@@ -28,8 +34,11 @@ import { Observable, forkJoin, of } from 'rxjs';
 })
 export class FilesComponent implements OnInit {
   isPageLoading: boolean = false;
-  searchValue = '';
   nodes: NzTreeNodeOptions[] = [];
+
+  searchControl = new FormControl();
+  searchChanges$: Observable<string>;
+  searchInput: string = '';
 
   previewFile: {
     isVisible: boolean;
@@ -61,6 +70,17 @@ export class FilesComponent implements OnInit {
     private modalService: NzModalService
   ) {
     this.categoryForm = this.adminCategoryService.buildForm();
+    this.searchChanges$ = this.searchControl.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      map((value) => value.trim().toLowerCase())
+    );
+
+    this.searchChanges$.subscribe({
+      next: (value) => {
+        this.onSearchCategoryTree(value);
+      },
+    });
   }
 
   ngOnInit(): void {
@@ -75,30 +95,17 @@ export class FilesComponent implements OnInit {
 
   getCategoryTree(): void {
     this.isPageLoading = true;
-    this.adminCategoryService.getCategoryTree().subscribe({
+    this.adminCategoryService.getCategoryTree(this.searchInput).subscribe({
       next: (response) => {
         if (response && response.status === ResponseStatus.Success) {
           this.nodes = [];
+
           const listCategoryTree: Tree[] = response?.data ?? [];
           forEach(listCategoryTree, (categoryTree: Tree) => {
-            const children: NzTreeNodeOptions[] = [];
-            if (categoryTree.children?.length) {
-              forEach(categoryTree.children, (child: Tree) => {
-                children.push({
-                  title: child.title ?? '',
-                  key: child.key ?? '',
-                  isLeaf: child.isLeaf ?? true,
-                });
-              });
-            }
-
             const node: NzTreeNodeOptions = {
-              title: categoryTree.title ?? '',
+              title: this.translateService.instant(categoryTree.title ?? ''),
               key: categoryTree.key ?? '',
               isLeaf: categoryTree.isLeaf ?? false,
-              expanded: !(categoryTree.isLeaf ?? false),
-              children:
-                children && children.length !== 0 ? children : undefined,
             };
 
             this.nodes.push(node);
@@ -258,6 +265,57 @@ export class FilesComponent implements OnInit {
           },
         });
     }
+  }
+
+  onNodeExpand(event: NzFormatEmitEvent): void {
+    if (event.eventName === 'expand') {
+      const node = event.node;
+      if (
+        node?.getChildren().length === 0 &&
+        node?.isExpanded &&
+        !this.isPageLoading
+      ) {
+        this.loadNode(this.getKeyId(node.key)).then((data) => {
+          node.addChildren(data);
+        });
+      }
+    }
+  }
+
+  loadNode(categoryId?: number): Promise<NzTreeNodeOptions[]> {
+    return new Promise((resolve) => {
+      this.isPageLoading = true;
+      this.adminCategoryService
+        .getCategoryTreeNode(categoryId as number, this.searchInput)
+        .subscribe({
+          next: (response) => {
+            if (
+              response &&
+              response?.status === ResponseStatus.Success &&
+              response.data
+            ) {
+              console.log(response.data);
+              const newNodes: NzTreeNodeOptions[] = [];
+              forEach(response.data, (categoryTree: Tree) => {
+                const node: NzTreeNodeOptions = {
+                  title: categoryTree.title ?? '',
+                  key: categoryTree.key ?? '',
+                  isLeaf: categoryTree.isLeaf ?? false,
+                };
+                newNodes.push(node);
+              });
+              resolve(newNodes);
+            }
+          },
+          error: (err) => {
+            console.log(err);
+            resolve([]);
+          },
+          complete: () => {
+            this.isPageLoading = false;
+          },
+        });
+    });
   }
 
   onDoubleClick(event: NzFormatEmitEvent): void {
@@ -432,5 +490,10 @@ export class FilesComponent implements OnInit {
     }
     const indexOfDash = nodeKey.indexOf('-');
     return nodeKey.substring(0, indexOfDash) as unknown as number;
+  }
+
+  onSearchCategoryTree(searchValue: string): void {
+    this.searchInput = searchValue;
+    this.getCategoryTree();
   }
 }

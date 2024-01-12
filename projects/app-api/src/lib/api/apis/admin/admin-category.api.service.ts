@@ -30,8 +30,20 @@ export class AdminCategoryApiService {
     });
   }
 
-  public getCategoryTree(): Observable<BaseOutputListTree> {
-    return this.http.get<BaseOutputListTree>(`/api/v1/admin/category/tree`);
+  public getCategoryTree(search: string): Observable<BaseOutputListTree> {
+    return this.http.get<BaseOutputListTree>(`/api/v1/admin/category/tree`, {
+      params: { search },
+    });
+  }
+
+  public getCategoryTreeNode(
+    categoryId: number,
+    search: string
+  ): Observable<BaseOutputListTree> {
+    return this.http.get<BaseOutputListTree>(
+      `/api/v1/admin/category/tree/node/${categoryId}`,
+      { params: { search } }
+    );
   }
 
   public create(category: Category): Observable<BaseOutputCategory> {

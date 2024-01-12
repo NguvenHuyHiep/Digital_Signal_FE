@@ -35,7 +35,8 @@
     "online": "Online",
     "offline": "Offline",
     "all": "All",
-    "selectCategory": "Select Category"
+    "selectCategory": "Select Category",
+    "uncategory": "Uncategory files"
   },
 
   "footer": "Design & Develop by LPDEV",

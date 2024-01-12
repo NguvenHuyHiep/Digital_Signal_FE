@@ -35,7 +35,8 @@
     "online": "Đang hoạt động",
     "offline": "Không hoạt động",
     "all": "Tất cả",
-    "selectCategory": "Chọn danh mục"
+    "selectCategory": "Chọn danh mục",
+    "uncategory": "File không thuộc danh mục"
   },
 
   "footer": "Design & Develop by LPDEV",
