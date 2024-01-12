@@ -24,7 +24,7 @@
         type="text"
         nz-input
         [placeholder]="'module.category.search' | translate"
-        [(ngModel)]="searchValue"
+        [formControl]="searchControl"
       />
       <ng-template #suffixIcon>
         <span nz-icon nzType="search"></span>
@@ -41,11 +41,12 @@
       nzShowLine
       nzDraggable
       nzBlockNode
+      nzAsyncData
       [nzData]="nodes"
-      [nzSearchValue]="searchValue"
       [nzBeforeDrop]="onBeforeDrop"
       (nzDblClick)="onDoubleClick($event)"
       (nzOnDrop)="onDrop($event)"
+      (nzExpandChange)="onNodeExpand($event)"
     ></nz-tree>
   </div>
 </lh-common-page>
@@ -145,7 +146,14 @@
     <button nz-button nzType="default" (click)="previewFile.isVisible = false">
       {{ "button.close" | translate }}
     </button>
-    <button nz-button nzType="primary" (click)="onDownloadPreview()">
+    <button
+      nz-button
+      nzType="primary"
+      (click)="onDownloadPreview()"
+      [disabled]="
+        !previewFile || !previewFile.blob || !previewFile.dsdFile?.path
+      "
+    >
       {{ "button.download" | translate }}
     </button>
   </ng-template>

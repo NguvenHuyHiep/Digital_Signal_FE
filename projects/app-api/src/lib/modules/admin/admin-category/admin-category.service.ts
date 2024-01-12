@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AdminCategoryApiService } from '@app-api/lib/api/apis/admin/admin-category.api.sservice';
+import { AdminCategoryApiService } from '@app-api/lib/api/apis/admin/admin-category.api.service';
 import { BaseOutputCategory } from '@app-api/lib/api/models/baseOutputCategory';
 import { BaseOutputListTree } from '@app-api/lib/api/models/baseOutputListTree';
 import { Observable } from 'rxjs';
@@ -39,8 +39,15 @@ export class AdminCategoryService {
     );
   }
 
-  public getCategoryTree(): Observable<BaseOutputListTree> {
-    return this.adminCategoryApiService.getCategoryTree();
+  public getCategoryTree(search: string): Observable<BaseOutputListTree> {
+    return this.adminCategoryApiService.getCategoryTree(search);
+  }
+
+  public getCategoryTreeNode(
+    categoryId: number,
+    search: string
+  ): Observable<BaseOutputListTree> {
+    return this.adminCategoryApiService.getCategoryTreeNode(categoryId, search);
   }
 
   public create(category: Category): Observable<BaseOutputCategory> {
