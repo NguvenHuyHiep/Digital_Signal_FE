@@ -61,11 +61,11 @@ export class AdminCategoryApiService {
 
   public assignFilesToCategoryByIds(
     categoryId: number,
-    fileIds: number[]
+    fileId: number
   ): Observable<BaseOutputCategory> {
     return this.http.put<BaseOutputCategory>(
-      `/api/v1/admin/category/${categoryId}/files`,
-      fileIds
+      `/api/v1/admin/category/assign-file/${categoryId}/${fileId}`,
+      {}
     );
   }
 

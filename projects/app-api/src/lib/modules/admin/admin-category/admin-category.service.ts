@@ -56,11 +56,11 @@ export class AdminCategoryService {
 
   public assignFilesToCategoryByIds(
     categoryId: number,
-    fileIds: number[]
+    fileId: number
   ): Observable<BaseOutputCategory> {
     return this.adminCategoryApiService.assignFilesToCategoryByIds(
       categoryId,
-      fileIds
+      fileId
     );
   }
 

@@ -394,7 +394,7 @@ export class FilesComponent implements OnInit {
         this.isPageLoading = true;
         return new Observable<boolean>((observer) => {
           this.adminCategoryService
-            .assignFilesToCategoryByIds(categoryId, [fileId])
+            .assignFilesToCategoryByIds(categoryId, fileId)
             .subscribe({
               next: (response) => {
                 if (response && response?.status === ResponseStatus.Success) {
