@@ -12,6 +12,8 @@ import { User } from '@app-api/lib/api/models/user';
 import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 import { ColumnItem } from '@app-api/lib/api/models/columnItem';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import { saveAs } from 'file-saver';
+import { generateCurrentExportDate } from '@app-admin/app/utils/date-utils';
 
 @Component({
   selector: 'app-admin-device-groups',
@@ -101,7 +103,7 @@ export class DeviceGroupsComponent implements OnInit {
     return (this.table?.setOfCheckedId?.size || 0) > 0;
   }
 
-  navigateToUpdate = (record: User): void => {
+  navigateToUpdate = (record: DeviceGroup): void => {
     console.log(record);
     this.currentDeviceGroup = record;
     this.router.navigate(['./update', record.id], {
@@ -219,5 +221,55 @@ export class DeviceGroupsComponent implements OnInit {
       key,
       value?.replace(/end$/, '')
     );
+  }
+
+  exportExcel(record: DeviceGroup) {
+    console.log(record);
+    this.modalService.confirm({
+      nzTitle: this.translateService.instant(
+        'module.groupDevice.export-device-status.title'
+      ),
+      nzContent: this.translateService.instant(
+        'module.groupDevice.export-device-status.content'
+      ),
+      nzOnOk: () =>
+        new Promise((resolve, reject) => {
+          if (!record || !record.id) {
+            console.log('Invalid device group id to export');
+            this.message.error(
+              this.translateService.instant(
+                'module.groupDevice.export-device-status.error.invalid-device-group'
+              )
+            );
+            resolve();
+          }
+          this.adminDeviceGroupService
+            .exportDeviceStatus(record.id as number)
+            .subscribe({
+              next: (blob) => {
+                if (blob) {
+                  saveAs(
+                    blob,
+                    `${generateCurrentExportDate()}-${record.name}.xlsx`
+                  );
+                } else {
+                  this.message.error(
+                    this.translateService.instant(
+                      'module.groupDevice.export-device-status.error.cannot-export'
+                    )
+                  );
+                }
+                resolve();
+              },
+              error: (err: any) => {
+                console.error(err);
+                resolve();
+              },
+              complete: () => {
+                resolve();
+              },
+            });
+        }),
+    });
   }
 }

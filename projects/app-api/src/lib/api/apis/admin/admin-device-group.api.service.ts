@@ -142,4 +142,13 @@ export class AdminDeviceGroupApiService {
       deviceGroupIds
     );
   }
+
+  public exportDeviceStatus(deviceGroupId: number): Observable<Blob> {
+    return this.http.get<Blob>(
+      `/api/v1/admin/device-group/export-device-status/${deviceGroupId}`,
+      {
+        responseType: 'blob' as 'json',
+      }
+    );
+  }
 }

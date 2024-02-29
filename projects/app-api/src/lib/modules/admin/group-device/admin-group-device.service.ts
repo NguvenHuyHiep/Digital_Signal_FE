@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormArray, FormBuilder } from '@angular/forms';
 import { HttpParams } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { DeviceGroup } from '@app-api/lib/api/models/deviceGroup';
 import { BaseOutputDeviceGroup } from '@app-api/lib/api/models/baseOutputDeviceGroup';
 import {
@@ -163,5 +163,14 @@ export class AdminDeviceGroupService {
       playlistId,
       deviceGroupIds
     );
+  }
+
+  public exportDeviceStatus(
+    deviceGroupId: number
+  ): Observable<Blob | undefined> {
+    if (deviceGroupId) {
+      return this.adminGroupDeviceController.exportDeviceStatus(deviceGroupId);
+    }
+    return of(undefined);
   }
 }
