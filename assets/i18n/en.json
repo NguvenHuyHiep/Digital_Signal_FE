@@ -36,7 +36,8 @@
     "offline": "Offline",
     "all": "All",
     "selectCategory": "Select Category",
-    "uncategory": "Uncategory files"
+    "uncategory": "Uncategory files",
+    "export": "Export Excel"
   },
 
   "footer": "Design & Develop by LPDEV",
@@ -75,7 +76,15 @@
       "no-devices": "This group don't have any device",
       "deviceGroupAdd": "Add group device",
       "listDevice": "List devices",
-      "listDeviceGroup": "List group devices"
+      "listDeviceGroup": "List group devices",
+      "export-device-status": {
+        "title": "Deivce group's device status export",
+        "content": "Are you sure to export device group's device status excel file?",
+        "error": {
+          "invalid-device-group": "This device group is invalid to export!",
+          "cannot-export": "Cannot export device group's device status!"
+        }
+      }
     },
     "dashboard": {
       "title": "Dashboard",

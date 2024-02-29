@@ -36,7 +36,8 @@
     "offline": "Không hoạt động",
     "all": "Tất cả",
     "selectCategory": "Chọn danh mục",
-    "uncategory": "File không thuộc danh mục"
+    "uncategory": "File không thuộc danh mục",
+    "export": "Xuất Excel"
   },
 
   "footer": "Design & Develop by LPDEV",
@@ -75,7 +76,15 @@
       "no-devices": "Nhóm thiết bị không có thiết bị",
       "deviceGroupAdd": "Thêm nhóm thiết bị",
       "listDevice": "Danh sách thiết bị",
-      "listDeviceGroup": "Danh sách nhóm thiết bị"
+      "listDeviceGroup": "Danh sách nhóm thiết bị",
+      "export-device-status": {
+        "title": "Xuất excel trạng thái thiết bị của nhóm thiết bị",
+        "content": "Bạn có muốn xuất excel trạng thái thiết bị của nhóm thiết bị không?",
+        "error": {
+          "invalid-device-group": "Nhóm thiết bị bị lỗi!",
+          "cannot-export": "Không thể xuất excel trạng thái thiết bị của nhóm thiết bị!"
+        }
+      }
     },
     "dashboard": {
       "title": "Thống kê",
