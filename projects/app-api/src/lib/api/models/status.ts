@@ -10,9 +10,10 @@
  * Do not edit the class manually.
  */
 
-export type Status = 'ACTIVE' | 'INACTIVE';
+export type Status = 'ACTIVE' | 'INACTIVE' | '';
 
 export const Status = {
   Active: 'ACTIVE' as Status,
   Inactive: 'INACTIVE' as Status,
+  All: '' as Status,
 };

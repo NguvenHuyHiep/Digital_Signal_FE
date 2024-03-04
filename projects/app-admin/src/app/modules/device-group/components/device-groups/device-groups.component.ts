@@ -12,6 +12,9 @@ import { User } from '@app-api/lib/api/models/user';
 import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 import { ColumnItem } from '@app-api/lib/api/models/columnItem';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import { Status } from '@app-api/lib/api/models/status';
+import { FormControl, FormGroup } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { saveAs } from 'file-saver';
 import { generateCurrentExportDate } from '@app-admin/app/utils/date-utils';
 
@@ -36,6 +39,8 @@ export class DeviceGroupsComponent implements OnInit {
     searching: false,
     device: false,
   };
+
+  tableQueryParams?: NzTableQueryParams;
 
   tableColumns: ColumnItem<DeviceGroup>[] = [
     {
@@ -79,6 +84,15 @@ export class DeviceGroupsComponent implements OnInit {
   pageIndex: number = 1;
   pageSize: number = 10;
 
+  statusOptions: { label: string; value: string }[] = [
+    { label: 'common.all', value: Status.All },
+    { label: 'common.active', value: Status.Active },
+    { label: 'common.inactive', value: Status.Inactive },
+  ];
+  statusSelect: Status = Status.All;
+  searchKeyword: string = '';
+  searchForm: FormGroup;
+
   constructor(
     private modalService: NzModalService,
     private activatedRoute: ActivatedRoute,
@@ -86,8 +100,36 @@ export class DeviceGroupsComponent implements OnInit {
     private adminDeviceGroupService: AdminDeviceGroupService,
     private message: NzMessageService,
     private translateService: TranslateService
-  ) {}
-  ngOnInit(): void {}
+  ) {
+    this.searchForm = new FormGroup({
+      keyword: new FormControl(''),
+      status: new FormControl(Status.All),
+    });
+  }
+
+  ngOnInit(): void {
+    this.searchForm.valueChanges
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((data) => {
+        if (data) {
+          const { sortBy, sortDirection } = this.getSortByAndDirection(
+            this.tableQueryParams
+          );
+          this.getDeviceGroupByPaging(
+            this.tableQueryParams?.pageIndex
+              ? this.tableQueryParams?.pageIndex - 1
+              : this.pageIndex - 1,
+            this.tableQueryParams?.pageSize
+              ? this.tableQueryParams?.pageSize
+              : this.pageSize,
+            sortBy,
+            sortDirection,
+            this.searchForm.value.keyword ?? '',
+            this.searchForm.value.status ?? ''
+          );
+        }
+      });
+  }
 
   expandSet = new Set<number>();
   onExpandChange(id: number, checked: boolean): void {
@@ -151,7 +193,8 @@ export class DeviceGroupsComponent implements OnInit {
     pageSize?: number,
     sortBy?: string,
     sortDirection?: string,
-    keyword?: string
+    keyword?: string,
+    status?: Status
   ) {
     this.loading.searching = true;
     this.adminDeviceGroupService
@@ -160,7 +203,8 @@ export class DeviceGroupsComponent implements OnInit {
         pageSize || 10,
         sortBy || 'id',
         sortDirection || 'desc',
-        keyword || ''
+        keyword || '',
+        status || Status.Active
       )
       .subscribe({
         next: (response) => {
@@ -212,15 +256,42 @@ export class DeviceGroupsComponent implements OnInit {
   }
 
   onQueryParamsChange(params: NzTableQueryParams) {
-    console.log('params:', params);
+    this.tableQueryParams = params;
     const { pageIndex, pageSize, sort, filter } = params;
-    const { key, value } = sort?.find((s) => s.value) || {};
+    const { sortBy, sortDirection } = this.getSortByAndDirection(params);
     this.getDeviceGroupByPaging(
       pageIndex - 1,
       pageSize,
-      key,
-      value?.replace(/end$/, '')
+      sortBy,
+      sortDirection,
+      this.searchForm.value.keyword ?? '',
+      this.searchForm.value.status ?? ''
     );
+  }
+
+  onClearKeyword() {
+    this.searchForm.setValue({
+      keyword: '',
+      status: this.searchForm.value.status,
+    });
+  }
+
+  private getSortByAndDirection(params: NzTableQueryParams | undefined): {
+    sortBy: string;
+    sortDirection: string;
+  } {
+    if (!params) {
+      return {
+        sortBy: '',
+        sortDirection: '',
+      };
+    }
+    const { pageIndex, pageSize, sort, filter } = params;
+    const { key, value } = sort?.find((s) => s.value) || {};
+    return {
+      sortBy: key ?? '',
+      sortDirection: value?.replace(/end$/, '') ?? '',
+    };
   }
 
   exportExcel(record: DeviceGroup) {

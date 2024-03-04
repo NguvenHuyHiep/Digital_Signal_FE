@@ -1,82 +1,112 @@
 <lh-common-page pageTitle="{{ 'module.groupDevice.title' | translate }}">
-  <div nz-space>
-    <button
-      (click)="navigateToCreate()"
-      nz-button
-      nzType="primary"
-      class="mb-2 btnFunction"
-    >
-      {{ "common.add" | translate }}
-    </button>
-    <button
-      nz-button
-      nzType="primary"
-      class="mb-2"
-      [disabled]="!isSelectedRow"
-      (click)="deleteSelected()"
-      nzDanger
-    >
-      {{ "common.delete" | translate }}
-    </button>
+  <div [nzGutter]="[16, 16]" nz-row>
+    <nz-col nzSpan="24">
+      <button (click)="navigateToCreate()" nz-button nzType="primary">
+        {{ "common.add" | translate }}
+      </button>
+    </nz-col>
   </div>
 
-  <nz-table
-    #filterTable
-    nzShowSizeChanger
-    [nzData]="deviceGroups"
-    [nzFrontPagination]="false"
-    [nzLoading]="loading.searching"
-    [nzTotal]="total"
-    [nzPageIndex]="pageIndex"
-    [nzPageSize]="pageSize"
-    (nzQueryParams)="onQueryParamsChange($event)"
-    nz-col
-  >
-    <thead>
-      <tr>
-        <th nzWidth="40px"></th>
-        <th
-          *ngFor="let column of tableColumns"
-          [nzColumnKey]="column.key"
-          [nzSortFn]="true"
-        >
-          {{ column.name | translate }}
-        </th>
-        <th>{{ "common.option" | translate }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <ng-container *ngFor="let data of filterTable.data">
-        <tr>
-          <td
-            [nzExpand]="expandSet.has(data.id || 0)"
-            (nzExpandChange)="onExpandChange(data.id || 0, $event)"
-          ></td>
-          <td>{{ data.id }}</td>
-          <td>{{ data.name }}</td>
-          <td>{{ data.description }}</td>
-          <td>
-            <button nz-button nzType="default" (click)="exportExcel(data)">
-              {{ "common.export" | translate }}
-            </button>
-            <nz-divider nzType="vertical"></nz-divider>
-            <button nz-button nzType="primary" (click)="navigateToUpdate(data)">
-              {{ "common.update" | translate }}
-            </button>
-            <nz-divider nzType="vertical"></nz-divider>
-            <button nz-button nzType="primary" nzDanger (click)="delete(data)">
-              {{ "common.delete" | translate }}
-            </button>
-          </td>
-        </tr>
-        <tr [nzExpand]="expandSet.has(data.id || 0)">
-          <app-admin-device-by-group-table
-            *ngIf="expandSet.has(data.id || 0)"
-            [isShowOption]="false"
-            [deviceGroupId]="data.id"
-          ></app-admin-device-by-group-table>
-        </tr>
-      </ng-container>
-    </tbody>
-  </nz-table>
+  <form [formGroup]="searchForm" [nzGutter]="[16, 16]" nz-row>
+    <nz-col nzSpan="6">
+      <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+        <input
+          nz-input
+          formControlName="keyword"
+          placeholder="{{ 'common.search' | translate }}"
+        />
+      </nz-input-group>
+    </nz-col>
+    <nz-select nz-col nzSpan="4" formControlName="status">
+      <nz-option
+        *ngFor="let option of statusOptions"
+        [nzLabel]="option.label | translate"
+        [nzValue]="option.value"
+      ></nz-option>
+    </nz-select>
+  </form>
+
+  <div [nzGutter]="[16, 16]" nz-row>
+    <nz-col nzSpan="24">
+      <nz-table
+        #filterTable
+        nzShowSizeChanger
+        [nzData]="deviceGroups"
+        [nzFrontPagination]="false"
+        [nzLoading]="loading.searching"
+        [nzTotal]="total"
+        [nzPageIndex]="pageIndex"
+        [nzPageSize]="pageSize"
+        (nzQueryParams)="onQueryParamsChange($event)"
+      >
+        <thead>
+          <tr>
+            <th nzWidth="40px"></th>
+            <th
+              *ngFor="let column of tableColumns"
+              [nzColumnKey]="column.key"
+              [nzSortFn]="true"
+            >
+              {{ column.name | translate }}
+            </th>
+            <th>{{ "common.option" | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let data of filterTable.data">
+            <tr>
+              <td
+                [nzExpand]="expandSet.has(data.id || 0)"
+                (nzExpandChange)="onExpandChange(data.id || 0, $event)"
+              ></td>
+              <td>{{ data.id }}</td>
+              <td>{{ data.name }}</td>
+              <td>{{ data.description }}</td>
+              <td>
+                <button nz-button nzType="default" (click)="exportExcel(data)">
+                  {{ "common.export" | translate }}
+                </button>
+                <nz-divider nzType="vertical"></nz-divider>
+                <button
+                  nz-button
+                  nzType="primary"
+                  (click)="navigateToUpdate(data)"
+                >
+                  {{ "common.update" | translate }}
+                </button>
+                <nz-divider nzType="vertical"></nz-divider>
+                <button
+                  nz-button
+                  nzType="primary"
+                  nzDanger
+                  (click)="delete(data)"
+                >
+                  {{ "common.delete" | translate }}
+                </button>
+              </td>
+            </tr>
+            <tr [nzExpand]="expandSet.has(data.id || 0)">
+              <app-admin-device-by-group-table
+                *ngIf="expandSet.has(data.id || 0)"
+                [isShowOption]="false"
+                [deviceGroupId]="data.id"
+              ></app-admin-device-by-group-table>
+            </tr>
+          </ng-container>
+        </tbody>
+      </nz-table>
+    </nz-col>
+  </div>
 </lh-common-page>
+
+<ng-template #suffixIconButton>
+  <button
+    nz-button
+    nzType="primary"
+    nzSearch
+    type="submit"
+    (click)="onClearKeyword()"
+  >
+    <span nz-icon nzType="close-circle" nzTheme="outline"></span>
+  </button>
+</ng-template>
