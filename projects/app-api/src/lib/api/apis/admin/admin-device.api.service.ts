@@ -127,12 +127,15 @@ export class AdminDeviceApiService {
     );
   }
 
-  public getDeviceLogs(deviceId: number): Observable<BaseOutputDevice> {
+  public getDeviceLogs(
+    deviceId: number,
+    status: string
+  ): Observable<BaseOutputDevice> {
     return this.http.get<BaseOutputDevice>(
       `/api/v1/admin/device/${deviceId}/logs`,
       {
         params: {
-          deviceId,
+          status,
         },
       }
     );

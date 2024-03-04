@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ColumnItem } from '@app-api/lib/api/models/columnItem';
 import { DeviceLog } from '@app-api/lib/api/models/deviceLog';
+import { DeviceStatus } from '@app-api/lib/api/models/deviceStatus';
 
 @Component({
   selector: 'app-admin-device-log-table',
@@ -11,6 +12,7 @@ export class DeviceLogTableComponent implements OnChanges {
   @Input('isShowOption') isShowOption?: boolean = false;
   @Input('deviceId') deviceId?: number;
   @Input('deviceLogs') deviceLogs?: DeviceLog[] = [];
+  @Input('status') status?: DeviceStatus = DeviceStatus.Undefined;
 
   isLoading: boolean = false;
   tableColumns: ColumnItem<DeviceLog>[] = [
