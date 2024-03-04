@@ -7,6 +7,25 @@
     </div>
   </div>
 
+  <form form [formGroup]="searchForm" [nzGutter]="[16, 16]" nz-row>
+    <nz-col nzSpan="6">
+      <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+        <input
+          nz-input
+          formControlName="keyword"
+          placeholder="{{ 'common.search' | translate }}"
+        />
+      </nz-input-group>
+    </nz-col>
+    <nz-select nz-col nzSpan="4" formControlName="status">
+      <nz-option
+        *ngFor="let option of statusOptions"
+        [nzLabel]="option.label | translate"
+        [nzValue]="option.value"
+      ></nz-option>
+    </nz-select>
+  </form>
+
   <div [nzGutter]="[16, 16]" nz-row>
     <app-admin-device-log-chart
       nz-col
@@ -21,8 +40,21 @@
       nz-col
       nzSpan="24"
       [isShowOption]="false"
+      [status]="statusSelect"
       [deviceId]="deviceId"
       [deviceLogs]="deviceLogs"
     ></app-admin-device-log-table>
   </div>
 </lh-common-page>
+
+<ng-template #suffixIconButton>
+  <button
+    nz-button
+    nzType="primary"
+    nzSearch
+    type="submit"
+    (click)="onClearKeyword()"
+  >
+    <span nz-icon nzType="close-circle" nzTheme="outline"></span>
+  </button>
+</ng-template>

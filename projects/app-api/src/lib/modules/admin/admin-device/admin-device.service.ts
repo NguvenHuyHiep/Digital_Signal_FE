@@ -12,6 +12,7 @@ import { DeviceStatus } from '@app-api/lib/api/models/deviceStatus';
 
 @Injectable()
 export class AdminDeviceService {
+  [x: string]: any;
   constructor(
     private formBuilder: FormBuilder,
     private adminDeviceController: AdminDeviceApiService
@@ -114,9 +115,9 @@ export class AdminDeviceService {
     );
   }
 
-  public getDeviceByIdWithLogs(id: number) {
+  public getDeviceByIdWithLogs(id: number, status?: DeviceStatus) {
     return this.adminDeviceController
-      .getDeviceLogs(id)
+      .getDeviceLogs(id, status ?? 'UNDEFINED')
       .pipe(tap((response) => console.log('devices with logs', response)));
   }
 }

@@ -35,7 +35,6 @@ export class DeviceLogChartComponent implements OnChanges {
     const elementById = this.renderer2.selectRootElement(
       `#chart-${this.deviceId}`
     );
-    console.log(elementById);
 
     const chart = new Chart({
       container: 'chart-' + this.deviceId,

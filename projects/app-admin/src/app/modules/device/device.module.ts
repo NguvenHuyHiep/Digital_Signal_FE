@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DeviceDetailComponent } from '@app-admin/app/modules/device/components/device-detail/device-detail.component';
 import { DeviceListComponent } from '@app-admin/app/modules/device/components/device-list/device-list.component';
 import { DeviceRoutingModule } from '@app-admin/app/modules/device/device-routing.module';
@@ -21,6 +21,9 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { DeviceLogChartComponent } from './components/device-log-chart/device-log-chart.component';
 import { DeviceLogTableComponent } from './components/device-log-table/device-log-table.component';
 import { DeviceTableComponent } from './components/device-table/device-table.component';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzFormModule } from 'ng-zorro-antd/form';
 
 @NgModule({
   declarations: [
@@ -33,6 +36,7 @@ import { DeviceTableComponent } from './components/device-table/device-table.com
   imports: [
     CommonModule,
     DeviceRoutingModule,
+    ReactiveFormsModule,
     LhDialogModule,
     LhTableModule,
     NzButtonModule,
@@ -48,6 +52,9 @@ import { DeviceTableComponent } from './components/device-table/device-table.com
     FormsModule,
     NzTableModule,
     NzSelectModule,
+    NzInputModule,
+    NzIconModule,
+    NzFormModule,
   ],
   exports: [
     DeviceLogChartComponent,

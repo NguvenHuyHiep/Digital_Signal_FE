@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { DeviceTableComponent } from './../device-table/device-table.component';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Device } from '@app-api/lib/api/models/device';
 import { DeviceLog } from '@app-api/lib/api/models/deviceLog';
 import { DeviceStatus } from '@app-api/lib/api/models/deviceStatus';
 import { AdminDeviceGroupService } from '@app-api/lib/modules/admin/group-device/admin-group-device.service';
+import { debounce, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-admin-device-list',
@@ -18,18 +21,40 @@ export class DeviceListComponent implements OnInit {
     { label: 'common.offline', value: DeviceStatus.Offline },
   ];
   statusSelect: DeviceStatus = DeviceStatus.Undefined;
+  searchKeyword: string = '';
+  searchForm: FormGroup;
 
   device: Device = {};
   deviceLogs: DeviceLog[] = [];
+  constructor(private activatedRoute: ActivatedRoute, private router: Router) {
+    this.searchForm = new FormGroup({
+      keyword: new FormControl(''),
+      status: new FormControl(DeviceStatus.Undefined),
+    });
+  }
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router) {}
-
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.searchForm.valueChanges
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((data) => {
+        if (data) {
+          this.searchKeyword = data.keyword;
+          this.statusSelect = data.status;
+        }
+      });
+  }
 
   navigateToDetail(record: Device): void {
     console.log(record);
     this.router.navigate(['./detail', record.id], {
       relativeTo: this.activatedRoute,
+    });
+  }
+
+  onClearKeyword() {
+    this.searchForm.setValue({
+      keyword: '',
+      status: this.searchForm.value.status,
     });
   }
 }

@@ -6,6 +6,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ColumnItem } from '@app-api/lib/api/models/columnItem';
 import { Device } from '@app-api/lib/api/models/device';
 import { DeviceLog } from '@app-api/lib/api/models/deviceLog';
@@ -13,6 +14,7 @@ import { DeviceStatus } from '@app-api/lib/api/models/deviceStatus';
 import { AdminDeviceService } from '@app-api/lib/modules/admin/admin-device/admin-device.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import { Observable, Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-admin-device-table',
@@ -23,10 +25,15 @@ export class DeviceTableComponent implements OnChanges {
   @Input('isShowOption') isShowOption?: boolean = false;
   @Input('deviceGroupId') deviceGroupId?: number;
   @Input('status') status?: DeviceStatus = DeviceStatus.Undefined;
+  @Input('keyword') keyword?: string = '';
   @Output('onHandleToDetail') onHandleToDetail: EventEmitter<Device> =
     new EventEmitter<Device>();
 
+  searchChanges$: Observable<string>;
+  searchSubject: Subject<string> = new Subject<string>();
+
   devices: Device[] = [];
+  deviceForm: FormGroup;
 
   isLoading: boolean = false;
   tableRowExpandSet = new Set<number>();
@@ -57,12 +64,24 @@ export class DeviceTableComponent implements OnChanges {
   pageSize: number = 10;
   sortBy: string = 'id';
   sortDirection: string = 'desc';
-  keyword: string = '';
 
   constructor(
     private adminDeviceService: AdminDeviceService,
     private message: NzMessageService
-  ) {}
+  ) {
+    this.deviceForm = this.adminDeviceService.buildDeviceForm();
+
+    this.searchChanges$ = this.searchSubject.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    );
+
+    this.searchChanges$.subscribe({
+      next: (value) => {
+        this.onSearchDevice(value);
+      },
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log(changes);
@@ -194,5 +213,10 @@ export class DeviceTableComponent implements OnChanges {
 
   handleToDetail(selectedDevice: Device): void {
     this.onHandleToDetail?.emit(selectedDevice);
+  }
+
+  onSearchDevice(searchValue: string): void {
+    this.keyword = searchValue;
+    this.getDeviceByPaging();
   }
 }
