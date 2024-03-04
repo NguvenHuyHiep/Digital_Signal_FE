@@ -28,6 +28,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { DeviceByGroupTableComponent } from './components/device-by-group-table/device-by-group-table.component';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { DeviceByGroupTableComponent } from './components/device-by-group-table/
     NzFormModule,
     NzInputModule,
     NzLayoutModule,
+    NzGridModule,
     NzCardModule,
     NzSkeletonModule,
     NzMenuModule,
