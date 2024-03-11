@@ -1,10 +1,16 @@
 # Use root/Abcd1234 as user/password credentials
-version: '3'
+version: "3"
 
 services:
-
   nginx:
     image: aninfosys.asia:8082/lpdev/dsd/nginx-dev:latest
+    deploy:
+      restart_policy:
+        condition: any
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == vmi888571
     restart: unless-stopped
     environment:
       VIRTUAL_HOST: "dsddev.vnditech.com"
@@ -20,4 +26,3 @@ networks:
   dsd_external:
     external: true
     name: "anfo"
-
