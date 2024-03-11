@@ -5,6 +5,13 @@ services:
 
   nginx:
     image: aninfosys.asia:8082/lpdev/dsd/nginx-staging:latest
+    deploy:
+      restart_policy:
+        condition: any
+      replicas: 1
+      placement:
+        constraints:
+          - node.hostname == vmi888571
     restart: unless-stopped
     environment:
       VIRTUAL_HOST: "dsdstaging.vnditech.com"
