@@ -11,6 +11,6 @@ export class ImgFallbackDirective {
   @HostListener('error')
   displayFallbackImg() {
     this.element.nativeElement.src =
-      this.fallback || '/assets/images/login/logo.png';
+      this.fallback || '/assets/images/dsd-logo.jpeg';
   }
 }

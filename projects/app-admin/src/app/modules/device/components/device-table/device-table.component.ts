@@ -7,12 +7,16 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ColumnItem } from '@app-api/lib/api/models/columnItem';
 import { Device } from '@app-api/lib/api/models/device';
 import { DeviceLog } from '@app-api/lib/api/models/deviceLog';
 import { DeviceStatus } from '@app-api/lib/api/models/deviceStatus';
+import { ResponseStatus } from '@app-api/lib/api/models/responseStatus';
 import { AdminDeviceService } from '@app-api/lib/modules/admin/admin-device/admin-device.service';
+import { TranslateService } from '@ngx-translate/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import { Observable, Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 
@@ -67,7 +71,10 @@ export class DeviceTableComponent implements OnChanges {
 
   constructor(
     private adminDeviceService: AdminDeviceService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private modalService: NzModalService,
+    private translate: TranslateService,
+    private router: Router
   ) {
     this.deviceForm = this.adminDeviceService.buildDeviceForm();
 
@@ -218,5 +225,64 @@ export class DeviceTableComponent implements OnChanges {
   onSearchDevice(searchValue: string): void {
     this.keyword = searchValue;
     this.getDeviceByPaging();
+  }
+
+  onDelete(record: Device): void {
+    if (!record || !record.id) {
+      this.message.error(this.translate.instant('module.device.error.invalid'));
+      return;
+    }
+    this.isLoading = true;
+    this.modalService.confirm({
+      nzTitle: this.translate.instant('module.device.delete.title'),
+      nzContent:
+        this.translate.instant('module.device.delete.content') + record.status,
+      nzOnOk: () => {
+        new Promise((resolve, reject) => {
+          return this.adminDeviceService
+            .deleteDevice(record.id as number)
+            .subscribe({
+              next: (response) => {
+                if (response && response.status === ResponseStatus.Success) {
+                  this.message.success(
+                    this.translate.instant(
+                      'module.device.success.delete_success'
+                    )
+                  );
+                  this.reloadCurrentRoute();
+                } else {
+                  this.message.error(
+                    this.translate.instant('module.device.error.delete_failed')
+                  );
+                }
+                resolve;
+              },
+              error: (err) => {
+                this.message.error(
+                  this.translate.instant('module.device.error.delete_failed')
+                );
+                this.isLoading = false;
+                resolve;
+              },
+              complete: () => {
+                this.isLoading = false;
+                resolve;
+              },
+            });
+        }).catch((err) => {
+          this.message.error(
+            this.translate.instant('module.device.error.delete_failed')
+          );
+          this.isLoading = false;
+        });
+      },
+    });
+  }
+
+  reloadCurrentRoute() {
+    const currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
+    });
   }
 }

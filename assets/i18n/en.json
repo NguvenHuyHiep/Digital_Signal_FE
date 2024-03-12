@@ -183,7 +183,7 @@
     },
     "device": {
       "no-log": "This device doesn't have any log",
-      "modalRemoveDevice": "Do you want remove device from Device Group: ",
+      "modalRemoveDevice": "Do you want to remove device from Device Group: ",
       "title": "Device",
       "title-log": "Device logs",
       "code": "Code",
@@ -195,8 +195,19 @@
       "inactiveTime": "Inactive time",
       "license": "License",
       "add": "Add device",
-      "delete": "Delete device",
-      "update-date": "Update date"
+      "update-date": "Update date",
+      "delete": {
+        "title": "Do you want to delete this device?",
+        "content": "Delete device with status: "
+      },
+      "error": {
+        "invalid": "Invalid device",
+        "delete_not_allow": "Cannot delete this device!",
+        "delete_failed": "Delete device failed!"
+      },
+      "success": {
+        "delete_success": "Device successfully deleted"
+      }
     },
     "schedule": {
       "title": "Schedule",
