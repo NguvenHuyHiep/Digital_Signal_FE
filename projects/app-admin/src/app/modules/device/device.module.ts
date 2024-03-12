@@ -24,6 +24,8 @@ import { DeviceTableComponent } from './components/device-table/device-table.com
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 
 @NgModule({
   declarations: [
@@ -55,6 +57,8 @@ import { NzFormModule } from 'ng-zorro-antd/form';
     NzInputModule,
     NzIconModule,
     NzFormModule,
+    NzDividerModule,
+    NzModalModule,
   ],
   exports: [
     DeviceLogChartComponent,

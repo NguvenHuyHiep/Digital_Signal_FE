@@ -45,6 +45,10 @@
           <button nz-button nzType="primary" (click)="handleToDetail(data)">
             {{ "common.detail" | translate }}
           </button>
+          <nz-divider nzType="vertical"></nz-divider>
+          <button nz-button nzType="primary" nzDanger (click)="onDelete(data)">
+            {{ "common.delete" | translate }}
+          </button>
         </td>
       </tr>
       <tr [nzExpand]="tableRowExpandSet.has(data.id || 0)">
