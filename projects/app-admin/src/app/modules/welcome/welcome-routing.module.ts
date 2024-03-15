@@ -9,7 +9,7 @@ const routes: Routes = [
     component: WelcomeComponent,
     canActivate: [AuthenGuardService],
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'search' },
+      { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
       {
         path: 'dashboard',
         data: {

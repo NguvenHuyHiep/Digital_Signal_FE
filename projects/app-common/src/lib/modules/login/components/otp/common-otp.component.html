@@ -1,0 +1,68 @@
+<div class="login-container">
+  <nz-card [nzCover]="coverTemplate" class="box">
+    <nz-card-meta
+      nzTitle="{{ 'login.otp-title' | translate }}"
+      nzDescription="{{ 'login.otp-description' | translate }}"
+      [nzAvatar]="avatarTemplate"
+    ></nz-card-meta>
+    <ng-template #avatarTemplate> </ng-template>
+    <div class="form-container">
+      <form
+        nz-col
+        [nzXXl]="24"
+        [nzXl]="24"
+        [nzMd]="24"
+        [nzXs]="24"
+        nzSpan="24"
+        nz-form
+        [formGroup]="validateForm"
+        class="login-form justify-content-center"
+        (ngSubmit)="submitForm()"
+      >
+        <nz-form-item>
+          <div>
+            <nz-form-label>{{ "login.otp" | translate }}</nz-form-label>
+          </div>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control
+            nzErrorTip="{{ 'login.error.otp-required' | translate }}"
+          >
+            <nz-input-group nzPrefixIcon="lock">
+              <input
+                type="number"
+                nz-input
+                formControlName="otp"
+                placeholder="{{ 'login.otp' | translate }}"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <div nz-row class="login-form-margin">
+          <div nz-col [nzSpan]="24" style="text-align: right">
+            <button
+              nz-button
+              class="login-form-button login-form-margin"
+              [nzType]="'primary'"
+              type="submit"
+            >
+              {{ "common.confirm" | translate }}
+            </button>
+          </div>
+        </div>
+        <div nz-row class="footer" style="text-align: center">
+          <div nz-col [nzSpan]="24">
+            <a [routerLink]="['/login']">{{
+              "login.back-to-login" | translate
+            }}</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </nz-card>
+  <ng-template #coverTemplate>
+    <div class="bg-soft-primary">
+      <div class="banner"></div>
+    </div>
+  </ng-template>
+</div>

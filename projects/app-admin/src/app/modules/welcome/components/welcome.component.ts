@@ -120,15 +120,12 @@ export class WelcomeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    combineLatest([
-      this.lhLanguageService.lang,
-      this.authenService.userObs,
-    ]).subscribe({
-      next: ([lang, user]) => {
+    this.lhLanguageService.lang.subscribe({
+      next: (lang) => {
         this.lang = lang;
-        if (user) {
-          this.user = user;
-          this.buildMenu(user);
+        if (this.storeService.getCurrentUser()) {
+          this.user = this.storeService.getCurrentUser();
+          this.buildMenu(this.storeService.getCurrentUser());
         } else {
           this.buildMenu();
         }

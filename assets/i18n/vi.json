@@ -37,7 +37,8 @@
     "all": "Tất cả",
     "selectCategory": "Chọn danh mục",
     "uncategory": "File không thuộc danh mục",
-    "export": "Xuất Excel"
+    "export": "Xuất Excel",
+    "confirm": "Xác nhận"
   },
 
   "footer": "Design & Develop by LPDEV",
@@ -50,7 +51,11 @@
     "dont-have-an-account": "Chưa có tài khoản ?",
     "error": {
       "password-required": "Nhập mật khẩu!",
-      "username-required": "Nhập tên tài khoản!"
+      "username-required": "Nhập tên tài khoản!",
+      "otp-required": "Hãy nhập OTP",
+      "otp-invalid": "OTP không hợp lệ!",
+      "email-invalid": "Email không hợp lệ!",
+      "login-failed": "Đăng nhập thất bại!"
     },
     "forgot-password": "Quên mật khẩu?",
     "login": "Đăng nhập",
@@ -58,7 +63,11 @@
     "remember-me": "Ghi nhớ thông tin đăng nhập",
     "signup-now": "Tạo tài khoản ngay",
     "username": "Tên tài khoản",
-    "welcomeback": "Chào mừng quay lại!"
+    "welcomeback": "Chào mừng quay lại!",
+    "otp-title": "Xác thực với OTP !",
+    "otp-description": "OTP vừa được gửi tới email của bạn, nhập vào trường sau để thực hiện đăng nhập.",
+    "otp": "OTP",
+    "back-to-login": "Quay lại đăng nhập"
   },
   "module": {
     "groupDevice": {
@@ -99,15 +108,15 @@
       "welcome": "Chào mừng tới Digital Signage"
     },
     "file": {
-      "modalDeleteFile": "Bạn muốn xóa File: ",
+      "title": "File",
       "add": "Thêm file",
+      "modalDeleteFile": "Bạn muốn xóa File: ",
       "chooseContentType": "Loại file",
       "contentTypes-video": "video",
       "contentTypes-img": "img",
       "contentType": "Loại file",
       "list-file": "Danh sách File",
       "name": "Tên File",
-      "title": "File",
       "size": "Dung lượng",
       "remove-category": "Xóa khỏi danh mục",
       "upload": {
@@ -150,8 +159,8 @@
       "refresh-file-order-warning": "Bạn có chắc chắn tải lại thứ tự file? sau khi tải lại sẽ mất thứ tự file cũ"
     },
     "user": {
-      "id": "ID",
       "modalDeleteUser": "Bạn muốn xóa người dùng: ",
+      "id": "ID",
       "title": "Tài khoản",
       "info": "Thông tin",
       "email": "Email",
@@ -198,16 +207,16 @@
       "add": "Thêm thiết bị",
       "update-date": "Ngày cập nhật",
       "delete": {
-        "title": "Do you want to delete this device?",
-        "content": "Delete device with status: "
+        "title": "Bạn có muốn xóa thiết bị này?",
+        "content": "Xóa thiết bị với trạng thái: "
       },
       "error": {
-        "invalid": "Invalid device",
-        "delete_not_allow": "Cannot delete this device!",
-        "delete_failed": "Delete device failed!"
+        "invalid": "Thiết bị không hợp lệ",
+        "delete_not_allow": "Không thể xóa thiết bị này!",
+        "delete_failed": "Xóa thiết bị thất bại!"
       },
       "success": {
-        "delete_success": "Device successfully deleted"
+        "delete_success": "Xóa thiết bị thành công"
       }
     },
     "schedule": {
@@ -262,9 +271,9 @@
     },
     "free-register": "Đăng ký thành viên miễn phí",
     "get-your-free-skote-account-now.": "Get your free Skote account now.",
-    "login": "Login",
-    "password": "Password",
-    "register": "Register",
+    "login": "Đăng nhập",
+    "password": "Mật khẩu",
+    "register": "Đăng ký",
     "sign-in-with": "Đăng nhập với",
     "terms-of-Use": "Điều khoản sử dụng",
     "terms-of-use": "Điều khoản sử dụng",
@@ -322,7 +331,135 @@
     "cannot-preivew-file": "Không thể xem trước file",
     "video-not-support": "Trình duyệt không hỗ trợ định dạng video này",
     "file-by-playlist": "Không thể lấy file theo lịch phát",
-    "invalid-file-or-playlist": "File hoặc lịch phát không đúng định dạng" 
+    "invalid-file-or-playlist": "File hoặc lịch phát không đúng định dạng",
+    "auth": {
+      "failed": "Xác thực không thành công",
+      "not_found": "Tài khoản không tìm thấy",
+      "not_allowed": "Không được phép",
+      "jwt_not_created": "Token không được tạo",
+      "credentials_invalid": "Thông tin xác thực không hợp lệ"
+    },
+    "request": {
+      "path_variable_invalid": "Biến đường dẫn của yêu cầu không hợp lệ",
+      "body_invalid": "Nội dung yêu cầu không hợp lệ",
+      "body_invalid_email": "Địa chỉ email trong nội dung yêu cầu không hợp lệ",
+      "body_invalid_password": "Mật khẩu trong nội dung yêu cầu không hợp lệ",
+      "param_invalid": "Tham số yêu cầu không hợp lệ",
+      "param_invalid_otp": "Tham số OTP trong yêu cầu không hợp lệ",
+      "param_invalid_email": "Tham số email trong yêu cầu không hợp lệ",
+      "invalid": "Yêu cầu không hợp lệ"
+    },
+    "file": {
+      "delete": "Không thể xóa file",
+      "create": "Không thể tạo file",
+      "update": "Không thể cập nhật file",
+      "exist": "file đã tồn tại",
+      "not_exist": "file không tồn tại",
+      "save_to_db": "Không thể lưu file vào cơ sở dữ liệu",
+      "save_to_source": "Không thể lưu file vào nguồn",
+      "download": "Không thể tải xuống file",
+      "zip": "Không thể nén file",
+      "corrupted": "file bị hỏng",
+      "empty": "file trống",
+      "move": "Không thể di chuyển file"
+    },
+    "minio": {
+      "invalid_key": "Khóa Minio không hợp lệ",
+      "file_already_exists": "file đã tồn tại trong Minio",
+      "response": "Lỗi phản hồi từ Minio",
+      "insufficient_data": "Minio không thể đọc dữ liệu",
+      "internal_exception": "Lỗi nội bộ của Minio",
+      "invalid_response": "Phản hồi từ Minio không hợp lệ",
+      "io": "Lỗi IO của Minio",
+      "no_such_algorithm": "Minio báo lỗi: Không tìm thấy thuật toán",
+      "server": "Không thể kết nối đến máy chủ Minio",
+      "xml_parser": "Minio không thể phân tích XML",
+      "external": "Lỗi bên ngoài của Minio"
+    },
+    "category": {
+      "create": "Không thể tạo danh mục",
+      "update": "Không thể cập nhật danh mục",
+      "delete": "Không thể xóa danh mục",
+      "exist": "Danh mục đã tồn tại",
+      "not_child": "Không phải danh mục con",
+      "not_exist": "Danh mục không tồn tại"
+    },
+    "playlist": {
+      "create": "Không thể tạo danh sách phát",
+      "update": "Không thể cập nhật danh sách phát",
+      "delete": "Không thể xóa danh sách phát",
+      "exist": "Danh sách phát đã tồn tại",
+      "not_exist": "Danh sách phát không tồn tại"
+    },
+    "playlist_file_map": {
+      "playlist_ids": {
+        "file_ids_null_or_empty": "PlaylistId của PlaylistFileMap rỗng hoặc không tồn tại"
+      }
+    },
+    "license": {
+      "create": "Không thể tạo license",
+      "update": "Không thể cập nhật license",
+      "delete": "Không thể xóa license",
+      "exist": "license đã tồn tại",
+      "not_exist": "license không tồn tại",
+      "unmatched": "license không khớp",
+      "expired": "license đã hết hạn",
+      "invalid": "license không hợp lệ",
+      "expand_failed": "Mở rộng license không thành công",
+      "not_assigned_user": "license không được gán cho người dùng",
+      "exist_by_user": "license đã tồn tại theo người dùng"
+    },
+    "device_group": {
+      "create": "Không thể tạo nhóm thiết bị",
+      "update": "Không thể cập nhật nhóm thiết bị",
+      "delete": "Không thể xóa nhóm thiết bị",
+      "exist": "Nhóm thiết bị đã tồn tại",
+      "not_exist": "Nhóm thiết bị không tồn tại"
+    },
+    "device": {
+      "create": "Không thể tạo thiết bị",
+      "update": "Không thể cập nhật thiết bị",
+      "delete": "Không thể xóa thiết bị",
+      "exist": "Thiết bị đã tồn tại",
+      "not_exist": "Thiết bị không tồn tại",
+      "download": "Không thể tải tệp cho thiết bị"
+    },
+    "security": {
+      "generate_key_pair": "Không thể tạo cặp khóa",
+      "encode_key_pair": "Không thể mã hóa khóa",
+      "decode_key_pair": "Không thể giải mã khóa"
+    },
+    "schedule": {
+      "create": "Không thể tạo lịch trình",
+      "update": "Không thể cập nhật lịch trình",
+      "delete": "Không thể xóa lịch trình",
+      "exist": "Lịch trình đã tồn tại",
+      "not_exist": "Lịch trình không tồn tại",
+      "invalid": "Lịch trình không hợp lệ",
+      "download": "Không thể tải xuống lịch trình"
+    },
+    "user": {
+      "not_exist": "Người dùng không tồn tại",
+      "exist": "Người dùng đã tồn tại",
+      "not_assigned_role": "Người dùng không được gán vai trò"
+    },
+    "role": {
+      "not_exist": "Vai trò không tồn tại",
+      "not_allowed": "Vai trò không được phép",
+      "exist": "Vai trò đã tồn tại"
+    },
+    "otp": {
+      "invalid": "Otp không hợp lệ",
+      "not_exist": "Otp không tồn tại",
+      "status_inactive": "Trạng thái Otp không hoạt động",
+      "expired": "Otp đã hết hạn",
+      "wait": "Vui lòng chờ vài phút trước khi đăng nhập lại",
+      "update": "Không thể cập nhật Otp",
+      "create": "Không thể tạo Otp"
+    },
+    "server": {
+      "internal": "Lỗi máy chủ nội bộ"
+    }
   },
   "information": {
     "code": "Mã License",
