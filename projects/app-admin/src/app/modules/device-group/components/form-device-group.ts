@@ -14,6 +14,9 @@ export type FormDevice = FormGroup<{
   name?: FormControl<string>;
   information?: FormControl<string>;
   description?: FormControl<string>;
+  serialNo?: FormControl<string>;
+  vehicleNumber?: FormControl<string>;
+  ybs?: FormControl<string>;
   status?: FormControl<DeviceStatus>;
   user?: FormGroupUser;
   deviceGroup?: FormDeviceGroup;

@@ -198,8 +198,12 @@
       "title-log": "Thiết bị logs",
       "code": "Mã Thiết bị",
       "info": "Thông tin",
+      "ybs": "YBS",
+      "vehicleNumber":"Số xe",
+      "serialNo": "Số hiệu serial",
       "content": "Nội dung",
       "name": "Tên thiết bị",
+      "description": "Mô tả",
       "status": "Trạng thái",
       "activeTime": "Thời gian chạy",
       "inactiveTime": "Thời gian dừng",
@@ -212,7 +216,11 @@
       },
       "error": {
         "invalid": "Thiết bị không hợp lệ",
+        "id-invalid": "Id của thiết bị không hợp lệ",
+        "id-or-device-invalid": "id hoặc thông tin của thiết bị không hợp lệ",
+        "get-detail": "Không thể lấy thông tin thiết bị!",
         "delete_not_allow": "Không thể xóa thiết bị này!",
+        "update_failed": "Cập nhật thiết bị thất bại!",
         "delete_failed": "Xóa thiết bị thất bại!"
       },
       "success": {
