@@ -6,6 +6,7 @@ import { authenReducer, IAuthenState } from './store/authen.reducers';
 import { ActionReducer } from '@ngrx/store/src/models';
 import { AuthenEffects } from './store/authen.effects';
 import { LocalStoreModule } from '../local-store/local-store.module';
+import { NzMessageModule } from 'ng-zorro-antd/message';
 
 export const authenReducers: ActionReducer<IAuthenState> = authenReducer;
 export const authenMetaReducers: MetaReducer<IAuthenState>[] = [];
@@ -14,6 +15,7 @@ export const authenMetaReducers: MetaReducer<IAuthenState>[] = [];
   declarations: [],
   imports: [
     CommonModule,
+    NzMessageModule,
     LocalStoreModule.forRoot(),
     StoreModule.forFeature('authentication', authenReducers, {
       metaReducers: authenMetaReducers,

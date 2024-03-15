@@ -8,12 +8,14 @@ import {
   GET_USER_PROFILE,
   SIGN_IN_SUCCESS,
   SIGN_OUT,
+  VERIFY_OTP,
 } from './authen.reducers';
 import { LhAuthenService } from '../lh-authen.service';
 import { forkJoin, of } from 'rxjs';
 import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';
 import { BaseOutputUser } from '@app-api/lib/api/models/baseOutputUser';
 import { LhStorageService } from '../../local-store/lh-storage.service';
+import { User } from '@app-api/lib/api/models/user';
 
 @Injectable()
 export class AuthenEffects {
@@ -21,22 +23,24 @@ export class AuthenEffects {
     () => {
       return this._actions$.pipe(
         ofType(SIGN_IN_SUCCESS),
-        tap((payload: { value?: { token: string; email: string } }) => {
+        tap((payload: { value?: { token: string; user: User } }) => {
           this.authenService.setApiToken(payload.value?.token);
-          let authenObs = this.authenService
-            .getUserInfoByEmail(payload.value?.email as string)
-            .pipe(
-              tap((user) => {
-                this._store.dispatch(GET_USER_PROFILE({ value: user }));
-              })
-            );
-          return forkJoin([authenObs]).subscribe({
-            next: (result) =>
-              this._store.dispatch(COMPLETE_AUTHEN({ value: true })),
-            error: (err) => {
-              this._store.dispatch(SIGN_OUT());
-            },
-          });
+          this._store.dispatch(
+            GET_USER_PROFILE({ value: payload.value?.user as User })
+          );
+          this._store.dispatch(COMPLETE_AUTHEN({ value: true }));
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
+  readonly VERIFY_OTP = createEffect(
+    () => {
+      return this._actions$.pipe(
+        ofType(VERIFY_OTP),
+        tap((payload: { value: { email: string } }) => {
+          this._storage.setEmail(payload.value.email);
         })
       );
     },
@@ -47,8 +51,8 @@ export class AuthenEffects {
     () =>
       this._actions$.pipe(
         ofType(GET_USER_PROFILE),
-        tap((payload: { value?: BaseOutputUser }) => {
-          this._storage.setCurrentUser(payload.value?.data);
+        tap((payload: { value?: User }) => {
+          this._storage.setCurrentUser(payload.value);
         })
       ),
     { dispatch: false }

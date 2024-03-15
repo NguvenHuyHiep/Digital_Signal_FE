@@ -27,14 +27,17 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    if (this.location.path().includes('/auth/')) {
+      console.log('In auth pages, skip authentication');
+      return;
+    }
+
     combineLatest([
       of(this._storageService.getToken()),
       of(this._storageService.getCurrentUser()),
     ]).subscribe(([token, user]) => {
       if (token && user && user.email) {
-        this._store.dispatch(
-          SIGN_IN_SUCCESS({ value: { token, email: user.email } })
-        );
+        this._store.dispatch(SIGN_IN_SUCCESS({ value: { token, user } }));
       } else {
         this._store.dispatch(SIGN_OUT());
       }
@@ -42,7 +45,7 @@ export class AppComponent implements OnInit {
     // TODO startsWith dashboard
     // TODO else courselist
     this._authenService.isAuthenObs().subscribe((value) => {
-      if (value && this.location.path().startsWith('/login')) {
+      if (value && this.location.path().endsWith('/login')) {
         let returnUrl = this._activatedRoute.snapshot.queryParams['returnUrl'];
         if (returnUrl != null && returnUrl != '') {
           this._router.navigateByUrl(returnUrl);

@@ -9,19 +9,24 @@ const routes: Routes = [
       import('./modules/welcome/welcome.module').then((m) => m.WelcomeModule),
   },
   {
+    path: 'auth',
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('./modules/login/login.module').then((m) => m.LoginModule),
+      },
+    ],
+  },
+  {
+    path: 'otp',
+    pathMatch: 'full',
+    redirectTo: '/auth/otp',
+  },
+  {
     path: 'login',
-    loadChildren: () =>
-      import('./modules/login/login.module').then((m) => m.LoginModule),
-  },
-  {
-    path: 'register',
-    loadChildren: () =>
-      import('./modules/login/login.module').then((m) => m.LoginModule),
-  },
-  {
-    path: 'forgot-password',
-    loadChildren: () =>
-      import('./modules/login/login.module').then((m) => m.LoginModule),
+    pathMatch: 'full',
+    redirectTo: '/auth/login',
   },
 ];
 

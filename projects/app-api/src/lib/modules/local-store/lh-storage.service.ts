@@ -9,6 +9,7 @@ export class LhStorageService {
   private LOCALE: string = this.LOCAL_STORAGE + 'LOCALE';
   private USER: string = this.LOCAL_STORAGE + 'USER';
   private TOKEN: string = this.LOCAL_STORAGE + 'TOKEN';
+  private EMAIL: string = this.LOCAL_STORAGE + 'EMAIL';
 
   constructor() {}
 
@@ -47,6 +48,18 @@ export class LhStorageService {
       localStorage.setItem(this.TOKEN, token);
     } else {
       localStorage.removeItem(this.TOKEN);
+    }
+  }
+
+  public getEmail(): string | undefined {
+    return localStorage.getItem(this.EMAIL) || undefined;
+  }
+
+  public setEmail(email?: string): void {
+    if (email) {
+      localStorage.setItem(this.EMAIL, email);
+    } else {
+      localStorage.removeItem(this.EMAIL);
     }
   }
 }

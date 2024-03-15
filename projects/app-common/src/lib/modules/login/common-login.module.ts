@@ -15,12 +15,15 @@ import { CommonForgotPasswordComponent } from './components/forgot-password/comm
 import { RouterModule } from '@angular/router';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { CommonOtpComponent } from './components/otp/common-otp.component';
+import { NzMessageModule } from 'ng-zorro-antd/message';
 
 @NgModule({
   declarations: [
     CommonLoginComponent,
     CommonRegisterComponent,
     CommonForgotPasswordComponent,
+    CommonOtpComponent,
   ],
   imports: [
     CommonModule,
@@ -37,11 +40,13 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
     RouterModule,
     NzCardModule,
     NzAvatarModule,
+    NzMessageModule,
   ],
   exports: [
     CommonLoginComponent,
     CommonRegisterComponent,
     CommonForgotPasswordComponent,
+    CommonOtpComponent,
   ],
 })
 export class CommonLoginModule {}

@@ -1,11 +1,13 @@
 import { ActionReducer } from '@ngrx/store/src/models';
 import { createAction, createReducer, on, props } from '@ngrx/store';
 import { HttpResponseBase } from '@angular/common/http';
-import { BaseOutputString } from '@app-api/lib/api/models/baseOutputString';
 import { BaseOutputUser } from '@app-api/lib/api/models/baseOutputUser';
+import { BaseOutputAuth } from '@app-api/lib/api/models/baseOutputAuth';
+import { User } from '@app-api/lib/api/models/user';
 
 export enum AUTHEN_ACTIONS {
   SIGN_IN_SUCCESS = '@lh/authen/SIGN_IN_SUCCESS',
+  VERIFY_OTP = '@lh/authen/VERIFY_OTP',
   SIGN_IN_FAILED = '@lh/authen/SIGN_IN_FAILED',
   GET_USER_PROFILE = '@lh/authen/GET_USER_PROFILE',
   COMPLETE_AUTHEN = '@lh/authen/COMPLETE_AUTHEN',
@@ -14,7 +16,11 @@ export enum AUTHEN_ACTIONS {
 
 export const SIGN_IN_SUCCESS = createAction(
   AUTHEN_ACTIONS.SIGN_IN_SUCCESS,
-  props<{ value?: { token: string; email: string } }>()
+  props<{ value: { token: string; user: User } }>()
+);
+export const VERIFY_OTP = createAction(
+  AUTHEN_ACTIONS.VERIFY_OTP,
+  props<{ value: { email: string } }>()
 );
 export const COMPLETE_AUTHEN = createAction(
   AUTHEN_ACTIONS.COMPLETE_AUTHEN,
@@ -22,18 +28,18 @@ export const COMPLETE_AUTHEN = createAction(
 );
 export const GET_USER_PROFILE = createAction(
   AUTHEN_ACTIONS.GET_USER_PROFILE,
-  props<{ value?: BaseOutputUser }>()
+  props<{ value: User }>()
 );
 
 export const SIGN_IN_FAILED = createAction(
   AUTHEN_ACTIONS.SIGN_IN_FAILED,
-  props<{ value?: HttpResponseBase | BaseOutputString }>()
+  props<{ value?: HttpResponseBase | BaseOutputAuth }>()
 );
 export const SIGN_OUT = createAction(AUTHEN_ACTIONS.SIGN_OUT);
 
 export interface IAuthenState {
   token: string | undefined;
-  user: BaseOutputUser | undefined;
+  user: User | undefined;
   authenticated: boolean;
   error: HttpResponseBase | BaseOutputUser | undefined;
   retry: number;
@@ -58,6 +64,11 @@ export const authenReducer: ActionReducer<IAuthenState> = createReducer(
     initAuthen: true,
     error: undefined,
     retry: 0,
+  })),
+
+  on(VERIFY_OTP, (state, { value }) => ({
+    ...state,
+    email: value,
   })),
 
   on(COMPLETE_AUTHEN, (state, { value }) => ({

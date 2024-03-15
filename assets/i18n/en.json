@@ -3,7 +3,7 @@
     "Search-placeholder": "Search",
     "SignOut": "Signout",
     "accout-center": "Accout infomation",
-
+    "question-placeholder": "Question",
     "setting": "Setting",
     "signIn": "Login"
   },
@@ -37,7 +37,8 @@
     "all": "All",
     "selectCategory": "Select Category",
     "uncategory": "Uncategory files",
-    "export": "Export Excel"
+    "export": "Export Excel",
+    "confirm": "Confirm"
   },
 
   "footer": "Design & Develop by LPDEV",
@@ -50,7 +51,11 @@
     "dont-have-an-account": "Dont't have an account ?",
     "error": {
       "password-required": "Please input your password!",
-      "username-required": "Please input your username!"
+      "username-required": "Please input your username!",
+      "otp-required": "Please enter your OTP",
+      "otp-invalid": "OTP is invalid!",
+      "email-invalid": "Email is invalid!",
+      "login-failed": "Login failed!"
     },
     "forgot-password": "Forgot password?",
     "login": "Login",
@@ -58,7 +63,11 @@
     "remember-me": "Remember me",
     "signup-now": "Signup now",
     "username": "Username",
-    "welcomeback": "Welcome Back !"
+    "welcomeback": "Welcome Back !",
+    "otp-title": "Authentication with OTP !",
+    "otp-description": "An OTP was sent to your email, please check then type to the input below then submit it.",
+    "otp": "OTP",
+    "back-to-login": "Back to login"
   },
   "module": {
     "groupDevice": {
@@ -131,6 +140,7 @@
       "no-file": "No file in Playlist",
       "listFile": "List of files",
       "listDeviceGroup": "List of device groups",
+      "modalRemoveFile": "Do you want to remove file from Playlist: ",
       "modalDeletePlayList": "Do you want delete PlayList : ",
       "title": "Playlist",
       "file": "File",
@@ -160,7 +170,7 @@
       "firstName": "First name",
       "lastName": "Last name",
       "license": "License",
-      "roles": "Vai trò",
+      "roles": "Role",
       "modalLicense": "License",
       "timeType": "Time type",
       "timeValue": "Time value",
@@ -321,7 +331,135 @@
     "cannot-preivew-file": "Cannot preview file",
     "video-not-support": "The browser does not support this video",
     "file-by-playlist": "Cannot get files by playlist",
-    "invalid-file-or-playlist": "Invalid file or playlist"
+    "invalid-file-or-playlist": "Invalid file or playlist",
+    "auth": {
+      "failed": "Authentication failed",
+      "not_found": "Account not found",
+      "not_allowed": "Not allowed",
+      "jwt_not_created": "Token not created",
+      "credentials_invalid": "Your credentials are invalid"
+    },
+    "request": {
+      "path_variable_invalid": "Request path variable is invalid",
+      "body_invalid": "Request body is invalid",
+      "body_invalid_email": "Request body's email address is invalid",
+      "body_invalid_password": "Request body's password is invalid",
+      "param_invalid": "Request param is invalid",
+      "param_invalid_otp": "Request param's otp is invalid",
+      "param_invalid_email": "Request param's email is invalid",
+      "invalid": "Request is invalid"
+    },
+    "file": {
+      "delete": "Cannot delete file",
+      "create": "Cannot create file",
+      "update": "Cannot update file",
+      "exist": "File exists",
+      "not_exist": "File does not exist",
+      "save_to_db": "Cannot save file to database",
+      "save_to_source": "Cannot save file to source",
+      "download": "Cannot download file",
+      "zip": "Cannot zip file",
+      "corrupted": "File corrupted",
+      "empty": "File is empty",
+      "move": "Cannot move file"
+    },
+    "minio": {
+      "invalid_key": "Minio key is invalid",
+      "file_already_exists": "File already exists",
+      "response": "Minio response error",
+      "insufficient_data": "Minio cannot read data",
+      "internal_exception": "Minio internal error",
+      "invalid_response": "Minio response invalid",
+      "io": "Minio IO error",
+      "no_such_algorithm": "Minio got error: No such algorithm",
+      "server": "Cannot connect to Minio server",
+      "xml_parser": "Minio cannot parse XML",
+      "external": "Minio external error"
+    },
+    "category": {
+      "create": "Cannot create category",
+      "update": "Cannot update category",
+      "delete": "Cannot delete category",
+      "exist": "Category exists",
+      "not_child": "Not a child category",
+      "not_exist": "Category does not exist"
+    },
+    "playlist": {
+      "create": "Cannot create playlist",
+      "update": "Cannot update playlist",
+      "delete": "Cannot delete playlist",
+      "exist": "Playlist exists",
+      "not_exist": "Playlist does not exist"
+    },
+    "playlist_file_map": {
+      "playlist_ids": {
+        "file_ids_null_or_empty": "PlaylistId of PlaylistFileMap is null or empty"
+      }
+    },
+    "license": {
+      "create": "Cannot create license",
+      "update": "Cannot update license",
+      "delete": "Cannot delete license",
+      "exist": "License exists",
+      "not_exist": "License does not exist",
+      "unmatched": "License does not match",
+      "expired": "License expired",
+      "invalid": "License is invalid",
+      "expand_failed": "License expand failed",
+      "not_assigned_user": "License does not assigned to user",
+      "exist_by_user": "License exists by user"
+    },
+    "device_group": {
+      "create": "Cannot create device group",
+      "update": "Cannot update device group",
+      "delete": "Cannot delete device group",
+      "exist": "Device group exists",
+      "not_exist": "Device group does not exist"
+    },
+    "device": {
+      "create": "Cannot create device",
+      "update": "Cannot update device",
+      "delete": "Cannot delete device",
+      "exist": "Device exists",
+      "not_exist": "Device does not exist",
+      "download": "Cannot download file for device"
+    },
+    "security": {
+      "generate_key_pair": "Cannot generate key pairs",
+      "encode_key_pair": "Cannot encode key",
+      "decode_key_pair": "Cannot decode key"
+    },
+    "schedule": {
+      "create": "Cannot create schedule",
+      "update": "Cannot update schedule",
+      "delete": "Cannot delete schedule",
+      "exist": "Schedule exists",
+      "not_exist": "Schedule does not exist",
+      "invalid": "Schedule is invalid",
+      "download": "Cannot download schedule"
+    },
+    "user": {
+      "not_exist": "User does not exist",
+      "exist": "User exists",
+      "not_assigned_role": "User is not assigned to role"
+    },
+    "role": {
+      "not_exist": "Role does not exist",
+      "not_allowed": "Role is not allowed",
+      "exist": "Role exists"
+    },
+    "otp": {
+      "invalid": "Otp is invalid",
+      "not_exist": "Otp does not exist",
+      "status_inactive": "Otp status is inactive",
+      "expired": "Otp is expired",
+      "wait": "Wait several minutes before logging in again",
+      "update": "Cannot update otp",
+      "create": "Cannot create otp"
+    },
+    "server": {
+      "internal": "Internal server error"
+    }
   },
   "information": {
     "code": "Code",
