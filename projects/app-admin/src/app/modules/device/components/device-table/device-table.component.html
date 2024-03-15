@@ -33,6 +33,9 @@
         <td>{{ data.code }}</td>
         <td>{{ data.name }}</td>
         <td>{{ data.description }}</td>
+        <td>{{ data.serialNo }}</td>
+        <td>{{ data.vehicleNumber }}</td>
+        <td>{{ data.ybs }}</td>
         <td
           [ngClass]="{
             online: data.status == 'ONLINE',
@@ -43,7 +46,7 @@
         </td>
         <td *ngIf="isShowOption">
           <button nz-button nzType="primary" (click)="handleToDetail(data)">
-            {{ "common.detail" | translate }}
+            {{ "common.update" | translate }}
           </button>
           <nz-divider nzType="vertical"></nz-divider>
           <button nz-button nzType="primary" nzDanger (click)="onDelete(data)">

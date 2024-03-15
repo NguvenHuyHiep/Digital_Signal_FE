@@ -59,6 +59,18 @@ export class DeviceTableComponent implements OnChanges {
       key: 'information',
     },
     {
+      name: 'module.device.serialNo',
+      key: 'serialNo',
+    },
+    {
+      name: 'module.device.vehicleNumber',
+      key: 'vehicleNumber',
+    },
+    {
+      name: 'module.device.ybs',
+      key: 'ybs',
+    },
+    {
       name: 'module.device.status',
       key: 'status',
     },

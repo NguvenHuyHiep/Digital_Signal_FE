@@ -5,7 +5,101 @@
         {{ "common.back" | translate }}
       </button>
     </div>
+    <div nz-col>
+      <button (click)="update()" nz-button nzType="primary">
+        {{ "common.update" | translate }}
+      </button>
+    </div>
   </div>
+
+  <form form [formGroup]="deviceUpdateForm" [nzGutter]="[16, 16]" nz-row>
+    <nz-col nzSpan="24">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24">{{
+          "module.device.name" | translate
+        }}</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input
+            nz-input
+            formControlName="name"
+            placeholder="{{ 'module.device.name' | translate }}"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+    <nz-col nzSpan="24">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24">
+          {{ "module.device.info" | translate }}
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input
+            nz-input
+            formControlName="information"
+            placeholder="{{ 'module.device.info' | translate }}"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+    <nz-col nzSpan="24">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24">
+          {{ "module.device.description" | translate }}
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input
+            nz-input
+            formControlName="description"
+            placeholder="{{ 'module.device.description' | translate }}"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+    <nz-col nzSpan="24">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24">
+          {{ "module.device.serialNo" | translate }}
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input
+            nz-input
+            formControlName="serialNo"
+            placeholder="{{ 'module.device.serialNo' | translate }}"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+    <nz-col nzSpan="24">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24">
+          {{ "module.device.vehicleNumber" | translate }}
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input
+            nz-input
+            formControlName="vehicleNumber"
+            placeholder="{{ 'module.device.vehicleNumber' | translate }}"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+    <nz-col nzSpan="24">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24">
+          {{ "module.device.ybs" | translate }}
+        </nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24">
+          <input
+            nz-input
+            formControlName="ybs"
+            placeholder="{{ 'module.device.ybs' | translate }}"
+          />
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+  </form>
+
+  <nz-divider></nz-divider>
 
   <form form [formGroup]="searchForm" [nzGutter]="[16, 16]" nz-row>
     <nz-col nzSpan="6">
@@ -58,3 +152,7 @@
     <span nz-icon nzType="close-circle" nzTheme="outline"></span>
   </button>
 </ng-template>
+
+<div class="page-loading" *ngIf="pageLoadingStack > 0">
+  <nz-spin nzSimple [nzSize]="'large'"></nz-spin>
+</div>

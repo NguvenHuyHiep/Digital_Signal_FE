@@ -26,6 +26,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
     NzFormModule,
     NzDividerModule,
     NzModalModule,
+    NzSpinModule,
   ],
   exports: [
     DeviceLogChartComponent,

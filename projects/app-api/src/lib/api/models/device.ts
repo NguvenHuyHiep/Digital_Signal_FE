@@ -20,6 +20,9 @@ export interface Device {
   name?: string;
   information?: string;
   description?: string;
+  serialNo?: string;
+  vehicleNumber?: string;
+  ybs?: string;
   status?: DeviceStatus;
   user?: User;
   deviceGroup?: DeviceGroup;

@@ -71,12 +71,7 @@ export class AdminDeviceApiService {
   public update(id: number, device: Device): Observable<BaseOutputDevice> {
     return this.http.put<BaseOutputDevice>(
       `/api/v1/admin/device/${id}`,
-      device,
-      {
-        params: {
-          id,
-        },
-      }
+      device
     );
   }
 

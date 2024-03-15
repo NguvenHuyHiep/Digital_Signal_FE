@@ -19,15 +19,15 @@ export class AdminDeviceService {
   ) {}
 
   public buildDeviceForm(device?: Device): FormDevice {
-    let form = this.formBuilder.group({
+    return this.formBuilder.group({
       id: [device?.id],
-      code: [device?.code],
       name: [device?.name],
       information: [device?.information],
-      status: [device?.status],
+      description: [device?.description],
+      ybs: [device?.ybs],
+      serialNo: [device?.serialNo],
+      vehicleNumber: [device?.vehicleNumber],
     }) as FormDevice;
-
-    return form;
   }
 
   public getDeviceById(id: number): Observable<BaseOutputDevice> {

@@ -198,8 +198,12 @@
       "title-log": "Device logs",
       "code": "Code",
       "info": "Info",
+      "ybs": "YBS",
+      "vehicleNumber":"Vehicle Number",
+      "serialNo": "Serial No",
       "content": "Content",
       "name": "Name",
+      "description": "Description",
       "status": "Status",
       "activeTime": "Active time",
       "inactiveTime": "Inactive time",
@@ -212,7 +216,11 @@
       },
       "error": {
         "invalid": "Invalid device",
+        "id-invalid": "Invalid device Id",
+        "id-or-device-invalid": "Invalid device Id or device contents",
+        "get-detail": "Cannot get device detail information!",
         "delete_not_allow": "Cannot delete this device!",
+        "update_failed": "Update device failed!",
         "delete_failed": "Delete device failed!"
       },
       "success": {
