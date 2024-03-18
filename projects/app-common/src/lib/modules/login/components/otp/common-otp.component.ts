@@ -88,7 +88,6 @@ export class CommonOtpComponent implements OnInit {
         );
         return;
       }
-      this.email = 'asdfasdfaf';
       this.lhAuthenService.verifyOtp(this.email, otp).subscribe({
         next: (response) => {
           console.log(response);
