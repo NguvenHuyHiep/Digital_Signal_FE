@@ -1,0 +1,1 @@
+1, digital-signage-admin : npm run start:admin:local
